@@ -5,12 +5,12 @@
 Avant toutes connexions à la base de données vérifier le fichier '/config/config.json' à la racine du projet;
 que toutes les informations de connexion sont exactes.
 
-## Instancier une connexion à la base de donnée
+## Instancier une connexion à la base de données
 
 > [!TIP]
 > Dans la plupart des cas référait vous à la partie CrudManager qui étend les méthodes de BddManager.
 
-Si l'implémentaion de la class CrudManager ne répond pas à votre demande procéder ainsi.
+Si l'implémentation de la class CrudManager ne répond pas à votre demande procéder ainsi.
 
 ```php
 // Instance de la class BddManager
@@ -24,7 +24,7 @@ $req = $connexion
             'SELECT * FROM NOM_DE_TABLE'
             );
 
-// Execution de la reuêtes, execute return bool, on peu vérifier le résultat
+// Exécution de la requête, 'execute return bool', on peut donc vérifier si c'est Vrai avant fetchAll()
 $result =['aucun résultat'];
 
 if($req->execute($search)){
@@ -35,7 +35,7 @@ if($req->execute($search)){
 
 1. __construct()
 
-Cette méthod prend un paramètre qui peu être omis, le paramètre config devra être un objet json de ce type
+Cette méthode prend un paramètre qui peut être omis, le paramètre config devra être un objet json de ce type
 ```json
 {
       "dsn": "mysql",
@@ -49,8 +49,8 @@ Cette méthod prend un paramètre qui peu être omis, le paramètre config devra
 ```
 
 > [!IMPORTANT]
-> $config = null est un paramètre optionnel, à utiliser si on souhaite, ce connecter à une autre base de données. 
-> En lui transmettant les paramètres de connecxion
+> $config = null est un paramètre optionnel, à utiliser si on souhaite, se connecter à une autre base de données. 
+> En lui transmettant les paramètres de connexion
 
 ```php
   public function __construct($config = null)
@@ -74,9 +74,9 @@ Cette méthod prend un paramètre qui peu être omis, le paramètre config devra
 
 2. linkConnect()
 
-- Cette méthode retourne un instance de la class de connexion PDO
-- Cela permet d'éxecuter de communiquer à la base de données
-- Afin de faire des requête SELECT/INSERT/UPDATE/DELETE
+- Cette méthode retourne une instance de la class de connexion PDO
+- Cela permet d'exécuter de communiquer à la base de données
+- Afin de faire des requêtes SELECT/INSERT/UPDATE/DELETE
 
 ```php
  public function linkConnect()
@@ -87,7 +87,7 @@ Cette méthod prend un paramètre qui peu être omis, le paramètre config devra
 
 3. connect()
 
-Cette méthod instancie l'objet PHP PDO avec les propriètes définie par notre objet BddManager
+Cette méthode instancie l'objet PHP PDO avec les propriétés définies par notre objet BddManager
 
 ```php
   private function connect()
@@ -103,7 +103,7 @@ Cette méthod instancie l'objet PHP PDO avec les propriètes définie par notre 
 Cette méthode prend 2 paramètres obligatoires et un optionnel
 
 - string $tableName   (nom de la table)
-- string $objectClass (objet du modèle de donnée à utilisé)
+- string $objectClass (objet du modèle de données a utilisé)
 - $configDatabase = null (optionnel pour une connexion externe)
 
 ```php
@@ -120,7 +120,7 @@ Cette méthode prend 2 paramètres obligatoires et un optionnel
 ```
 2. getConnectBdd()
 
-Cette méthode peut être appeler pour retourner un objet de connexion PDO afin de crées de nouvelle requêtes personnaliser à la base de donnée auquel la class CrudManager ne peu répondre.
+Cette méthode peut-être appeler pour retourner un objet de connexion PDO afin de crée de nouvelle requêtes personnaliser à la base de données auquel la class CrudManager ne peut répondre.
 
 ```php
     public function getConnectBdd(): object
@@ -142,13 +142,13 @@ public function getByLike(mixed $search, string $columnLike): array
 
 4. getById()
 
-Cette méthode prend un paramètre obligatoire, elle permet d'aller chercher un élément dans la base de donnée celon l'id.
+Cette méthode prend un paramètre obligatoire, elle permet d'aller chercher un élément dans la base de données selon l'id.
 
 * paramètres 
     - string id
 
 > [!WARNING]
-> Cette méthod est à modifier pour réponde à l'implémentation du NATURAL JOIN 
+> Cette méthode est à modifier pour réponde à l'implémentation du NATURAL JOIN 
 
 Il faudra certainement modifier les paramètres transmis pour s'adapter ce que l'on souhaite 
 chercher dans la base de données, id_user,id_product,id_order,id_catagory
@@ -160,13 +160,13 @@ peu être que l'on pourrait ajouter un switch à l'intérieur avec une valeur tr
 
 5. getAll()
 
-Cette méthode prend un paramètre optionnel, elle permet de récuperer tout les résultats de la table instancié par le constucteur.
+Cette méthode prend un paramètre optionnel, elle permet de récupérer tous les résultats de la table instancié par le constructeur.
 
 * paramètres :
     - ?array $select = null
 
 > [!TIP]
-> Exemple pour sélectionner que le nom est la déscription da la table category.
+> Exemple pour sélectionner que le nom est la description da la table category.
 > On passe un tableau en paramètres ['name','description']
 > Juste le nom : ['name']
 
@@ -176,7 +176,7 @@ Cette méthode prend un paramètre optionnel, elle permet de récuperer tout les
 
 6. getByEmail()
 
-Cette méthod prend un paramètre obliogatoire, elle permet de retourner les résultats par rapport au mail de l'utilisateur.
+Cette méthode prend un paramètre obligatoire, elle permet de retourner les résultats par rapport au mail de l'utilisateur.
 
 * paramètres :
     - string $email (email de l'utilisateur)
@@ -187,10 +187,10 @@ Cette méthod prend un paramètre obliogatoire, elle permet de retourner les ré
 
 7. create()
 
-Cette méthod prend deux paramètre obliogatoire, elle permet de créer un enregistrement sur la table initialisé par le constructeur.
+Cette méthode prend deux paramètres obligatoires, elle permet de créer un enregistrement sur la table initialisé par le constructeur.
 
 * paramètres :
-    - object $objectClass (class modèles de données instancié avec les données à enregistrer)
+    - object $objectClass (class modèles de données instanciées avec les données à enregistrer)
     - array $param (paramètre de la class modèle à enregistrer dans la bdd exemple ['name','description','price','quantity','images'])
 
 ```php
@@ -199,16 +199,16 @@ Cette méthod prend deux paramètre obliogatoire, elle permet de créer un enreg
 
 7. update()
 
-Cette méthod prend deux paramètre obliogatoire, elle permet de modifier un enregistrement sur la table initialisé par le constructeur.
+Cette méthode prend deux paramètres obligatoires, elle permet de modifier un enregistrement sur la table initialisé par le constructeur.
 
 * paramètres :
-    - object $objectClass (class modèles de données instancié avec les données à enregistrer)
+    - object $objectClass (class modèles de données instanciées avec les données à mettre à jour)
     - array $param (paramètre de la class modèle à enregistrer 
-    dans la bdd exemple avec id_product obligatoir pour la mise à jour
-    ['id_product','name','description','price','quantity','images'])
+      dans la bdd exemple avec id_product obligatoire pour la mise à jour
+      ['id_product','name','description','price','quantity','images'])
 
 > [!WARNING]
-> Cette méthod est à modifier pour réponde à l'implémentation du NATURAL JOIN 
+> Cette méthode est à modifier pour réponde à l'implémentation du NATURAL JOIN 
 
 Il faudra certainement modifier les paramètres transmis pour s'adapter ce que l'on souhaite 
 mettre à jour dans la base de données, id_user,id_product,id_order,id_catagory
@@ -220,16 +220,16 @@ peu être que l'on pourrait ajouter un switch à l'intérieur avec une valeur tr
 
 7. delete()
 
-Cette méthod prend deux paramètre obliogatoire, elle permet de supprimer un enregistrement sur la table initialisé par le constructeur.
+Cette méthode prend deux paramètres obligatoires, elle permet de supprimer un enregistrement sur la table initialisé par le constructeur.
 
 * paramètres :
-    - object $objectClass (class modèles de données instancié avec les données à enregistrer)
+    - object $objectClass (class modèles de données instanciées avec l'id seulement des données à supprimer)
     - array $param (paramètre de la class modèle à enregistrer 
-    dans la bdd exemple avec id_product obligatoir pour la mise à jour
-    ['id_product','name','description','price','quantity','images'])
+      dans la bdd exemple avec id_product obligatoir pour la suppression
+      ['id_product'])
 
 > [!WARNING]
-> Cette méthod est à modifier pour réponde à l'implémentation du NATURAL JOIN 
+> Cette méthode est à modifier pour réponde à l'implémentation du NATURAL JOIN 
 
 Il faudra certainement modifier les paramètres transmis pour s'adapter ce que l'on souhaite 
 supprimer dans la base de données, id_user,id_product,id_order,id_catagory
