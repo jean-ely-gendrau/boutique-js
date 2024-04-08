@@ -8,6 +8,7 @@ $router = new AltoRouter();
 
 $router->map('GET', '/', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
+$router->map('GET', '/search', 'search', 'search');
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
   
