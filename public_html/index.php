@@ -2,23 +2,34 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 $uri = $_SERVER['REQUEST_URI'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'home');
+$router->map('GET', '/', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
-$router->map('GET', '/blog/[*:slug]-[i:id]', 'blog/article', 'article');
+/*
+ Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
+  
+  [*:slug]-[i:id] = $params['slug'] , $params['id']
 
+  $router->map('GET', '/blog/[*:slug]-[i:id]', 'blog/article', 'article');
+*/
 $match = $router->match();
 
-require '../elements/header.php';
+/*
+  Cette partie devra être modifiée par la suite;
+  une classe sera utilisée pour faire le rendu du template ainsi que le header et le footer
+  les fonctions de Php ob_start() et ob_get_clean() ou ob_get_flush()
+  devront être utilisés pour arriver à cela.  
+*/
+require_once __DIR__ . '/../element/header.php';
 
 if (is_array($match)) {
-  $params = $match['params'];
-  require "../templates/{$match['target']}.php";
+    $params = $match['params'];
+
+    require_once __DIR__ . "/../template/{$match['target']}.php";
 } else {
-  require "../templates/404.php";
+    require_once __DIR__ . '/../template/404.php';
 }
 
-require '../elements/footer.php';
+require_once __DIR__ . '/../element/footer.php';
