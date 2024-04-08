@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $uri = $_SERVER['REQUEST_URI'];
+$serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
 $router->map('GET', '/', 'acceuil', 'acceuil');
