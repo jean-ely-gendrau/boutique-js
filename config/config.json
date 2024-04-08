@@ -2,7 +2,7 @@
   "database": {
     "pdo": {
       "dsn": "mysql",
-      "bdd": "cinetech",
+      "bdd": "boutique-js",
       "host": "localhost",
       "username": "root",
       "password": "",
