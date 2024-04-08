@@ -5,18 +5,33 @@ namespace App\Boutique;
 // Classe de construction de formulaire de base
 class FormBuilder extends AbstractFormBuilder
 {
+    /**
+     * validationScripts
+     *
+     * Tableau des régles de validation de formulaire
+     *
+     * @var array
+     */
     protected $validationScripts = [];
 
+    /**
+     * Method render
+     *
+     * La métod rend affiche le formulaire sur la page
+     *
+     * @return void
+     */
     public function render()
     {
         $output = '<form>';
         foreach ($this->fields as $field) {
             $output .= $this->renderField($field);
         }
-        $output .= '<button type="submit">Submit</button>';
+        $output .= '<button type="submit">Envoyer</button>';
         $output .= '</form>';
 
-        // Ajouter les scripts de validation
+        // Ajouter du scripts JS de validation à la fin du formulaire
+        // Voir si il pourrait être rendu en bas de page
         $output .= '<script>';
         foreach ($this->validationScripts as $script) {
             $output .= $script;
@@ -26,33 +41,144 @@ class FormBuilder extends AbstractFormBuilder
         return $output;
     }
 
+    /**
+     * Method renderField
+     *
+     * @param $field $field [explicite description]
+     *
+     * @return void
+     */
     protected function renderField($field)
     {
         $type = $field['type'];
+        $id = $field['id'];
         $name = $field['name'];
         $label = $field['label'];
         $options = $field['options'];
 
         $output = '<div class="form-group">';
-        $output .= '<label for="' . $name . '">' . $label . '</label>';
+        $output .= '<label for="' . $id . '">' . $label . '</label>';
         switch ($type) {
             case 'text':
                 $output .=
-                    '<input type="text" name="' .
+                    '<input type="' .
+                    $type .
+                    '" name="' .
                     $name .
                     '" id="' .
-                    $name .
+                    $id .
                     '"';
                 break;
+
             case 'password':
                 $output .=
-                    '<input type="password" name="' .
+                    '<input type="' .
+                    $type .
+                    '" name="' .
                     $name .
                     '" id="' .
-                    $name .
+                    $id .
                     '"';
                 break;
-            // Gérer d'autres types de champs selon les besoins
+
+            case 'email':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'image':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'date':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'month':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'number':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'radio':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'checkbox':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'range':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
+
+            case 'reset':
+                $output .=
+                    '<input type="' .
+                    $type .
+                    '" name="' .
+                    $name .
+                    '" id="' .
+                    $id .
+                    '"';
+                break;
         }
         if (isset($options['class'])) {
             $output .= ' class="' . $options['class'] . '"';
@@ -68,11 +194,21 @@ class FormBuilder extends AbstractFormBuilder
                 $output .= ' ' . $attr . '="' . $value . '"';
             }
         }
+
         $output .= '>';
         $output .= '</div>';
         return $output;
     }
 
+    /**
+     * Method addValidationScript
+     *
+     * Cette méthod permet d'ajouté les régles de validation de l'input
+     *
+     * @param $script $script [explicite description]
+     *
+     * @return void
+     */
     protected function addValidationScript($script)
     {
         $this->validationScripts[] = $script;
