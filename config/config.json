@@ -1,0 +1,14 @@
+{
+  "database": {
+    "pdo": {
+      "dsn": "mysql",
+      "bdd": "cinetech",
+      "host": "localhost",
+      "username": "root",
+      "password": "",
+      "port": "3306",
+      "charset": "utf8mb4"
+    }
+  },
+  "basePath": ""
+}
