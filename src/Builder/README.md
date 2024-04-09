@@ -10,14 +10,10 @@ Cette class permet de générer des formulaire
 | setClassActionGroup | string $class_action_group | pour définir la class du container des boutton et link au bas du formulaire |
 | setMethod | string $method | pour definir la méthode du formulaire GET|POST |
 | setAction | string $action | pour définir la page de traitement du formulaire, si la valeur n'est pas définie les données seront traîter sur la même page |
-| addElementAction |      || | pour définir le placeholder |
-          | :---: |
-     | string $type [type d'élément boutton\|link] |  
-     | $id [id du boutton/link] |
-     | string $name [nom du boutton/link] |
-     | array $options [options de la balise boutton] | 
+| addElementAction | string $type [type d'élément boutton|link], string $id [id du boutton/link], string $name [nom du boutton/link], array $options [options de la balise boutton] | pour ajouter des boutton ou des liens en bes de formulaire |
 
-###
+
+### add
 | Options Arguments | Type | Description |
 | :---: | :---: | :--- |
 | class-label-group | string | pour changer le style du container label input |
