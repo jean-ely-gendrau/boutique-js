@@ -6,7 +6,7 @@ Cette class permet de générer des formulaire
 
 
 | Options paramètres | type | Description |
-| --- | --- || --- |
+| :---: | :---: | :---: |
 | class-label-group | string | pour changer le style du container label input |
 | class-label | string | pour changer le style du label |
 | class | string | pour definir le style de l'input |
