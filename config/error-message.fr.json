@@ -1,0 +1,15 @@
+{
+  "ValidatorManager": {
+    "numeric": "Veuillez entrez une valeur numérique",
+    "email": "Veuillez entrez une email valide",
+    "string": "Veuillez vérifier vos données.",
+    "length": "Veuillez entrez une longueur valide comprise entre {$this->options['min']} et {$this->options['max']} caratères",
+    "in": "La valeur n'as pas était trouvé",
+    "firstname": "Votre nom n'as pas un format valide",
+    "lastname": "Votre prénom n'as pas un format valide",
+    "login": "Votre pseudo n'as pas un format valide",
+    "password": "La valeur n'as pas était trouvé",
+    "passwordCompare": "Les mots de passe ne sont pas identique",
+    "regex": "Ooops une erreur c'est produitee"
+  }
+}

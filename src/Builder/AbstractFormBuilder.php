@@ -1,21 +1,70 @@
 <?php
 
-namespace App\Boutique;
+namespace App\Boutique\Builder;
 
 // Classe abstraite pour la construction de formulaires de base
 abstract class AbstractFormBuilder
 {
+    protected $class_form;
+    protected $method;
+    protected $action;
     protected $fields = [];
     protected $validator;
 
-    // Méthode pour ajouter un champ au formulaire
-    /*
-        $type = type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset
-        $name = nom de l'input
-        $label = text du label
-        $options = toutes les options à ajouté à un champ input sous forme de tableau
-        il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre input ['class', 'nom-de-classe'] 
-    */
+    /**
+     * Method setClassForm
+     *
+     * Définir l'attribut class de la balise form
+     *
+     * @param string $class_form [class de la balise form]
+     *
+     * @return void
+     */
+    public function setClassForm(string $class_form)
+    {
+        $this->class_form = $class_form;
+    }
+
+    /**
+     * Method setMethod
+     *
+     * Définir l'attribut method de la balise form
+     *
+     * @param string $method [type de méthode du formulaire POST|GET]
+     *
+     * @return void
+     */
+    public function setMethod(string $method)
+    {
+        $this->method = $method;
+    }
+
+    /**
+     * Method setAction
+     *
+     * Définir l'attribut action de la balise form
+     *
+     * @param string $action [page ou de traitement du formulaire]
+     *
+     * @return void
+     */
+    public function setAction(string $action)
+    {
+        $this->action = $action;
+    }
+
+    /** Ajouter des champs au formulaire / le champ label est ajouté automatiquement et lié au champ Input par son id
+     *  Pour désactivé l'ajout automatique du label ajouté en dernier paramètre de la méthode
+     *  un tableau $options ['label-false' = 1, 'autre_option' = 'valeur'...]
+     *
+     *  Paramètres de la méthod :
+     *
+     *  $type = type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset
+     *  $name = nom de l'input
+     *  $label = text du label
+     *  $options = toutes les options à ajouté à un champ input sous forme de tableau
+     *  il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre input ['class', 'nom-de-classe']
+     */
     public function addField($type, $id, $name, $label, $options = [])
     {
         $this->fields[] = [
