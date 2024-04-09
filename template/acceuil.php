@@ -152,8 +152,17 @@
 
   </ul>
   <div id="nav" class="absolute top-0 w-9/12">
-    <div id="prev" class="absolute left-0 inline-block p-1 bg-black text-white my-40 cursor-pointer">Prev</div>
-    <div id="next" class="absolute right-0 inline-block p-1 bg-black text-white my-40 cursor-pointer">Next</div>
+    <div id="prev" class="absolute left-0 inline-block p-1 bg-gray-200 text-white my-40 cursor-pointer rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <polygon points="15.293 3.293 6.586 12 15.293 20.707 16.707 19.293 9.414 12 16.707 4.707 15.293 3.293"/>
+</svg>
+    </div>
+    <div id="next" class="absolute right-0 inline-block p-1 text-white my-40 cursor-pointer rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+  <polygon points="7.293 4.707 14.586 12 7.293 19.293 8.707 20.707 17.414 12 8.707 3.293 7.293 4.707"/>
+</svg>
+
+    </div>
   </div>
 </div>
 
