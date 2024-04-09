@@ -6,8 +6,10 @@ namespace App\Boutique\Builder;
 abstract class AbstractFormBuilder
 {
     protected $class_form;
+    protected $class_action_group;
     protected $method;
     protected $action;
+    protected $buttons = [];
     protected $fields = [];
     protected $validator;
 
@@ -25,6 +27,19 @@ abstract class AbstractFormBuilder
         $this->class_form = $class_form;
     }
 
+    /**
+     * Method setClassActionGroup
+     *
+     * Définir l'attribut class de la div des éléments action du form button/link se trouvant au bas du formulaire
+     *
+     * @param string $class_action_group [class de la balise div des élément action button/link]
+     *
+     * @return void
+     */
+    public function setClassActionGroup(string $class_action_group)
+    {
+        $this->class_action_group = $class_action_group;
+    }
     /**
      * Method setMethod
      *
@@ -53,6 +68,44 @@ abstract class AbstractFormBuilder
         $this->action = $action;
     }
 
+    /**
+     * Method addElementAction
+     *
+     *  Ajouter des element cliquable au formulaire button|link
+     *
+     *  Paramètres de la méthod :
+     *
+     *  $type = type de l'input pris en charge : submit,button,reset submit = request POST|GET, button pour action JS
+     *  $id = id du boutton/link
+     *  $name = nom du boutton/link
+     *  $options = toutes les options à ajouté à un champ button/link sous forme de tableau
+     *
+     *  il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre boutton ['class', 'nom-de-classe']
+     *  ou du javascript ['onclick', 'nom_de_la_fonction('arguments')']
+     *  ou du javascript et une class et plus ['onclick', 'nom_de_la_fonction('arguments')', 'class', 'nom-de-classe', autres...]
+     *
+     * @param string $type [type d'élément boutton|link]
+     * @param string $id [id du boutton/link]
+     * @param string $name [nom du boutton/link]
+     * @param array $options [options de la balise boutton]
+     *
+     */
+    public function addElementAction(
+        string $type,
+        string $id,
+        string $name,
+        array $options = [],
+    ) {
+        $this->buttons[] = [
+            'type' => $type,
+            'id' => $id,
+            'name' => $name,
+            'options' => $options,
+        ];
+
+        return $this;
+    }
+
     /** Ajouter des champs au formulaire / le champ label est ajouté automatiquement et lié au champ Input par son id
      *  Pour désactivé l'ajout automatique du label ajouté en dernier paramètre de la méthode
      *  un tableau $options ['label-false' = 1, 'autre_option' = 'valeur'...]
@@ -60,6 +113,7 @@ abstract class AbstractFormBuilder
      *  Paramètres de la méthod :
      *
      *  $type = type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset
+     *    $id = id de l'input
      *  $name = nom de l'input
      *  $label = text du label
      *  $options = toutes les options à ajouté à un champ input sous forme de tableau
@@ -77,6 +131,8 @@ abstract class AbstractFormBuilder
 
         // Cette méthode génère le code Javascript pour la validation du champ
         $this->generateValidationScript($name);
+
+        return $this;
     }
 
     // Méthode abstraite pour le rendu du formulaire

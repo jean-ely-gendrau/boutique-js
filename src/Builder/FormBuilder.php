@@ -28,22 +28,53 @@ class FormBuilder extends AbstractFormBuilder
      */
     public function render()
     {
-        $output = '<form ';
-        $output .= !empty($this->class_form)
-            ? 'class="' . $this->class_form . '" '
-            : '';
-        $output .= !empty($this->method)
-            ? 'method="' . $this->method . '" '
-            : '';
-        $output .= !empty($this->action)
-            ? 'action="' . $this->action . '" '
-            : '';
-        $output .= '>';
+        $output = '<form '; // Démarrage de la balise form
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->class_form) // Si la propriété n'est pas null
+            ? 'class="' . $this->class_form . '" ' // on concatène là class à la balise
+            : ''; // Sinon rien
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->method) // Si la propriété n'est pas null
+            ? 'method="' . $this->method . '" ' // on concatène là method à la balise
+            : ''; // Sinon rien
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->action) // Si la propriété n'est pas null
+            ? 'action="' . $this->action . '" ' // on concatène l'action à la balise
+            : ''; // Sinon rien
+
+        $output .= '>'; // Fermeture du <form>
+
+        /**************************************
+         *  Ajouts des champs au formulaire
+         */
         foreach ($this->fields as $field) {
             $output .= $this->renderField($field);
         }
-        $output .= '<button type="submit">Envoyer</button>';
-        $output .= '</form>';
+
+        /**************************************
+         *  Ajouts des bouttons au formulaire
+         */
+        $output .= '<div class="';
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->class_action_group)
+            ? $this->class_action_group
+            : 'actions-group';
+
+        $output .= '">'; // Fermetur balise Div
+
+        foreach ($this->buttons as $button) {
+            $output .= $this->renderElementAction($button);
+        }
+
+        $output .= '</div>';
+
+        //$output .= '<button type="submit">Envoyer</button>';
+
+        $output .= '</form>'; // Fermeture de l'élément form
 
         // Ajouter du scripts JS de validation à la fin du formulaire
         // Voir si il pourrait être rendu en bas de page
@@ -72,9 +103,11 @@ class FormBuilder extends AbstractFormBuilder
         $options = $field['options'];
 
         $output = '<div class="';
-        $output .= isset($options['class-group'])
-            ? $options['class-group']
-            : 'form-group' . '">';
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= isset($options['class-label-group'])
+            ? $options['class-label-group']
+            : 'label-group' . '">';
 
         /*******************************
          *         CHAMP LABEL
@@ -161,15 +194,40 @@ class FormBuilder extends AbstractFormBuilder
         // TEXTAREA
         if ($type === 'textarea') {
             $output .= '>';
-            $output .= isset($options['value_area']) // ISSET value_area
-                ? $options['value_area'] // Si une $options['value_area'] a été passée en argument
+
+            /* Assignation d'un valeur avec la condition Ternaire */
+            $output .= isset($options['value-area']) // ISSET value-area
+                ? $options['value-area'] // Si une $options['value-area'] a été passée en argument
                 : '' . '</textarea>'; // Fin de la balise Textarea
         }
         // SELECT
         elseif ($type === 'select') {
+            /* Assignation d'un valeur avec la condition Ternaire */
+            $optionsMulti =
+                isset($options['select-array-multi']) &&
+                $options['select-array-multi'] === true
+                    ? true
+                    : false;
+
+            /* Assignation d'un valeur avec la condition Ternaire */
+            $optionSelectKey = isset($options['options-keys'])
+                ? $options['options-keys']
+                : [];
+
+            /* Assignation d'un valeur avec la condition Ternaire */
+            $isSelectedOption = isset($options['options-selected'])
+                ? $options['options-selected']
+                : false;
+
             $output .= '>';
-            $output .= isset($options['options_select']) // ISSET options_select
-                ? $this->addSelectedOption($options['options_select']) // Construction des options de l'élément select
+
+            /* Assignation d'un valeur avec la condition Ternaire */
+            $output .= isset($options['options-select']) // ISSET options-select
+                ? $this->addSelectedOption(
+                    $options['options-select'],
+                    $optionSelectKey,
+                    $optionsMulti,
+                ) // Construction des options de l'élément select
                 : '' . '</select>'; // Fin de la balise Select
         }
         // INPUT
@@ -182,19 +240,206 @@ class FormBuilder extends AbstractFormBuilder
     }
 
     /**
-     * Method addSelectedOption
+     * Method renderElementAction
      *
-     * Cette méthod créer la list des option d'une select élément
-     *  @param array $optionsList [tableau des option à ajouter à l'élément select]
+     * @param array $elementAction [tableau des paramètres du boutton]
      *
      * @return void
      */
-    protected function addSelectedOption(array $optionsList)
+    protected function renderElementAction(array $elementAction)
     {
+        $type = $elementAction['type'];
+        $id = isset($elementAction['id'])
+            ? 'id="' . $elementAction['id'] . '"'
+            : '';
+        $name = isset($elementAction['name'])
+            ? 'name="' . $elementAction['name'] . '"'
+            : '';
+        $anchor = $elementAction['anchor'] ?? '#';
+        $options = $elementAction['options'];
+
+        $output = '';
+        switch ($type) {
+            case 'link':
+                $output .= '<a type="' . $type . '" ' . $name . ' ' . $id . '';
+                break;
+            case 'button':
+                $output .=
+                    '<button type="' . $type . '" ' . $name . ' ' . $id . '';
+                break;
+        }
+        // Si il y à une class
+        if (isset($options['class'])) {
+            $output .= ' class="' . $options['class'] . '"';
+        }
+        // Si l'input et disabled
+        if (isset($options['disabled']) && $options['disabled'] === true) {
+            $output .= ' disabled';
+        }
+
+        // Pour toute autre attributes à ajouté à l'input
+        // Vous pouvez trouvez tout les attributs possible de balise sur https://developer.mozilla.org/fr/docs/Web/HTML/Element
+        if (isset($options['attributes']) && is_array($options['attributes'])) {
+            foreach ($options['attributes'] as $attr => $value) {
+                $output .= ' ' . $attr . '="' . $value . '"';
+            }
+        }
+
+        $output .=
+            $type === 'button'
+                ? '>' . $anchor . '</button>' // Fin de la balise Button
+                : '>' . $anchor . '</a>'; // Fin de la balise link
+
+        return $output;
+    }
+
+    /**
+     * Method addSelectedOption
+     *
+     *  Cette méthode créer la list des option d'une select élément
+     *  peu recevoir un tableau indexées par des number ou un tableau associatif indexées par des clé et aussi des tableau multidimentionnel
+     *  Paramètres de la méthode :
+     *  @param array $optionsList [tableau des option à ajouter à l'élément select]
+     *  @param array $optionSelectKey [tableau optionnel des keyValue et keyText si optionsList est un tableau associatif/multidimentionnel, la keyText dans ce cas peu être égal à KeyValue]
+     *  @param bool $optionsMulti [true|false]
+     *
+     * Le paramètre $optionSelectKey est optionnel, il est indispensable dans le cas ou $optionsList est un tableau associatif/multidimentionnel,
+     * en effet vous aurez besoins de l'index key de la valeur à placé dans la balise value et pour le text
+     *
+     * Pour activer l'option mutildimentionnel, passé dans le tableau d'options de la méthode addbutton  la clé est la valeur suivante ['select-multi' => true]
+     *
+     * voici deux exemples:
+     *
+     * $formBuilder->addbutton('select', 'select-menu', 'select-menu', 'Sélection du Menu', [
+     *   'class' => 'la-class',
+     *   'class-label' => 'la-class-label',
+     *   'option-list' => ['Cafer','Thé','Autre']
+     *   ]);
+     *
+     * $formBuilder->addbutton('select', 'select-menu', 'select-menu', 'Sélection du Menu', [
+     *   'class' => 'la-class',
+     *   'class-label' => 'la-class-label',
+     *   'option-list' => ['cat_name'=>'Cafer','Thé','Autre']
+     *   ]);
+     *
+     * @return void
+     */
+    protected function addSelectedOption(
+        array $optionsList,
+        array $optionSelectKey = [],
+        bool $optionsMulti = false,
+        bool|string $isSelectedOption = false,
+    ) {
         return join(
             '',
-            array_map(function ($option) {
-                return '<option>' . $option . '</option>';
+            array_map(function ($option) use (
+                $optionSelectKey,
+                $optionsMulti,
+                $isSelectedOption,
+            ) {
+                /**************************************************************
+                 *
+                 * Multidimentionnel avec sélection de clé [obligatoire]
+                 *
+                 */
+                if (
+                    $optionsMulti && // Si Vrai
+                    is_array($option) && // Si c'est un array AND
+                    !empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
+                    !array_is_list($option) && // que ce n'est pas un array option list AND
+                    !empty($option) // que l'array option n'est pas vide
+                ) {
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected =
+                        $isSelectedOption &&
+                        $isSelectedOption === $optionSelectKey['keyValue']
+                            ? 'selected'
+                            : '';
+
+                    return '<option ' .
+                        $optionSelected .
+                        ' value="' .
+                        $option[$optionSelectKey['keyValue']] .
+                        '">' .
+                        $option[$optionSelectKey['keyText']] .
+                        '</option>';
+                } /**************************************************************
+                 *
+                 * Associatif avec sélection de clé [optionnel]
+                 *
+                 */ elseif (
+                    !$optionsMulti && // Si Faux
+                    is_array($option) && // Si c'est un array AND
+                    !empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
+                    !array_is_list($option) && // que ce n'est pas un array option list AND
+                    !empty($option) // que l'array option n'est pas vide
+                ) {
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected =
+                        $isSelectedOption &&
+                        $isSelectedOption === $optionSelectKey['keyValue']
+                            ? 'selected'
+                            : '';
+
+                    return '<option ' .
+                        $optionSelected .
+                        ' value="' .
+                        $option[$optionSelectKey['keyValue']] .
+                        '">' .
+                        $option[$optionSelectKey['keyText']] .
+                        '</option>';
+                } /**************************************************************
+                 *
+                 * Associatif sans sélection de clé
+                 * ici en option nous aurron l'index du tableu comme value de l'option - array_keys
+                 * et comme text on obtiendra la valeur de l'index du tableau - array_values
+                 *
+                 */ elseif (
+                    !$optionsMulti && // Si Faux
+                    is_array($option) && // Si c'est un array AND
+                    empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
+                    !array_is_list($option) && // que ce n'est pas un array option list AND
+                    !empty($option) // que l'array option n'est pas vide
+                ) {
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected =
+                        $isSelectedOption &&
+                        $isSelectedOption === array_keys($option)
+                            ? 'selected'
+                            : '';
+
+                    return '<option ' .
+                        $optionSelected .
+                        ' value="' .
+                        array_keys($option) . // On définit la value avec la clé de l'index de l'array
+                        '">' .
+                        array_values($option) . // On définit le text avec la valeur de l'array
+                        '</option>';
+                } /**************************************************************
+                 *
+                 * Tableau listé exemple ['item1','item2']
+                 *
+                 */ elseif (!empty($option) && array_is_list($option)) {
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected =
+                        $isSelectedOption && $isSelectedOption === $option
+                            ? 'selected'
+                            : '';
+
+                    return '<option ' .
+                        $optionSelected .
+                        ' value="' .
+                        $option .
+                        '">' .
+                        $option .
+                        '</option>';
+                } /**************************************************************
+                 *
+                 * Dans le cas ou aucun condition n'est remplit
+                 *
+                 */ else {
+                    return '<option value="aucun">Aucune options disponible</option>';
+                }
             }, $optionsList),
         );
     }
