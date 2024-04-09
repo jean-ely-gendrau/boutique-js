@@ -32,11 +32,13 @@ Cette class permet de générer des formulaire
   -Les arguments pour les textarea
 
   | Options Arguments | Type | Description |
+  | :---: | :---: | :--- |
   | value-area | null | pour définir la texte contenu dans textarea |
 
   -Les arguments pour les select
 
   | Options Arguments | Type | Description |
+  | :---: | :---: | :--- |
   | select-array-multi = true | bool |  si vous utiliser la balise select l'option select-array-multi = true permet de passé un array multidimensionnel à utilisé avec options-keys |
   | options-keys = ['keyValue'=>'value_match','keyText'=> 'text_match'] | array | pour definir le style de l'input |
   | options-selected | string | si une option dois être selectionner par défault |
