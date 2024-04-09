@@ -180,22 +180,26 @@ class FormBuilder extends AbstractFormBuilder
                     '"';
                 break;
         }
+        // Si il y à une class
         if (isset($options['class'])) {
             $output .= ' class="' . $options['class'] . '"';
         }
+        // Si l'input et disabled
         if (isset($options['disabled']) && $options['disabled'] === true) {
             $output .= ' disabled';
         }
+        // Si il y à un placeholder
         if (isset($options['placeholder'])) {
             $output .= ' placeholder="' . $options['placeholder'] . '"';
         }
+        // Pour toute autre attributes à ajouté à l'input
         if (isset($options['attributes']) && is_array($options['attributes'])) {
             foreach ($options['attributes'] as $attr => $value) {
                 $output .= ' ' . $attr . '="' . $value . '"';
             }
         }
 
-        $output .= '>';
+        $output .= '>'; // Fermeture de la balise <input>
         $output .= '</div>';
         return $output;
     }

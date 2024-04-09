@@ -13,8 +13,8 @@ abstract class AbstractFormBuilder
         $type = type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset
         $name = nom de l'input
         $label = text du label
-        $options = toute les options à ajouté à un champ input sous forme de tableau
-        il est ainsi possible d'ajouté toute valeur : exemple pour ajouté une classe à notre input ['class', 'nom-de-classe'] 
+        $options = toutes les options à ajouté à un champ input sous forme de tableau
+        il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre input ['class', 'nom-de-classe'] 
     */
     public function addField($type, $id, $name, $label, $options = [])
     {
@@ -26,28 +26,28 @@ abstract class AbstractFormBuilder
             'options' => $options,
         ];
 
-        // Cette méthod génére le code JavaScript pour la validation du champ
+        // Cette méthode génère le code Javascript pour la validation du champ
         $this->generateValidationScript($name);
     }
 
     // Méthode abstraite pour le rendu du formulaire
     abstract public function render();
 
-    // Méthode pour générer le code JavaScript de validation côté Client
+    // Méthode pour générer le code Javascript de validation côté Client
     // La validation côté client améliore UI/UX pour le client
-    // mais n'écessite tout de même une validation côté serveur
+    // mais nécessite tout de même une validation côté serveur
     protected function generateValidationScript($fieldName)
     {
         if ($this->validator && $this->validator->hasRules($fieldName)) {
             $rules = $this->validator->getRules($fieldName);
 
-            // Générer le code JavaScript de validation selon les règles définies dans la class Validator
-            // 3 méthode de validation sont disponible pour le moment
+            // Générer le code Javascript de validation selon les règles définies dans la class Validator
+            // 3 méthodes de validation sont disponibles pour le moment
 
             // required, min_length, max_length
-            // required le champ dois être remplit lors de la validation
-            // min_length le nombre de caractère minimum n'as pas était atteinte
-            // max_length le nombre de caractère maximum à était dépasser
+            // required le champ doit être rempli lors de la validation
+            // min_length le nombre de caractère minimum n'a pas été atteinte
+            // max_length le nombre de caractère maximum a été dépassé
             $validationScript =
                 'var ' .
                 $fieldName .
@@ -87,9 +87,9 @@ abstract class AbstractFormBuilder
                             $rule['message'] .
                             '"); return; }';
                         break;
-                    // Pour continué les méthod de validation javascript
-                    // C'est du javascript que l'on écrit au format TEXT car il est générer par PHP
-                    // Dynamiquement côté serveur et sera rendu et interpréter côté client par le naviguateur.
+                    // Pour continuer les méthodes de validation Javascript
+                    // C'est du Javascript que l'on écrit au format TEXT car il est généré par PHP
+                    // Dynamiquement côté serveur et sera rendu et interpréter côté client par le navigateur.
                 }
             }
 
