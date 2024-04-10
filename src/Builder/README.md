@@ -18,24 +18,24 @@ Cette class permet de générer des formulaire
 
 1. addField()
 
-  -Les arguments pour les inputs/textarea/select
+  - Les arguments spécifiques aux balises inputs/textarea/select
 
   | Options Arguments | Type | Description |
   | :---: | :---: | :--- |
-  | class-label-group | string | Pour modifier l'apparence du conteneur contenant les éléments label et input. |
-  | class-label | string | Pour modifier l'apparence du label |
-  | class | string | Pour spécifier le style de l'input. |
-  | disabled | string | Pour désactiver l'input. |
-  | placeholder | string | Pour définir le placeholder |
-  | attributes | array | Pour définir toutes sortes d'attributs. Vous trouverez tous les attributs dont vous avez besoin sûr : https://developer.mozilla.org/fr/docs/Web/HTML/Attributes. Voici un exemple d'utilisation pour un champ de données dates, je souhaite rajouter un attribut value et un attribut min et max : ['attributes' => ['value' => 2024-04-10', 'min' => '2024-04-08', 'max' => '2024-04-14']]  |
+  | class-label-group | string | Pour modifier l'apparence du conteneur contenant les éléments label et input. Exp: ['class-label-group' => 'ma-class ma-class2 ma-class3']|
+  | class-label | string | Pour modifier l'apparence du label. Exp: ['class-label' => 'ma-class ma-class2 ma-class3']|
+  | class | string | Pour spécifier le style de l'input. Exp: ['class' => 'ma-class ma-class2 ma-class3'] |
+  | disabled | string | Pour désactiver l'input. Exp: ['disabled' => 1] |
+  | placeholder | string | Pour définir le placeholder. Exp: ['placeholder' => 'mon place holder' ] |
+  | attributes | array | Pour définir toutes sortes d'attributs. Vous trouverez tous les attributs dont vous avez besoin sûr : https://developer.mozilla.org/fr/docs/Web/HTML/Attributes. Voici un exemple d'utilisation pour un champ de données dates, je souhaite rajouter un attribut value et un attribut min et max. Exp: ['attributes' => ['value' => 2024-04-10', 'min' => '2024-04-08', 'max' => '2024-04-14']]  |
 
-  - Les arguments spécifiques au textarea
+  - Les arguments spécifiques aux balises textarea
 
   | Options Arguments | Type | Description |
   | :---: | :---: | :--- |
   | value-area | null | pour définir la texte contenu dans textarea |
 
-  - Les arguments spécifiques au select
+  - Les arguments spécifiques aux balises select
 
   | Options Arguments | Type | Description |
   | :---: | :---: | :--- |
