@@ -157,6 +157,7 @@ class FormBuilder extends AbstractFormBuilder
             case 'checkbox':
             case 'range':
             case 'reset':
+            case 'file':
                 // Début de la balise Input type === switch ($type)
                 $output .=
                     '<input type="' .
