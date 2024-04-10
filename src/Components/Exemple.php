@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Boutique;
+namespace App\Boutique\Components;
 
 class Exemple
 {
     public static function Test()
     {
-        echo 'ceci est un exemple de méthod static';
+        return 'ceci est un exemple de méthod static';
     }
 }

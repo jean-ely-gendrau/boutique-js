@@ -23,7 +23,7 @@ boutique-js
 
 ### Pour initialiser le projet
 
-1. Récupérer  le repositorie
+1. Récupérer le repositorie
 
     - Avec git en ligne de commande
 
@@ -80,7 +80,7 @@ git merge main
 
 
 > [!TIP]
-> Procédure de sauvgarder votre branche 
+> Procédure de sauvegarde de votre branche 
 > en ligne de commande
 
 ```git
