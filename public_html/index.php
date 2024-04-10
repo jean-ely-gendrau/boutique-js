@@ -1,6 +1,6 @@
 <?php
 
-use App\Boutique\Utils\DefaultRender;
+use App\Boutique\Utils\Render;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -115,31 +115,31 @@ if (is_array($match)):
              */
             echo call_user_func_array([$controller, $method], $match['params']);
         endif;
-
-        /* Cas de Figure d'appel d'un template simple
-         * exemple $router->map('GET', '/', 'acceuil', 'acceuil');
-         * target acceuil = template acceuil.php
-         */ // Passer la variable $serverName à la méthode render()
-        //RenderStatique pour rendre la page template
-        // var_dump($match['target']);
-        // var_dump($serverName);
+        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+         *
+         * On appel la méthode defaultRender prenant en paramétre
+         * le nom de la page ($match['target']) et la variable $serverName
+         *
+         * Enfin on affiche le resultat de la méthode
+         */
     else:
-        $staticContent = new DefaultRender($serverName);
+        $staticContent = new Render($serverName);
+
         $content = $staticContent->defaultRender($match['target'], $serverName);
+
         echo $content;
-
-        // require_once __DIR__ . "/../template/{$match['target']}.php";
-        // var_dump($match);
     endif;
-
-    // Si aucune route n'est trouvé on affiche le template 404
-    // à modifier
-    $staticContent = new DefaultRender($serverName);
-    $content = $staticContent->defaultRender($match['target'], $serverName);
-    echo $content;
+    /*Si la page demandé est inexistante, nouvelle instance de Render
+     *
+     * On passe en paramétre de la méthode la page '404'
+     *
+     * Enfin On affiche le résultat de la méthode
+     */
 else:
-    $staticContent = new DefaultRender($serverName);
+    $staticContent = new Render($serverName);
+
     $content = $staticContent->defaultRender('404', $serverName);
+
     echo $content;
 
     /* APPEL ICI DE LA CLASS RENDER */
