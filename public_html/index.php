@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Boutique\utils\Render;
-
 $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
@@ -24,7 +22,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
   $target = TestRender#Index (le séparateur #) avec le séparateur on à le nom_du_controller # nom_de_la_method
   $name   = test-render-index
 
-  Ici on appel la class TestRender avec la méthode Index
+  Ici on appel la class TestRender avec la méthode View
 */
 $router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
