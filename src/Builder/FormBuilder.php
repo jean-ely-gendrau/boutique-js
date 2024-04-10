@@ -222,9 +222,9 @@ class FormBuilder extends AbstractFormBuilder
             $output .= '>';
 
             /* Assignation d'un valeur avec la condition Ternaire */
-            $output .= isset($options['options-select']) // ISSET options-select
+            $output .= isset($options['options-select-array']) // ISSET options-select
                 ? $this->addSelectedOption(
-                    $options['options-select'],
+                    $options['options-select-array'],
                     $optionSelectKey,
                     $optionsMulti,
                 ) // Construction des options de l'élément select
@@ -248,20 +248,27 @@ class FormBuilder extends AbstractFormBuilder
      */
     protected function renderElementAction(array $elementAction)
     {
+        //DEBUG var_dump($elementAction['options']);
+
         $type = $elementAction['type'];
+        /* Assignation d'un valeur avec la condition Ternaire */
         $id = isset($elementAction['id'])
             ? 'id="' . $elementAction['id'] . '"'
             : '';
+        /* Assignation d'un valeur avec la condition Ternaire */
         $name = isset($elementAction['name'])
             ? 'name="' . $elementAction['name'] . '"'
             : '';
-        $anchor = $elementAction['anchor'] ?? '#';
+
         $options = $elementAction['options'];
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $anchor = isset($options['anchor']) ? $options['anchor'] : '#';
 
         $output = '';
         switch ($type) {
             case 'link':
-                $output .= '<a type="' . $type . '" ' . $name . ' ' . $id . '';
+                $output .= '<a ' . $name . ' ' . $id . '';
                 break;
             case 'button':
                 $output .=
@@ -284,7 +291,7 @@ class FormBuilder extends AbstractFormBuilder
                 $output .= ' ' . $attr . '="' . $value . '"';
             }
         }
-
+        /* Assignation d'un valeur avec la condition Ternaire */
         $output .=
             $type === 'button'
                 ? '>' . $anchor . '</button>' // Fin de la balise Button
