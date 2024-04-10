@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique;
+namespace App\Boutique\Manager;
 
 /**
  * PasswordHashGenerate
