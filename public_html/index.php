@@ -1,5 +1,7 @@
 <?php
 
+use App\Boutique\Utils\DefaultRender;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $uri = $_SERVER['REQUEST_URI'];
@@ -118,12 +120,13 @@ if (is_array($match)):
          * exemple $router->map('GET', '/', 'acceuil', 'acceuil');
          * target acceuil = template acceuil.php
          */ // Passer la variable $serverName à la méthode render()
-
         //RenderStatique pour rendre la page template
-
-        /* APPEL ICI DE LA CLASS RENDER */
+        // var_dump($match['target']);
+        // var_dump($serverName);
     else:
-
+        $staticContent = new DefaultRender($serverName);
+        $content = $staticContent->defaultRender($match['target'], $serverName);
+        echo $content;
 
         // require_once __DIR__ . "/../template/{$match['target']}.php";
         // var_dump($match);
@@ -131,8 +134,13 @@ if (is_array($match)):
 
     // Si aucune route n'est trouvé on affiche le template 404
     // à modifier
+    $staticContent = new DefaultRender($serverName);
+    $content = $staticContent->defaultRender($match['target'], $serverName);
+    echo $content;
 else:
-
+    $staticContent = new DefaultRender($serverName);
+    $content = $staticContent->defaultRender('404', $serverName);
+    echo $content;
 
     /* APPEL ICI DE LA CLASS RENDER */
     // require_once __DIR__ . '/../template/404.php';
