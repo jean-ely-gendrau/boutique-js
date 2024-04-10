@@ -6,7 +6,7 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'acceuil', 'acceuil');
+$router->map('GET', '/acceuil', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('GET', '/search', 'search', 'search');
 /*
