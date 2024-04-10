@@ -27,22 +27,20 @@ Cette class permet de générer des formulaire
   | class | string | Pour spécifier le style de l'input. |
   | disabled | string | Pour désactiver l'input. |
   | placeholder | string | Pour définir le placeholder |
-  | attribute | array | pour définir toute sorte d'attibut |
+  | attributes | array | Pour définir toutes sortes d'attributs. Vous trouverez tous les attributs dont vous avez besoin sûr : https://developer.mozilla.org/fr/docs/Web/HTML/Attributes. Voici un exemple d'utilisation pour un champ de données dates, je souhaite rajouter un attribut value et un attribut min et max : ['attributes' => ['value' => 2024-04-10', 'min' => '2024-04-08', 'max' => '2024-04-14']]  |
 
-  -Les arguments pour les textarea
+  - Les arguments spécifiques au textarea
 
   | Options Arguments | Type | Description |
   | :---: | :---: | :--- |
   | value-area | null | pour définir la texte contenu dans textarea |
 
-  -Les arguments pour les select
+  - Les arguments spécifiques au select
 
   | Options Arguments | Type | Description |
   | :---: | :---: | :--- |
   | select-array-multi = true | bool |  si vous utiliser la balise select l'option select-array-multi = true permet de passé un array multidimensionnel à utilisé avec options-keys |
   | options-keys = ['keyValue'=>'value_match','keyText'=> 'text_match'] | array | pour definir le style de l'input |
-  | options-selected | string | si une option dois être selectionner par défault |
-  | options-select-array | array | Pour définir toutes sortes d'attributs. Vous trouverez tous les attributs dont vous avez besoin sûr : https://developer.mozilla.org/fr/docs/Web/HTML/Attributes.
-
-Voici un exemple d'utilisation pour un champ de données dates, je souhaite rajouter un attribut value et un attribut min et max : ['attributes' => ['value' => 2024-04-10', 'min' => '2024-04-08', 'max' => '2024-04-14']] |
+  | options-selected | string | Dans le cas où une option doit être sélectionnée par défaut. |
+  | options-select-array | array | Passé le tableau pour créer les options du Select. Tout type de tableau peut être passé : sous forme de liste, associatif et multidimensionnel. Ajouter simplement le paramètre nécessaire selon le type de tableau. |
 
