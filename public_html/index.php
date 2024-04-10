@@ -11,8 +11,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('GET', '/inscription', 'inscription', 'inscription');
 $router->map('POST', '/inscription', 'inscription', 'inscriptionForm');
 $router->map('GET', '/connexion', 'connexion', 'connexion');
-
-
+$router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
