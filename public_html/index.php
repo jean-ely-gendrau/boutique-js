@@ -2,12 +2,16 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Boutique\utils\Render;
+
 $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
 $router->map('GET', '/', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
+
+// define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 /*
   Classe-Render-View Route test
@@ -22,7 +26,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
 
   Ici on appel la class TestRender avec la méthode Index
 */
-$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+$router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
@@ -114,12 +118,15 @@ if (is_array($match)):
         /* Cas de Figure d'appel d'un template simple
          * exemple $router->map('GET', '/', 'acceuil', 'acceuil');
          * target acceuil = template acceuil.php
-         */
-    else:
+         */ // Passer la variable $serverName à la méthode render()
 
+        //RenderStatique pour rendre la page template
 
         /* APPEL ICI DE LA CLASS RENDER */
+    else:
+
         // require_once __DIR__ . "/../template/{$match['target']}.php";
+        // var_dump($match);
     endif;
 
     // Si aucune route n'est trouvé on affiche le template 404
@@ -130,6 +137,3 @@ else:
     /* APPEL ICI DE LA CLASS RENDER */
     // require_once __DIR__ . '/../template/404.php';
 endif;
-
-// SUPPRESSION DU FOOTER SERA RENDU PAR LA CLASS RENDER
-//require_once __DIR__ . '/../element/footer.php';

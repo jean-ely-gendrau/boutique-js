@@ -2,7 +2,10 @@
 
 namespace App\Boutique\Controllers;
 
-class TestRender
+use App\Boutique\Components\Exemple;
+use App\Boutique\Utils\Render;
+
+class TestRender extends Render
 {
     public function __construct()
     {
@@ -15,5 +18,12 @@ class TestRender
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
         return var_dump($arguments);
+    }
+    public function View(...$arguments)
+    {
+        $exemple = Exemple::Test();
+        $this->addParams('exemple', $exemple);
+        $content = $this->render('test-render', $arguments);
+        return $content;
     }
 }
