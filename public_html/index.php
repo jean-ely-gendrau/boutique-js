@@ -8,6 +8,12 @@ $router = new AltoRouter();
 
 $router->map('GET', '/', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
+$router->map('GET', '/inscription', 'inscription', 'inscription');
+$router->map('POST', '/inscription', 'inscription', 'inscriptionForm');
+$router->map('GET', '/connexion', 'connexion', 'connexion');
+
+
+
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
   
