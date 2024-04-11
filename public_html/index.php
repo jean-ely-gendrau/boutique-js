@@ -29,6 +29,10 @@ $router->map('GET', '/search', 'search', 'search');
 */
 $router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
+
+$router->map('GET', '/search', 'SearchForm#searchForm', 'search2');
+
+
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
