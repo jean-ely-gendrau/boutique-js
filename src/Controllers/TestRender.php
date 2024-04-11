@@ -54,14 +54,12 @@ class TestRender extends Render
 
         // Instancier la classe Products en lui passant BddManager
         $product = new Products($bddManager);
-        var_dump($product);
-        var_dump($arguments);
+
         // Ajouter l'instance de Products aux paramètres du rendu
         $this->addParams('product', $product);
-        var_dump($product);
 
         // Rendre le template
-        $content = $this->render('test-render', $arguments);
+        $content = $this->render('acceuil', $arguments);
         return $content;
     }
 }

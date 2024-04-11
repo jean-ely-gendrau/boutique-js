@@ -8,7 +8,9 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'acceuil', 'acceuil');
+// Test de la route acceuil avec la méthode ProductTest
+$router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
+
 $router->map('GET', '/contact', 'contact', 'contact');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
