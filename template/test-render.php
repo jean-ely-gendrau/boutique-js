@@ -3,23 +3,35 @@
     <div>
         <?php
         $imageData = json_decode($productItem['images'], true);
+        var_dump(
+            '   http://' . $serverName . '/assets/images/' . $imageData['main'],
+        );
         // Vérifier si la clé 'images' existe dans le tableau associatif
-        if (isset($imageData[0])) {
-            if (isset($imageData[0]['images'])) {
-                // Afficher l'image en utilisant le nom du fichier récupéré du tableau associatif
+        if (isset($imageData['main']) && !empty($imageData['main'])) {
+            // Construire le chemin du fichier image
+            $imagePath = __DIR__ . '/../../assets/images/' . $imageData['main'];
+
+            // Vérifier si le fichier image existe
+            if (!file_exists($imagePath)) {
+                // L'image existe, affichez-la
                 echo '<img src="http://' .
                     $serverName .
                     '/assets/images/' .
-                    $imageData[0]['images'] .
+                    $imageData['main'] .
                     '" alt="' .
                     $productItem['name'] .
-                    '"/><br>';
+                    '" class="w-32 h-28 mx-auto mt-12"/>';
             } else {
-                // Gérer le cas où la clé 'images' est absente ou vide
-                echo 'Image non disponible';
+                // L'image n'existe pas, affichez l'image par défaut
+                echo '<img src="http://' .
+                    $serverName .
+                    '/assets/images/coffee1.webp" alt="image de café par défaut" class="w-32 h-28 mx-auto mt-12"/>';
             }
         } else {
-            echo 'Image non disponible';
+            // La clé 'images' est absente ou vide, affichez l'image par défaut
+            echo '<img src="http://' .
+                $serverName .
+                '/assets/images/coffee1.webp" alt="image de café par défaut" class="w-32 h-28 mx-auto mt-12"/>';
         }
         ?>
         <!-- <img src="http://<//?= $serverName ?>/assets/images/<//?= $productItem[

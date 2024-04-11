@@ -1,6 +1,6 @@
 
-<!-- <img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
-class="mx-auto rounded-3xl my-20"/> -->
+<img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
+class="mx-auto rounded-3xl my-20"/>
 
 <div class="mx-auto flex justify-start max-w-6xl">
 <h2 class="bg-gray-100 ml-2 p-2 rounded-xl">Dernier produit de la boutique</h2>
@@ -26,11 +26,31 @@ class="mx-auto rounded-3xl my-20"/> -->
               ></path>
             </svg>
           </div>
-          <img
+          <?php
+          $imageData = json_decode($productItem['images'], true);
+          // Vérifier si la clé 'images' existe dans le tableau associatif
+          if (isset($imageData)) {
+              if ($imageData['main'] == true) {
+                  // Afficher l'image en utilisant le nom du fichier récupéré du tableau associatif
+                  echo '<img src="http://' .
+                      $serverName .
+                      '/assets/images/' .
+                      $imageData['main'] .
+                      '" alt="' .
+                      $productItem['name'] .
+                      '" class="w-32 h-28 mx-auto mt-12"/>';
+              } else {
+                  // Gérer le cas où la clé 'images' est absente ou vide
+                  echo '<img
             src="http://<?= $serverName ?>/assets/images/coffee1.webp"
             alt="image de café"
             class="w-32 h-28 mx-auto mt-12"
-          />
+          />';
+              }
+          } else {
+              echo 'Image non disponible';
+          }
+          ?>
           <p class="mt-3 font-bold"><?= $productItem['name'] ?></p>
           <div class="flex justify-center">
             <p class="mt-3 font-bold mr-2"><?= $productItem['price'] ?>€</p>

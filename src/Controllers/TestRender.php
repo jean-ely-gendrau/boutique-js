@@ -29,7 +29,18 @@ class TestRender extends Render
         /*
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
-        return var_dump($arguments);
+        // Créer une instance de BddManager
+        $bddManager = new BddManager();
+
+        // Instancier la classe Products en lui passant BddManager
+        $product = new Products($bddManager);
+
+        // Ajouter l'instance de Products aux paramètres du rendu
+        $this->addParams('product', $product);
+
+        // Rendre le template
+        $content = $this->render('test-render', $arguments);
+        return $content;
     }
 
     /**
