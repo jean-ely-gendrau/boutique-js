@@ -31,6 +31,16 @@ class FormBuilder extends AbstractFormBuilder
         $output = '<form '; // Démarrage de la balise form
 
         /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->id_form) // Si la propriété n'est pas null
+            ? 'id="' . $this->id_form . '" ' // on concatène l'id à la balise
+            : ''; // Sinon rien
+
+        /* Assignation d'un valeur avec la condition Ternaire */
+        $output .= !empty($this->name_form) // Si la propriété n'est pas null
+            ? 'name="' . $this->name_form . '" ' // on concatène le nom à la balise
+            : ''; // Sinon rien
+
+        /* Assignation d'un valeur avec la condition Ternaire */
         $output .= !empty($this->class_form) // Si la propriété n'est pas null
             ? 'class="' . $this->class_form . '" ' // on concatène là class à la balise
             : ''; // Sinon rien

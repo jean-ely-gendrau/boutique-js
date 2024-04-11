@@ -5,13 +5,100 @@ namespace App\Boutique\Builder;
 // Classe abstraite pour la construction de formulaires de base
 abstract class AbstractFormBuilder
 {
+    /**
+     * id_form
+     *
+     * @var string
+     */
+    protected $id_form;
+
+    /**
+     * name_form
+     *
+     * @var string
+     */
+    protected $name_form;
+
+    /**
+     * class_form
+     *
+     * @var string
+     */
     protected $class_form;
+
+    /**
+     * class_action_group
+     *
+     * @var string
+     */
     protected $class_action_group;
+
+    /**
+     * method
+     *
+     * @var string
+     */
     protected $method;
+
+    /**
+     * action
+     *
+     * @var string
+     */
     protected $action;
+
+    /**
+     * buttons
+     *
+     * @var array
+     */
     protected $buttons = [];
+
+    /**
+     * fields
+     *
+     * @var array
+     */
     protected $fields = [];
+
+    /**
+     * validator
+     *
+     * @var mixed
+     */
     protected $validator;
+
+    /**
+     * Method setIdForm
+     *
+     * Définir l'attribut id de la balise form
+     *
+     * @param string $id_form [id de la balise form]
+     *
+     * @return AbstractFormBuilder
+     */
+    public function setIdForm(string $id_form): AbstractFormBuilder
+    {
+        $this->id_form = $id_form;
+
+        return $this;
+    }
+
+    /**
+     * Method setNameForm
+     *
+     * Définir l'attribut name de la balise form
+     *
+     * @param string $name_form [name de la balise form]
+     *
+     * @return AbstractFormBuilder
+     */
+    public function setNameForm(string $name_form): AbstractFormBuilder
+    {
+        $this->name_form = $name_form;
+
+        return $this;
+    }
 
     /**
      * Method setClassForm
@@ -20,11 +107,13 @@ abstract class AbstractFormBuilder
      *
      * @param string $class_form [class de la balise form]
      *
-     * @return void
+     * @return AbstractFormBuilder
      */
-    public function setClassForm(string $class_form)
+    public function setClassForm(string $class_form): AbstractFormBuilder
     {
         $this->class_form = $class_form;
+
+        return $this;
     }
 
     /**
@@ -34,11 +123,14 @@ abstract class AbstractFormBuilder
      *
      * @param string $class_action_group [class de la balise div des élément action button/link]
      *
-     * @return void
+     * @return AbstractFormBuilder
      */
-    public function setClassActionGroup(string $class_action_group)
-    {
+    public function setClassActionGroup(
+        string $class_action_group,
+    ): AbstractFormBuilder {
         $this->class_action_group = $class_action_group;
+
+        return $this;
     }
     /**
      * Method setMethod
@@ -47,11 +139,13 @@ abstract class AbstractFormBuilder
      *
      * @param string $method [type de méthode du formulaire POST|GET]
      *
-     * @return void
+     * @return AbstractFormBuilder
      */
-    public function setMethod(string $method)
+    public function setMethod(string $method): AbstractFormBuilder
     {
         $this->method = $method;
+
+        return $this;
     }
 
     /**
@@ -61,11 +155,36 @@ abstract class AbstractFormBuilder
      *
      * @param string $action [page ou de traitement du formulaire]
      *
-     * @return void
+     * @return AbstractFormBuilder
      */
-    public function setAction(string $action)
+    public function setAction(string $action): AbstractFormBuilder
     {
         $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Method addAttributesForm
+     *
+     * Définir des attributes à la balise form
+     * Pour Ajouter un id et une class au formulaire
+     *  ['id'=> 'form-exemple', 'class'=>'class-exemple']
+     *
+     * @param array $attributesForm [tableau associatif des attributes à ajouté à la balise id,name,class,method,action]
+     *
+     * @return AbstractFormBuilder
+     */
+    public function addAttributesForm(
+        array $attributesForm,
+    ): AbstractFormBuilder {
+        foreach ($attributesForm as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -89,13 +208,14 @@ abstract class AbstractFormBuilder
      * @param string $name [nom du boutton/link]
      * @param array $options [options de la balise boutton]
      *
+     * @return AbstractFormBuilder
      */
     public function addElementAction(
         string $type,
         string $id,
         string $name,
         array $options = [],
-    ) {
+    ): AbstractFormBuilder {
         $this->buttons[] = [
             'type' => $type,
             'id' => $id,
@@ -106,26 +226,41 @@ abstract class AbstractFormBuilder
         return $this;
     }
 
-    /** Ajouter des champs au formulaire / le champ label est ajouté automatiquement et lié au champ Input par son id
+    /**
+     * Method addField
+     *
+     * Ajouter des champs au formulaire
+     *              /Label/input/
+     *  le champ label est ajouté automatiquement et lié au champ Input par son id
+     *  Vous pouvez définir le text du label en passant options = ['text-label' => 'Votre label']
+     *
      *  Pour désactivé l'ajout automatique du label ajouté en dernier paramètre de la méthode
-     *  un tableau $options ['label-false' = 1, 'autre_option' = 'valeur'...]
+     *  un tableau $options ['label-false' = 1, 'autre-option' = 'valeur'...]
      *
      *  Paramètres de la méthod :
      *
-     *  $type = type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset
-     *    $id = id de l'input
-     *  $name = nom de l'input
-     *  $label = text du label
-     *  $options = toutes les options à ajouté à un champ input sous forme de tableau
-     *  il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre input ['class', 'nom-de-classe']
+     * @param string $type [type de l'input pris en charge : text,password, email ,image, date, month, number, radio, checkbox, range, reset]
+     * @param string $name [nom de l'input]
+     * @param array $options [toutes les options à ajouté à un champ input sous forme de tableau]
+     *
+     * il est ainsi possible d'ajouter toute valeur : exemple pour ajouter une classe à notre input ['class', 'nom-de-classe']
+     *
+     * @return AbstractFormBuilder
      */
-    public function addField($type, $id, $name, $label, $options = [])
-    {
+    public function addField(
+        string $type,
+        string $name,
+        array $options = [],
+    ): AbstractFormBuilder {
+        // On fait passé la valur de $name à $id
+        // les id de formumlaire peuvent avoir la même valeur.
+        $id = $name;
+
         $this->fields[] = [
             'type' => $type,
             'id' => $id,
             'name' => $name,
-            'label' => $label,
+            'label' => $options['text-label'] ?? $name, // Valeur optionnel
             'options' => $options,
         ];
 

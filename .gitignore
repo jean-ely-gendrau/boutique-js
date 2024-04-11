@@ -2,3 +2,5 @@
 /node_modules/
 package-lock.json
 composer.lock
+.gitigniore
+/public_html/assets/styles/global.css
