@@ -23,13 +23,16 @@ class Products
         $request->execute();
         $products = $request->fetchAll(PDO::FETCH_ASSOC);
 
+        // $product = json_decode($products['images'], true);
         foreach ($products as $product) {
+            $imageData = json_decode($product['images'], true);
+            $product['images'] = $imageData;
             $result[] = [
                 'name' => $product['name'],
                 'price' => $product['price'],
                 'description' => $product['description'],
                 'quantity' => $product['quantity'],
-                'images' => $product['images'],
+                'images' => $imageData,
                 'created_at' => $product['created_at'],
                 'updated_at' => $product['updated_at'],
             ];
