@@ -13,6 +13,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('GET', '/inscription', 'inscription', 'inscription');
 $router->map('POST', '/inscription', 'inscription', 'inscriptionForm');
 $router->map('GET', '/connexion', 'connexion', 'connexion');
+$router->map('GET', '/inscription', 'InscriptionConnexion#View', 'InscriptionConnexion-test');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 

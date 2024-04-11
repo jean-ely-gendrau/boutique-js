@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Boutique\Components;
+use PDO;
 class Register
 {
     private $nameUser;
@@ -10,22 +11,14 @@ class Register
     private $userDb;
     private $passwordDb;
 
-    public function __construct($nameUser, $emailUser, $passwordUser)
+    public function __construct()
     {
-        $this->nameUser = $nameUser;
-        if ($this->validateEmail($emailUser)) {
-            $this->emailUser = $emailUser;
-        } else {
-            throw new Exception("Invalid email format");
-        }
-        if ($this->validatePassword($passwordUser)) {
-            $this->passwordUser = $passwordUser;
-        } else {
-            throw new Exception("Invalid password format");
-        }
-        $this->dsn = $dsn;
-        $this->userDb = $userDb;
-        $this->passwordDb = $passwordDb;
+        $this->nameUser = "";
+        $this->emailUser = "";
+        $this->passwordUser = "";
+        $this->dsn = "";
+        $this->userDb = "";
+        $this->passwordDb = "";
     }
     public function getName()
     {

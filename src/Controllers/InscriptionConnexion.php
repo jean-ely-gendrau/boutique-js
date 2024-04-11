@@ -39,7 +39,7 @@ class InscriptionConnexion extends Render
      */
     public function View(...$arguments)
     {
-        $exemple = new Exemple;
+        $exemple = new Register;
         $this->addParams('exemple', $exemple);
         $content = $this->render('test-render', $arguments);
         return $content;
