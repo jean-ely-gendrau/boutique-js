@@ -1,12 +1,6 @@
 <?php
-session_start();
-$host = "localhost";
-$db = "teacoffee";
-$userDb = "root";
-$passwordDb = "";
 
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-
+namespace App\Boutique\Components;
 class Register
 {
     private $nameUser;
@@ -16,7 +10,7 @@ class Register
     private $userDb;
     private $passwordDb;
 
-    public function __construct($nameUser, $emailUser, $passwordUser, $dsn, $userDb, $passwordDb)
+    public function __construct($nameUser, $emailUser, $passwordUser)
     {
         $this->nameUser = $nameUser;
         if ($this->validateEmail($emailUser)) {
@@ -81,19 +75,3 @@ class Register
     }
 }
 
-if (isset($_POST["submit"])) {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $user = new Register($name, $email, $password, $dsn, $userDb, $passwordDb);
-    echo $user->insert();
-}
-?>
-
-<form action="" method="post">
-    <label for="name">name</label>
-    <input type="text" name="name">
-    <input type="text" name="email">
-    <input type="text" name="password">
-    <input type="submit" name="submit" value="Submit">
-</form>

@@ -6,5 +6,5 @@ use App\Boutique\Components\Exemple;
 
 $exemple = new Exemple;
 
-$exemple->Test();
+echo $exemple->Test();
 ?>
