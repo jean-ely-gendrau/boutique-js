@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Boutique;
+namespace App\Boutique\Manager;
+
+use App\Boutique\Interfaces\SessionInterface;
 
 class SessionManager implements SessionInterface
 {
