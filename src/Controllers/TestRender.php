@@ -4,6 +4,9 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Exemple;
 use App\Boutique\Utils\Render;
+use App\Boutique\Models\Products;
+use App\Boutique\Manager\BddManager;
+use PDO;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -13,7 +16,6 @@ class TestRender extends Render
 {
     public function __construct()
     {
-        /* Action du constucteur */
     }
 
     /**
@@ -41,6 +43,24 @@ class TestRender extends Render
     {
         $exemple = Exemple::Test();
         $this->addParams('exemple', $exemple);
+        $content = $this->render('test-render', $arguments);
+        return $content;
+    }
+
+    public function ProductTest(...$arguments)
+    {
+        // Créer une instance de BddManager
+        $bddManager = new BddManager();
+
+        // Instancier la classe Products en lui passant BddManager
+        $product = new Products($bddManager);
+        var_dump($product);
+        var_dump($arguments);
+        // Ajouter l'instance de Products aux paramètres du rendu
+        $this->addParams('product', $product);
+        var_dump($product);
+
+        // Rendre le template
         $content = $this->render('test-render', $arguments);
         return $content;
     }
