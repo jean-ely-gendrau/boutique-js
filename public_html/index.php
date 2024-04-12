@@ -8,10 +8,10 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'acceuil', 'acceuil');
-$router->map('GET', '/contact', 'contact', 'contact');
+// Test de la route acceuil avec la méthode ProductTest de la classe TestRender
+$router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
-// define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+$router->map('GET', '/contact', 'contact', 'contact');
 
 /*
   Classe-Render-View Route test
