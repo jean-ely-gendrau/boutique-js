@@ -10,10 +10,15 @@ $router = new AltoRouter();
 
 $router->map('GET', '/', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
-$router->map('GET', '/inscription', 'inscription', 'inscription');
-$router->map('POST', '/inscription', 'inscription', 'inscriptionForm');
-$router->map('GET', '/connexion', 'connexion', 'connexion');
-$router->map('GET', '/inscription', 'InscriptionConnexion#View', 'InscriptionConnexion-test');
+
+
+// Inscription/Connexion route
+$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
+$router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
+$router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
+$router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+//
+
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 

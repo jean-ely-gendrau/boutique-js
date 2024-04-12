@@ -136,7 +136,7 @@ class CrudManager extends BddManager
         $req = $this->_dbConnect->prepare(
             'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',
         );
-        $req->execute([$email]);
+        $req->execute(['email' => $email]);
         $req->setFetchMode(
             \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
             $this->_objectClass,

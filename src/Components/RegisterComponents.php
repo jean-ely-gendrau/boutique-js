@@ -2,7 +2,7 @@
 
 namespace App\Boutique\Components;
 use PDO;
-class Register
+class RegisterComponents
 {
     private $nameUser;
     private $emailUser;
@@ -11,9 +11,9 @@ class Register
     private $userDb;
     private $passwordDb;
 
-    public function __construct()
+    public function __construct($nameUser = null)
     {
-        $this->nameUser = "";
+        $this->nameUser = $nameUser;
         $this->emailUser = "";
         $this->passwordUser = "";
         $this->dsn = "";
