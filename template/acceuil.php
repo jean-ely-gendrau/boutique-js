@@ -1,4 +1,3 @@
-
 <!------------------- Image de banière ----------------------------->
 <img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
 class="mx-auto rounded-3xl my-20"/>

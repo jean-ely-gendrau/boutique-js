@@ -5,6 +5,8 @@ namespace App\Boutique\Controllers;
 use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\Users;
 use App\Boutique\Utils\Render;
+use App\Boutique\Manager\PasswordHashManager;
+use App\Boutique\Manager\SessionManager;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -120,8 +122,36 @@ class RegisterController extends Render
      */
     public function Connect(...$arguments)
     {
+        echo "<pre>";
+        $crudManager = new CrudManager("users", Users::class);
+        $user = $crudManager->getByEmail($arguments['email']);
+        // var_dump($user->password);
+        if ($crudManager->getByEmail($arguments['email']) !== false) {
+            var_dump($arguments['password']);
+            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_])[a-zA-Z0-9\%\$\,\;\!\-_]{6,25})$/', $arguments['password'])) {
+                $verifPassword = new PasswordHashManager();
+                // var_dump($verifPassword->verify($user->password, $arguments['password']));
+                if ($verifPassword->verify($user->password, $arguments['password'])) {
+                    $sessionManager = new SessionManager();
+                    $sessionManager->add(['email' => $user->email, 'isConnected' => True, 'full_name' => $user->full_name, 'role' => $user->role],);
+                    var_dump($_SESSION['email']);
+                    var_dump($_SESSION['isConnected']);
+                    var_dump($_SESSION['full_name']);
+                    var_dump($_SESSION['role']);
+                    // header('location:/');
+                } 
+                else {
+                    echo "Mot de passe incorrect";
+                }
+            } else {
+                echo "Not preg match";
+            } 
+        } else {
+            echo "Email non existant";
+        }
 
         // $this->addParams('exemple', $exemple);
+        echo "</pre>";
         $content = $this->render('connexion', $arguments);
         return $content;
     }
