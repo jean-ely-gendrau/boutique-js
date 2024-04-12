@@ -26,7 +26,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
+$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 /*
