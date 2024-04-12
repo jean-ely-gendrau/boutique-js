@@ -28,6 +28,26 @@ $router->map('GET', '/contact', 'contact', 'contact');
 */
 $router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
+/*
+  Class MailManager Route test
+  Avec cette route nous allons faire un essaie d'envoie d'email
+
+  paramètres de la route :
+
+  $method = GET
+  $route  = /test-mail-sender
+  $target = TestMailSender#SendMail (le séparateur #) avec le séparateur on à le nom_du_controller # nom_de_la_method
+  $name   = test-mail-sender
+
+  Ici on appel la class TestMailSender avec la méthode SendMail
+*/
+$router->map(
+    'GET',
+    '/test-mail-sender',
+    'TestMailSender#SendMail',
+    'test-mail-sender',
+);
+
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
