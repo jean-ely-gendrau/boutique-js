@@ -2,3 +2,5 @@
 /node_modules/
 package-lock.json
 composer.lock
+/public_html/assets/styles/global.css
+/public_html/assets/js/flowbite.min.js
