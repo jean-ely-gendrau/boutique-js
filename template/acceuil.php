@@ -1,10 +1,28 @@
-<!------------------- Image de banière ----------------------------->
-<img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
-class="mx-auto rounded-3xl my-20"/>
+<!------------------- Image de banière style="transform: translate(-300px, -250px);
+    position: fixed;"----------------------------->
+<div>
+  <img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
+  class="mx-auto rounded-3xl my-20"/>
+  <div class="flex flex-column -translate-y-64 justify-evenly">
+    <div  class="translate-x-[-300px] translate-y-[-250px] fixed bg-gray-100 p-4 rounded-[40px]">
+      <img src="http://<?= $serverName ?>/assets/images/logo.png" alt="logo de la boutique"
+      class=""/>
+    </div>
+    <div class="bg-gray-100 p-4 w-[600px] rounded-[40px] translate-x-64">
+      <p class="text-2xl">Découvrez l'excellence chez Tea'Coffee :</p>
+      <p class="text-2xl text-center">Une sélection exquise de café et de thé pour</p>
+      <p class="text-2xl text-end">des moments de dégustation inoubliables.</p>
+
+    </div>
+  </div>
+</div>
+
+
 
 <div class="mx-auto flex justify-start max-w-6xl">
   <h2 class="bg-gray-100 ml-2 p-2 rounded-xl">Dernier produit de la boutique</h2>
 </div>
+
   <div id="menu" class="relative flex justify-center">
       <ul class="block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl">
         <?php foreach ($product->AllProduct() as $productItem): ?>
