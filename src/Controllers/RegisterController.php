@@ -84,14 +84,13 @@ class RegisterController extends Render
         // var_dump($paramSQL);
         $model = new Users($paramSQL);
         // var_dump($model);
-        
         $crudManager = new CrudManager("users", Users::class);
-        var_dump($crudManager->getByEmail($paramSQL['email']));
         if ($crudManager->getByEmail($paramSQL['email']) !== false) {
             echo "Compte deja enregistre avec ce mail";
         } else {
+            echo 'create';
             $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
-            header('/connexion');
+            header('location:/connexion');
         }
         // $this->addParams('exemple', $exemple);
         echo "</pre>";
