@@ -10,7 +10,6 @@ $router = new AltoRouter();
 
 $router->map('GET', '/acceuil', 'acceuil', 'acceuil');
 $router->map('GET', '/contact', 'contact', 'contact');
-$router->map('GET', '/search', 'search', 'search');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
@@ -30,7 +29,7 @@ $router->map('GET', '/search', 'search', 'search');
 $router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
 
-$router->map('GET', '/search', 'SearchForm#searchForm', 'search2');
+
 
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
