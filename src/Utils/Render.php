@@ -39,6 +39,7 @@ class Render
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
 
+        // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
         // Inclusion du template
