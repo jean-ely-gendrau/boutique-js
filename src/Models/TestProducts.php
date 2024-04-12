@@ -3,6 +3,7 @@
 namespace App\Boutique\Models;
 
 use App\Boutique\Manager\BddManager;
+use App\Boutique\Manager\CrudManager;
 use PDO;
 
 class TestProducts
@@ -45,6 +46,11 @@ class TestProducts
         }
 
         return $result;
+        // $crudManager = new CrudManager('products', TestProducts::class);
+        // var_dump($crudManager);
+        // $crudManager->getAll();
+
+        // return $crudManager;
     }
 }
 

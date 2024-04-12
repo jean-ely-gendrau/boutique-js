@@ -22,9 +22,3 @@
         </div>
     </div>
 </form>
-
-<?php
-
-var_dump($serverName);
-
-?>
