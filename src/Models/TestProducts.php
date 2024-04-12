@@ -5,7 +5,7 @@ namespace App\Boutique\Models;
 use App\Boutique\Manager\BddManager;
 use PDO;
 
-class Products
+class TestProducts
 {
     private $dataBase;
 
@@ -14,7 +14,14 @@ class Products
         $this->dataBase = $bddManager->linkConnect();
     }
 
-    public function produitLeak()
+    /**
+     * La fonction retrouve tout les produits de la bdd et formatte les données avant de les retourner.
+     *
+     * @return Un tableau de tout les produits de la bbd avec chaque nom de produits, prix, description,
+     * quantitée, images, date de création et de modification. Le champ images contient les données de l'image
+     * sous forme de tableau.
+     */
+    public function AllProduct()
     {
         $result = [];
 
@@ -23,7 +30,6 @@ class Products
         $request->execute();
         $products = $request->fetchAll(PDO::FETCH_ASSOC);
 
-        // $product = json_decode($products['images'], true);
         foreach ($products as $product) {
             $imageData = json_decode($product['images'], true);
             $product['images'] = $imageData;

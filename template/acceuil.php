@@ -1,13 +1,13 @@
-
+<!------------------- Image de banière ----------------------------->
 <img src="http://<?= $serverName ?>/assets/images/TotalBanner.jpg" alt="image de présentation de la boutique"
 class="mx-auto rounded-3xl my-20"/>
 
 <div class="mx-auto flex justify-start max-w-6xl">
-<h2 class="bg-gray-100 ml-2 p-2 rounded-xl">Dernier produit de la boutique</h2>
+  <h2 class="bg-gray-100 ml-2 p-2 rounded-xl">Dernier produit de la boutique</h2>
 </div>
   <div id="menu" class="relative flex justify-center">
       <ul class="block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl">
-        <?php foreach ($product->produitLeak() as $productItem): ?>
+        <?php foreach ($product->AllProduct() as $productItem): ?>
         <div
           class="bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-xl"
         >

@@ -8,12 +8,10 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-// Test de la route acceuil avec la méthode ProductTest
+// Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
 $router->map('GET', '/contact', 'contact', 'contact');
-
-// define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 /*
   Classe-Render-View Route test
@@ -28,7 +26,7 @@ $router->map('GET', '/contact', 'contact', 'contact');
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+$router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 /*
