@@ -21,11 +21,19 @@ class Products
     public function produitLeak($categoryName)
     {
 
-        // "SELECT * FROM "
+        // "SELECT * FROM products NATURAL JOIN orders AND category WHERE name = '$categoryName' AND id_product"
+        
+        // "SELECT * FROM products WHERE category = '$categoryName' 
+        //  AND id_poduct IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')
+
+
+        $sqlMostSell = "SELECT * FROM products WHERE category = '$categoryName' AND id_poduct IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
+        $requestMostSell = $this->dataBase->prepare($sqlMostSell);
+        $requestMostSell->execute();
+        $mostSell = $requestMostSell->fetchAll(PDO::FETCH_ASSOC);
+
 
         // affiche les produits de la catégorie.
-        //"SELECT * FROM products NATURAL JOIN category WHERE category.name = '$categoryName'";
-        //"SELECT * FROM products WHERE id_category = $categoryName";
         $sql = "SELECT * FROM products NATURAL JOIN category WHERE name = '$categoryName'";
         $request = $this->dataBase->prepare($sql);
         $request->execute();
@@ -39,6 +47,20 @@ class Products
         $nomCategorie = $requete->fetchAll(PDO::FETCH_ASSOC);
 
         if ($products) {
+
+            foreach ($mostSell as $sellMost) {
+
+                echo "<div>";
+                echo '<img src="./image/produit/' . $sellMost["photo"] . '"alt="' . $sellMost["nom"] . '"> <br>';
+                echo $sellMost["name"] . "<br>";
+                echo $sellMost["price"] . " €<br>";
+                echo $sellMost["description"] . "<br>";
+                echo " - Quantité: " . $sellMost["quantity"] . "<br>";
+                echo " Créé le " . $sellMost["created_at"] . "<br>";
+                echo " Modifié le " . $sellMost["updated_at"] . "<br>";
+                echo "</div>";
+                echo "<br>";
+            }
 
             foreach ($nomCategorie as $categorieNom) {
 
