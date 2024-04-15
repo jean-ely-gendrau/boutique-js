@@ -6,7 +6,7 @@ use App\Boutique\Models\Products;
 use App\Boutique\Manager\BddManager;
 
 $categoryName = "café"; 
-
+echo $categoryName;
 $database = new BddManager();
 $link = $database->linkConnect();
 
