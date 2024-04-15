@@ -16,7 +16,7 @@ use App\Boutique\Models\Users;
 
 
 
-class ModificationController extends Render
+class ModificationController
 {
     public function __construct()
     {
@@ -47,9 +47,6 @@ class ModificationController extends Render
 
     public function View(...$arguments)
     {
-        // $this->addParams('exemple', $exemple);
-        $content = $this->render('modification', $arguments);
-        return $content;
     }
 
     public function Modification(...$arguments)

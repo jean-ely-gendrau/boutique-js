@@ -166,7 +166,7 @@ if (is_array($match)) :
      * Enfin On affiche le résultat de la méthode
      */
 else :
-    echo $rendering->defaultRender($match['target'], $serverName);
+    echo $rendering->defaultRender("404", $serverName);
 
 /* APPEL ICI DE LA CLASS RENDER */
 // require_once __DIR__ . '/../template/404.php';
