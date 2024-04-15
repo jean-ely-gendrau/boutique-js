@@ -9,6 +9,7 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Utils\Render;
+use App\Boutique\Models\Users;
 
 
 
@@ -64,9 +65,17 @@ class ModificationController extends Render
                     echo "Veuillez entre un nom et prenom valide minimum 8 characters maximum 45 characters";
                 }
             } elseif ($key == 'NewBrithday') {
-                echo "La date de naissance est : " . $value . "<br>";
+                if (preg_match('/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/', $value)) {
+                    $paramSQL['birthday'] = $value;
+                } else {
+                    echo "Veuillez entre une date de naissance valide";
+                }
             } elseif ($key == 'NewAdress') {
-                echo "Le code postal est : " . $value . "<br>";
+                if (preg_match('/^[0-9]{5}$/', $value)) {
+                    $paramSQL['adress'] = $value;
+                } else {
+                    echo "Veuillez entre un code postal valide";
+                }
             } elseif ($key == 'nouveau_password') {
                 if (
                     preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $value)
@@ -77,5 +86,8 @@ class ModificationController extends Render
                 }
             }
         }
+
+        $user = new Users($paramSQL);
+        $user->update();
     }
 }
