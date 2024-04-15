@@ -2,9 +2,10 @@
 
 
 
-
+<div class="modification_profil"></div>
+<img src="image_modification_profil" alt="image_modification_profil">
 <a href="modification.php">Modification du profil</a> <br>
-
+</div>
 
 
 <a href="historique.php">Historique d'achat</a> <br>
