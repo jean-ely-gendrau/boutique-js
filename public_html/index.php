@@ -7,20 +7,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
+$rendering = new Render();
+// création instance de Render
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
-
-
-
-// Page Profil (User , modification, historique, panier) route
-
-$router->map('GET', '/user', 'user', 'user');
-$router->map('GET', '/modification', 'ModificationController#Modification', 'modification');
-$router->map('GET', '/historique', 'historique', 'historique');
-$router->map('GET', '/panier', 'panier', 'panier');
-
-
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -29,11 +20,9 @@ $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionFo
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 //
 
-
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 $router->map('GET', '/contact', 'contact', 'contact');
-
 
 /*
   Classe-Render-View Route test
@@ -63,12 +52,7 @@ $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
   Ici on appel la class TestMailSender avec la méthode SendMail
 */
-$router->map(
-    'GET',
-    '/test-mail-sender',
-    'TestMailSender#SendMail',
-    'test-mail-sender',
-);
+$router->map('GET', '/test-mail-sender', 'TestMailSender#SendMail', 'test-mail-sender');
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
 
@@ -132,9 +116,14 @@ if (is_array($match)) :
             //DEBUG var_dump($match);
         }
 
-        $match['params']['uri'] = $uri; // Ajoute l'Uri dans les params à transmettre à la class Controller
-        $match['params']['serverName'] = $serverName; // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
+        /* Ajoute l'Uri dans les params à transmettre à la class Controller
+        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
+        */
+        $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
+        $match['params']['render'] = $rendering;
+        // $match['params']['uri'] = $uri;
+        // $match['params']['serverName'] = $serverName;
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
         // https://www.php.net/manual/en/function.is-callable.php
         if (is_callable([$controller, $method])) :
@@ -166,11 +155,7 @@ if (is_array($match)) :
          * Enfin on affiche le resultat de la méthode
          */
     else :
-        $staticContent = new Render($serverName);
-
-        $content = $staticContent->defaultRender($match['target'], $serverName);
-
-        echo $content;
+        echo $rendering->defaultRender($match['target'], $serverName);
     endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
      *
@@ -179,11 +164,7 @@ if (is_array($match)) :
      * Enfin On affiche le résultat de la méthode
      */
 else :
-    $staticContent = new Render($serverName);
-
-    $content = $staticContent->defaultRender('404', $serverName);
-
-    echo $content;
+    echo $rendering->defaultRender($match['target'], $serverName);
 
 /* APPEL ICI DE LA CLASS RENDER */
 // require_once __DIR__ . '/../template/404.php';

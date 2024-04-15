@@ -13,7 +13,7 @@ use App\Boutique\Components\HorizontalSelector;
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class TestRender extends Render
+class TestRender
 {
     public function __construct()
     {
@@ -40,10 +40,10 @@ class TestRender extends Render
         $horizontalSelector->generateProductList($product);
 
         // Ajouter l'instance de Products aux paramètres du rendu
-        $this->addParams('horizontalSelector', $horizontalSelector);
+        // $this->addParams('horizontalSelector', $horizontalSelector);
 
         // Rendre le template
-        $content = $this->render('test-render', $arguments);
+        $content = $arguments['render']->render('test-render', $arguments);
         return $content;
     }
 
@@ -56,10 +56,10 @@ class TestRender extends Render
      */
     public function View(...$arguments)
     {
-        $exemple = Exemple::Test();
-        $this->addParams('exemple', $exemple);
-        $content = $this->render('test-render', $arguments);
-        return $content;
+        // $exemple = Exemple::Test();
+        // $this->addParams('exemple', $exemple);
+        // $content = $this->render('test-render', $arguments);
+        // return $content;
     }
 
     /**
@@ -79,10 +79,9 @@ class TestRender extends Render
         $product = new TestProducts($bddManager);
 
         // Ajouter l'instance de Products aux paramètres du rendu
-        $this->addParams('product', $product);
+        $arguments['render']->addParams('product', $product);
 
         // Rendre le template
-        $content = $this->render('acceuil', $arguments);
-        return $content;
+        return $arguments['render']->render('acceuil', $arguments);
     }
 }
