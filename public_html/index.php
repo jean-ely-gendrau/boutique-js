@@ -13,6 +13,8 @@ $rendering = new Render();
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
+// Page Profil (modification , historique , panier)
+
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
