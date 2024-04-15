@@ -13,6 +13,12 @@ $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
 
 
+// Page Profil
+
+$router->map('GET', '/user', 'user', 'user');
+
+
+
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
