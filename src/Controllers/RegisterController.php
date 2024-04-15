@@ -141,7 +141,7 @@ class RegisterController extends Render
                     var_dump($_SESSION['isConnected']);
                     var_dump($_SESSION['full_name']);
                     var_dump($_SESSION['role']);
-                    // header('location:/');
+                    header('location:/');
                 } else {
                     echo "Mot de passe incorrect";
                 }
