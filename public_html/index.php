@@ -13,9 +13,12 @@ $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
 
 
-// Page Profil
+// Page Profil (User , modification, historique, panier) route
 
 $router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/modification', 'modification', 'modification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('GET', '/panier', 'panier', 'panier');
 
 
 
