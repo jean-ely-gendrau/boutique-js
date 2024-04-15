@@ -77,7 +77,7 @@ class RegisterController extends Render
             }
             if ($key === 'password') {
                 if (
-                    preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@])[a-zA-Z0-9\%\$\,\;\!\-_@]{6,25})$/', $value)
+                    preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $value)
                 ) {
                     $paramSQL['password'] = $value;
                 } else {
@@ -130,7 +130,7 @@ class RegisterController extends Render
         // var_dump($user->password);
         if ($crudManager->getByEmail($arguments['email']) !== false) {
             var_dump($arguments['password']);
-            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@])[a-zA-Z0-9\%\$\,\;\!\-_@]{6,25})$/', $arguments['password'])) {
+            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $arguments['password'])) {
                 $verifPassword = new PasswordHashManager();
                 // var_dump($verifPassword->verify($user->password, $arguments['password']));
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
