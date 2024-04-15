@@ -1,0 +1,32 @@
+{
+  "Default": {
+    "seoTitlePage": "Bienvenue sur Game",
+    "seoDescriptionPage": "Bienvenue sur la plateforme de jeux",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
+  },
+  "Error": {
+    "seoTitlePage": "Oooopss Erreur",
+    "seoDescriptionPage": "Page Erreur",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "none"
+  },
+  "Index": {
+    "seoTitlePage": "Bienvenue sur TeaCoffee",
+    "seoDescriptionPage": "Bienvenue sur la TeaCoffee",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
+  }
+}
