@@ -8,10 +8,23 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-$router->map('GET', '/acceuil', 'acceuil', 'acceuil');
-$router->map('GET', '/contact', 'contact', 'contact');
+// Test de la route acceuil avec la méthode ProductTest de la classe TestRender
+$router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
+
+
+
+// Inscription/Connexion route
+$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
+$router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
+$router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
+$router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+//
+
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+
+$router->map('GET', '/contact', 'contact', 'contact');
+
 
 /*
   Classe-Render-View Route test
@@ -26,13 +39,30 @@ $router->map('GET', '/contact', 'contact', 'contact');
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
+$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
+/*
+  Class MailManager Route test
+  Avec cette route nous allons faire un essaie d'envoie d'email
 
+  paramètres de la route :
 
+  $method = GET
+  $route  = /test-mail-sender
+  $target = TestMailSender#SendMail (le séparateur #) avec le séparateur on à le nom_du_controller # nom_de_la_method
+  $name   = test-mail-sender
 
+  Ici on appel la class TestMailSender avec la méthode SendMail
+*/
+$router->map(
+    'GET',
+    '/test-mail-sender',
+    'TestMailSender#SendMail',
+    'test-mail-sender',
+);
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
+
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
   
@@ -47,7 +77,7 @@ $match = $router->match();
 //require_once __DIR__ . '/../element/header.php';
 
 // Si la route est bien enregistré avec $router->map alors on execute la condition
-if (is_array($match)):
+if (is_array($match)) :
     $params = $match['params'];
 
     /* Cas de Figure Du contrôlleur et de la méthod à appeler
@@ -65,7 +95,7 @@ if (is_array($match)):
      * - Traiter les données avant de les rendre au client
      * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
      */
-    if (str_contains($match['target'], '#')):
+    if (str_contains($match['target'], '#')) :
         // On assign les valeurs du tableau à
         // $contoller pour $match['target'][0]
         // $method    pour $match['target'][1]
@@ -98,7 +128,7 @@ if (is_array($match)):
 
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
         // https://www.php.net/manual/en/function.is-callable.php
-        if (is_callable([$controller, $method])):
+        if (is_callable([$controller, $method])) :
             /*
              * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
              * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
@@ -119,33 +149,33 @@ if (is_array($match)):
              */
             echo call_user_func_array([$controller, $method], $match['params']);
         endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
          *
          * On appel la méthode defaultRender prenant en paramétre
          * le nom de la page ($match['target']) et la variable $serverName
          *
          * Enfin on affiche le resultat de la méthode
          */
-    else:
+    else :
         $staticContent = new Render($serverName);
 
         $content = $staticContent->defaultRender($match['target'], $serverName);
 
         echo $content;
     endif;
-    /*Si la page demandé est inexistante, nouvelle instance de Render
+/*Si la page demandé est inexistante, nouvelle instance de Render
      *
      * On passe en paramétre de la méthode la page '404'
      *
      * Enfin On affiche le résultat de la méthode
      */
-else:
+else :
     $staticContent = new Render($serverName);
 
     $content = $staticContent->defaultRender('404', $serverName);
 
     echo $content;
 
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+/* APPEL ICI DE LA CLASS RENDER */
+// require_once __DIR__ . '/../template/404.php';
 endif;

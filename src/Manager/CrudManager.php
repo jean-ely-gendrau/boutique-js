@@ -129,14 +129,14 @@ class CrudManager extends BddManager
      *
      * @param string $email [email de correspondance]
      *
-     * @return object
+     * @return bool | object
      */
-    public function getByEmail(string $email): object
+    public function getByEmail(string $email):bool | object
     {
         $req = $this->_dbConnect->prepare(
             'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',
         );
-        $req->execute([$email]);
+        $req->execute(['email' => $email]);
         $req->setFetchMode(
             \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
             $this->_objectClass,

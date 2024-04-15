@@ -2,8 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
+use PDO;
+use App\Boutique\Manager\BddManager;
 use App\Boutique\Components\Exemple;
 use App\Boutique\Utils\Render;
+use App\Boutique\Models\TestProducts;
+use App\Boutique\Components\HorizontalSelector;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -13,7 +17,6 @@ class TestRender extends Render
 {
     public function __construct()
     {
-        /* Action du constucteur */
     }
 
     /**
@@ -27,7 +30,21 @@ class TestRender extends Render
         /*
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
-        return var_dump($arguments);
+        // Créer une instance de BddManager
+        $bddManager = new BddManager();
+
+        // Instancier la classe Products en lui passant BddManager
+        $product = new TestProducts($bddManager);
+
+        $horizontalSelector = new HorizontalSelector($product);
+        $horizontalSelector->generateProductList($product);
+
+        // Ajouter l'instance de Products aux paramètres du rendu
+        $this->addParams('horizontalSelector', $horizontalSelector);
+
+        // Rendre le template
+        $content = $this->render('test-render', $arguments);
+        return $content;
     }
 
     /**
@@ -42,6 +59,30 @@ class TestRender extends Render
         $exemple = Exemple::Test();
         $this->addParams('exemple', $exemple);
         $content = $this->render('test-render', $arguments);
+        return $content;
+    }
+
+    /**
+     * ProductTest créé une instance de la classe 'Products' avec une instance de 'BddManager' en paramètre,
+     * ajoute le nouvel objet $product dans les paramètres de addParams, et renvoie le template 'acceuil'
+     * avec les arguments fourni
+     *
+     * @param array ...$arguments Les arguments transmis à la méthode.
+     * @return string Le contenu généré en rendant le template 'acceuil' avec les arguments fournis.
+     */
+    public function ProductTest(...$arguments)
+    {
+        // Créer une instance de BddManager
+        $bddManager = new BddManager();
+
+        // Instancier la classe Products en lui passant BddManager
+        $product = new TestProducts($bddManager);
+
+        // Ajouter l'instance de Products aux paramètres du rendu
+        $this->addParams('product', $product);
+
+        // Rendre le template
+        $content = $this->render('acceuil', $arguments);
         return $content;
     }
 }

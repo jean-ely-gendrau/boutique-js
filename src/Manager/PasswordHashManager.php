@@ -27,12 +27,15 @@ class PasswordHashManager
 
     public function verify(string $hash, string $password): bool
     {
-        if ('' === $password || \strlen($password) < 10):
+        if ('' === $password || \strlen($password) < 8):
             return false;
         endif;
 
+        // return \sodium_crypto_pwhash_str_verify($hash, $password);
         if (\sodium_crypto_pwhash_str_verify($hash, $password)):
             return true;
         endif;
+
+        return false;
     }
 }

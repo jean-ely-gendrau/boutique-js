@@ -3,6 +3,17 @@
   "plugins": [
     "@prettier/plugin-php"
   ],
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": [
+        "**/*.php"
+      ],
+      "options": {
+        "printWidth": 150
+      }
+    }
+  ],
   "phpVersion": "8.2",
   "trailingComma": "es5",
   "tabWidth": 4,

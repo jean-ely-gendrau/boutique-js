@@ -55,6 +55,11 @@ class Users extends PasswordHashManager
         return $this->$name;
     }
 
+    public function __isset($name)
+    {
+        return isset($this->data[$name]);
+    } 
+
     /*
      * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode
      * sinon on obtiendrait une erreur de ce type
