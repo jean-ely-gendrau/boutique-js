@@ -2,7 +2,7 @@
   "database": {
     "pdo": {
       "dsn": "mysql",
-      "bdd": "boutique-js",
+      "bdd": "teacoffee",
       "host": "localhost",
       "username": "root",
       "password": "",
