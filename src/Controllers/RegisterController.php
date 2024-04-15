@@ -76,7 +76,9 @@ class RegisterController extends Render
                 }
             }
             if ($key === 'password') {
-                if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_])[a-zA-Z0-9\%\$\,\;\!\-_]{6,25})$/', $value)) {
+                if (
+                    preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@])[a-zA-Z0-9\%\$\,\;\!\-_@]{6,25})$/', $value)
+                ) {
                     $paramSQL['password'] = $value;
                 } else {
                     echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
@@ -128,24 +130,23 @@ class RegisterController extends Render
         // var_dump($user->password);
         if ($crudManager->getByEmail($arguments['email']) !== false) {
             var_dump($arguments['password']);
-            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_])[a-zA-Z0-9\%\$\,\;\!\-_]{6,25})$/', $arguments['password'])) {
+            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@])[a-zA-Z0-9\%\$\,\;\!\-_@]{6,25})$/', $arguments['password'])) {
                 $verifPassword = new PasswordHashManager();
                 // var_dump($verifPassword->verify($user->password, $arguments['password']));
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
                     $sessionManager = new SessionManager();
-                    $sessionManager->add(['email' => $user->email, 'isConnected' => True, 'full_name' => $user->full_name, 'role' => $user->role],);
+                    $sessionManager->add(['email' => $user->email, 'isConnected' => True, 'full_name' => $user->full_name, 'role' => $user->role], );
                     var_dump($_SESSION['email']);
                     var_dump($_SESSION['isConnected']);
                     var_dump($_SESSION['full_name']);
                     var_dump($_SESSION['role']);
                     // header('location:/');
-                } 
-                else {
+                } else {
                     echo "Mot de passe incorrect";
                 }
             } else {
                 echo "Not preg match";
-            } 
+            }
         } else {
             echo "Email non existant";
         }
