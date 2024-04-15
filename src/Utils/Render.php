@@ -86,13 +86,14 @@ class Render
      * inclut les modèles header et footer, et renvoie le contenu final.
      *
      * @param string $template Le nom du template à afficher.
-     * @param array ...$arguments Les arguments à fusionner avec les paramètres.
+     * @param string ...$arguments Les arguments à fusionner avec les paramètres.
      * @return string Le contenu final du template.
      */
     public function defaultRender($template, $serverName)
     {
         // Démarre la mise en mémoire tampon
         ob_start();
+        var_dump($serverName);
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
