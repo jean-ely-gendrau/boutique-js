@@ -18,51 +18,52 @@ class Products
     }
 
     //Ajouté les propriétés et méthodes au besoins
-    public function produitLeak()
+    public function produitLeak($categoryName)
     {
 
-        $counterIdCategorie = "1";
+        // "SELECT * FROM "
 
-        while ($counterIdCategorie !== 6) {
+        // affiche les produits de la catégorie.
+        //"SELECT * FROM products NATURAL JOIN category WHERE category.name = '$categoryName'";
+        //"SELECT * FROM products WHERE id_category = $categoryName";
+        $sql = "SELECT * FROM products NATURAL JOIN category WHERE name = '$categoryName'";
+        $request = $this->dataBase->prepare($sql);
+        $request->execute();
+        $products = $request->fetchAll(PDO::FETCH_ASSOC);
 
-            $sql = "SELECT * FROM products WHERE id_category = $counterIdCategorie";
-            $request = $this->dataBase->prepare($sql);
-            $request->execute();
-            $products = $request->fetchAll(PDO::FETCH_ASSOC);
 
-            $sqlNomCategorie = "SELECT * FROM `category` WHERE id_category = $counterIdCategorie";
-            $requete = $this->dataBase->prepare($sqlNomCategorie);
-            $requete->execute();
-            $nomCategorie = $requete->fetchAll(PDO::FETCH_ASSOC);
+        // affiche de le nom de la catégorie.
+        $sqlNomCategorie = "SELECT * FROM `category` WHERE name = $categoryName";
+        $requete = $this->dataBase->prepare($sqlNomCategorie);
+        $requete->execute();
+        $nomCategorie = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-            if ($products) {
+        if ($products) {
 
-                foreach ($nomCategorie as $categorieNom) {
+            foreach ($nomCategorie as $categorieNom) {
 
-                    echo '<h2>' . $categorieNom["name"] . '</h2>';
-                    echo '<h3>' . $categorieNom["description"] . '</h3>';
+                echo '<h2>' . $categorieNom["name"] . '</h2>';
+                echo '<h3>' . $categorieNom["description"] . '</h3>';
 
-                    foreach ($products as $product) {
+                foreach ($products as $product) {
 
-                        // name, description, price, quantity, images, created_at, updated_at
-                        echo "<div>";
-                        echo '<img src="./image/produit/' . $product["photo"] . '"alt="' . $product["nom"] . '"> <br>';
-                        echo $product["name"] . "<br>";
-                        echo $product["price"] . " €<br>";
-                        echo $product["description"] . "<br>";
-                        echo " - Quantité: " . $product["quantity"] . "<br>";
-                        echo " Créé le " . $product["created_at"] . "<br>";
-                        echo " Modifié le " . $product["updated_at"] . "<br>";
-                        echo "</div>";
-                        echo "<br>";
+                    // name, description, price, quantity, images, created_at, updated_at
+                    echo "<div>";
+                    echo '<img src="./image/produit/' . $product["photo"] . '"alt="' . $product["nom"] . '"> <br>';
+                    echo $product["name"] . "<br>";
+                    echo $product["price"] . " €<br>";
+                    echo $product["description"] . "<br>";
+                    echo " - Quantité: " . $product["quantity"] . "<br>";
+                    echo " Créé le " . $product["created_at"] . "<br>";
+                    echo " Modifié le " . $product["updated_at"] . "<br>";
+                    echo "</div>";
+                    echo "<br>";
 
-                    }
                 }
             }
-            $counterIdCategorie++;
         }
     }
 
 }
-
+ 
 ?>
