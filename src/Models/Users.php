@@ -95,12 +95,9 @@ class Users extends PasswordHashManager
         $newDate = new DateTime($this->birthday);
         return $newDate->format('Y-m-d');
     }
-    public function update()
+
+    public function update($full_name, $birthday, $adress, $password)
     {
-        // Assurez-vous que l'objet User a un ID (sinon, nous ne savons pas quel enregistrement mettre à jour)
-        if (!isset($this->id)) {
-            throw new Exception('Cannot update a user without an ID');
-        }
 
         // Préparez une requête SQL pour mettre à jour l'enregistrement
         $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id";
@@ -109,10 +106,10 @@ class Users extends PasswordHashManager
         $stmt = $this->pdo->prepare($sql);
 
         // Liez les paramètres à la requête
-        $stmt->bindParam(':full_name', $this->full_name);
-        $stmt->bindParam(':birthday', $this->setDateTime($this->birthday));
-        $stmt->bindParam(':adress', $this->adress);
-        $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':full_name', $full_name);
+        $stmt->bindParam(':birthday', $this->setDateTime($birthday));
+        $stmt->bindParam(':adress', $adress);
+        $stmt->bindParam(':password', $password);
         $stmt->bindParam(':id', $this->id);
 
         // Exécutez la requête

@@ -88,6 +88,7 @@ class ModificationController extends Render
         }
 
         $user = new Users($paramSQL);
-        $user->update();
+
+        $user->update($user->full_name, $user->birthday, $user->adress, $user->password);
     }
 }
