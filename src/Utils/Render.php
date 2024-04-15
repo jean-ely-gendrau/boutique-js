@@ -35,8 +35,6 @@ class Render
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
         extract(array_merge($arguments[0], $this->params));
-        var_dump($this->params);
-        var_dump($arguments[0]);
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
@@ -67,10 +65,8 @@ class Render
     public function addParams(array|string $values, mixed $params = null)
     {
         if (is_array($values)) {
-            var_dump(is_array($values));
             foreach ($values as $key => $value) {
                 $this->params[$key] = $value;
-                var_dump($key, $value);
             }
         } else {
             $this->params[$values] = $params;
