@@ -12,7 +12,7 @@ use App\Boutique\Manager\SessionManager;
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class RegisterController extends Render
+class RegisterController
 {
     public function __construct()
     {
@@ -43,8 +43,8 @@ class RegisterController extends Render
     public function View(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
-        $content = $this->render('inscription', $arguments);
-        return $content;
+        // $content = $this->render('inscription', $arguments);
+        return $arguments['render']->render('inscription', $arguments);
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -75,7 +75,7 @@ class RegisterController extends Render
                 }
             }
             if ($key === 'password') {
-                if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $value)) {
+                if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $value)) {
                     $paramSQL['password'] = $value;
                 } else {
                     echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
@@ -95,7 +95,8 @@ class RegisterController extends Render
         }
         // $this->addParams('exemple', $exemple);
         echo '</pre>';
-        $content = $this->render('inscription', $arguments);
+        $content = $arguments['render']->render('test-render', $arguments);
+        // $content = $this->render('inscription', $arguments);
         return $content;
     }
     /**
@@ -108,8 +109,8 @@ class RegisterController extends Render
     public function ViewConnect(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
-        $content = $this->render('connexion', $arguments);
-        return $content;
+        // $content = $this->render('connexion', $arguments);
+        return $arguments['render']->render('connexion', $arguments);
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -125,10 +126,11 @@ class RegisterController extends Render
         $user = $crudManager->getByEmail($arguments['email']);
         // var_dump($user->password);
         if ($crudManager->getByEmail($arguments['email']) !== false) {
-            var_dump($arguments['password']);
-            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $arguments['password'])) {
+            // var_dump($arguments['password']);
+            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $arguments['password'])) {
                 $verifPassword = new PasswordHashManager();
                 // var_dump($verifPassword->verify($user->password, $arguments['password']));
+                // var_dump($verifPassword->hash($arguments['password']));
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
                     $sessionManager = new SessionManager();
                     $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
@@ -149,7 +151,8 @@ class RegisterController extends Render
 
         // $this->addParams('exemple', $exemple);
         echo '</pre>';
-        $content = $this->render('connexion', $arguments);
+        $content = $arguments['render']->render('connexion', $arguments);
+        // $content = $this->render('connexion', $arguments);
         return $content;
     }
 }
