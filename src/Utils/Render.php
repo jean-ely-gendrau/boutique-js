@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Boutique\Utils;
+use App\Boutique\Manager\SessionManager;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
  *  et la variable globale serverPath initialisée.
  */
-class Render
+class Render extends SessionManager
 {
     protected $serverPath;
     protected $params = [];
+
+    // Passer SESSION en paramètre de la classe Render
 
     /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
@@ -18,6 +21,7 @@ class Render
     {
         global $serverName;
         $this->serverPath = $serverName;
+        parent::__construct();
     }
 
     /**
@@ -79,6 +83,16 @@ class Render
         if (isset($this->params[$key])) {
             return $this->params[$key];
         }
+    }
+
+    public function addSession(array $params)
+    {
+        $this->add($params);
+    }
+
+    public function verifySession(string $params)
+    {
+        $this->give($params);
     }
 
     /**

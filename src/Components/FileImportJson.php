@@ -5,7 +5,7 @@ namespace App\Boutique\Components;
 /**
  * FileImportJson
  *
- * Cette class permet de charger un chier json et de retourner le résultat
+ * Cette class permet de charger un fichier json et de retourner le résultat
  * sous forme de class stdClass() ou sous forme de tableau.
  *
  * Une méthode static prenant deux paramètres dont un optionnel.
@@ -20,24 +20,20 @@ namespace App\Boutique\Components;
  */
 class FileImportJson
 {
-  /**
-   * Method getFile
-   *
-   * @param string $filePath [chemin du fichier à partir de la racine de l'application: exemple 'config/config.json']
-   * @param bool $array [true si les données son retourner en array associative]
-   *
-   * @return mixed
-   */
-  public static function getFile(string $filePath, bool $array = false): mixed
-  {
-    // Import du fichier. Vérifier que ce chemin mène à la racine : __DIR__ . DIRECTORY_SEPARATOR . "../../
-    $getFile = file_get_contents(
-      __DIR__ . DIRECTORY_SEPARATOR . "../../{$filePath}",
-    );
+    /**
+     * Method getFile
+     *
+     * @param string $filePath [chemin du fichier à partir de la racine de l'application: exemple 'config/config.json']
+     * @param bool $array [true si les données son retourner en array associative]
+     *
+     * @return mixed
+     */
+    public static function getFile(string $filePath, bool $array = false): mixed
+    {
+        // Import du fichier. Vérifier que ce chemin mène à la racine : __DIR__ . DIRECTORY_SEPARATOR . "../../
+        $getFile = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "../../{$filePath}");
 
-    /* Assignation de la valeur de retour avec la condition Ternaire */
-    return $array
-      ? json_decode($getFile, true) /* Tableau Associatif */
-      : json_decode($getFile); /* stdClass */
-  }
+        /* Assignation de la valeur de retour avec la condition Ternaire */
+        return $array ? json_decode($getFile, true) /* Tableau Associatif */ : json_decode($getFile); /* stdClass */
+    }
 }

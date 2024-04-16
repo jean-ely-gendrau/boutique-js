@@ -132,13 +132,19 @@ class RegisterController
                 // var_dump($verifPassword->verify($user->password, $arguments['password']));
                 // var_dump($verifPassword->hash($arguments['password']));
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
-                    $sessionManager = new SessionManager();
-                    $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
+                    // $sessionManager = new SessionManager();
+                    // $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
+                    $arguments['render']->addSession([
+                        'email' => $user->email,
+                        'isConnected' => true,
+                        'full_name' => $user->full_name,
+                        'role' => $user->role,
+                    ]);
                     var_dump($_SESSION['email']);
                     var_dump($_SESSION['isConnected']);
                     var_dump($_SESSION['full_name']);
                     var_dump($_SESSION['role']);
-                    // header('location:/');
+                    header('location:/');
                 } else {
                     echo 'Mot de passe incorrect';
                 }
