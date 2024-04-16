@@ -18,7 +18,7 @@ class TestProducts
     /**
      * La fonction retrouve tout les produits de la bdd et formatte les données avant de les retourner.
      *
-     * @return Un tableau de tout les produits de la bbd avec chaque nom de produits, prix, description,
+     * return Un tableau de tout les produits de la bbd avec chaque nom de produits, prix, description,
      * quantitée, images, date de création et de modification. Le champ images contient les données de l'image
      * sous forme de tableau.
      */
