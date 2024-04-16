@@ -3,11 +3,11 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Utils\Render;
-use App\Boutique\Models\Users;
+use App\Boutique\Manager\CrudManager;
 
 
-class HistoriqueController extends Render
+
+class HistoriqueController
 {
     public function __construct()
     {
@@ -37,19 +37,15 @@ class HistoriqueController extends Render
      */
     public function View(...$arguments)
     {
-        // $this->addParams('exemple', $exemple);
-        $content = $this->render('historique', $arguments);
-        return $content;
     }
+
 
     public function Historique(...$arguments)
     {
+        $order = new CrudManager("orders", "Historique");
+        $clientId = $arguments[0]; // Get the client's id from the arguments
+        $orders = $order->getbyid($clientId); // Get the orders by the client's id
 
-        echo "<pre>";
-        // var_dump($arguments);
-        foreach ($arguments as $key => $value) {
-            echo $key . " => " . $value . "<br>";
-        }
-        echo "</pre>";
+        // Now $orders should contain all orders made by the client
     }
 }

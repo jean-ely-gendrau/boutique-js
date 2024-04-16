@@ -270,4 +270,38 @@ class CrudManager extends BddManager
                 );
         endswitch;
     }
+
+    public function getByIdOrder($clientId)
+    {
+
+        $id_product = $this->_dbConnect->prepare(
+            'SELECT id_product FROM orders WHERE id_user = :client_id',
+        );
+        $id_product->execute(['client_id' => $clientId]);
+        $id_product->setFetchMode(\PDO::FETCH_ASSOC);
+
+
+
+        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id";
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+
+        $price_product = $this->_dbConnect->prepare(
+            'SELECT price FROM product WHERE id_product = :id_product',
+        );
+        $price_product->execute(['id_product' => $id_product]);
+        $price_product->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $product_name = $this->_dbConnect->prepare(
+            'SELECT name FROM product WHERE id_product = :id_product',
+        );
+        $product_name->execute(['id_product' => $id_product]);
+        $product_name->setFetchMode(\PDO::FETCH_ASSOC);
+
+
+
+
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
+    }
 }
