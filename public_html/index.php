@@ -12,6 +12,11 @@ $rendering = new Render();
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
+<<<<<<< HEAD
+=======
+$router->map('GET', '/produit', 'produit', 'produit');
+
+>>>>>>> jp-branch
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');

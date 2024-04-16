@@ -18,74 +18,93 @@ class Products
     }
 
     //Ajouté les propriétés et méthodes au besoins
-    public function produitLeak($categoryName)
+    public function produitLeak($categoryName, $pageURL)
     {
 
-        // "SELECT * FROM products NATURAL JOIN orders AND category WHERE name = '$categoryName' AND id_product"
-        
-        // "SELECT * FROM products WHERE category = '$categoryName' 
-        //  AND id_poduct IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')
+        if ($categoryName == "0") {
+            $counterSubCat = "0";
+            $counterSubCat3 = "3";
+
+        } else if ($categoryName == "1") {
+            $counterSubCat = "3";
+            $counterSubCat3 = "6";
+        }
 
 
-        $sqlMostSell = "SELECT * FROM products WHERE category = '$categoryName' AND id_poduct IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
+        $sqlMostSell = "SELECT * FROM products WHERE id_category = '$categoryName' AND id_product IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
         $requestMostSell = $this->dataBase->prepare($sqlMostSell);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(PDO::FETCH_ASSOC);
 
 
-        // affiche les produits de la catégorie.
-        $sql = "SELECT * FROM products NATURAL JOIN category WHERE name = '$categoryName'";
-        $request = $this->dataBase->prepare($sql);
-        $request->execute();
-        $products = $request->fetchAll(PDO::FETCH_ASSOC);
-
-
         // affiche de le nom de la catégorie.
-        $sqlNomCategorie = "SELECT * FROM `category` WHERE name = $categoryName";
+        $sqlNomCategorie = "SELECT * FROM `category` WHERE id_category = '$categoryName'";
         $requete = $this->dataBase->prepare($sqlNomCategorie);
         $requete->execute();
         $nomCategorie = $requete->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($products) {
 
-            foreach ($mostSell as $sellMost) {
+        echo "Meilleurs ventes de " . $pageURL;
 
-                echo "<div>";
-                echo '<img src="./image/produit/' . $sellMost["photo"] . '"alt="' . $sellMost["nom"] . '"> <br>';
-                echo $sellMost["name"] . "<br>";
-                echo $sellMost["price"] . " €<br>";
-                echo $sellMost["description"] . "<br>";
-                echo " - Quantité: " . $sellMost["quantity"] . "<br>";
-                echo " Créé le " . $sellMost["created_at"] . "<br>";
-                echo " Modifié le " . $sellMost["updated_at"] . "<br>";
-                echo "</div>";
-                echo "<br>";
-            }
+        foreach ($mostSell as $sellMost) {
+            $imageData = json_decode($sellMost['images'], true);
+            $sellMost['images'] = $imageData;
+            $result[] = [
+                'name' => $sellMost['name'],
+                'price' => $sellMost['price'],
+                'description' => $sellMost['description'],
+                'quantity' => $sellMost['quantity'],
+                'images' => $imageData,
+                'created_at' => $sellMost['created_at'],
+                'updated_at' => $sellMost['updated_at'],
+            ];
+        }
 
-            foreach ($nomCategorie as $categorieNom) {
+        return $result;
 
-                echo '<h2>' . $categorieNom["name"] . '</h2>';
-                echo '<h3>' . $categorieNom["description"] . '</h3>';
+        foreach ($nomCategorie as $categorieNom) {
+            $result[] = [
+                'description' => $categorieNom['description'],
+            ];
+        }
+        while ($counterSubCat < $counterSubCat3) {
+
+            // affiche le nom de la sous catégorie.
+            $sqlSousCategorie = "SELECT * FROM sub_category WHERE id_category = '$categoryName' AND id_sub_cat ='$counterSubCat'";
+            $requestSqlSubCat = $this->dataBase->prepare($sqlSousCategorie);
+            $requestSqlSubCat->execute();
+            $subCat = $requestSqlSubCat->fetchAll(PDO::FETCH_ASSOC);
+
+
+            // affiche les produits de la catégorie.
+            $sql = "SELECT * FROM products WHERE id_category = '$categoryName' AND id_sub_cat ='$counterSubCat'";
+            $request = $this->dataBase->prepare($sql);
+            $request->execute();
+            $products = $request->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($subCat as $catSub) {
+                $result[] = [
+                    'description' => $catSub['description'],
+                ];
 
                 foreach ($products as $product) {
-
-                    // name, description, price, quantity, images, created_at, updated_at
-                    echo "<div>";
-                    echo '<img src="./image/produit/' . $product["photo"] . '"alt="' . $product["nom"] . '"> <br>';
-                    echo $product["name"] . "<br>";
-                    echo $product["price"] . " €<br>";
-                    echo $product["description"] . "<br>";
-                    echo " - Quantité: " . $product["quantity"] . "<br>";
-                    echo " Créé le " . $product["created_at"] . "<br>";
-                    echo " Modifié le " . $product["updated_at"] . "<br>";
-                    echo "</div>";
-                    echo "<br>";
-
+                    $imageData = json_decode($product['images'], true);
+                    $product['images'] = $imageData;
+                    $result[] = [
+                        'name' => $product['name'],
+                        'price' => $product['price'],
+                        'description' => $product['description'],
+                        'quantity' => $product['quantity'],
+                        'images' => $imageData,
+                        'created_at' => $product['created_at'],
+                        'updated_at' => $product['updated_at'],
+                    ];
                 }
+                return $result;
             }
+            $counterSubCat++;
         }
     }
-
 }
- 
+
 ?>
