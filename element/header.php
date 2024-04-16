@@ -22,7 +22,7 @@
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Ouvrir le menu utilisateur</span>
-            <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full">' . $rendering->give('full_name')[0] . '</p>
+            <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full font-bold">' . $rendering->give('full_name')[0] . '</p>
           </button>
           <!-- Dropdown menu -->
           <div
