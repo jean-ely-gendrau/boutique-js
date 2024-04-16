@@ -94,8 +94,9 @@ class RegisterController
             header('location:/connexion');
         }
         // $this->addParams('exemple', $exemple);
-        echo "</pre>";
-        $content = $this->render('inscription', $arguments);
+        echo '</pre>';
+        $content = $arguments['render']->render('test-render', $arguments);
+        // $content = $this->render('inscription', $arguments);
         return $content;
     }
     /**
@@ -149,8 +150,9 @@ class RegisterController
         }
 
         // $this->addParams('exemple', $exemple);
-        echo "</pre>";
-        $content = $this->render('connexion', $arguments);
+        echo '</pre>';
+        $content = $arguments['render']->render('connexion', $arguments);
+        // $content = $this->render('connexion', $arguments);
         return $content;
     }
 }
