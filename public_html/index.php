@@ -16,8 +16,9 @@ $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 // Page Profil (modification , historique , panier)
 $router->map('GET', '/user', 'user', 'user');
 $router->map('GET', '/modification', 'modification', 'modificationForm');
-$router->map('POST', '/modification', 'Modification#Modification', 'modificationModification');
-$router->map('GET', '/historique', 'HistoriqueController#View', 'historique');
+$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
 $router->map('GET', '/panier', 'PanierController#View', 'panier');
 
 // Inscription/Connexion route

@@ -44,8 +44,9 @@ class HistoriqueController
     {
         $order = new CrudManager("orders", "Historique");
         $clientId = $arguments[0]; // Get the client's id from the arguments
-        $orders = $order->getbyid($clientId); // Get the orders by the client's id
+        $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client
+        return $orders;
     }
 }

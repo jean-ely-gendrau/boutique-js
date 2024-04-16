@@ -274,34 +274,52 @@ class CrudManager extends BddManager
     public function getByIdOrder($clientId)
     {
 
-        $id_product = $this->_dbConnect->prepare(
-            'SELECT id_product FROM orders WHERE id_user = :client_id',
+
+
+        $adresse = $this->_dbConnect->prepare(
+            'SELECT adress FROM users WHERE id_user = :client_id',
         );
-        $id_product->execute(['client_id' => $clientId]);
-        $id_product->setFetchMode(\PDO::FETCH_ASSOC);
 
+        $adresse->execute(['client_id' => $clientId]);
+        $adresse->setFetchMode(\PDO::FETCH_ASSOC);
 
-
-        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id";
+        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket != 1";
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $status = $stmt->fetch()['status'];
+        $id_product = $stmt->fetch()['id_product'];
+
 
         $price_product = $this->_dbConnect->prepare(
-            'SELECT price FROM product WHERE id_product = :id_product',
+            'SELECT price FROM products WHERE id_product = :id_product',
         );
         $price_product->execute(['id_product' => $id_product]);
         $price_product->setFetchMode(\PDO::FETCH_ASSOC);
 
         $product_name = $this->_dbConnect->prepare(
-            'SELECT name FROM product WHERE id_product = :id_product',
+            'SELECT name FROM products WHERE id_product = :id_product',
         );
         $product_name->execute(['id_product' => $id_product]);
         $product_name->setFetchMode(\PDO::FETCH_ASSOC);
 
+        $adresse = $adresse->fetch()['adress'];
+        $price_product = $price_product->fetch()['price'];
+        $product_name = $product_name->fetch()['name'];
 
 
+        $orders = [];
 
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        return $stmt->fetchAll();
+        while ($row = $stmt->fetch()) {
+            $orders[] = [
+                'client_id' => $clientId,
+                'product_name' => $row['name'],
+                'adress' => $adresse,
+                'price' => $row['price'],
+                'status' => $row['status']
+            ];
+        }
+
+        return $orders;
     }
 }
