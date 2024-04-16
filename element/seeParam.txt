@@ -5,6 +5,8 @@
   <link rel="canonical" href="/" />
   <!-- META SEO OG  -->
   <meta property="og:image" content="<?= $seoConfig->seoUrlImage; /* Url de l'image de partage */ ?>" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage; /* Text Alt de l'image de partage */ ?>" />
   <meta property="og:type" content="<?= $seoConfig->seoType; /* Type de contenue */ ?>" />
   <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']; /* Url  de la page courante */ ?>" />
