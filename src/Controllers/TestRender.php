@@ -8,12 +8,13 @@ use App\Boutique\Components\Exemple;
 use App\Boutique\Utils\Render;
 use App\Boutique\Models\TestProducts;
 use App\Boutique\Components\HorizontalSelector;
+use App\Boutique\Components\FileImportJson;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class TestRender extends Render
+class TestRender
 {
     public function __construct()
     {
@@ -31,19 +32,33 @@ class TestRender extends Render
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
         // Créer une instance de BddManager
+        // $bddManager = new BddManager();
+
+        // // Instancier la classe Products en lui passant BddManager
+
+        // $horizontalSelector = new HorizontalSelector($bddManager);
+        // // $horizontalSelector->generateProductList($product);
+
+        // $arguments['render']->addParams('product', $horizontalSelector);
+        // // Ajouter l'instance de Products aux paramètres du rendu
+        // // $this->addParams('horizontalSelector', $horizontalSelector);
+
+        // // Rendre le template
+        // $content = $arguments['render']->render('test-render', $arguments);
+        // return $content;
         $bddManager = new BddManager();
 
-        // Instancier la classe Products en lui passant BddManager
-        $product = new TestProducts($bddManager);
+        $horizontalSelector = new HorizontalSelector($bddManager);
+        $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
 
-        $horizontalSelector = new HorizontalSelector($product);
-        $horizontalSelector->generateProductList($product);
+        /*Test affichage seo.fr.json
+        $testJson = new FileImportJson();
+        $testJson->getFile('config/seo.fr.json');
+        var_dump($testJson->getFile('config/seo.fr.json'));*/
 
-        // Ajouter l'instance de Products aux paramètres du rendu
-        $this->addParams('horizontalSelector', $horizontalSelector);
+        $arguments['render']->addParams('product', $productHtml);
 
-        // Rendre le template
-        $content = $this->render('test-render', $arguments);
+        $content = $arguments['render']->render('test-render', $arguments);
         return $content;
     }
 
@@ -56,10 +71,10 @@ class TestRender extends Render
      */
     public function View(...$arguments)
     {
-        $exemple = Exemple::Test();
-        $this->addParams('exemple', $exemple);
-        $content = $this->render('test-render', $arguments);
-        return $content;
+        // $exemple = Exemple::Test();
+        // $this->addParams('exemple', $exemple);
+        // $content = $this->render('test-render', $arguments);
+        // return $content;
     }
 
     /**
@@ -79,10 +94,9 @@ class TestRender extends Render
         $product = new TestProducts($bddManager);
 
         // Ajouter l'instance de Products aux paramètres du rendu
-        $this->addParams('product', $product);
+        $arguments['render']->addParams('product', $product);
 
         // Rendre le template
-        $content = $this->render('acceuil', $arguments);
-        return $content;
+        return $arguments['render']->render('acceuil', $arguments);
     }
 }

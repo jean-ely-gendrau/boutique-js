@@ -1,2 +1,6 @@
 <h1>Test classe render</h1>
-<?= $exemple ?>
+<main>
+    <!-- Appelle du render HorizontalSelector -->
+    <?= $product ?>
+
+</main>

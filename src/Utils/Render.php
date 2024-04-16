@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Boutique\Utils;
+use App\Boutique\Manager\SessionManager;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
  *  et la variable globale serverPath initialisée.
  */
-class Render
+class Render extends SessionManager
 {
     protected $serverPath;
     protected $params = [];
+
+    // Passer SESSION en paramètre de la classe Render
 
     /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
@@ -18,6 +21,7 @@ class Render
     {
         global $serverName;
         $this->serverPath = $serverName;
+        parent::__construct();
     }
 
     /**
@@ -58,13 +62,37 @@ class Render
     /**
      * La fonction addParams ajoute une paire clé/valeur au tableau params.
      *
-     * @param string $key La clé sous laquelle enregistrer le paramètre.
+     * @param array|string $values La clé sous laquelle enregistrer le paramètre.
      * @param mixed $params La valeur à enregistrer.
      * @return void
      */
-    public function addParams($key, $params)
+    public function addParams(array|string $values, mixed $params = null)
     {
-        $this->params[$key] = $params;
+        if (is_array($values)) {
+            foreach ($values as $key => $value) {
+                $this->params[$key] = $value;
+            }
+        } else {
+            $this->params[$values] = $params;
+        }
+    }
+
+    // Get params
+    public function getParams($key)
+    {
+        if (isset($this->params[$key])) {
+            return $this->params[$key];
+        }
+    }
+
+    public function addSession(array $params)
+    {
+        $this->add($params);
+    }
+
+    public function verifySession(string $params)
+    {
+        $this->give($params);
     }
 
     /**
@@ -72,13 +100,14 @@ class Render
      * inclut les modèles header et footer, et renvoie le contenu final.
      *
      * @param string $template Le nom du template à afficher.
-     * @param array ...$arguments Les arguments à fusionner avec les paramètres.
+     * @param string ...$arguments Les arguments à fusionner avec les paramètres.
      * @return string Le contenu final du template.
      */
     public function defaultRender($template, $serverName)
     {
         // Démarre la mise en mémoire tampon
         ob_start();
+        var_dump($serverName);
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';

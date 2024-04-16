@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-acceuil {
+    background-image: url('../images/bg-acceuil-1.png');
+    background-repeat: no-repeat;
+    background-size: inherit;
+    background-attachment: fixed;
+    background-position: center;
+}
