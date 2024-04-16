@@ -2,20 +2,76 @@
 
 namespace App\Boutique\Models;
 
+use DateTime;
 use App\Boutique\Manager\BddManager;
 use PDO;
 
 class Products
 {
 
+    private $id_product;
+    private $name;
+    private $description;
+    private $price;
+    private $quantity;
+    private $images;
+    private $id_category;
+    private $id_sub_cat;
+    private $created_at;
+    private $updated_at;
+
+    // BASE DE DONNEE
     private $dataBase;
 
-    public function __construct(BddManager $bddManager)
+    public function __construct(?array $data = null)
     {
 
-        $this->dataBase = $bddManager->linkConnect();
+        $this->id_product = $data['id_product'] ?? '';
+        $this->name = $data['name'] ?? '';
+        $this->description = $data['description'] ?? '';
+        $this->price = $data['price'] ?? '';
+        $this->quantity = $data['quantity'] ?? '';
+        $this->images = $data['images'] ?? '';
+        $this->id_category = $data['id_category'] ?? '';
+        $this->id_sub_cat = $data['id_sub_cat'] ?? '';
+        $this->created_at = isset($data['created_at']) ? $this->setDateTime($data['created_at']) : '';
+        $this->updated_at = isset($data['updated_at']) ? $this->setDateTime($data['updated_at']) : '';
 
     }
+
+    public function __get(string $name)
+    {
+
+        return $this->name;
+    }
+
+    public function __isset($name)
+    {
+
+        return isset($this->data[$name]);
+    }
+
+    public function __set(string $property, mixed $value)
+    {
+
+    }
+
+    public function setDateTime(string $dateSting)
+    {
+        $newdate = new DateTime($dateSting);
+        return $newdate->format('Y-m-d H:i:s');
+    }
+
+    // public function getCreatedDate() {
+    //     $createdNewDate = new DateTime($this->created_at);
+    //     return $createdNewDate->format('Y-m-d');
+    // }
+
+    // public function getUpdatedDate() {
+
+    //     $updatedNewDate = new DateTime($this->updated_at);
+    //     return $updatedNewDate->format('Y-m-d');
+    // }
 
     //Ajouté les propriétés et méthodes au besoins
     public function produitLeak($categoryName, $pageURL)
