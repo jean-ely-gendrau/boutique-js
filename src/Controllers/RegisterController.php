@@ -12,7 +12,7 @@ use App\Boutique\Manager\SessionManager;
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class RegisterController extends Render
+class RegisterController
 {
     public function __construct()
     {
@@ -43,8 +43,8 @@ class RegisterController extends Render
     public function View(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
-        $content = $this->render('inscription', $arguments);
-        return $content;
+        // $content = $this->render('inscription', $arguments);
+        return $arguments['render']->render('inscription', $arguments);
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -94,7 +94,7 @@ class RegisterController extends Render
             header('location:/connexion');
         }
         // $this->addParams('exemple', $exemple);
-        echo '</pre>';
+        echo "</pre>";
         $content = $this->render('inscription', $arguments);
         return $content;
     }
@@ -108,8 +108,8 @@ class RegisterController extends Render
     public function ViewConnect(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
-        $content = $this->render('connexion', $arguments);
-        return $content;
+        // $content = $this->render('connexion', $arguments);
+        return $arguments['render']->render('connexion', $arguments);
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -149,7 +149,7 @@ class RegisterController extends Render
         }
 
         // $this->addParams('exemple', $exemple);
-        echo '</pre>';
+        echo "</pre>";
         $content = $this->render('connexion', $arguments);
         return $content;
     }
