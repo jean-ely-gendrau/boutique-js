@@ -9,6 +9,7 @@ $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 $rendering = new Render();
 // création instance de Render
+// var_dump($rendering->give('isConnected'));
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#Index', 'acceuil');
@@ -164,7 +165,7 @@ if (is_array($match)):
      * Enfin On affiche le résultat de la méthode
      */
 else:
-    echo $rendering->defaultRender("404", $serverName);
+    echo $rendering->defaultRender('404', $serverName);
     /* APPEL ICI DE LA CLASS RENDER */
     // require_once __DIR__ . '/../template/404.php';
 endif;

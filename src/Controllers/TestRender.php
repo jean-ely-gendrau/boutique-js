@@ -8,6 +8,7 @@ use App\Boutique\Components\Exemple;
 use App\Boutique\Utils\Render;
 use App\Boutique\Models\TestProducts;
 use App\Boutique\Components\HorizontalSelector;
+use App\Boutique\Components\FileImportJson;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -49,6 +50,11 @@ class TestRender
 
         $horizontalSelector = new HorizontalSelector($bddManager);
         $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
+
+        /*Test affichage seo.fr.json
+        $testJson = new FileImportJson();
+        $testJson->getFile('config/seo.fr.json');
+        var_dump($testJson->getFile('config/seo.fr.json'));*/
 
         $arguments['render']->addParams('product', $productHtml);
 
