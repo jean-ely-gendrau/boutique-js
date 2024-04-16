@@ -52,6 +52,8 @@ class ModificationController
     public function Modification(...$arguments)
     {
 
+        $paramSQL = [];
+
         echo "<pre>";
         // var_dump($arguments);
         foreach ($arguments as $key => $value) {
@@ -83,13 +85,6 @@ class ModificationController
                 }
             }
         }
-
-
-
-
-
-
-
         $user = new CrudManager('users', 'Modification');
 
 

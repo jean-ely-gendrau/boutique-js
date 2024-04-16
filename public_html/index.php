@@ -14,6 +14,10 @@ $rendering = new Render();
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
 // Page Profil (modification , historique , panier)
+$router->map('GET', '/modification', 'modification', 'modificationForm');
+$router->map('POST', '/modification', 'Modification#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'HistoriqueController#View', 'historique');
+$router->map('GET', '/panier', 'PanierController#View', 'panier');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');

@@ -80,7 +80,7 @@ class CrudManager extends BddManager
 
         return $req->fetchAll();
     }
-  */
+     */
 
     /**
      * Method getById
@@ -131,7 +131,7 @@ class CrudManager extends BddManager
      *
      * @return bool | object
      */
-    public function getByEmail(string $email):bool | object
+    public function getByEmail(string $email): bool | object
     {
         $req = $this->_dbConnect->prepare(
             'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',
@@ -190,12 +190,17 @@ class CrudManager extends BddManager
     {
         $valueString = self::formatParams($param, 'FORMAT_UPDATE');
 
+        if (empty($valueString)) {
+            echo "No valid parameters provided for update.";
+            return null;
+        }
+
         $sql =
             'UPDATE ' .
             $this->_tableName .
             ' SET ' .
             $valueString .
-            ' WHERE id = :id';
+            ' WHERE id = :user_id';
         $req = $this->_dbConnect->prepare($sql);
         // $param = ['id'];
         $boundParam = [];
