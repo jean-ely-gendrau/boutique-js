@@ -20,6 +20,7 @@ $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm'
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+$router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 //
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
@@ -122,7 +123,7 @@ if (is_array($match)):
         // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
         */
-        $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
+        $rendering->addParams(['uri' => $uri, 'serverName' => $serverName, 'rendering' => $rendering]);
         $match['params']['render'] = $rendering;
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
