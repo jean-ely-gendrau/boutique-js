@@ -1,0 +1,1 @@
+<h1>Voici le panier</h1>

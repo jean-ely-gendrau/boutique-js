@@ -298,4 +298,24 @@ class CrudManager extends BddManager
 
         return $orders;
     }
+
+    public function getbyidbasket($clientId)
+    {
+        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1";
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $orders = [];
+        while ($row = $stmt->fetch()) {
+            $orders[] = [
+                'client_id' => $clientId,
+                'product_name' => $row['name'],
+                'price' => $row['price'],
+                'status' => $row['status']
+            ];
+        }
+
+        return $orders;
+    }
 }
