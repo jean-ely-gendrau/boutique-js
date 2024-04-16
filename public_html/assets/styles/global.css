@@ -1156,9 +1156,15 @@ input:checked + .toggle-bg {
   margin-right: auto;
 }
 
+<<<<<<< Updated upstream
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+=======
+.my-20 {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+>>>>>>> Stashed changes
 }
 
 .my-40 {
@@ -1182,18 +1188,24 @@ input:checked + .toggle-bg {
   margin-bottom: 1.25rem;
 }
 
+<<<<<<< Updated upstream
 .ml-10 {
   margin-left: 2.5rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .ml-2 {
   margin-left: 0.5rem;
 }
 
+<<<<<<< Updated upstream
 .ml-3 {
   margin-left: 0.75rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -1214,10 +1226,13 @@ input:checked + .toggle-bg {
   margin-top: 0.5rem;
 }
 
+<<<<<<< Updated upstream
 .mt-20 {
   margin-top: 5rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -1226,10 +1241,13 @@ input:checked + .toggle-bg {
   margin-top: 1rem;
 }
 
+<<<<<<< Updated upstream
 .mb-4 {
   margin-bottom: 1rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .block {
   display: block;
 }
@@ -1264,10 +1282,13 @@ input:checked + .toggle-bg {
 
 .h-10 {
   height: 2.5rem;
+<<<<<<< Updated upstream
 }
 
 .h-14 {
   height: 3.5rem;
+=======
+>>>>>>> Stashed changes
 }
 
 .h-2 {
@@ -1286,28 +1307,37 @@ input:checked + .toggle-bg {
   height: 1rem;
 }
 
+<<<<<<< Updated upstream
 .h-5 {
   height: 1.25rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .h-6 {
   height: 1.5rem;
 }
 
+<<<<<<< Updated upstream
 .h-8 {
   height: 2rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .h-80 {
   height: 20rem;
 }
 
 .h-9 {
   height: 2.25rem;
+<<<<<<< Updated upstream
 }
 
 .max-h-\[35rem\] {
   max-height: 35rem;
+=======
+>>>>>>> Stashed changes
 }
 
 .w-1\/2 {
@@ -1342,10 +1372,13 @@ input:checked + .toggle-bg {
   width: 12rem;
 }
 
+<<<<<<< Updated upstream
 .w-5 {
   width: 1.25rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .w-60 {
   width: 15rem;
 }
@@ -1354,18 +1387,24 @@ input:checked + .toggle-bg {
   width: 16rem;
 }
 
+<<<<<<< Updated upstream
 .w-8 {
   width: 2rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .w-\[1152px\] {
   width: 1152px;
 }
 
+<<<<<<< Updated upstream
 .w-\[600px\] {
   width: 600px;
 }
 
+=======
+>>>>>>> Stashed changes
 .w-full {
   width: 100%;
 }
@@ -1378,6 +1417,7 @@ input:checked + .toggle-bg {
   max-width: 32rem;
 }
 
+<<<<<<< Updated upstream
 .max-w-screen-xl {
   max-width: 1280px;
 }
@@ -1386,6 +1426,8 @@ input:checked + .toggle-bg {
   max-width: 42rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1542,12 +1584,15 @@ input:checked + .toggle-bg {
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+<<<<<<< Updated upstream
 .space-x-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.75rem * var(--tw-space-x-reverse));
   margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+=======
+>>>>>>> Stashed changes
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
@@ -1573,28 +1618,37 @@ input:checked + .toggle-bg {
   overflow: hidden;
 }
 
+<<<<<<< Updated upstream
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+=======
+>>>>>>> Stashed changes
 .whitespace-nowrap {
   white-space: nowrap;
 }
 
+<<<<<<< Updated upstream
 .rounded {
   border-radius: 0.25rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .rounded-3xl {
   border-radius: 1.5rem;
 }
 
+<<<<<<< Updated upstream
 .rounded-\[40px\] {
   border-radius: 40px;
 }
 
+=======
+>>>>>>> Stashed changes
 .rounded-full {
   border-radius: 9999px;
 }
@@ -1674,11 +1728,14 @@ input:checked + .toggle-bg {
   background-color: rgb(51 51 51 / var(--tw-bg-opacity));
 }
 
+<<<<<<< Updated upstream
 .bg-blue-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(28 100 242 / var(--tw-bg-opacity));
 }
 
+=======
+>>>>>>> Stashed changes
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
@@ -1750,11 +1807,14 @@ input:checked + .toggle-bg {
   padding-right: 0.5rem;
 }
 
+<<<<<<< Updated upstream
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1790,11 +1850,14 @@ input:checked + .toggle-bg {
   padding-bottom: 0.75rem;
 }
 
+<<<<<<< Updated upstream
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .pt-2 {
   padding-top: 0.5rem;
 }
@@ -1807,19 +1870,25 @@ input:checked + .toggle-bg {
   text-align: center;
 }
 
+<<<<<<< Updated upstream
 .text-end {
   text-align: end;
 }
 
+=======
+>>>>>>> Stashed changes
 .font-sans {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+<<<<<<< Updated upstream
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -1840,11 +1909,14 @@ input:checked + .toggle-bg {
   line-height: 1.25rem;
 }
 
+<<<<<<< Updated upstream
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
+=======
+>>>>>>> Stashed changes
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -1854,10 +1926,13 @@ input:checked + .toggle-bg {
   font-weight: 700;
 }
 
+<<<<<<< Updated upstream
 .font-light {
   font-weight: 300;
 }
 
+=======
+>>>>>>> Stashed changes
 .font-medium {
   font-weight: 500;
 }
@@ -1984,11 +2059,14 @@ input:checked + .toggle-bg {
   background-color: rgb(34 34 34 / var(--tw-bg-opacity));
 }
 
+<<<<<<< Updated upstream
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
 }
 
+=======
+>>>>>>> Stashed changes
 .hover\:bg-blue-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(30 66 159 / var(--tw-bg-opacity));
@@ -2090,6 +2168,7 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
+<<<<<<< Updated upstream
 .dark\:divide-gray-600:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-divide-opacity));
@@ -2099,6 +2178,8 @@ input:checked + .toggle-bg {
   border-width: 1px;
 }
 
+=======
+>>>>>>> Stashed changes
 .dark\:border-blue-500:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(63 131 248 / var(--tw-border-opacity));
@@ -2166,11 +2247,14 @@ input:checked + .toggle-bg {
   color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
+<<<<<<< Updated upstream
 .dark\:text-gray-300:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
+=======
+>>>>>>> Stashed changes
 .dark\:text-gray-400:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -2235,6 +2319,7 @@ input:checked + .toggle-bg {
   border-color: rgb(63 131 248 / var(--tw-border-opacity));
 }
 
+<<<<<<< Updated upstream
 .dark\:focus\:ring-blue-500:focus:is(.dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(63 131 248 / var(--tw-ring-opacity));
@@ -2255,12 +2340,15 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
 }
 
+=======
+>>>>>>> Stashed changes
 .dark\:focus\:ring-gray-700:focus:is(.dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
 }
 
 @media (min-width: 640px) {
+<<<<<<< Updated upstream
   .sm\:col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -2269,6 +2357,8 @@ input:checked + .toggle-bg {
     margin-top: 1.5rem;
   }
 
+=======
+>>>>>>> Stashed changes
   .sm\:flex {
     display: flex;
   }
@@ -2277,6 +2367,7 @@ input:checked + .toggle-bg {
     width: auto;
   }
 
+<<<<<<< Updated upstream
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -2289,6 +2380,8 @@ input:checked + .toggle-bg {
     gap: 1.5rem;
   }
 
+=======
+>>>>>>> Stashed changes
   .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -2309,6 +2402,7 @@ input:checked + .toggle-bg {
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
+<<<<<<< Updated upstream
 
   .sm\:text-sm {
     font-size: 0.875rem;
@@ -2447,6 +2541,8 @@ input:checked + .toggle-bg {
   .xl\:p-0 {
     padding: 0px;
   }
+=======
+>>>>>>> Stashed changes
 }
 
 .rtl\:rotate-180:where([dir="rtl"], [dir="rtl"] *) {
