@@ -14,6 +14,7 @@ $rendering = new Render();
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 $router->map('GET', '/produit', 'produit', 'produit');
+$router->map('GET', '/test-slide', 'TestRender#Index', 'testSlide');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');

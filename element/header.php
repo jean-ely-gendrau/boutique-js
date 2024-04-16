@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
+<?php
+// // Importez votre classe FileImportJson
 
+// use App\Boutique\Components\FileImportJson;
+
+// // $indexData = new FileImportJson();
+// // Appelez la méthode getFile() pour récupérer les données du fichier JSON
+// $indexData = FileImportJson::getFile('config/seo.fr.json', true);
+
+// var_dump($indexData);
+
+// // Vérifiez si la clé 'Index' existe dans les données récupérées
+
+// // Si la clé 'Index' existe, accédez à ses valeurs
+// $seoConfig = $indexData['Index'];
+?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="http://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>Teacoffe</title>
+  <title><?= $seoConfig['seoTitlePage']
+/* TITRE */
+?></title>
+  <meta name="description" content="<?= $seoConfig['seoDescriptionPage']
+/* DESCRIPTION */
+?>" />
+  <link rel="canonical" href="/" />
+  <!-- META SEO OG  -->
+  <meta property="og:image" content="<?= $seoConfig->seoUrlImage
+/* Url de l'image de partage */
+?>" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage
+/* Text Alt de l'image de partage */
+?>" />
+  <meta property="og:type" content="<?= $seoConfig->seoType
+/* Type de contenue */
+?>" />
+  <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']
+/* Url  de la page courante */
+?>" />
+  <meta property="og:title" content="<?= $seoConfig->seoOgTitlePage ?? $seoConfig->seoTitlePage
+/* TITRE de partage, peu être légerement différent du titre */
+?>" />
+  <meta property="og:description" content="<?= $seoConfig->seoOgDescriptionPage ?? $seoConfig->seoDescriptionPage
+/* DESCRIPTION de partage, peu être légerement différent de la déscription */
+?>" />
+  <meta name="robots" content="<?= $seoConfig->seoRobotIndex
+/* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
+?>" />
+<?php  ?>
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
-
+</head>
 
 <body>
   <header>

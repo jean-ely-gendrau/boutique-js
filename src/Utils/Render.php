@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Utils;
 use App\Boutique\Manager\SessionManager;
+use App\Boutique\Components\FileImportJson;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
@@ -39,6 +40,24 @@ class Render extends SessionManager
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
         extract(array_merge($arguments[0], $this->params));
+
+        // Chargement des données SEO depuis le fichier seo.fr.json
+        $indexData = FileImportJson::getFile('config/seo.fr.json', true); // Assurez-vous que FileImportJson est correctement importé
+        var_dump($indexData);
+        var_dump($template);
+        // Vérifiez si la clé 'Index' existe dans les données SEO
+        if (isset($indexData[$template])) {
+            // Si la clé 'Index' existe, récupérez les données pour le header
+            $seoConfig = $indexData[$template];
+
+            // Inclusion du header en passant les données SEO
+            require_once __DIR__ . '/../../element/header.php';
+        } else {
+            // Si la clé 'Index' n'existe pas, vous pouvez fournir des valeurs par défaut ou afficher un message d'erreur
+            echo "Les données pour l'élément 'Index' ne sont pas disponibles.";
+            // Inclure le header sans données SEO
+            require_once __DIR__ . '/../../element/header.php';
+        }
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';

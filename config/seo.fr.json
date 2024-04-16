@@ -28,5 +28,15 @@
     "seoOgTitlePage": "",
     "seoOgDescriptionPage": "",
     "seoRobotIndex": "index, follow"
+  },
+  "test-render": {
+    "seoTitlePage": "Bienvenue sur TeaCoffee",
+    "seoDescriptionPage": "Bienvenue sur la TeaCoffee",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
   }
 }
