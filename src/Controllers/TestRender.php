@@ -31,18 +31,27 @@ class TestRender
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
         // Créer une instance de BddManager
+        // $bddManager = new BddManager();
+
+        // // Instancier la classe Products en lui passant BddManager
+
+        // $horizontalSelector = new HorizontalSelector($bddManager);
+        // // $horizontalSelector->generateProductList($product);
+
+        // $arguments['render']->addParams('product', $horizontalSelector);
+        // // Ajouter l'instance de Products aux paramètres du rendu
+        // // $this->addParams('horizontalSelector', $horizontalSelector);
+
+        // // Rendre le template
+        // $content = $arguments['render']->render('test-render', $arguments);
+        // return $content;
         $bddManager = new BddManager();
 
-        // Instancier la classe Products en lui passant BddManager
-        $product = new TestProducts($bddManager);
+        $horizontalSelector = new HorizontalSelector($bddManager);
+        $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
 
-        $horizontalSelector = new HorizontalSelector($product);
-        $horizontalSelector->generateProductList($product);
+        $arguments['render']->addParams('product', $productHtml);
 
-        // Ajouter l'instance de Products aux paramètres du rendu
-        // $this->addParams('horizontalSelector', $horizontalSelector);
-
-        // Rendre le template
         $content = $arguments['render']->render('test-render', $arguments);
         return $content;
     }
