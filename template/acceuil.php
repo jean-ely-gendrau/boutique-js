@@ -37,8 +37,8 @@ background-repeat: no-repeat;
           </svg>
         </div>
         <img src="http://<?= $serverName ?>/assets/images/<?= $productItem['images']['main'] ?>" alt="<?= $productItem[
-              'name'
-            ] ?>" class="w-32 h-28 mx-auto mt-12" />
+    'name'
+] ?>" class="w-32 h-28 mx-auto mt-12" />
 
         <p class="mt-3 font-bold">
           <?= $productItem['name'] ?>
@@ -92,8 +92,8 @@ background-repeat: no-repeat;
             </svg>
           </div>
           <img src="http://<?= $serverName ?>/assets/images/<?= $productItem['images']['main'] ?>" alt="<?= $productItem[
-                'name'
-              ] ?>" class="w-32 h-28 mx-auto mt-12" />
+    'name'
+] ?>" class="w-32 h-28 mx-auto mt-12" />
 
           <p class="mt-3 font-bold"><?= $productItem['name'] ?></p>
           <div class="flex justify-center">
@@ -138,8 +138,8 @@ background-repeat: no-repeat;
             </svg>
           </div>
           <img src="http://<?= $serverName ?>/assets/images/<?= $productItem['images']['main'] ?>" alt="<?= $productItem[
-                'name'
-              ] ?>" class="w-32 h-28 mx-auto mt-12" />
+    'name'
+] ?>" class="w-32 h-28 mx-auto mt-12" />
 
           <p class="mt-3 font-bold"><?= $productItem['name'] ?></p>
           <div class="flex justify-center">
