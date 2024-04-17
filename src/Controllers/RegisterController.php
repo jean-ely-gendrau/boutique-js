@@ -38,13 +38,17 @@ class RegisterController
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
      *
      * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
      */
     public function View(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
         // $content = $this->render('inscription', $arguments);
-        return $arguments['render']->render('inscription', $arguments);
+        if ($arguments['render']->has('isConnected') == true) {
+            return header('location:/');
+        } else {
+            return $arguments['render']->render('inscription', $arguments);
+        }
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -104,13 +108,17 @@ class RegisterController
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
      *
      * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
      */
     public function ViewConnect(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
         // $content = $this->render('connexion', $arguments);
-        return $arguments['render']->render('connexion', $arguments);
+        if ($arguments['render']->has('isConnected') == true) {
+            return header('location:/');
+        } else {
+            return $arguments['render']->render('connexion', $arguments);
+        }
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -140,10 +148,10 @@ class RegisterController
                         'full_name' => $user->full_name,
                         'role' => $user->role,
                     ]);
-                    var_dump($_SESSION['email']);
-                    var_dump($_SESSION['isConnected']);
-                    var_dump($_SESSION['full_name']);
-                    var_dump($_SESSION['role']);
+                    // var_dump($_SESSION['email']);
+                    // var_dump($_SESSION['isConnected']);
+                    // var_dump($_SESSION['full_name']);
+                    // var_dump($_SESSION['role']);
                     header('location:/');
                 } else {
                     echo 'Mot de passe incorrect';
@@ -160,5 +168,17 @@ class RegisterController
         $content = $arguments['render']->render('connexion', $arguments);
         // $content = $this->render('connexion', $arguments);
         return $content;
+    }
+    /**
+     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
+     * renvoie une vue template nommée 'test-render', et retourne le contenu.
+     *
+     * @param array ...$arguments Les arguments transmis à la méthode.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     */
+    public function Deconnect(...$arguments)
+    {
+        $arguments['render']->remove(['email', 'isConnected', 'full_name', 'role']);
+        header('Location:/');
     }
 }
