@@ -17,6 +17,15 @@ $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 $router->map('GET', '/produit', 'produit', 'produit');
 
+// Route page profil
+$router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/modification', 'modification', 'modificationForm');
+$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'panier', 'panier');
+$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
