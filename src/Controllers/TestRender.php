@@ -51,10 +51,7 @@ class TestRender
         $horizontalSelector = new HorizontalSelector($bddManager);
         $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
 
-        /*Test affichage seo.fr.json
-        $testJson = new FileImportJson();
-        $testJson->getFile('config/seo.fr.json');
-        var_dump($testJson->getFile('config/seo.fr.json'));*/
+        /*Test affichage seo.fr.json*/
 
         $arguments['render']->addParams('product', $productHtml);
 
