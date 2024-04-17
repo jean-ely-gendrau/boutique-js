@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-acceuil{
+.bg-acceuil {
     background-image: url('../images/bg-acceuil-1.png');
     background-repeat: no-repeat;
     background-size: inherit;

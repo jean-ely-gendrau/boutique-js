@@ -1,15 +1,20 @@
 <?php
 
 namespace App\Boutique\Utils;
+use App\Boutique\Manager\SessionManager;
+use App\Boutique\Components\FileImportJson;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
  *  et la variable globale serverPath initialisée.
  */
-class Render
+class Render extends SessionManager
 {
     protected $serverPath;
     protected $params = [];
+    protected $seoConfig;
+
+    // Passer SESSION en paramètre de la classe Render
 
     /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
@@ -18,6 +23,8 @@ class Render
     {
         global $serverName;
         $this->serverPath = $serverName;
+        $this->seoConfig = FileImportJson::getFile('config/seo.fr.json');
+        parent::__construct();
     }
 
     /**
@@ -33,10 +40,13 @@ class Render
         // Démarre la mise en mémoire tampon
         ob_start();
 
+        // Ajoute par la méthode addParams() les données de seoConfig en fonction de la variable $template, sinon par la donnée par Default
+        $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
+
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
         extract(array_merge($arguments[0], $this->params));
 
-        // Inclusion du header
+        // Inclusion du header en passant les données SEO
         require_once __DIR__ . '/../../element/header.php';
 
         // Inclusion de la barre de recherche
@@ -58,11 +68,11 @@ class Render
     /**
      * La fonction addParams ajoute une paire clé/valeur au tableau params.
      *
-     * @param array|string $values La clé sous laquelle enregistrer le paramètre.
+     * @param mixed $values La clé sous laquelle enregistrer le paramètre.
      * @param mixed $params La valeur à enregistrer.
      * @return void
      */
-    public function addParams(array|string $values, mixed $params = null)
+    public function addParams(mixed $values, mixed $params = null)
     {
         if (is_array($values)) {
             foreach ($values as $key => $value) {
@@ -81,18 +91,34 @@ class Render
         }
     }
 
+    public function addSession(array $params)
+    {
+        $this->add($params);
+    }
+
+    public function verifySession(string $params)
+    {
+        $this->give($params);
+    }
+
     /**
      * La fonction render capture la sortie, fusionne les arguments avec les paramètres,
      * inclut les modèles header et footer, et renvoie le contenu final.
      *
      * @param string $template Le nom du template à afficher.
-     * @param array ...$arguments Les arguments à fusionner avec les paramètres.
+     * @param string ...$arguments Les arguments à fusionner avec les paramètres.
      * @return string Le contenu final du template.
      */
-    public function defaultRender($template, $serverName)
+    public function defaultRender($template)
     {
         // Démarre la mise en mémoire tampon
         ob_start();
+
+        // Ajoute par la méthode addParams() les données de seoConfig en fonction de la variable $template, sinon par la donnée par Default
+        $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
+
+        // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
+        extract($this->params);
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';

@@ -7,26 +7,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
-$rendering = new Render();
+
 // création instance de Render
+$rendering = new Render();
+// Appelle de la méthode addParams afin d'ajouter la variable $uri et $serverName
+$rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
-
-// Page Profil (modification , historique , panier)
-$router->map('GET', '/user', 'user', 'user');
-$router->map('GET', '/modification', 'modification', 'modificationForm');
-$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
-$router->map('GET', '/historique', 'historique', 'historique');
-$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
-$router->map('GET', '/panier', 'panier', 'panier');
-$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/produit', 'produit', 'produit');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+$router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 //
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
@@ -129,7 +125,6 @@ if (is_array($match)) :
         // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
         */
-        $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
         $match['params']['render'] = $rendering;
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
@@ -164,7 +159,7 @@ if (is_array($match)) :
          * Enfin on affiche le resultat de la méthode
          */
     else :
-        echo $rendering->defaultRender($match['target'], $serverName);
+        echo $rendering->defaultRender($match['target']);
     endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
      *
@@ -173,8 +168,7 @@ if (is_array($match)) :
      * Enfin On affiche le résultat de la méthode
      */
 else :
-    echo $rendering->defaultRender("404", $serverName);
-
+    echo $rendering->defaultRender('404');
 /* APPEL ICI DE LA CLASS RENDER */
 // require_once __DIR__ . '/../template/404.php';
 endif;

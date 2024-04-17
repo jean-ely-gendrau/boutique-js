@@ -1,0 +1,42 @@
+{
+  "Default": {
+    "seoTitlePage": "Default sur TeaCoffee",
+    "seoDescriptionPage": "Bienvenue sur TeaCoffee",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
+  },
+  "404": {
+    "seoTitlePage": "Oooopss Erreur",
+    "seoDescriptionPage": "Page Erreur",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "none"
+  },
+  "Index": {
+    "seoTitlePage": "Bienvenue sur TeaCoffee",
+    "seoDescriptionPage": "Bienvenue sur la TeaCoffee",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
+  },
+  "test-render": {
+    "seoTitlePage": "Coucou TeaCoffee",
+    "seoDescriptionPage": "Bienvenue sur la TeaCoffee",
+    "seoUrlImage": "seoAltImage",
+    "seoAltImage": "seoAltImage",
+    "seoType": "content",
+    "seoOgTitlePage": "",
+    "seoOgDescriptionPage": "",
+    "seoRobotIndex": "index, follow"
+  }
+}
