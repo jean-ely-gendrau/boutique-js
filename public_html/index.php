@@ -25,6 +25,7 @@ $router->map('GET', '/historique', 'historique', 'historique');
 $router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
 $router->map('GET', '/panier', 'panier', 'panier');
 $router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');

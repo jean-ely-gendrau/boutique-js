@@ -1,4 +1,8 @@
 <?php
+
+// Start the session
+session_start();
+
 // Get the product id from the URL
 $id = $_GET['id'];
 
