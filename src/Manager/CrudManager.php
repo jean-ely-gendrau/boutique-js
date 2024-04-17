@@ -80,7 +80,7 @@ class CrudManager extends BddManager
 
         return $req->fetchAll();
     }
-  */
+     */
 
     /**
      * Method getById
@@ -131,7 +131,7 @@ class CrudManager extends BddManager
      *
      * @return bool | object
      */
-    public function getByEmail(string $email):bool | object
+    public function getByEmail(string $email): bool | object
     {
         $req = $this->_dbConnect->prepare(
             'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',

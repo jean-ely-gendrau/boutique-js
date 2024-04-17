@@ -25,7 +25,12 @@ $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConne
 /****************************
  * Route Administration
  */
-$router->map('GET', '/panelAdmin', 'AdminPanel#Index', 'admin-panel-index');
+$router->map('GET', '/panel-admin', 'AdminPanel#IndexPanel', 'admin-panel-index');
+$router->map('GET', '/panel-admin/users', 'AdminPanel#IndexUsers', 'admin-panel-users');
+$router->map('GET', '/panel-admin/products', 'AdminPanel#IndexProducts', 'admin-panel-products');
+$router->map('GET', '/panel-admin/orders', 'AdminPanel#IndexOrders', 'admin-panel-orders');
+$router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-panel-category');
+
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
@@ -128,6 +133,7 @@ if (is_array($match)) :
 
         */
         $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
+
         $match['params']['render'] = $rendering;
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
