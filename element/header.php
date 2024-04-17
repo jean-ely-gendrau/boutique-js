@@ -15,7 +15,7 @@
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div class="flex items-center md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <?php $result = $rendering->give('isConnected') ? True : False;
+          <?php $result = $rendering?->give('isConnected') ? True : False;
           if ($result) {
             echo '<button type="button"
             class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
