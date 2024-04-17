@@ -7,19 +7,22 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
-$rendering = new Render();
+
 // création instance de Render
+$rendering = new Render();
+// Appelle de la méthode addParams afin d'ajouter la variable $uri et $serverName
+$rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 $router->map('GET', '/produit', 'produit', 'produit');
-
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+<<<<<<< HEAD
 
 
 /****************************
@@ -31,6 +34,10 @@ $router->map('GET', '/panel-admin/products', 'AdminPanel#IndexProducts', 'admin-
 $router->map('GET', '/panel-admin/orders', 'AdminPanel#IndexOrders', 'admin-panel-orders');
 $router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-panel-category');
 
+=======
+$router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
+//
+>>>>>>> main
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
@@ -132,8 +139,11 @@ if (is_array($match)) :
         // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
         */
+<<<<<<< HEAD
         $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
+=======
+>>>>>>> main
         $match['params']['render'] = $rendering;
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
@@ -168,7 +178,11 @@ if (is_array($match)) :
          * Enfin on affiche le resultat de la méthode
          */
     else :
+<<<<<<< HEAD
         echo $rendering->defaultRender($match['target'], $serverName);
+=======
+        echo $rendering->defaultRender($match['target']);
+>>>>>>> main
     endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
      *
@@ -177,7 +191,11 @@ if (is_array($match)) :
      * Enfin On affiche le résultat de la méthode
      */
 else :
+<<<<<<< HEAD
     echo $rendering->defaultRender("404", $serverName);
+=======
+    echo $rendering->defaultRender('404');
+>>>>>>> main
 /* APPEL ICI DE LA CLASS RENDER */
 // require_once __DIR__ . '/../template/404.php';
 endif;
