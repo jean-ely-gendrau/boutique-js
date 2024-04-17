@@ -22,10 +22,10 @@
   <link href="http://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>Teacoffe</title>
-  <title><?= $seoConfig['seoTitlePage']
+  <title><?= $seoConfig->seoTitlePage
 /* TITRE */
 ?></title>
-  <meta name="description" content="<?= $seoConfig['seoDescriptionPage']
+  <meta name="description" content="<?= $seoConfig->seoDescriptionPage
 /* DESCRIPTION */
 ?>" />
   <link rel="canonical" href="/" />

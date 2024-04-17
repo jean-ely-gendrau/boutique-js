@@ -12,6 +12,7 @@ class Render extends SessionManager
 {
     protected $serverPath;
     protected $params = [];
+    protected $seoConfig;
 
     // Passer SESSION en paramètre de la classe Render
 
@@ -22,6 +23,7 @@ class Render extends SessionManager
     {
         global $serverName;
         $this->serverPath = $serverName;
+        $this->seoConfig = FileImportJson::getFile('config/seo.fr.json');
         parent::__construct();
     }
 
@@ -38,28 +40,12 @@ class Render extends SessionManager
         // Démarre la mise en mémoire tampon
         ob_start();
 
+        $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
+
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
         extract(array_merge($arguments[0], $this->params));
 
-        // Chargement des données SEO depuis le fichier seo.fr.json
-        $indexData = FileImportJson::getFile('config/seo.fr.json', true); // Assurez-vous que FileImportJson est correctement importé
-        var_dump($indexData);
-        var_dump($template);
-        // Vérifiez si la clé 'Index' existe dans les données SEO
-        if (isset($indexData[$template])) {
-            // Si la clé 'Index' existe, récupérez les données pour le header
-            $seoConfig = $indexData[$template];
-
-            // Inclusion du header en passant les données SEO
-            require_once __DIR__ . '/../../element/header.php';
-        } else {
-            // Si la clé 'Index' n'existe pas, vous pouvez fournir des valeurs par défaut ou afficher un message d'erreur
-            echo "Les données pour l'élément 'Index' ne sont pas disponibles.";
-            // Inclure le header sans données SEO
-            require_once __DIR__ . '/../../element/header.php';
-        }
-
-        // Inclusion du header
+        // Inclusion du header en passant les données SEO
         require_once __DIR__ . '/../../element/header.php';
 
         // Inclusion de la barre de recherche
@@ -81,11 +67,11 @@ class Render extends SessionManager
     /**
      * La fonction addParams ajoute une paire clé/valeur au tableau params.
      *
-     * @param array|string $values La clé sous laquelle enregistrer le paramètre.
+     * @param mixed $values La clé sous laquelle enregistrer le paramètre.
      * @param mixed $params La valeur à enregistrer.
      * @return void
      */
-    public function addParams(array|string $values, mixed $params = null)
+    public function addParams(mixed $values, mixed $params = null)
     {
         if (is_array($values)) {
             foreach ($values as $key => $value) {
@@ -126,7 +112,11 @@ class Render extends SessionManager
     {
         // Démarre la mise en mémoire tampon
         ob_start();
-        var_dump($serverName);
+
+        $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
+
+        // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
+        extract($this->params);
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
