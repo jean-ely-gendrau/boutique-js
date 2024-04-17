@@ -52,6 +52,7 @@ class ModificationController
     public function Modification(...$arguments)
     {
 
+        $arguments = $_POST;
         $paramSQL = [];
 
         echo "<pre>";
