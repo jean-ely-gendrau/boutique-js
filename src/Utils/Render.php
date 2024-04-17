@@ -24,6 +24,7 @@ class Render extends SessionManager
         global $serverName;
         $this->serverPath = $serverName;
         $this->seoConfig = FileImportJson::getFile('config/seo.fr.json');
+        $this->addParams('rendering', $this);
         parent::__construct();
     }
 
