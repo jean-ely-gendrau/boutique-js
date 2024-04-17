@@ -38,6 +38,7 @@ $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 $router->map('GET', '/contact', 'contact', 'contact');
+$router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm');
 
 /*
   Classe-Render-View Route test
