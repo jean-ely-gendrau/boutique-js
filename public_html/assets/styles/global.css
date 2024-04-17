@@ -1156,15 +1156,9 @@ input:checked + .toggle-bg {
   margin-right: auto;
 }
 
-<<<<<<< Updated upstream
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-=======
-.my-20 {
-  margin-top: 5rem;
-  margin-bottom: 5rem;
->>>>>>> Stashed changes
 }
 
 .my-40 {
@@ -1184,28 +1178,26 @@ input:checked + .toggle-bg {
   margin-bottom: 0.5rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
 
-<<<<<<< Updated upstream
 .ml-10 {
   margin-left: 2.5rem;
 }
 
-=======
->>>>>>> Stashed changes
 .ml-2 {
   margin-left: 0.5rem;
 }
 
-<<<<<<< Updated upstream
 .ml-3 {
   margin-left: 0.75rem;
 }
 
-=======
->>>>>>> Stashed changes
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -1226,13 +1218,10 @@ input:checked + .toggle-bg {
   margin-top: 0.5rem;
 }
 
-<<<<<<< Updated upstream
 .mt-20 {
   margin-top: 5rem;
 }
 
-=======
->>>>>>> Stashed changes
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -1241,13 +1230,10 @@ input:checked + .toggle-bg {
   margin-top: 1rem;
 }
 
-<<<<<<< Updated upstream
-.mb-4 {
-  margin-bottom: 1rem;
+.mb-3 {
+  margin-bottom: 0.75rem;
 }
 
-=======
->>>>>>> Stashed changes
 .block {
   display: block;
 }
@@ -1282,13 +1268,10 @@ input:checked + .toggle-bg {
 
 .h-10 {
   height: 2.5rem;
-<<<<<<< Updated upstream
 }
 
 .h-14 {
   height: 3.5rem;
-=======
->>>>>>> Stashed changes
 }
 
 .h-2 {
@@ -1307,37 +1290,36 @@ input:checked + .toggle-bg {
   height: 1rem;
 }
 
-<<<<<<< Updated upstream
 .h-5 {
   height: 1.25rem;
 }
 
-=======
->>>>>>> Stashed changes
 .h-6 {
   height: 1.5rem;
 }
 
-<<<<<<< Updated upstream
 .h-8 {
   height: 2rem;
 }
 
-=======
->>>>>>> Stashed changes
 .h-80 {
   height: 20rem;
 }
 
 .h-9 {
   height: 2.25rem;
-<<<<<<< Updated upstream
+}
+
+.h-96 {
+  height: 24rem;
 }
 
 .max-h-\[35rem\] {
   max-height: 35rem;
-=======
->>>>>>> Stashed changes
+}
+
+.max-h-full {
+  max-height: 100%;
 }
 
 .w-1\/2 {
@@ -1346,6 +1328,14 @@ input:checked + .toggle-bg {
 
 .w-10 {
   width: 2.5rem;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-2 {
@@ -1372,13 +1362,10 @@ input:checked + .toggle-bg {
   width: 12rem;
 }
 
-<<<<<<< Updated upstream
 .w-5 {
   width: 1.25rem;
 }
 
-=======
->>>>>>> Stashed changes
 .w-60 {
   width: 15rem;
 }
@@ -1387,47 +1374,42 @@ input:checked + .toggle-bg {
   width: 16rem;
 }
 
-<<<<<<< Updated upstream
 .w-8 {
   width: 2rem;
 }
 
-=======
->>>>>>> Stashed changes
 .w-\[1152px\] {
   width: 1152px;
 }
 
-<<<<<<< Updated upstream
 .w-\[600px\] {
   width: 600px;
 }
 
-=======
->>>>>>> Stashed changes
 .w-full {
   width: 100%;
-}
-
-.max-w-6xl {
-  max-width: 72rem;
-}
-
-.max-w-lg {
-  max-width: 32rem;
-}
-
-<<<<<<< Updated upstream
-.max-w-screen-xl {
-  max-width: 1280px;
 }
 
 .max-w-2xl {
   max-width: 42rem;
 }
 
-=======
->>>>>>> Stashed changes
+.max-w-6xl {
+  max-width: 72rem;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.max-w-screen-xl {
+  max-width: 1280px;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1584,15 +1566,12 @@ input:checked + .toggle-bg {
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-<<<<<<< Updated upstream
 .space-x-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.75rem * var(--tw-space-x-reverse));
   margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-=======
->>>>>>> Stashed changes
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
@@ -1618,37 +1597,32 @@ input:checked + .toggle-bg {
   overflow: hidden;
 }
 
-<<<<<<< Updated upstream
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-=======
->>>>>>> Stashed changes
 .whitespace-nowrap {
   white-space: nowrap;
 }
 
-<<<<<<< Updated upstream
 .rounded {
   border-radius: 0.25rem;
 }
 
-=======
->>>>>>> Stashed changes
 .rounded-3xl {
   border-radius: 1.5rem;
 }
 
-<<<<<<< Updated upstream
 .rounded-\[40px\] {
   border-radius: 40px;
 }
 
-=======
->>>>>>> Stashed changes
 .rounded-full {
   border-radius: 9999px;
 }
@@ -1681,12 +1655,21 @@ input:checked + .toggle-bg {
   border-end-start-radius: 0.5rem;
 }
 
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
 .border {
   border-width: 1px;
 }
 
 .border-0 {
   border-width: 0px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
 }
 
 .border-s-2 {
@@ -1728,14 +1711,11 @@ input:checked + .toggle-bg {
   background-color: rgb(51 51 51 / var(--tw-bg-opacity));
 }
 
-<<<<<<< Updated upstream
 .bg-blue-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(28 100 242 / var(--tw-bg-opacity));
 }
 
-=======
->>>>>>> Stashed changes
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
@@ -1774,8 +1754,17 @@ input:checked + .toggle-bg {
   background-color: rgb(255 255 255 / 0.5);
 }
 
+.bg-scroll {
+  background-attachment: scroll;
+}
+
 .fill-gray-800 {
   fill: #1F2937;
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .p-0 {
@@ -1802,19 +1791,26 @@ input:checked + .toggle-bg {
   padding: 1.5rem;
 }
 
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
-<<<<<<< Updated upstream
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
 }
 
-=======
->>>>>>> Stashed changes
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1835,6 +1831,11 @@ input:checked + .toggle-bg {
   padding-right: 20px;
 }
 
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -1850,14 +1851,16 @@ input:checked + .toggle-bg {
   padding-bottom: 0.75rem;
 }
 
-<<<<<<< Updated upstream
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
-=======
->>>>>>> Stashed changes
 .pt-2 {
   padding-top: 0.5rem;
 }
@@ -1870,25 +1873,19 @@ input:checked + .toggle-bg {
   text-align: center;
 }
 
-<<<<<<< Updated upstream
 .text-end {
   text-align: end;
 }
 
-=======
->>>>>>> Stashed changes
 .font-sans {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-<<<<<<< Updated upstream
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
 }
 
-=======
->>>>>>> Stashed changes
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -1909,14 +1906,11 @@ input:checked + .toggle-bg {
   line-height: 1.25rem;
 }
 
-<<<<<<< Updated upstream
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
-=======
->>>>>>> Stashed changes
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -1926,19 +1920,24 @@ input:checked + .toggle-bg {
   font-weight: 700;
 }
 
-<<<<<<< Updated upstream
 .font-light {
   font-weight: 300;
 }
 
-=======
->>>>>>> Stashed changes
 .font-medium {
   font-weight: 500;
 }
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .leading-6 {
@@ -1953,8 +1952,17 @@ input:checked + .toggle-bg {
   line-height: 1.25;
 }
 
+.leading-normal {
+  line-height: 1.5;
+}
+
 .tracking-tight {
   letter-spacing: -0.025em;
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .text-blue-600 {
@@ -1987,6 +1995,11 @@ input:checked + .toggle-bg {
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(224 36 36 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2009,6 +2022,12 @@ input:checked + .toggle-bg {
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-md {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -2049,6 +2068,14 @@ input:checked + .toggle-bg {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
+.bg-acceuil {
+  background-image: url('../images/bg-acceuil-1.png');
+  background-repeat: no-repeat;
+  background-size: inherit;
+  background-attachment: fixed;
+  background-position: center;
+}
+
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -2059,14 +2086,11 @@ input:checked + .toggle-bg {
   background-color: rgb(34 34 34 / var(--tw-bg-opacity));
 }
 
-<<<<<<< Updated upstream
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
 }
 
-=======
->>>>>>> Stashed changes
 .hover\:bg-blue-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(30 66 159 / var(--tw-bg-opacity));
@@ -2080,6 +2104,11 @@ input:checked + .toggle-bg {
 .hover\:bg-gray-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-700:hover {
@@ -2168,7 +2197,6 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
-<<<<<<< Updated upstream
 .dark\:divide-gray-600:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-divide-opacity));
@@ -2178,8 +2206,6 @@ input:checked + .toggle-bg {
   border-width: 1px;
 }
 
-=======
->>>>>>> Stashed changes
 .dark\:border-blue-500:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(63 131 248 / var(--tw-border-opacity));
@@ -2247,17 +2273,19 @@ input:checked + .toggle-bg {
   color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
-<<<<<<< Updated upstream
 .dark\:text-gray-300:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
-=======
->>>>>>> Stashed changes
 .dark\:text-gray-400:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.dark\:text-red-500:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(240 82 82 / var(--tw-text-opacity));
 }
 
 .dark\:text-white:is(.dark *) {
@@ -2319,7 +2347,6 @@ input:checked + .toggle-bg {
   border-color: rgb(63 131 248 / var(--tw-border-opacity));
 }
 
-<<<<<<< Updated upstream
 .dark\:focus\:ring-blue-500:focus:is(.dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(63 131 248 / var(--tw-ring-opacity));
@@ -2340,15 +2367,12 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
 }
 
-=======
->>>>>>> Stashed changes
 .dark\:focus\:ring-gray-700:focus:is(.dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(55 65 81 / var(--tw-ring-opacity));
 }
 
 @media (min-width: 640px) {
-<<<<<<< Updated upstream
   .sm\:col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -2357,8 +2381,6 @@ input:checked + .toggle-bg {
     margin-top: 1.5rem;
   }
 
-=======
->>>>>>> Stashed changes
   .sm\:flex {
     display: flex;
   }
@@ -2367,7 +2389,6 @@ input:checked + .toggle-bg {
     width: auto;
   }
 
-<<<<<<< Updated upstream
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -2380,8 +2401,6 @@ input:checked + .toggle-bg {
     gap: 1.5rem;
   }
 
-=======
->>>>>>> Stashed changes
   .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -2394,6 +2413,10 @@ input:checked + .toggle-bg {
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
 
+  .sm\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
   .sm\:p-8 {
     padding: 2rem;
   }
@@ -2402,7 +2425,6 @@ input:checked + .toggle-bg {
     font-size: 1.125rem;
     line-height: 1.75rem;
   }
-<<<<<<< Updated upstream
 
   .sm\:text-sm {
     font-size: 0.875rem;
@@ -2443,8 +2465,24 @@ input:checked + .toggle-bg {
     height: 100vh;
   }
 
+  .md\:h-auto {
+    height: auto;
+  }
+
+  .md\:w-32 {
+    width: 8rem;
+  }
+
   .md\:w-auto {
     width: auto;
+  }
+
+  .md\:w-48 {
+    width: 12rem;
+  }
+
+  .md\:max-w-xl {
+    max-width: 36rem;
   }
 
   .md\:flex-row {
@@ -2467,6 +2505,15 @@ input:checked + .toggle-bg {
     --tw-space-y-reverse: 0;
     margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+  }
+
+  .md\:rounded-none {
+    border-radius: 0px;
+  }
+
+  .md\:rounded-s-lg {
+    border-start-start-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
   }
 
   .md\:border-0 {
@@ -2541,8 +2588,6 @@ input:checked + .toggle-bg {
   .xl\:p-0 {
     padding: 0px;
   }
-=======
->>>>>>> Stashed changes
 }
 
 .rtl\:rotate-180:where([dir="rtl"], [dir="rtl"] *) {
