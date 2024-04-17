@@ -39,11 +39,11 @@ class PanierController
 
     public function Panier(...$arguments)
     {
-        $order = new CrudManager("orders", "Panier");
+        $panier = new CrudManager("orders", "Panier");
         $clientId = $arguments[0]; // Get the client's id from the arguments
-        $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
+        $paniers = $panier->getbyidbasket($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client
-        return $orders;
+        return $paniers;
     }
 }

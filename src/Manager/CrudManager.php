@@ -310,6 +310,7 @@ class CrudManager extends BddManager
         while ($row = $stmt->fetch()) {
             $orders[] = [
                 'client_id' => $clientId,
+                'images' => $row['images'],
                 'product_name' => $row['name'],
                 'price' => $row['price'],
                 'status' => $row['status']
