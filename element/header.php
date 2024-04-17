@@ -1,21 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-<?php
-// // Importez votre classe FileImportJson
-
-// use App\Boutique\Components\FileImportJson;
-
-// // $indexData = new FileImportJson();
-// // Appelez la méthode getFile() pour récupérer les données du fichier JSON
-// $indexData = FileImportJson::getFile('config/seo.fr.json', true);
-
-// var_dump($indexData);
-
-// // Vérifiez si la clé 'Index' existe dans les données récupérées
-
-// // Si la clé 'Index' existe, accédez à ses valeurs
-// $seoConfig = $indexData['Index'];
-?>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

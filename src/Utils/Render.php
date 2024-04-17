@@ -40,6 +40,7 @@ class Render extends SessionManager
         // Démarre la mise en mémoire tampon
         ob_start();
 
+        // Ajoute par la méthode addParams() les données de seoConfig en fonction de la variable $template, sinon par la donnée par Default
         $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
@@ -108,11 +109,12 @@ class Render extends SessionManager
      * @param string ...$arguments Les arguments à fusionner avec les paramètres.
      * @return string Le contenu final du template.
      */
-    public function defaultRender($template, $serverName)
+    public function defaultRender($template)
     {
         // Démarre la mise en mémoire tampon
         ob_start();
 
+        // Ajoute par la méthode addParams() les données de seoConfig en fonction de la variable $template, sinon par la donnée par Default
         $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
