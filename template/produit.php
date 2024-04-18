@@ -9,6 +9,7 @@ $pageURL = "999";
 if (isset($_GET['cafe'])) {
     $categoryName = '0';
     $pageURL = 'café';
+    
 } elseif (isset($_GET['the'])) {
     $categoryName = '1';
     $pageURL = 'thé';

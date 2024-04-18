@@ -2,163 +2,117 @@
 
 namespace App\Boutique\Models;
 
-use DateTime;
 use App\Boutique\Manager\BddManager;
 use PDO;
 
 class Products
 {
 
-    private $id_product;
-    private $name;
-    private $description;
-    private $price;
-    private $quantity;
-    private $images;
-    private $id_category;
-    private $id_sub_cat;
-    private $created_at;
-    private $updated_at;
-
-    // BASE DE DONNEE
     private $dataBase;
 
-    public function __construct(?array $data = null)
+    public function __construct(BddManager $bddManager)
     {
-
-        $this->id_product = $data['id_product'] ?? '';
-        $this->name = $data['name'] ?? '';
-        $this->description = $data['description'] ?? '';
-        $this->price = $data['price'] ?? '';
-        $this->quantity = $data['quantity'] ?? '';
-        $this->images = $data['images'] ?? '';
-        $this->id_category = $data['id_category'] ?? '';
-        $this->id_sub_cat = $data['id_sub_cat'] ?? '';
-        $this->created_at = isset($data['created_at']) ? $this->setDateTime($data['created_at']) : '';
-        $this->updated_at = isset($data['updated_at']) ? $this->setDateTime($data['updated_at']) : '';
-
+        $this->dataBase = $bddManager->linkConnect();
     }
 
-    public function __get(string $name)
-    {
-
-        return $this->name;
-    }
-
-    public function __isset($name)
-    {
-
-        return isset($this->data[$name]);
-    }
-
-    public function __set(string $property, mixed $value)
-    {
-
-    }
-
-    public function setDateTime(string $dateSting)
-    {
-        $newdate = new DateTime($dateSting);
-        return $newdate->format('Y-m-d H:i:s');
-    }
-
-    // public function getCreatedDate() {
-    //     $createdNewDate = new DateTime($this->created_at);
-    //     return $createdNewDate->format('Y-m-d');
-    // }
-
-    // public function getUpdatedDate() {
-
-    //     $updatedNewDate = new DateTime($this->updated_at);
-    //     return $updatedNewDate->format('Y-m-d');
-    // }
-
-    //Ajouté les propriétés et méthodes au besoins
     public function produitLeak($categoryName, $pageURL)
     {
 
+        $counterSubCat = "";
+
         if ($categoryName == "0") {
-            $counterSubCat = "0";
-            $counterSubCat3 = "3";
+            $titre = "cafe";
+            $counterSubCat0 = "0";
+            $nameSubCat0 = "Corsé";
+            $counterSubCat1 = "1";
+            $nameSubCat1 = "Moyen";
+            $counterSubCat2 = "2";
+            $nameSubCat2 = "Faible";
+            $type = "Choisissez la force de votre ";
 
         } else if ($categoryName == "1") {
-            $counterSubCat = "3";
-            $counterSubCat3 = "6";
+            $titre = "the";
+            $counterSubCat0 = "3";
+            $nameSubCat0 = "Noir";
+            $counterSubCat1 = "4";
+            $nameSubCat1 = "Vert";
+            $counterSubCat2 = "5";
+            $nameSubCat2 = "Blanc";
+            $type = "Choisissez votre feuille de ";
         }
 
 
-        $sqlMostSell = "SELECT * FROM products WHERE id_category = '$categoryName' AND id_product IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
+        $sqlMostSell = "SELECT * FROM products WHERE id_category = :categoryName AND id_product IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
         $requestMostSell = $this->dataBase->prepare($sqlMostSell);
+        $requestMostSell->bindParam(':categoryName', $categoryName);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(PDO::FETCH_ASSOC);
 
-
-        // affiche de le nom de la catégorie.
-        $sqlNomCategorie = "SELECT * FROM `category` WHERE id_category = '$categoryName'";
-        $requete = $this->dataBase->prepare($sqlNomCategorie);
-        $requete->execute();
-        $nomCategorie = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-
-        echo "Meilleurs ventes de " . $pageURL;
+        echo "Meilleures ventes de " . $pageURL;
 
         foreach ($mostSell as $sellMost) {
-            $imageData = json_decode($sellMost['images'], true);
-            $sellMost['images'] = $imageData;
-            $result[] = [
-                'name' => $sellMost['name'],
-                'price' => $sellMost['price'],
-                'description' => $sellMost['description'],
-                'quantity' => $sellMost['quantity'],
-                'images' => $imageData,
-                'created_at' => $sellMost['created_at'],
-                'updated_at' => $sellMost['updated_at'],
-            ];
+            echo "<div>";
+            echo '<img src="./image/produit/' . $sellMost["photo"] . '"alt="' . $sellMost["name"] . '"> <br>';
+            echo $sellMost["name"] . "<br>";
+            echo $sellMost["price"] . " €<br>";
+            echo $sellMost["description"] . "<br>";
+            echo " - Quantité: " . $sellMost["quantity"] . "<br>";
+            echo "</div>";
+            echo "<br>";
         }
+        echo "<form action='' method='post'>";
+        echo "<label for=''>" . $type . $pageURL . ": </label>";
+        echo "<select name='counterSubCat' id='counterSubCat'>";
+        echo "<option value='99'>ici que sa se passe</option>";
+        echo "<option value='" . $counterSubCat0 . "'>" . $nameSubCat0 . "</option>";
+        echo "<option value='" . $counterSubCat1 . "'>" . $nameSubCat1 . "</option>";
+        echo "<option value='" . $counterSubCat2 . "'>" . $nameSubCat2 . "</option>";
+        echo "</select>";
+        echo "<button type='submit'>Valider</button>";
+        echo "</form>";
 
-        return $result;
+        echo "<br>";
 
-        foreach ($nomCategorie as $categorieNom) {
-            $result[] = [
-                'description' => $categorieNom['description'],
-            ];
-        }
-        while ($counterSubCat < $counterSubCat3) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $counterSubCat = $_POST['counterSubCat'];
+            header("location: /produit?$titre=$titre");
 
-            // affiche le nom de la sous catégorie.
-            $sqlSousCategorie = "SELECT * FROM sub_category WHERE id_category = '$categoryName' AND id_sub_cat ='$counterSubCat'";
-            $requestSqlSubCat = $this->dataBase->prepare($sqlSousCategorie);
-            $requestSqlSubCat->execute();
-            $subCat = $requestSqlSubCat->fetchAll(PDO::FETCH_ASSOC);
+            if ($counterSubCat === '0' || $counterSubCat === '1' || $counterSubCat === '2') {
 
+                // affiche le nom de la sous catégorie.
+                $sqlSousCategorie = "SELECT * FROM sub_category WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
+                $requestSqlSubCat = $this->dataBase->prepare($sqlSousCategorie);
+                $requestSqlSubCat->bindParam(':categoryName', $categoryName);
+                $requestSqlSubCat->bindParam(':counterSubCat', $counterSubCat);
+                $requestSqlSubCat->execute();
+                $subCat = $requestSqlSubCat->fetchAll(PDO::FETCH_ASSOC);
 
-            // affiche les produits de la catégorie.
-            $sql = "SELECT * FROM products WHERE id_category = '$categoryName' AND id_sub_cat ='$counterSubCat'";
-            $request = $this->dataBase->prepare($sql);
-            $request->execute();
-            $products = $request->fetchAll(PDO::FETCH_ASSOC);
+                // affiche les produits de la catégorie.
+                $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
+                $request = $this->dataBase->prepare($sql);
+                $request->bindParam(':categoryName', $categoryName);
+                $request->bindParam(':counterSubCat', $counterSubCat);
+                $request->execute();
+                $products = $request->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($subCat as $catSub) {
-                $result[] = [
-                    'description' => $catSub['description'],
-                ];
+                foreach ($subCat as $catSub) {
 
-                foreach ($products as $product) {
-                    $imageData = json_decode($product['images'], true);
-                    $product['images'] = $imageData;
-                    $result[] = [
-                        'name' => $product['name'],
-                        'price' => $product['price'],
-                        'description' => $product['description'],
-                        'quantity' => $product['quantity'],
-                        'images' => $imageData,
-                        'created_at' => $product['created_at'],
-                        'updated_at' => $product['updated_at'],
-                    ];
+                    echo '<h3>' . $catSub["description"] . '</h3>';
+
+                    foreach ($products as $product) {
+                        echo "<div>";
+                        echo '<img src="./image/produit/' . $product["photo"] . '"alt="' . $product["name"] . '"> <br>';
+                        echo $product["name"] . "<br>";
+                        echo $product["price"] . " €<br>";
+                        echo $product["description"] . "<br>";
+                        echo " - Quantité: " . $product["quantity"] . "<br>";
+                        echo "</div>";
+                        echo "<br>";
+                    }
                 }
-                return $result;
-            }
-            $counterSubCat++;
+            } else if ($counterSubCat === '99') {
+                echo "ajouté javascript";
+            } else {}
         }
     }
 }
