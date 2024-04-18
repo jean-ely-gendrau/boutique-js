@@ -23,8 +23,6 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-//
-$router->map('GET', '/test-orders', 'TestRender#ProductMethodTest', 'order');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
