@@ -12,8 +12,9 @@ class Orders
     private $created_at;
     private $updated_at;
 
-    function __construct()
+    function __construct(?array $data = null)
     {
+        $this->id_order = $data['id_order'] ?? '';
     }
 
     public function __get($name)

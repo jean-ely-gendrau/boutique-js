@@ -84,12 +84,13 @@ class CrudManager extends BddManager
      *
      * @param string $id [id de la requête]
      *
-     * @return object
+     * @param string $idTable [id de la table (ex: id_order)]
+     *
+     * @return object|bool
      */
-    public function getById(string $id): object
+    public function getById(string $id, string $idTable): object|bool
     {
-        // TODO modifier WERE id par id . '_'.$this->_tableName
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = :id');
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 

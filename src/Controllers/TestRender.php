@@ -10,6 +10,8 @@ use App\Boutique\Models\TestProducts;
 use App\Boutique\Components\HorizontalSelector;
 use App\Boutique\Components\FileImportJson;
 use App\Boutique\Models\Orders;
+use App\Boutique\Manager\CrudManager;
+use App\Boutique\Models\Users;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -69,8 +71,12 @@ class TestRender
      */
     public function View(...$arguments)
     {
-        $bddManager = new BddManager();
-        $order = new Orders();
+        // Test de la méthode getById du CrudManager pour la classe Orders
+        $crudManager = new CrudManager('orders', Orders::class);
+        $tableIdOrder = $crudManager->getById('1', 'id_order');
+        $arguments['render']->addParams('order', $tableIdOrder);
+        $content = $arguments['render']->render('test-orders', $arguments);
+        return $content;
     }
 
     /**
