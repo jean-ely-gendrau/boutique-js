@@ -61,31 +61,33 @@ class ModificationController
         $render->addParams('title', 'Modification du profil');
         $render->render('modification', $arguments);
 
+        $EmailCrudManager = new CrudManager('users', Users::class);
 
 
-
-
-        $email = new CrudManager('users', Users::class);
-
-
-        $user = $email->getByEmail($_SESSION['email']);
-        $id = $user->id;
-
+        $email = $EmailCrudManager->getByEmail($_SESSION['email']);
+        $id = $email->id_user;
+        var_dump($id);
 
         $paramSQL = [
-            'user_id' => $id,
-            'email' => $_POST['NewEmail'],
-            'birthday' => $_POST['birthday'],
-            'adress' => $_POST['NewAddress'],
-            'password' => $_POST['nouveau_password'],
+            'id_user' => $id,
+            'email' => $arguments['NewEmail'],
+            'adress' => $arguments['NewAddress'],
+            'password' => $arguments['nouveau_password'],
         ];
 
 
 
-        $user = new CrudManager('users', Users::class);
+        $usermanager = new CrudManager('users', Users::class);
+
+        $user = new Users($paramSQL);
+
+        $usermanager->update($user, array_keys($paramSQL));
 
 
+        $render['render']->addSession([
+            'email' => $user->email
+        ]);
 
-        $user->update($user, array_values($paramSQL));
+        header('location:/profil');
     }
 }

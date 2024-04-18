@@ -185,12 +185,14 @@ class CrudManager extends BddManager
         // Parcours des paramètres à mettre à jour
         foreach ($param as $paramName) {
             // Si la proprété existe dans la class
+
             if (property_exists($objectClass, $paramName)) {
                 $boundParam[$paramName] = $objectClass->$paramName; // On le défini dans le tableau avec sa clé
             } else {
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
+        var_dump($boundParam);
         $req->execute($boundParam);
     }
 

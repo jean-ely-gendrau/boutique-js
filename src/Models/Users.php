@@ -32,6 +32,7 @@ class Users extends PasswordHashManager
     public function __construct(?array $data = null)
     {
         $this->full_name = $data['full_name'] ?? '';
+        $this->id_user = $data['id_user'] ?? '';
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
@@ -96,7 +97,7 @@ class Users extends PasswordHashManager
     {
 
         // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id_user";
+        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user";
 
         // Préparez la requête avec PDO
         $stmt = $this->pdo->prepare($sql);
