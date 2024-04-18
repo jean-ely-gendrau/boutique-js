@@ -1,16 +1,18 @@
 <?php
 
+namespace App\Boutique\Components;
+
 class ReCaptcha
 {
     private $secretKey = '6Lf4Cb8pAAAAAKtGy0bsEgzfOUGBJ3R8n1nbbCYQ';
 
-    public function notRobot()
+    public function notRobot($response)
     {
         $secretKey = $this->secretKey;
         $api_url = 'https://www.google.com/recaptcha/api/siteverify';
         $resq_data = array(
             'secret' => $secretKey,
-            'response' => $_POST['g-recaptcha-response'],
+            'response' => $response,
             'remoteip' => $_SERVER['REMOTE_ADDR']
         );
 
