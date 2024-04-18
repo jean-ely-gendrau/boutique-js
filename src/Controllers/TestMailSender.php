@@ -24,7 +24,6 @@ class TestMailSender extends Render
     {
         $message =
             'Merci de votre inscription sur TheCoffee vous pouvez dès à présent faire des commandes de café ou de thé';
-
         $mail = MailManager::sendMailPHP(
             [
 
