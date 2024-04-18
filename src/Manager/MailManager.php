@@ -33,13 +33,14 @@ class MailManager
         $subject,
         $messageMail,
     ) {
+        // Remplacement des variable $titleMessageMail et $messageMail
         return str_replace(
-            ['$subject', '$messageMail'],
+            ['$titleMessageMail', '$messageMail'],
             [$subject, $messageMail],
             file_get_contents(
                 __DIR__ .
-                    DIRECTORY_SEPARATOR .
-                    "../../templateMail/{$templateMail}.php",
+                DIRECTORY_SEPARATOR .
+                "../../templateMail/{$templateMail}.php",
             ),
         );
     }

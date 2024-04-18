@@ -34,13 +34,9 @@ class Users extends PasswordHashManager
         $this->full_name = $data['full_name'] ?? '';
         $this->email = $data['email'] ?? '';
 
-        $this->password = isset($data['password'])
-            ? $this->hash($data['password'])
-            : '';
+        $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
 
-        $this->birthday = isset($data['birthday'])
-            ? $this->setDateTime($data['birthday'])
-            : '';
+        $this->birthday = isset($data['birthday']) ? $this->setDateTime($data['birthday']) : '';
 
         $this->adress = $data['adress'] ?? '';
         $this->role = 'user';
@@ -58,7 +54,7 @@ class Users extends PasswordHashManager
     public function __isset($name)
     {
         return isset($this->data[$name]);
-    } 
+    }
 
     /*
      * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode

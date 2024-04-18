@@ -66,9 +66,9 @@ class SessionManager implements SessionInterface
      */
     public function remove(array $params): void
     {
-        foreach ($params as $key => $val):
-            if ($this->has($key)):
-                unset($_SESSION[$key]);
+        foreach ($params as $val):
+            if ($this->has($val)):
+                unset($_SESSION[$val]);
             endif;
         endforeach;
     }

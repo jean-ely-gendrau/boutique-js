@@ -9,6 +9,9 @@ use App\Boutique\Utils\Render;
 use App\Boutique\Models\TestProducts;
 use App\Boutique\Components\HorizontalSelector;
 use App\Boutique\Components\FileImportJson;
+use App\Boutique\Models\Orders;
+use App\Boutique\Manager\CrudManager;
+use App\Boutique\Models\Users;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -51,10 +54,7 @@ class TestRender
         $horizontalSelector = new HorizontalSelector($bddManager);
         $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
 
-        /*Test affichage seo.fr.json
-        $testJson = new FileImportJson();
-        $testJson->getFile('config/seo.fr.json');
-        var_dump($testJson->getFile('config/seo.fr.json'));*/
+        /*Test affichage seo.fr.json*/
 
         $arguments['render']->addParams('product', $productHtml);
 
@@ -71,10 +71,12 @@ class TestRender
      */
     public function View(...$arguments)
     {
-        // $exemple = Exemple::Test();
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('test-render', $arguments);
-        // return $content;
+        // Test de la méthode getById du CrudManager pour la classe Orders
+        $crudManager = new CrudManager('orders', Orders::class);
+        $tableIdOrder = $crudManager->getById('1', 'id_order');
+        $arguments['render']->addParams('order', $tableIdOrder);
+        $content = $arguments['render']->render('test-orders', $arguments);
+        return $content;
     }
 
     /**

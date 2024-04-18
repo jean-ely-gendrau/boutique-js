@@ -4,9 +4,9 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\Users;
-use App\Boutique\Utils\Render;
 use App\Boutique\Manager\PasswordHashManager;
-use App\Boutique\Manager\SessionManager;
+use App\Boutique\Manager\MailManager;
+use App\Boutique\Components\ReCaptcha;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -38,13 +38,17 @@ class RegisterController
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
      *
      * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
      */
     public function View(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
         // $content = $this->render('inscription', $arguments);
-        return $arguments['render']->render('inscription', $arguments);
+        if ($arguments['render']->has('isConnected') == true) {
+            return header('location:/');
+        } else {
+            return $arguments['render']->render('inscription', $arguments);
+        }
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -56,46 +60,52 @@ class RegisterController
     public function Register(...$arguments)
     {
         echo '<pre>';
-        // var_dump($arguments);
         $paramSQL = [];
         foreach ($arguments as $key => $value) {
             if ($key === 'fullName') {
                 if (preg_match('/^[a-zA-Z-\s]{8,45}$/', $value)) {
                     $paramSQL['full_name'] = $value;
+                    $namePass = true;
                 } else {
                     echo 'Veuillez entre un nom et prenom valide minimum 8 characters maximum 45 characters';
+                    $namePass = false;
                 }
             }
 
             if ($key === 'email') {
                 if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $paramSQL['email'] = $value;
+                    $emailPass = true;
                 } else {
                     echo 'Veuillez entre un email valide';
+                    $emailPass = false;
                 }
             }
             if ($key === 'password') {
                 if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $value)) {
                     $paramSQL['password'] = $value;
+                    $passwordPass = true;
                 } else {
                     echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
+                    $passwordPass = false;
                 }
             }
         }
         // var_dump($paramSQL);
-        $model = new Users($paramSQL);
-        // var_dump($model);
-        $crudManager = new CrudManager('users', Users::class);
-        if ($crudManager->getByEmail($paramSQL['email']) !== false) {
-            echo 'Compte deja enregistre avec ce mail';
-        } else {
-            echo 'create';
-            $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
-            header('location:/connexion');
+        if ($namePass == true && $emailPass == true && $passwordPass == true) {
+            $model = new Users($paramSQL);
+            $crudManager = new CrudManager('users', Users::class);
+            if ($crudManager->getByEmail($paramSQL['email']) !== false) {
+                echo 'Compte deja enregistre avec ce mail';
+            } else {
+                echo 'create';
+                $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
+                header('location:/connexion');
+            }
         }
         // $this->addParams('exemple', $exemple);
         echo '</pre>';
-        $content = $arguments['render']->render('test-render', $arguments);
+        $content = $arguments['render']->render('inscription', $arguments);
         // $content = $this->render('inscription', $arguments);
         return $content;
     }
@@ -104,13 +114,17 @@ class RegisterController
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
      *
      * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
      */
     public function ViewConnect(...$arguments)
     {
         // $this->addParams('exemple', $exemple);
         // $content = $this->render('connexion', $arguments);
-        return $arguments['render']->render('connexion', $arguments);
+        if ($arguments['render']->has('isConnected') == true) {
+            return header('location:/');
+        } else {
+            return $arguments['render']->render('connexion', $arguments);
+        }
     }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -140,10 +154,10 @@ class RegisterController
                         'full_name' => $user->full_name,
                         'role' => $user->role,
                     ]);
-                    var_dump($_SESSION['email']);
-                    var_dump($_SESSION['isConnected']);
-                    var_dump($_SESSION['full_name']);
-                    var_dump($_SESSION['role']);
+                    // var_dump($_SESSION['email']);
+                    // var_dump($_SESSION['isConnected']);
+                    // var_dump($_SESSION['full_name']);
+                    // var_dump($_SESSION['role']);
                     header('location:/');
                 } else {
                     echo 'Mot de passe incorrect';
@@ -159,6 +173,44 @@ class RegisterController
         echo '</pre>';
         $content = $arguments['render']->render('connexion', $arguments);
         // $content = $this->render('connexion', $arguments);
+        return $content;
+    }
+    /**
+     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
+     * renvoie une vue template nommée 'test-render', et retourne le contenu.
+     *
+     * @param array ...$arguments Les arguments transmis à la méthode.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     */
+    public function Deconnect(...$arguments)
+    {
+        $arguments['render']->remove(['email', 'isConnected', 'full_name', 'role']);
+        header('Location:/');
+    }
+    /**
+     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
+     * renvoie une vue template nommée 'test-render', et retourne le contenu.
+     *
+     * @param array ...$arguments Les arguments transmis à la méthode.
+     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     */
+    public function ContactMail(...$arguments)
+    {
+        echo "<pre>";
+        var_dump($arguments['email']);
+        var_dump($arguments['sujet']);
+        var_dump($arguments['message']);
+        echo "</pre>";
+        $noBot = new ReCaptcha();
+        $mail = new MailManager;
+        if ($noBot->notRobot($arguments['g-recaptcha-response']) === true) {
+            $mail->sendMailPHP(['esteban.bare@laplateforme.io'], $arguments['sujet'], $arguments['message']);
+            return header('Location:/');
+        } else {
+            echo 'Problem verifying Recaptcha';
+        }
+        $content = $arguments['render']->render('contact', $arguments);
+        // $content = $this->render('contact', $arguments);
         return $content;
     }
 }
