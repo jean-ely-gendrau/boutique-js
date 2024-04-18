@@ -16,9 +16,9 @@ class MailManager
     {
         $bufferOUT = [];
 
-        if (is_array($emails)):
-            foreach ($emails as $mail):
-                if (preg_match('/^(?<=@)$/', $mail, $matches)):
+        if (is_array($emails)) :
+            foreach ($emails as $mail) :
+                if (preg_match('/^(?<=@)$/', $mail, $matches)) :
                     $tempArray = [$matches[1] . " <$mail>"];
                     array_push($bufferOUT, $tempArray);
                 endif;
@@ -34,7 +34,7 @@ class MailManager
         $messageMail,
     ) {
         return str_replace(
-            ['$subject', '$messageMail'],
+            ['$titleMessageMail', '$messageMail'],
             [$subject, $messageMail],
             file_get_contents(
                 __DIR__ .
@@ -88,6 +88,6 @@ class MailManager
 
         // Envoi
         //DEBUG DP dp($headers, $message);
-        mail($to, $subject, $message, implode("\r\n", $headers));
+        //  mail($to, $subject, $message, implode("\r\n", $headers));
     }
 }

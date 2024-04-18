@@ -27,11 +27,9 @@ class TestMailSender extends Render
 
         $mail = MailManager::sendMailPHP(
             [
-                'jean-ely.gendrau@laplateforme.io',
-                'esteban.bare@laplateforme.io',
-                'alexandre.detroy@laplateforme.io',
+
                 'jean-philippe.douzou@laplateforme.io',
-                'angel.putz@laplateforme.io',
+
             ],
             'Bienvenue sur TheCoffe.test',
             $message,
