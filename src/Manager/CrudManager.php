@@ -37,11 +37,8 @@ class CrudManager extends BddManager
      *
      * @return void
      */
-    public function __construct(
-        string $tableName,
-        string $objectClass,
-        $configDatabase = null,
-    ) {
+    public function __construct(string $tableName, string $objectClass, $configDatabase = null)
+    {
         parent::__construct($configDatabase);
         $this->_tableName = $tableName;
         $this->_objectClass = $objectClass;
@@ -91,14 +88,10 @@ class CrudManager extends BddManager
      */
     public function getById(string $id): object
     {
-        $req = $this->_dbConnect->prepare(
-            'SELECT * FROM ' . $this->_tableName . ' WHERE id = :id',
-        );
+        // TODO modifier WERE id par id . '_'.$this->_tableName
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
         $req->execute(['id' => intval($id)]);
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetch();
     }
@@ -112,14 +105,9 @@ class CrudManager extends BddManager
     public function getAll(?array $select = null): array
     {
         $selectItem = is_null($select) ? '*' : join(', ', $select);
-        $req = $this->_dbConnect->prepare(
-            "SELECT {$selectItem} FROM " . $this->_tableName,
-        );
+        $req = $this->_dbConnect->prepare("SELECT {$selectItem} FROM " . $this->_tableName);
         $req->execute();
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
     }
@@ -131,16 +119,11 @@ class CrudManager extends BddManager
      *
      * @return bool | object
      */
-    public function getByEmail(string $email):bool | object
+    public function getByEmail(string $email): bool|object
     {
-        $req = $this->_dbConnect->prepare(
-            'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',
-        );
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE email = :email');
         $req->execute(['email' => $email]);
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetch();
     }
@@ -157,14 +140,7 @@ class CrudManager extends BddManager
     {
         $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
-        $sql =
-            'INSERT INTO ' .
-            $this->_tableName .
-            '(' .
-            implode(', ', $param) .
-            ') VALUES(' .
-            $valueString .
-            ')';
+        $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
         $req = $this->_dbConnect->prepare($sql);
         $boundParam = [];
 
@@ -190,12 +166,7 @@ class CrudManager extends BddManager
     {
         $valueString = self::formatParams($param, 'FORMAT_UPDATE');
 
-        $sql =
-            'UPDATE ' .
-            $this->_tableName .
-            ' SET ' .
-            $valueString .
-            ' WHERE id = :id';
+        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE id = :id';
         $req = $this->_dbConnect->prepare($sql);
         // $param = ['id'];
         $boundParam = [];
@@ -220,9 +191,7 @@ class CrudManager extends BddManager
     public function delete(object $objectClass): mixed
     {
         if (property_exists($objectClass, 'id')) {
-            $req = $this->_dbConnect->prepare(
-                'DELETE FROM ' . $this->_tableName . ' WHERE id=?',
-            );
+            $req = $this->_dbConnect->prepare('DELETE FROM ' . $this->_tableName . ' WHERE id=?');
 
             return $req->execute([$objectClass->id]);
         } else {

@@ -9,6 +9,7 @@ use App\Boutique\Utils\Render;
 use App\Boutique\Models\TestProducts;
 use App\Boutique\Components\HorizontalSelector;
 use App\Boutique\Components\FileImportJson;
+use App\Boutique\Models\Orders;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -68,10 +69,8 @@ class TestRender
      */
     public function View(...$arguments)
     {
-        // $exemple = Exemple::Test();
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('test-render', $arguments);
-        // return $content;
+        $bddManager = new BddManager();
+        $order = new Orders();
     }
 
     /**

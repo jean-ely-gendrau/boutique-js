@@ -24,6 +24,7 @@ $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionFo
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 //
+$router->map('GET', '/test-order', '', 'order');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
