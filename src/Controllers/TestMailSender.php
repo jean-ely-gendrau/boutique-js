@@ -26,11 +26,9 @@ class TestMailSender extends Render
             'Merci de votre inscription sur TheCoffee vous pouvez dès à présent faire des commandes de café ou de thé';
         $mail = MailManager::sendMailPHP(
             [
-                'jean-ely.gendrau@laplateforme.io',
-                'esteban.bare@laplateforme.io',
-                'alexandre.detroy@laplateforme.io',
+
                 'jean-philippe.douzou@laplateforme.io',
-                'angel.putz@laplateforme.io',
+
             ],
             'Bienvenue sur TheCoffe.test',
             $message,
