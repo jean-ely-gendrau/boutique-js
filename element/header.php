@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="http://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>Teacoffe</title>
-  <title><?= $seoConfig->seoTitlePage
-/* TITRE */
-?></title>
+  <title>
+    <?= $seoConfig->seoTitlePage
+      /* TITRE */
+      ?>
+  </title>
   <meta name="description" content="<?= $seoConfig->seoDescriptionPage
-/* DESCRIPTION */
-?>" />
+    /* DESCRIPTION */
+    ?>" />
   <link rel="canonical" href="/" />
   <!-- META SEO OG  -->
   <meta property="og:image" content="<?= $seoConfig->seoUrlImage
-/* Url de l'image de partage */
-?>" />
+    /* Url de l'image de partage */
+    ?>" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage
-/* Text Alt de l'image de partage */
-?>" />
+    /* Text Alt de l'image de partage */
+    ?>" />
   <meta property="og:type" content="<?= $seoConfig->seoType
-/* Type de contenue */
-?>" />
+    /* Type de contenue */
+    ?>" />
   <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']
-/* Url  de la page courante */
-?>" />
+    /* Url  de la page courante */
+    ?>" />
   <meta property="og:title" content="<?= $seoConfig->seoOgTitlePage ?? $seoConfig->seoTitlePage
-/* TITRE de partage, peu être légerement différent du titre */
-?>" />
+    /* TITRE de partage, peu être légerement différent du titre */
+    ?>" />
   <meta property="og:description" content="<?= $seoConfig->seoOgDescriptionPage ?? $seoConfig->seoDescriptionPage
-/* DESCRIPTION de partage, peu être légerement différent de la déscription */
-?>" />
+    /* DESCRIPTION de partage, peu être légerement différent de la déscription */
+    ?>" />
   <meta name="robots" content="<?= $seoConfig->seoRobotIndex
-/* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
-?>" />
-<?php  ?>
+    /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
+    ?>" />
+  <?php ?>
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
 
@@ -45,23 +48,31 @@
   <header>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="flex items-center md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <?php $result = $rendering->give('isConnected') ? True : False;
+
+        <div class="flex justify-end items-center md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse w-64">
+          <?php
+          $result = $rendering->give('isConnected') ? true : false;
           if ($result) {
             echo '<button type="button"
             class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Ouvrir le menu utilisateur</span>
-            <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full font-bold">' . $rendering->give('full_name')[0] . '</p>
+            <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full font-bold">' .
+              $rendering->give('full_name')[0] .
+              '</p>
           </button>
           <!-- Dropdown menu -->
           <div
             class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
             id="user-dropdown">
             <div class="px-4 py-3">
-              <span class="block text-sm text-gray-900 dark:text-white">' . $rendering->give('full_name') . '</span>
-              <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">' . $rendering->give('email') . '</span>
+              <span class="block text-sm text-gray-900 dark:text-white">' .
+              $rendering->give('full_name') .
+              '</span>
+              <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">' .
+              $rendering->give('email') .
+              '</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -89,7 +100,9 @@
             </svg>
           </button>';
           } else {
-            echo '<img src="http://' . $serverName . '/assets/images/icon/userIcon.svg" alt="" class="icon" />
+            echo '<img src="http://' .
+              $serverName .
+              '/assets/images/icon/userIcon.svg" alt="" class="icon" />
             <a href="/inscription" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Inscription</a>
             <p>/</p>
             <a href="/connexion" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connexion</a>';
