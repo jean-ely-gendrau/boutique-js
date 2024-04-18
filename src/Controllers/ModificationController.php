@@ -57,6 +57,10 @@ class ModificationController
 
         $render = $arguments['render'];
 
+        $render->render('modification', 'Modification du profil');
+
+
+
 
 
         $id_user = new CrudManager('users', 'Modification');
