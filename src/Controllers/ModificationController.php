@@ -8,7 +8,7 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Utils\Render;
+
 use App\Boutique\Manager\CrudManager;
 
 
@@ -49,10 +49,20 @@ class ModificationController
     {
     }
 
+
+
     public function Modification(...$arguments)
     {
+        /** @var \App\Boutique\Utils\Render $render */
 
-        $arguments = $_POST;
+        $render = $arguments['render'];
+
+
+
+        $id_user = new CrudManager('users', 'Modification');
+
+        $id_user->getByEmail($_SESSION['email']);
+
         $paramSQL = [];
 
         echo "<pre>";

@@ -18,7 +18,6 @@
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
     <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
     <script src="http://<?= $serverName ?>/assets/js/script.js"></script>
-    <script src="http://<?= $serverName ?>/assets/js/modification.js"></script>
 
     </body>
 
