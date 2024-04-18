@@ -1,11 +1,5 @@
 <?php
 
-
-
-
-
-
-
 namespace App\Boutique\Controllers;
 
 
