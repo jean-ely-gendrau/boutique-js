@@ -56,50 +56,30 @@ class ModificationController
         /** @var \App\Boutique\Utils\Render $render */
 
         $render = $arguments['render'];
-
-        $render->render('modification', 'Modification du profil');
-
-
+        $render->addParams('title', 'Modification du profil');
+        $render->render('modification', $arguments);
 
 
 
-        $id_user = new CrudManager('users', 'Modification');
 
-        $id_user->getByEmail($_SESSION['email']);
 
-        $paramSQL = [];
+        $email = new CrudManager('users', 'Modification');
 
-        echo "<pre>";
-        // var_dump($arguments);
-        foreach ($arguments as $key => $value) {
-            if ($key == 'NewFullName') {
-                if (preg_match('/^[a-zA-Z-\s]{8,45}$/', $value)) {
-                    $paramSQL['NewFullName'] = $value;
-                } else {
-                    echo "Veuillez entre un nom et prenom valide minimum 8 characters maximum 45 characters";
-                }
-            } elseif ($key == 'NewBrithday') {
-                if (preg_match('/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/', $value)) {
-                    $paramSQL['NewBrithday'] = $value;
-                } else {
-                    echo "Veuillez entre une date de naissance valide";
-                }
-            } elseif ($key == 'NewAdress') {
-                if (preg_match('/^[0-9]{5}$/', $value)) {
-                    $paramSQL['NewAdress'] = $value;
-                } else {
-                    echo "Veuillez entre un code postal valide";
-                }
-            } elseif ($key == 'nouveau_password') {
-                if (
-                    preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_@.]{6,25})$/', $value)
-                ) {
-                    $paramSQL['nouveau_password'] = $value;
-                } else {
-                    echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
-                }
-            }
-        }
+
+        $user = $email->getByEmail($_SESSION['email']);
+        $id = $user->id;
+
+
+        $paramSQL = [
+            'user_id' => $id,
+            'email' => $_POST['NewEmail'],
+            'birthday' => $_POST['birthday'],
+            'adress' => $_POST['NewAddress'],
+            'password' => $_POST['nouveau_password'],
+        ];
+
+
+
         $user = new CrudManager('users', 'Modification');
 
 
