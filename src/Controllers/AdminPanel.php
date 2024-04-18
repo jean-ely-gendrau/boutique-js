@@ -15,12 +15,14 @@ use App\Boutique\Models\ProductsModels;
 class AdminPanel
 {
   private $userInit;
+  private $testInit;
   private $categoryInit;
   private $productInit;
 
   public function __construct()
   {
     $this->userInit = new CrudApi('users', Users::class);
+    $this->testInit = new CrudManager('users', Users::class);
     $this->categoryInit = new CrudManager('category', Category::class);
     $this->productInit = new CrudManager('products', ProductsModels::class);
   }
@@ -116,7 +118,21 @@ class AdminPanel
     *  On utilise la méthode getAllPaginate du CrudApi
     */
     $usersAllPaginate = $this->userInit->getAllPaginate();
+    $data['id_user'] = 1;
+    $data['full_name'] = "test name";
+    $data['email'] = "testmail@test.com";
 
+    $data['password'] = "testpass";
+
+
+    $data['birthday'] = "2020-04-18";
+
+
+
+    $data['adress'] = "83000";
+
+    $user = new Users($data);
+    $this->testInit->update($user, ['id_user', 'full_name', 'email', 'password', 'birthday', 'adress']);
     //var_dump($usersSelectAll);
 
     /** @var \App\Boutique\Utils\Render $render */

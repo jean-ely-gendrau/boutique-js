@@ -8,7 +8,7 @@ use App\Boutique\Manager\PasswordHashManager;
 class Users extends PasswordHashManager
 {
     // #[ValidatorData('numeric')]
-    private $id;
+    private $id_user;
     // #[ValidatorData('full_name')]
     private $full_name;
     // #[ValidatorData('email')]
@@ -31,6 +31,7 @@ class Users extends PasswordHashManager
      */
     public function __construct(?array $data = null)
     {
+        $this->id_user = $data['id_user'] ?? null;
         $this->full_name = $data['full_name'] ?? '';
         $this->email = $data['email'] ?? '';
 
