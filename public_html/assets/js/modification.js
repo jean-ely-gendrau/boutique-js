@@ -1,8 +1,13 @@
 
-document.querySelector('form').addEventListener('submit', function(event) {
+modification.querySelector('form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     let formData = new FormData(event.target);
+
+    let Name = formData.get('name');
+    let NewPassword = formData.get('nouveau_password');
+    let NewDate = formData.get('brand');
+    let NewAddress = formData.get('NewAddress');
 
     fetch('modification', {
         method: 'POST',
@@ -25,9 +30,9 @@ connection.connect();
 
 
 
-let sql = 'UPDATE users SET name = ?, password = ?, birthday = ?, adress = ? WHERE id = ?';
-let data = ['New Name', 'New Password', '1990-01-01', 'New Address', 1];
-
+let sql = 'UPDATE users SET password = ?, birthday = ?, adress = ? WHERE name = ?';
+let data = [ NewPassword, NewDate , NewAddress, Name];
+ 
 connection.query(sql, data, function(error, results, fields) {
   if (error) throw error;
   console.log('Updated ' + results.affectedRows + ' rows');
