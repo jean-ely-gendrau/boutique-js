@@ -200,6 +200,8 @@ class RegisterController
         var_dump($arguments['sujet']);
         var_dump($arguments['message']);
         echo "</pre>";
+        $mail = new MailManager;
+        // var_dump($mail->sendMailPHP(['esteban.bare@laplateforme.io'], $arguments['sujet'], $arguments['message']));
         $content = $arguments['render']->render('contact', $arguments);
         // $content = $this->render('contact', $arguments);
         return $content;

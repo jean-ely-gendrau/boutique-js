@@ -5,7 +5,7 @@
         <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
             Besoin de poser une question ? Problème avec le site web ? Problème avec une commande ? Des questions sur le
             fonctionnement des commandes ? Faites-nous savoir.</p>
-        <form class="space-y-8" method="post">
+        <form id="verif" class="space-y-8" method="post">
             <div>
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Votre adresse
                     e-mail</label>
@@ -27,9 +27,11 @@
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Laissez un commentaire..."></textarea>
             </div>
-            <button type="submit"
-                class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-600 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send
-                message</button>
+            <button
+                class="g-recaptcha py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-600 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                data-sitekey="6Lf4Cb8pAAAAAEOYnWyV2Jfh4aEqJSFChlQmSf3Q" data-callback='onSubmit' data-action='submit'>
+                Submit
+            </button>
         </form>
     </div>
 </section>
