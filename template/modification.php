@@ -1,38 +1,3 @@
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "teacoffee";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Prepare and bind
-    $stmt = $conn->prepare("UPDATE users SET password = ?, birthday = ?, adress = ? WHERE full_name = ? AND email = ?");
-    $stmt->bind_param("sssss", $password, $birthday, $address, $name, $email);
-
-    // Set parameters and execute
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["nouveau_password"];
-    $birthday = $_POST["birthday"];
-    $address = $_POST["NewAddress"];
-    $stmt->execute();
-
-    $stmt->close();
-    $conn->close();
-
-    header('Location: /user');
-    exit();
-}
-?>
-
 <h1>Modification du profil</h1>
 <?= $title ?>
 

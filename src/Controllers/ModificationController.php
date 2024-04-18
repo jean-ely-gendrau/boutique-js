@@ -11,6 +11,8 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Manager\CrudManager;
 
+use App\Boutique\Models\Users;
+
 
 
 
@@ -63,7 +65,7 @@ class ModificationController
 
 
 
-        $email = new CrudManager('users', 'Modification');
+        $email = new CrudManager('users', Users::class);
 
 
         $user = $email->getByEmail($_SESSION['email']);
@@ -80,10 +82,10 @@ class ModificationController
 
 
 
-        $user = new CrudManager('users', 'Modification');
+        $user = new CrudManager('users', Users::class);
 
 
 
-        $user->update($user, array_keys($paramSQL));
+        $user->update($user, array_values($paramSQL));
     }
 }

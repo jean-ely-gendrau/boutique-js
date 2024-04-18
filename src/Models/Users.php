@@ -8,7 +8,7 @@ use App\Boutique\Manager\PasswordHashManager;
 class Users extends PasswordHashManager
 {
     // #[ValidatorData('numeric')]
-    private $id;
+    private $id_user;
     // #[ValidatorData('full_name')]
     private $full_name;
     // #[ValidatorData('email')]
@@ -100,7 +100,7 @@ class Users extends PasswordHashManager
     {
 
         // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id";
+        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id_user";
 
         // Préparez la requête avec PDO
         $stmt = $this->pdo->prepare($sql);
@@ -110,7 +110,7 @@ class Users extends PasswordHashManager
         $stmt->bindParam(':birthday', $this->setDateTime($birthday));
         $stmt->bindParam(':adress', $adress);
         $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':id_user', $this->id_user);
 
         // Exécutez la requête
         $stmt->execute();
