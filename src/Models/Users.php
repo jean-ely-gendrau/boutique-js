@@ -34,13 +34,9 @@ class Users extends PasswordHashManager
         $this->full_name = $data['full_name'] ?? '';
         $this->email = $data['email'] ?? '';
 
-        $this->password = isset($data['password'])
-            ? $this->hash($data['password'])
-            : '';
+        $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
 
-        $this->birthday = isset($data['birthday'])
-            ? $this->setDateTime($data['birthday'])
-            : '';
+        $this->birthday = isset($data['birthday']) ? $this->setDateTime($data['birthday']) : '';
 
         $this->adress = $data['adress'] ?? '';
         $this->role = 'user';
