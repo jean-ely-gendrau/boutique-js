@@ -79,7 +79,7 @@ class Users extends PasswordHashManager
     public function setDateTime(string $dateString)
     {
         $newDate = new DateTime($dateString);
-        return $newDate->format('Y-m-d H:i:s');
+        return $newDate->format('Y-m-d');
     }
 
     /**

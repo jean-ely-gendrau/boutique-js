@@ -55,6 +55,9 @@ class ModificationController
         $render->addParams('title', 'Modification du profil');
         $render->render('modification', $arguments);
 
+
+        echo "<pre>";
+
         $EmailCrudManager = new CrudManager('users', Users::class);
 
 
@@ -62,12 +65,22 @@ class ModificationController
         $id = $email->id_user;
         var_dump($id);
 
+        /*
+        $date = $arguments['NewBrithday'];
+        $formattedDate = $date->format('Y-m-d');
+        */
+
+        // var_dump($arguments);
+
         $paramSQL = [
             'id_user' => $id,
             'email' => $arguments['NewEmail'],
+            'birthday' => $arguments['birthday'],
             'adress' => $arguments['NewAddress'],
             'password' => $arguments['nouveau_password'],
         ];
+
+
 
 
 
@@ -75,13 +88,16 @@ class ModificationController
 
         $user = new Users($paramSQL);
 
+        var_dump($user);
+
         $usermanager->update($user, array_keys($paramSQL));
 
 
-        $render['render']->addSession([
+        $render->addSession([
             'email' => $user->email
         ]);
 
-        header('location:/profil');
+        echo "</pre>";
+        header('location:/user');
     }
 }
