@@ -4,12 +4,7 @@ namespace App\Boutique\Models;
 
 class ProductsModels
 {
-  /**
-   * id_product
-   *
-   * @var int
-   */
-  private $id_product;
+
 
   /**
    * name
@@ -67,29 +62,7 @@ class ProductsModels
 
 
   /************************************** Getter/Setter ***********************************/
-  /**
-   * Get id_product
-   *
-   * @return  int
-   */
-  public function getId_product()
-  {
-    return $this->id_product;
-  }
 
-  /**
-   * Set id_product
-   *
-   * @param  int  $id_product  id_product
-   *
-   * @return  self
-   */
-  public function setId_product(int $id_product)
-  {
-    $this->id_product = $id_product;
-
-    return $this;
-  }
 
   /**
    * Get name

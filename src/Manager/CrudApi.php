@@ -17,19 +17,21 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
 
   protected object $_dbConnect;
 
-  protected int $itemPerPage;
+  protected int $page;
 
-  protected int $itemStart;
+  protected int $limit;
 
-  protected int $itemNext;
+  protected int $offset;
 
+  protected int $offsetNext;
   /**
    * Method __construct CrudApi
    *
    * @param string $tableName [nom de la table]
    * @param string $objectClass [La class representant les données de la requête]
-   * @param int $itemPerPage [nombre d'éléments à afficher par page]
-   * @param int $itemStart [1 er résultat à séléctionner]
+
+   * @param int $limit [nombre de résultat à séléctionner]
+   * @param int $offset [1 er résultat à séléctionner]
    * @param ?object $configDatabase [configuration de la  base de données]
    *
    * @return void
@@ -37,17 +39,20 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
   public function __construct(
     string $tableName,
     string $objectClass,
-    int $itemPerPage = 5,
-    int $itemStart = 0,
+    int $limit = 5,
+    int $page = 1,
     ?object $configDatabase = null,
   ) {
+    // Params BDD
     parent::__construct($configDatabase);
     $this->_tableName = $tableName;
     $this->_objectClass = $objectClass;
     $this->_dbConnect = $this->linkConnect();
-    $this->itemPerPage = $itemPerPage;
-    $this->itemStart = $itemStart;
-    $this->itemNext = $itemStart + $itemPerPage - 1;
+
+    // Pagination
+    $this->limit = $limit;
+    $this->offset = $this->limit * $page;
+    $this->offsetNext = $this->offset + 1;
   }
 
   /********************************************** Méthode de L'API */
@@ -61,9 +66,14 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
   {
     $selectItem = is_null($select) ? '*' : join(', ', $select);
 
-    $sql = 'SELECT ' . $selectItem . ' FROM ' . $this->_tableName . ' LIMIT :itemn';
-    $req = $this->_dbConnect->prepare($sql);
-    $req->execute(['itemn' => 5]);
+    $sql = "SELECT {$selectItem} FROM {$this->_tableName} LIMIT :limit OFFSET :offset";
+    // Désectivation ATTR_EMULATE_PREPARES
+    $connect = $this->_dbConnect;
+    $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+    //Prépare
+    $req = $connect->prepare($sql);
+    $req->execute(['limit' => $this->limit, 'offset' => $this->offset]);
     $req->setFetchMode(
       \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
       $this->_objectClass,
@@ -100,65 +110,4 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
   }
 
   /********************************************** Getter/Setter *****************************/
-
-  /**
-   * Get the value of itemStart
-   */
-  public function getItemStart()
-  {
-    return $this->itemStart;
-  }
-
-  /**
-   * Set the value of itemStart
-   *
-   * @return  self
-   */
-  public function setItemStart($itemStart)
-  {
-    $this->itemStart = $itemStart;
-
-    return $this;
-  }
-
-  /**
-   * Get the value of itemNext
-   */
-  public function getItemNext()
-  {
-    return $this->itemNext;
-  }
-
-  /**
-   * Set the value of itemNext
-   *
-   * @return  self
-   */
-  public function setItemNext($itemNext)
-  {
-    $this->itemNext = $itemNext;
-
-    return $this;
-  }
-
-
-  /**
-   * Get the value of itemPerPage
-   */
-  public function getItemPerPage()
-  {
-    return $this->itemPerPage;
-  }
-
-  /**
-   * Set the value of itemPerPage
-   *
-   * @return  self
-   */
-  public function setItemPerPage($itemPerPage)
-  {
-    $this->itemNext = $this->itemStart + $itemPerPage - 1;
-
-    return $this;
-  }
 }

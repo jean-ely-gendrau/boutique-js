@@ -95,4 +95,64 @@ class Users extends PasswordHashManager
         $newDate = new DateTime($this->birthday);
         return $newDate->format('Y-m-d');
     }
+
+    /**
+     * Get the value of full_name
+     */
+    public function getFull_name()
+    {
+        return $this->full_name;
+    }
+
+    /**
+     * Set the value of full_name
+     *
+     * @return  self
+     */
+    public function setFull_name($full_name)
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adress
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    /**
+     * Set the value of adress
+     *
+     * @return  self
+     */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
 }

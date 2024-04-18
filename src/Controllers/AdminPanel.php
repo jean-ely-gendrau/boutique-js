@@ -112,15 +112,17 @@ class AdminPanel
    */
   public function IndexUsers(...$arguments)
   {
-    /* usersSelectAll
-    *  On utilise la méthode getAll du CrudManager
-    * Afin de sélectionné 
+    /* usersAllPaginate
+    *  On utilise la méthode getAllPaginate du CrudApi
     */
-    $usersSelectAll = $this->userInit->getAllPaginate();
-    var_dump($usersSelectAll);
+    $usersAllPaginate = $this->userInit->getAllPaginate();
+
+    //var_dump($usersSelectAll);
+
     /** @var \App\Boutique\Utils\Render $render */
     $render = $arguments['render'];
-    $render->addParams('usersSelectAll', $usersSelectAll);
+
+    $render->addParams('usersAllPaginate', $usersAllPaginate);
 
     // Rendre le template
     $content = $render->renderAdmin('users', $arguments);
@@ -187,6 +189,32 @@ class AdminPanel
 
     // Rendre le template
     $content = $render->renderAdmin('category', $arguments);
+    return $content;
+  }
+
+  /**
+   * Méthode IndexTest
+   *
+   * Affichage du tableau de bord Administrateur Des Categories et sous categories
+   * 
+   * @param array ...$arguments Les arguments transmis à la méthode.
+   * @return void
+   */
+  public function IndexTest(...$arguments)
+  {
+    $usersSelect = $this->categoryInit->getAll();
+
+    /** @var \App\Boutique\Utils\Render $render */
+    $render = $arguments['render'];
+
+    $crudManager = new CrudManager('users', Users::class);
+    $result = $crudManager->getAll();
+
+    echo '<pre>',
+    var_dump($result),
+    '</pre>';
+    // Rendre le template
+    $content = $render->renderAdmin('test', $arguments);
     return $content;
   }
 }
