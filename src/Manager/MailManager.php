@@ -33,6 +33,7 @@ class MailManager
         $subject,
         $messageMail,
     ) {
+        // Remplacement des variable $titleMessageMail et $messageMail
         return str_replace(
             ['$titleMessageMail', '$messageMail'],
             [$subject, $messageMail],
@@ -88,6 +89,6 @@ class MailManager
 
         // Envoi
         //DEBUG DP dp($headers, $message);
-        //  mail($to, $subject, $message, implode("\r\n", $headers));
+        mail($to, $subject, $message, implode("\r\n", $headers));
     }
 }
