@@ -93,6 +93,12 @@ class Users extends PasswordHashManager
         return $newDate->format('Y-m-d');
     }
 
+    public function getAge()
+    {
+        $dateNow = date("Y-m-d");
+        $dateDiff = date_diff(date_create($this->birthday), date_create($dateNow));
+        return $dateDiff->format('%y');
+    }
     /**
      * Get the value of full_name
      */

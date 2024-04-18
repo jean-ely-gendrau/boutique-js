@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Entity\ProductsEntity;
 use App\Boutique\Manager\CrudApi;
 use App\Boutique\Models\Users;
 use App\Boutique\Models\Category;
@@ -24,7 +25,6 @@ class AdminPanel
     $this->userInit = new CrudApi('users', Users::class);
     $this->testInit = new CrudManager('users', Users::class);
     $this->categoryInit = new CrudManager('category', Category::class);
-    $this->productInit = new CrudManager('products', ProductsModels::class);
   }
 
   /**
@@ -118,21 +118,17 @@ class AdminPanel
     *  On utilise la méthode getAllPaginate du CrudApi
     */
     $usersAllPaginate = $this->userInit->getAllPaginate();
+    /*
     $data['id_user'] = 1;
     $data['full_name'] = "test name";
     $data['email'] = "testmail@test.com";
-
     $data['password'] = "testpass";
-
-
     $data['birthday'] = "2020-04-18";
-
-
-
     $data['adress'] = "83000";
 
     $user = new Users($data);
     $this->testInit->update($user, ['id_user', 'full_name', 'email', 'password', 'birthday', 'adress']);
+    */
     //var_dump($usersSelectAll);
 
     /** @var \App\Boutique\Utils\Render $render */
@@ -155,11 +151,18 @@ class AdminPanel
    */
   public function IndexProducts(...$arguments)
   {
-    $usersSelect = $this->productInit->getAll();
+    /* productsAllPaginate
+    *  On utilise la méthode getAllPaginate du CrudApi
+    */
+    $productsApi = new ProductsEntity();
+    $productsAllPaginate = $productsApi->getAllPaginate();
+
+    //echo '<pre>', var_dump($productsAllPaginate), '</pre>';
 
     /** @var \App\Boutique\Utils\Render $render */
     $render = $arguments['render'];
 
+    $render->addParams('productsAllPaginate', $productsAllPaginate);
 
     // Rendre le template
     $content = $render->renderAdmin('products', $arguments);
@@ -176,7 +179,7 @@ class AdminPanel
    */
   public function IndexOrders(...$arguments)
   {
-    $usersSelect = $this->productInit->getAll();
+    // $usersSelect = $this->productInit->getAll();
 
     /** @var \App\Boutique\Utils\Render $render */
     $render = $arguments['render'];

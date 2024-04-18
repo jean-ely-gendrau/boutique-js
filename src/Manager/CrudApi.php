@@ -110,4 +110,44 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
   }
 
   /********************************************** Getter/Setter *****************************/
+
+  /**
+   * Get the value of _objectClass
+   */
+  public function getObjectClass()
+  {
+    return $this->_objectClass;
+  }
+
+  /**
+   * Set the value of _objectClass
+   *
+   * @return  self
+   */
+  public function setObjectClass($_objectClass)
+  {
+    $this->_objectClass = $_objectClass;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of _tableName
+   */
+  public function getTableName()
+  {
+    return $this->_tableName;
+  }
+
+  /**
+   * Set the value of _tableName
+   *
+   * @return  self
+   */
+  public function setTableName($_tableName)
+  {
+    $this->_tableName = $_tableName;
+
+    return $this;
+  }
 }

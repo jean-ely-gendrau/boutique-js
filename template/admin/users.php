@@ -54,23 +54,29 @@
             <!-- START TR -->
             <?php foreach ($usersAllPaginate as $idKey => $user) : ?>
               <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <!-- CHECKBOX -->
                 <td class="w-4 px-4 py-3">
                   <div class="flex items-center">
                     <input id="checkbox-user-search-<?= $idKey ?>" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-user-search-1" class="sr-only">checkbox</label>
                   </div>
                 </td>
+                <!-- FULL_NAME -->
                 <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <?= $user->full_name ?>
                 </th>
+                <!-- EMAIL -->
                 <td class="px-4 py-2">
                   <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
                     <div class="inline-block w-4 h-4 mr-2 bg-red-700 rounded-full"></div>
                     <?= $user->email ?>
                   </span>
                 </td>
+                <!-- PASSWORD -->
                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">password</td>
-                <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user->birthday ?></td>
+                <!-- AGE -->
+                <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user->getAge() ?> ans</td>
+                <!-- ADDRESS -->
                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div class="flex items-center">
                     <span class="ml-1 text-gray-500 dark:text-gray-400"><?= $user->adress ?></span>
@@ -78,19 +84,30 @@
                 </td>
                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2 text-gray-400" aria-hidden="true">
-                      <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
-                    </svg>
-                    <?= $user->role ?>
+                    <!-- SVG/ROLE -->
+                    <?php if ($user->role === 'user') : /*USER*/ ?>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>
+                      user
+                    <?php elseif ($user->role === 'admin') : /*ADMIN*/ ?>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                      admin
+                    <?php endif; ?>
                   </div>
                 </td>
+                <!-- CREATED_AT -->
                 <td class="px-4 py-2"><?= $user->created_at ?></td>
+                <!-- UPDATED_AT -->
                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user->updated_at ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
       </div>
+      <!-- PAGINATION -->
       <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Utilisateurs

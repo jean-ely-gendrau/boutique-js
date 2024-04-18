@@ -14,7 +14,6 @@ class Products
     {
 
         $this->dataBase = $bddManager->linkConnect();
-
     }
 
     //Ajouté les propriétés et méthodes au besoins
@@ -24,7 +23,6 @@ class Products
         if ($categoryName == "0") {
             $counterSubCat = "0";
             $counterSubCat3 = "3";
-
         } else if ($categoryName == "1") {
             $counterSubCat = "3";
             $counterSubCat3 = "6";
@@ -106,5 +104,3 @@ class Products
         }
     }
 }
-
-?>

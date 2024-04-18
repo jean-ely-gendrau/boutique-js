@@ -5,6 +5,12 @@ namespace App\Boutique\Models;
 class ProductsModels
 {
 
+  /**
+   * id_product
+   *
+   * @var int
+   */
+  private $id_product;
 
   /**
    * name
@@ -37,9 +43,23 @@ class ProductsModels
   /**
    * images
    *
-   * @var array
+   * @var mixed
    */
   private $images;
+
+  /**
+   * id_category
+   *
+   * @var int
+   */
+  private $id_category;
+
+  /**
+   * id_sub_cat
+   *
+   * @var int
+   */
+  private $id_sub_cat;
 
   /**
    * created_at
@@ -60,6 +80,31 @@ class ProductsModels
     //Ajouté les propriétés et méthodes au besoins
   }
 
+
+  /* ----------------------------------- METHOD MAGIC ------------------------------ */
+  /* __get magic
+     * https://www.php.net/manual/en/language.oop5.magic.php
+     */
+
+  public function __get(string $name)
+  {
+    return $this->$name;
+  }
+
+  public function __isset($name)
+  {
+    return isset($this->data[$name]);
+  }
+
+  /*
+     * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode
+     * sinon on obtiendrait une erreur de ce type
+     * Using Dynamic Properties on Classes running PHP 8.2 will lead to PHP Deprecated
+     */
+
+  public function __set(string $property, mixed $value)
+  {
+  }
 
   /************************************** Getter/Setter ***********************************/
 
@@ -163,23 +208,23 @@ class ProductsModels
   /**
    * Get images
    *
-   * @return  array
+   * @return  mixed
    */
   public function getImages()
   {
-    return $this->images;
+    return json_decode($this->images);
   }
 
   /**
    * Set images
    *
-   * @param  array  $images  images
+   * @param  mixed  $images  images
    *
    * @return  self
    */
-  public function setImages(array $images)
+  public function setImages(mixed $images)
   {
-    $this->images = $images;
+    $this->images = json_encode($this->images);
 
     return $this;
   }
