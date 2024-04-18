@@ -98,6 +98,24 @@ class CrudManager extends BddManager
     }
 
     /**
+     * Method getAllById
+     *
+     * @param string $id [id de la requête]
+     *
+     * @param string $idTable [id de la table (ex: pour products : id_category)]
+     *
+     * @return array
+     */
+    public function getAllById(string $id, string $idTable): array
+    {
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = ' . $id);
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    /**
      * Method getAll
      *
      * @params array $select [les collones à séléctionner | si null toutes les collones seront extraite]
@@ -160,7 +178,7 @@ class CrudManager extends BddManager
      *
      * @param object $objectClass [object des données à metre à jour dans la table]
      * @param array $param [paramètre representant les données à metre à jour - Le premier élément du tableau dois être la clé de id à mettre à jour exemple id,id_user,id_product ...]
-     * 
+     *
      * @return void
      */
     public function update(object $objectClass, array $param): void
@@ -170,12 +188,7 @@ class CrudManager extends BddManager
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
         $valueString = self::formatParams($paramsUpdate, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
 
-        $sql =
-            'UPDATE ' .
-            $this->_tableName .
-            ' SET ' .
-            $valueString .
-            ' WHERE ' . $param[0] . ' = :id_user';
+        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE ' . $param[0] . ' = :id_user';
 
         $req = $this->_dbConnect->prepare($sql);
 
