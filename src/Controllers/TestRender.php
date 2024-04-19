@@ -43,13 +43,14 @@ class TestRender
         // $bddManager
         $products = $crudManager->getAll();
 
-        $allProducts = $horizontalSelector->generateProductList($products); // Appel de la méthode generateProductList()
+        // TODO passer en paramétre l'id des boutons
+        $allProducts = $horizontalSelector->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
 
         $arguments['render']->addParams('product', $allProducts);
 
         $productsTea = $crudManager->getAllById('1', 'id_category');
 
-        $allProductsTea = $horizontalSelector->generateProductList($productsTea);
+        $allProductsTea = $horizontalSelector->generateProductList($productsTea, 'id-scroll-x-2');
 
         $arguments['render']->addParams('productsTea', $allProductsTea);
 

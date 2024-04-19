@@ -7,24 +7,38 @@ use App\Boutique\Manager\BddManager;
 class HorizontalSelector
 {
     protected $serverPath;
-    // private $bddManager;
-    // BddManager $bddManager
+
     public function __construct()
     {
         global $serverName;
         $this->serverPath = $serverName;
-        // $this->bddManager = $bddManager;
+    }
+    public static function buttonScrollX(string $idElement)
+    {
+        return "<div id='nav' class='absolute top-0 w-[1152px]'>
+                    <button data-js='handelScrollX,click' data-direction-scroll='l' data-scroll-x='{$idElement}' id='font' class='absolute left-0 inline-block bg-gray-200 text-black my-40 cursor-pointer rounded-full text-6xl font-semibold w-12 h-12 text-center p-0'>
+                        <
+                    </button>
+                    <button data-js='handelScrollX,click' data-direction-scroll='r' data-scroll-x='{$idElement}' id='font' class='absolute right-0 inline-block bg-gray-200 text-black my-40 cursor-pointer rounded-full text-6xl font-semibold w-12 h-12 text-center p-0'>
+                        >     
+                    </button>
+                </div>
+            </div>";
     }
 
-    public function generateProductList($products)
+    // <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+    //     <polygon points='15.293 3.293 6.586 12 15.293 20.707 16.707 19.293 9.414 12 16.707 4.707 15.293 3.293'/>
+    // </svg>
+    // <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+    //         <polygon points='7.293 4.707 14.586 12 7.293 19.293 8.707 20.707 17.414 12 8.707 3.293 7.293 4.707'/>
+    //     </svg>
+    public function generateProductList($products, string $id)
     {
-        // $testProducts = new TestProducts($this->bddManager);
-        // $products = $testProducts->AllProduct();
         //                        <img src='/assets/images/{$productItem['images']['main']}' alt='{$productItem['name']}' class='w-32 h-28 mx-auto mt-12' />
 
         $slider = "
         <div id='menu' class='relative flex justify-center'>
-            <ul class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
+            <ul id='{$id}' class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
         foreach ($products as $productItem):
             $slider .= "  <div class='bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-xl'>
                         <div class='bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4'>
@@ -45,20 +59,8 @@ class HorizontalSelector
                         </div>
                     </div>";
         endforeach;
-        $slider .= "</ul> 
-            <div id='nav' class='absolute top-0 w-[1152px]'> 
-                <div id='prev' class='absolute left-0 inline-block p-1 bg-gray-200 text-white my-40 cursor-pointer rounded-full'>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                        <polygon points='15.293 3.293 6.586 12 15.293 20.707 16.707 19.293 9.414 12 16.707 4.707 15.293 3.293'/>
-                    </svg>
-                </div>
-                <div id='next' class='absolute right-0 inline-block p-1 bg-gray-200 text-white my-40 cursor-pointer rounded-full'>
-                    <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                        <polygon points='7.293 4.707 14.586 12 7.293 19.293 8.707 20.707 17.414 12 8.707 3.293 7.293 4.707'/>
-                    </svg>
-                </div>
-            </div>
-        </div>";
+        $slider .= '</ul> ' . self::buttonScrollX($id);
+
         return $slider;
     }
 }
