@@ -18,6 +18,15 @@
     background-position: center;
 }
 
+/* DEBUG BAR CSS */
+.debug-min {
+    max-height: 60px;
+}
+
+.debug-max {
+    max-height: calc(100vh / 2);
+}
+
 /* `#font` utilise le fichier déclaré par @font-face et modifie la Police d'écriture
  * des boutons ayant l'id 'font' dans Slider.php  
  */
