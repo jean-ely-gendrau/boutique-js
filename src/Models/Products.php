@@ -67,8 +67,8 @@ class Products
             echo 'path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 div0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z" data-original="#000000"></path>';
             echo "</svg>";
             echo "</div>";
-            echo '<img src="http://' . $this->serverPath . '/assets/images/' . $sellMost['images']['main'] . '"alt="' . $sellMost["name"] . '"> <br>';
-            echo "<p class='mt-3 font-bold'>" . $sellMost["name"] . "</p>";
+            echo '<img id="' . $sellMost['id_product'] . '" src="http://' . $this->serverPath . '/assets/images/' . $sellMost['images']['main'] . '"alt="' . $sellMost["name"] . '"> <br>';
+            echo "<p id='" . $sellMost['id_product'] . "' class='mt-3 font-bold'>" . $sellMost["name"] . "</p>";
             echo "<div class='flex justify-center'>";
             echo "<p class='mt-3 font-bold mr-2'>" . $sellMost["price"] . "€</p>";
             echo "<p class='mt-3 font-medium text-gray-300'>" . $sellMost["price"] . "€";
@@ -82,13 +82,14 @@ class Products
         echo "<div class='mx-auto flex justify-start max-w-6x1'>";
         echo "<form method='post'>";
         echo "<label for='counterSubCat'>" . $type . $pageURL . ": </label>";
-        echo "<select name='counterSubCat' id='counterSubCat'>";
-        echo "<option value='99'>ici que sa se passe</option>";
+        echo "<select name='counterSubCat' id='counterSubCat' onchange='checkSelection()'>";
+        echo "<option value='99'>ici que ça se passe</option>";
         echo "<option value='" . $counterSubCat0 . "'>" . $nameSubCat0 . "</option>";
         echo "<option value='" . $counterSubCat1 . "'>" . $nameSubCat1 . "</option>";
         echo "<option value='" . $counterSubCat2 . "'>" . $nameSubCat2 . "</option>";
         echo "</select>";
-        echo "<button type='submit'>Valider</button>";
+        echo "<button id='submitSubCat' type='submit' class='w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full'>allons voir</button>";
+        echo "<div id='text'></div>";
         echo "</form>";
         echo "</div>";
 
@@ -129,8 +130,8 @@ class Products
                         echo 'path d="M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 div0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z" data-original="#000000"></path>';
                         echo "</svg>";
                         echo "</div>";
-                        echo '<img src="http://' . $this->serverPath . '/assets/images/' . $product['images']['main'] . '"alt="' . $product["name"] . '"> <br>';
-                        echo "<p class='mt-3 font-bold'>" . $product["name"] . "</p>";
+                        echo '<img id="' . $product['id_product'] . '" src="http://' . $this->serverPath . '/assets/images/' . $product['images']['main'] . '"alt="' . $product["name"] . '"> <br>';
+                        echo "<p id='" . $product['id_product'] . "' class='mt-3 font-bold'>" . $product["name"] . "</p>";
                         echo "<div class='flex justify-center'>";
                         echo "<p class='mt-3 font-bold mr-2'>" . $product["price"] . "€</p>";
                         echo "<p class='mt-3 font-medium text-gray-300'>" . $product["price"] . "€";
@@ -139,15 +140,6 @@ class Products
                         echo '<button type="button" class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add to cart</button>';
                         echo '</div>';
                         echo '</div>';
-
-                        // echo "<div>";
-                        // echo '<img src="./image/produit/' . $product["photo"] . '"alt="' . $product["name"] . '"> <br>';
-                        // echo $product["name"] . "<br>";
-                        // echo $product["price"] . " €<br>";
-                        // echo $product["description"] . "<br>";
-                        // echo " - Quantité: " . $product["quantity"] . "<br>";
-                        // echo "</div>";
-                        // echo "<br>";
                     }
                 }
             } else if ($counterSubCat === '99') {
