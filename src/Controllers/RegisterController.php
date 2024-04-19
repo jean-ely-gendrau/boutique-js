@@ -6,6 +6,7 @@ use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\Users;
 use App\Boutique\Manager\PasswordHashManager;
 use App\Boutique\Manager\MailManager;
+use App\Boutique\Components\ReCaptcha;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -200,6 +201,14 @@ class RegisterController
         var_dump($arguments['sujet']);
         var_dump($arguments['message']);
         echo "</pre>";
+        $noBot = new ReCaptcha();
+        $mail = new MailManager;
+        if ($noBot->notRobot($arguments['g-recaptcha-response']) === true) {
+            $mail->sendMailPHP(['esteban.bare@laplateforme.io'], $arguments['sujet'], $arguments['message']);
+            return header('Location:/');
+        } else {
+            echo 'Problem verifying Recaptcha';
+        }
         $content = $arguments['render']->render('contact', $arguments);
         // $content = $this->render('contact', $arguments);
         return $content;
