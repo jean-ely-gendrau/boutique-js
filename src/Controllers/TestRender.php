@@ -11,6 +11,7 @@ use App\Boutique\Components\HorizontalSelector;
 use App\Boutique\Components\FileImportJson;
 use App\Boutique\Models\Orders;
 use App\Boutique\Manager\CrudManager;
+use App\Boutique\Models\ProductsAlex;
 use App\Boutique\Models\Users;
 
 /**
@@ -34,29 +35,23 @@ class TestRender
         /*
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
-        // Créer une instance de BddManager
+
         // $bddManager = new BddManager();
+        $crudManager = new CrudManager('products', ProductsAlex::class);
+        // $tableIdProduct = $crudManager->getById('1', 'id_product');
+        $horizontalSelector = new HorizontalSelector();
+        // $bddManager
+        $products = $crudManager->getAll();
 
-        // // Instancier la classe Products en lui passant BddManager
+        $allProducts = $horizontalSelector->generateProductList($products); // Appel de la méthode generateProductList()
 
-        // $horizontalSelector = new HorizontalSelector($bddManager);
-        // // $horizontalSelector->generateProductList($product);
+        $arguments['render']->addParams('product', $allProducts);
 
-        // $arguments['render']->addParams('product', $horizontalSelector);
-        // // Ajouter l'instance de Products aux paramètres du rendu
-        // // $this->addParams('horizontalSelector', $horizontalSelector);
+        $productsTea = $crudManager->getAllById('1', 'id_category');
 
-        // // Rendre le template
-        // $content = $arguments['render']->render('test-render', $arguments);
-        // return $content;
-        $bddManager = new BddManager();
+        $allProductsTea = $horizontalSelector->generateProductList($productsTea);
 
-        $horizontalSelector = new HorizontalSelector($bddManager);
-        $productHtml = $horizontalSelector->generateProductList(); // Appel de la méthode generateProductList()
-
-        /*Test affichage seo.fr.json*/
-
-        $arguments['render']->addParams('product', $productHtml);
+        $arguments['render']->addParams('productsTea', $allProductsTea);
 
         $content = $arguments['render']->render('test-render', $arguments);
         return $content;
@@ -100,5 +95,24 @@ class TestRender
 
         // Rendre le template
         return $arguments['render']->render('acceuil', $arguments);
+    }
+
+    /**
+     * Fonction ProductMethodTest qui récupère les données de la classe Exemple, les ajoute aux paramètres,
+     * renvoie une vue template nommée 'test-render', et retourne le contenu.
+     *
+     * @param array ...$arguments Les arguments transmis à la méthode.
+     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
+     */
+    public function ProductMethodTest(...$arguments)
+    {
+        // Test de la méthode getById du CrudManager pour la classe Orders
+        $crudManager = new CrudManager('products', ProductsAlex::class);
+        // $tableIdProduct = $crudManager->getById('1', 'id_product');
+        $tableIdProduct = $crudManager->getAll();
+        var_dump($tableIdProduct);
+        $arguments['render']->addParams('product', $tableIdProduct);
+        $content = $arguments['render']->render('test-orders', $arguments);
+        return $content;
     }
 }

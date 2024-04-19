@@ -19,14 +19,22 @@ $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 $router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
 $router->map('POST', '/produit/[a:categoryName]', 'produit', 'produit-post');
 
+// Route page profil
+$router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/modification', 'modification', 'modification');
+$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'panier', 'panier');
+$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
+
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-//
-$router->map('GET', '/test-orders', 'TestRender#View', 'order');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 

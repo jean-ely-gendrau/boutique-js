@@ -10,37 +10,37 @@
   <title>Teacoffe</title>
   <title>
     <?= $seoConfig->seoTitlePage
-      /* TITRE */
-      ?>
+    /* TITRE */
+    ?>
   </title>
   <meta name="description" content="<?= $seoConfig->seoDescriptionPage
-    /* DESCRIPTION */
-    ?>" />
+                                    /* DESCRIPTION */
+                                    ?>" />
   <link rel="canonical" href="/" />
   <!-- META SEO OG  -->
   <meta property="og:image" content="<?= $seoConfig->seoUrlImage
-    /* Url de l'image de partage */
-    ?>" />
+                                      /* Url de l'image de partage */
+                                      ?>" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage
-    /* Text Alt de l'image de partage */
-    ?>" />
+                                          /* Text Alt de l'image de partage */
+                                          ?>" />
   <meta property="og:type" content="<?= $seoConfig->seoType
-    /* Type de contenue */
-    ?>" />
+                                    /* Type de contenue */
+                                    ?>" />
   <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']
-    /* Url  de la page courante */
-    ?>" />
+                                    /* Url  de la page courante */
+                                    ?>" />
   <meta property="og:title" content="<?= $seoConfig->seoOgTitlePage ?? $seoConfig->seoTitlePage
-    /* TITRE de partage, peu être légerement différent du titre */
-    ?>" />
+                                      /* TITRE de partage, peu être légerement différent du titre */
+                                      ?>" />
   <meta property="og:description" content="<?= $seoConfig->seoOgDescriptionPage ?? $seoConfig->seoDescriptionPage
-    /* DESCRIPTION de partage, peu être légerement différent de la déscription */
-    ?>" />
+                                            /* DESCRIPTION de partage, peu être légerement différent de la déscription */
+                                            ?>" />
   <meta name="robots" content="<?= $seoConfig->seoRobotIndex
-    /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
-    ?>" />
+                                /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
+                                ?>" />
   <?php ?>
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
@@ -77,11 +77,11 @@
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="#"
+                <a href="user"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
               </li>
               <li>
-                <a href="#"
+                <a href="panier"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Commande</a>
               </li>
               <li>
@@ -117,24 +117,18 @@
         </a>
         <!-- MENU -->
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-          <ul
-            class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <a href="/"
-                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page">Acceuil</a>
+              <a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Acceuil</a>
             </li>
             <li>
-              <a href="/produit/cafe"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Café</a>
+              <a href="/produit/cafe" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Café</a>
             </li>
             <li>
-              <a href="/produit/the"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Thé</a>
+              <a href="/produit/the" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Thé</a>
             </li>
             <li>
-              <a href="/contact"
-                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+              <a href="/contact" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
             </li>
           </ul>
         </div>
