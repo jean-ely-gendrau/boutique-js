@@ -9,3 +9,12 @@
     background-attachment: fixed;
     background-position: center;
 }
+
+/* DEBUG BAR CSS */
+.debug-min {
+    max-height: 60px;
+}
+
+.debug-max {
+    max-height: calc(100vh / 2);
+}

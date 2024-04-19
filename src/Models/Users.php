@@ -33,6 +33,7 @@ class Users extends PasswordHashManager
     {
         $this->id_user = $data['id_user'] ?? null;
         $this->full_name = $data['full_name'] ?? '';
+        $this->id_user = $data['id_user'] ?? '';
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
@@ -79,7 +80,7 @@ class Users extends PasswordHashManager
     public function setDateTime(string $dateString)
     {
         $newDate = new DateTime($dateString);
-        return $newDate->format('Y-m-d H:i:s');
+        return $newDate->format('Y-m-d');
     }
 
     /**
@@ -93,6 +94,7 @@ class Users extends PasswordHashManager
         return $newDate->format('Y-m-d');
     }
 
+<<<<<<< HEAD
     public function getAge()
     {
         $dateNow = date("Y-m-d");
@@ -157,5 +159,25 @@ class Users extends PasswordHashManager
         $this->adress = $adress;
 
         return $this;
+=======
+    public function update($full_name, $birthday, $adress, $password)
+    {
+
+        // Préparez une requête SQL pour mettre à jour l'enregistrement
+        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user";
+
+        // Préparez la requête avec PDO
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liez les paramètres à la requête
+        $stmt->bindParam(':full_name', $full_name);
+        $stmt->bindParam(':birthday', $this->setDateTime($birthday));
+        $stmt->bindParam(':adress', $adress);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':id_user', $this->id_user);
+
+        // Exécutez la requête
+        $stmt->execute();
+>>>>>>> main
     }
 }

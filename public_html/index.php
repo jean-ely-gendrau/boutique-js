@@ -1,6 +1,7 @@
 <?php
 
 use App\Boutique\Utils\Render;
+use App\Boutique\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -16,6 +17,16 @@ $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 $router->map('GET', '/produit', 'produit', 'produit');
+
+// Route page profil
+$router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/modification', 'modification', 'modification');
+$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'panier', 'panier');
+$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -35,8 +46,6 @@ $router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-
 $router->map('GET', '/panel-admin/test', 'AdminPanel#IndexTest', 'admin-panel-test');
 
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-//
-$router->map('GET', '/test-orders', 'TestRender#View', 'order');
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
@@ -89,7 +98,7 @@ $match = $router->match();
 //require_once __DIR__ . '/../element/header.php';
 
 // Si la route est bien enregistré avec $router->map alors on execute la condition
-if (is_array($match)):
+if (is_array($match)) :
     $params = $match['params'];
 
     /* Cas de Figure Du contrôlleur et de la méthod à appeler
@@ -107,7 +116,7 @@ if (is_array($match)):
      * - Traiter les données avant de les rendre au client
      * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
      */
-    if (str_contains($match['target'], '#')):
+    if (str_contains($match['target'], '#')) :
         // On assign les valeurs du tableau à
         // $contoller pour $match['target'][0]
         // $method    pour $match['target'][1]
@@ -140,11 +149,14 @@ if (is_array($match)):
 
         */
         $match['params']['render'] = $rendering;
+
+        // Test De la Debug BAR : Debug::view($match);
+
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
         // https://www.php.net/manual/en/function.is-callable.php
-        if (is_callable([$controller, $method])):
+        if (is_callable([$controller, $method])) :
             /*
              * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
              * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
@@ -165,24 +177,24 @@ if (is_array($match)):
              */
             echo call_user_func_array([$controller, $method], $match['params']);
         endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
          *
          * On appel la méthode defaultRender prenant en paramétre
          * le nom de la page ($match['target']) et la variable $serverName
          *
          * Enfin on affiche le resultat de la méthode
          */
-    else:
+    else :
         echo $rendering->defaultRender($match['target']);
     endif;
-    /*Si la page demandé est inexistante, nouvelle instance de Render
+/*Si la page demandé est inexistante, nouvelle instance de Render
      *
      * On passe en paramétre de la méthode la page '404'
      *
      * Enfin On affiche le résultat de la méthode
      */
-else:
+else :
     echo $rendering->defaultRender('404');
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+/* APPEL ICI DE LA CLASS RENDER */
+// require_once __DIR__ . '/../template/404.php';
 endif;

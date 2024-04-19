@@ -16,9 +16,9 @@ class MailManager
     {
         $bufferOUT = [];
 
-        if (is_array($emails)) :
-            foreach ($emails as $mail) :
-                if (preg_match('/^(?<=@)$/', $mail, $matches)) :
+        if (is_array($emails)):
+            foreach ($emails as $mail):
+                if (preg_match('/^(?<=@)$/', $mail, $matches)):
                     $tempArray = [$matches[1] . " <$mail>"];
                     array_push($bufferOUT, $tempArray);
                 endif;
@@ -39,8 +39,8 @@ class MailManager
             [$subject, $messageMail],
             file_get_contents(
                 __DIR__ .
-                    DIRECTORY_SEPARATOR .
-                    "../../templateMail/{$templateMail}.php",
+                DIRECTORY_SEPARATOR .
+                "../../templateMail/{$templateMail}.php",
             ),
         );
     }
