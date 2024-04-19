@@ -7,8 +7,8 @@ use App\Boutique\Manager\BddManager;
 use App\Boutique\Components\Exemple;
 use App\Boutique\Utils\Render;
 use App\Boutique\Models\TestProducts;
-use App\Boutique\Components\HorizontalSelector;
 use App\Boutique\Components\FileImportJson;
+use App\Boutique\Components\Slider;
 use App\Boutique\Models\Orders;
 use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\ProductsAlex;
@@ -36,25 +36,30 @@ class TestRender
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
 
-        // $bddManager = new BddManager();
+        // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
         $crudManager = new CrudManager('products', ProductsAlex::class);
-        // $tableIdProduct = $crudManager->getById('1', 'id_product');
-        $horizontalSelector = new HorizontalSelector();
-        // $bddManager
+
+        // Instance de la classe Slide
+        $horizontalSlide = new Slider();
+
+        // Création d'un slider importent l'ensemble des produits
         $products = $crudManager->getAll();
-
-        // TODO passer en paramétre l'id des boutons
-        $allProducts = $horizontalSelector->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
-
+        $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
         $arguments['render']->addParams('product', $allProducts);
 
+        // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
+        $productsCoffee = $crudManager->getAllById('0', 'id_category');
+        $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
+        $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
+
+        // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
         $productsTea = $crudManager->getAllById('1', 'id_category');
-
-        $allProductsTea = $horizontalSelector->generateProductList($productsTea, 'id-scroll-x-2');
-
+        $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
+        // Initialisation de la variable $content avec l'ensemble des arguments passé par la méthode addParams dans la clé `render`
         $content = $arguments['render']->render('test-render', $arguments);
+
         return $content;
     }
 

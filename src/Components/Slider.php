@@ -4,7 +4,7 @@ namespace App\Boutique\Components;
 use App\Boutique\Models\TestProducts;
 use App\Boutique\Manager\BddManager;
 
-class HorizontalSelector
+class Slider
 {
     protected $serverPath;
 
