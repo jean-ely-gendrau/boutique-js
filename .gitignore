@@ -2,5 +2,9 @@
 /node_modules/
 package-lock.json
 composer.lock
+<<<<<<< HEAD
 .gitigniore
+=======
+/public_html/assets/js/flowbite.min.js
+>>>>>>> main
 /public_html/assets/styles/global.css

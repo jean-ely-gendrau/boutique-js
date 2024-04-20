@@ -1,6 +1,7 @@
 <?php
 
 use App\Boutique\Utils\Render;
+use App\Boutique\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -8,11 +9,39 @@ $uri = $_SERVER['REQUEST_URI'];
 $serverName = $_SERVER['HTTP_HOST'];
 $router = new AltoRouter();
 
-$router->map('GET', '/', 'acceuil', 'acceuil');
-$router->map('GET', '/contact', 'contact', 'contact');
+// création instance de Render
+$rendering = new Render();
+// Appelle de la méthode addParams afin d'ajouter la variable $uri et $serverName
+$rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
+
+// Route accueil rendu après l'appel du controller HomeController et de sa méthode RenderHome
+$router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
+
+// Route produit
+$router->map('GET', '/produit', 'produit', 'produit');
+
+// Route page profil
+$router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/modification', 'modification', 'modification');
+$router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
+$router->map('GET', '/historique', 'historique', 'historique');
+$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'panier', 'panier');
+$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
+
+// Inscription/Connexion route
+$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
+$router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
+$router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
+$router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+$router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 
 $router->map('GET', '/form-test', 'formBuilder/form-test', 'form-builder');
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+
+$router->map('GET', '/contact', 'contact', 'contact');
+$router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm');
 
 /*
   Classe-Render-View Route test
@@ -27,9 +56,25 @@ $router->map('GET', '/form-test', 'formBuilder/form-test', 'form-builder');
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#View', 'test-render-index');
+$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+
+/*
+  Class MailManager Route test
+  Avec cette route nous allons faire un essaie d'envoie d'email
+
+  paramètres de la route :
+
+  $method = GET
+  $route  = /test-mail-sender
+  $target = TestMailSender#SendMail (le séparateur #) avec le séparateur on à le nom_du_controller # nom_de_la_method
+  $name   = test-mail-sender
+
+  Ici on appel la class TestMailSender avec la méthode SendMail
+*/
+$router->map('GET', '/test-mail-sender', 'TestMailSender#SendMail', 'test-mail-sender');
 
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
+
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
   
@@ -90,9 +135,16 @@ if (is_array($match)):
             //DEBUG var_dump($match);
         }
 
-        $match['params']['uri'] = $uri; // Ajoute l'Uri dans les params à transmettre à la class Controller
-        $match['params']['serverName'] = $serverName; // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
+        /* Ajoute l'Uri dans les params à transmettre à la class Controller
+        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
+        */
+        $match['params']['render'] = $rendering;
+
+        // Test De la Debug BAR : Debug::view($match);
+
+        // $match['params']['uri'] = $uri;
+        // $match['params']['serverName'] = $serverName;
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
         // https://www.php.net/manual/en/function.is-callable.php
         if (is_callable([$controller, $method])):
@@ -124,11 +176,7 @@ if (is_array($match)):
          * Enfin on affiche le resultat de la méthode
          */
     else:
-        $staticContent = new Render($serverName);
-
-        $content = $staticContent->defaultRender($match['target'], $serverName);
-
-        echo $content;
+        echo $rendering->defaultRender($match['target']);
     endif;
     /*Si la page demandé est inexistante, nouvelle instance de Render
      *
@@ -137,12 +185,7 @@ if (is_array($match)):
      * Enfin On affiche le résultat de la méthode
      */
 else:
-    $staticContent = new Render($serverName);
-
-    $content = $staticContent->defaultRender('404', $serverName);
-
-    echo $content;
-
+    echo $rendering->defaultRender('404');
     /* APPEL ICI DE LA CLASS RENDER */
     // require_once __DIR__ . '/../template/404.php';
 endif;

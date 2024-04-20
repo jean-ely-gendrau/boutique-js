@@ -2,18 +2,19 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Components\Exemple;
-use App\Boutique\Utils\Render;
+use App\Boutique\Components\Slider;
+use App\Boutique\Models\Orders;
+use App\Boutique\Manager\CrudManager;
+use App\Boutique\Models\ProductsModels;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class TestRender extends Render
+class TestRender
 {
     public function __construct()
     {
-        /* Action du constucteur */
     }
 
     /**
@@ -27,7 +28,32 @@ class TestRender extends Render
         /*
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
-        return var_dump($arguments);
+
+        // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
+        $crudManager = new CrudManager('products', ProductsModels::class);
+
+        // Instance de la classe Slide
+        $horizontalSlide = new Slider();
+
+        // Création d'un slider importent l'ensemble des produits
+        $products = $crudManager->getAll();
+        $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
+        $arguments['render']->addParams('product', $allProducts);
+
+        // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
+        $productsCoffee = $crudManager->getAllById('0', 'id_category');
+        $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
+        $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
+
+        // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
+        $productsTea = $crudManager->getAllById('1', 'id_category');
+        $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
+        $arguments['render']->addParams('productsTea', $allProductsTea);
+
+        // Initialisation de la variable $content avec l'ensemble des arguments passé par la méthode addParams dans la clé `render`
+        $content = $arguments['render']->render('test-render', $arguments);
+
+        return $content;
     }
 
     /**
@@ -39,9 +65,11 @@ class TestRender extends Render
      */
     public function View(...$arguments)
     {
-        $exemple = Exemple::Test();
-        $this->addParams('exemple', $exemple);
-        $content = $this->render('test-render', $arguments);
+        // Test de la méthode getById du CrudManager pour la classe Orders
+        $crudManager = new CrudManager('orders', Orders::class);
+        $tableIdOrder = $crudManager->getById('1', 'id_order');
+        $arguments['render']->addParams('order', $tableIdOrder);
+        $content = $arguments['render']->render('test-orders', $arguments);
         return $content;
     }
 }

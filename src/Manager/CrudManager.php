@@ -37,11 +37,8 @@ class CrudManager extends BddManager
      *
      * @return void
      */
-    public function __construct(
-        string $tableName,
-        string $objectClass,
-        $configDatabase = null,
-    ) {
+    public function __construct(string $tableName, string $objectClass, $configDatabase = null)
+    {
         parent::__construct($configDatabase);
         $this->_tableName = $tableName;
         $this->_objectClass = $objectClass;
@@ -80,27 +77,42 @@ class CrudManager extends BddManager
 
         return $req->fetchAll();
     }
-  */
+     */
 
     /**
      * Method getById
      *
      * @param string $id [id de la requête]
      *
-     * @return object
+     * @param string $idTable [id de la table (ex: id_order)]
+     *
+     * @return object|bool
      */
-    public function getById(string $id): object
+    public function getById(string $id, string $idTable): object|bool
     {
-        $req = $this->_dbConnect->prepare(
-            'SELECT * FROM ' . $this->_tableName . ' WHERE id = :id',
-        );
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = :id');
         $req->execute(['id' => intval($id)]);
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetch();
+    }
+
+    /**
+     * Method getAllById
+     *
+     * @param string $id [id de la requête]
+     *
+     * @param string $idTable [id de la table (ex: pour products : id_category)]
+     *
+     * @return array
+     */
+    public function getAllById(string $id, string $idTable): array
+    {
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = ' . $id);
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
     }
 
     /**
@@ -112,14 +124,9 @@ class CrudManager extends BddManager
     public function getAll(?array $select = null): array
     {
         $selectItem = is_null($select) ? '*' : join(', ', $select);
-        $req = $this->_dbConnect->prepare(
-            "SELECT {$selectItem} FROM " . $this->_tableName,
-        );
+        $req = $this->_dbConnect->prepare("SELECT {$selectItem} FROM " . $this->_tableName);
         $req->execute();
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
     }
@@ -129,18 +136,13 @@ class CrudManager extends BddManager
      *
      * @param string $email [email de correspondance]
      *
-     * @return object
+     * @return bool | object
      */
-    public function getByEmail(string $email): object
+    public function getByEmail(string $email): bool|object
     {
-        $req = $this->_dbConnect->prepare(
-            'SELECT * FROM ' . $this->_tableName . ' WHERE email = :email',
-        );
-        $req->execute([$email]);
-        $req->setFetchMode(
-            \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
-            $this->_objectClass,
-        );
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE email = :email');
+        $req->execute(['email' => $email]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetch();
     }
@@ -157,14 +159,7 @@ class CrudManager extends BddManager
     {
         $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
-        $sql =
-            'INSERT INTO ' .
-            $this->_tableName .
-            '(' .
-            implode(', ', $param) .
-            ') VALUES(' .
-            $valueString .
-            ')';
+        $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
         $req = $this->_dbConnect->prepare($sql);
         $boundParam = [];
 
@@ -182,31 +177,35 @@ class CrudManager extends BddManager
      * Method update
      *
      * @param object $objectClass [object des données à metre à jour dans la table]
-     * @param array $param [paramètre representant les données à metre à jour]
+     * @param array $param [paramètre representant les données à metre à jour - Le premier élément du tableau dois être la clé de id à mettre à jour exemple id,id_user,id_product ...]
      *
-     * @return mixed
+     * @return void
      */
-    public function update(object $objectClass, array $param): mixed
+    public function update(object $objectClass, array $param): void
     {
-        $valueString = self::formatParams($param, 'FORMAT_UPDATE');
+        // On mémorise les paramètres à mettre à jours
+        $paramsUpdate = $param;
+        unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
+        $valueString = self::formatParams($paramsUpdate, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
 
-        $sql =
-            'UPDATE ' .
-            $this->_tableName .
-            ' SET ' .
-            $valueString .
-            ' WHERE id = :id';
+        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE ' . $param[0] . ' = :id_user';
+
         $req = $this->_dbConnect->prepare($sql);
-        // $param = ['id'];
+
+        // Paramètre SQL execute
         $boundParam = [];
 
+        // Parcours des paramètres à mettre à jour
         foreach ($param as $paramName) {
+            // Si la proprété existe dans la class
+
             if (property_exists($objectClass, $paramName)) {
-                $boundParam[$paramName] = $objectClass->$paramName;
+                $boundParam[$paramName] = $objectClass->$paramName; // On le défini dans le tableau avec sa clé
             } else {
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
+        var_dump($boundParam);
         $req->execute($boundParam);
     }
 
@@ -220,9 +219,7 @@ class CrudManager extends BddManager
     public function delete(object $objectClass): mixed
     {
         if (property_exists($objectClass, 'id')) {
-            $req = $this->_dbConnect->prepare(
-                'DELETE FROM ' . $this->_tableName . ' WHERE id=?',
-            );
+            $req = $this->_dbConnect->prepare('DELETE FROM ' . $this->_tableName . ' WHERE id=?');
 
             return $req->execute([$objectClass->id]);
         } else {
@@ -264,5 +261,55 @@ class CrudManager extends BddManager
                     }, $args),
                 );
         endswitch;
+    }
+
+    public function getByIdOrder($clientId)
+    {
+        $adresse = $this->_dbConnect->prepare(
+            'SELECT adress FROM users WHERE id_user = :client_id',
+        );
+        $adresse->execute(['client_id' => $clientId]);
+        $adresse->setFetchMode(\PDO::FETCH_ASSOC);
+        $adresse = $adresse->fetch()['adress'];
+
+        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket != 1";
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $orders = [];
+        while ($row = $stmt->fetch()) {
+            $orders[] = [
+                'client_id' => $clientId,
+                'product_name' => $row['name'],
+                'adress' => $adresse,
+                'price' => $row['price'],
+                'status' => $row['status']
+            ];
+        }
+
+        return $orders;
+    }
+
+    public function getbyidbasket($clientId)
+    {
+        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1";
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        $orders = [];
+        while ($row = $stmt->fetch()) {
+            $orders[] = [
+                'client_id' => $clientId,
+                'id_product' => $row['id_product'],
+                'images' => $row['images'],
+                'product_name' => $row['name'],
+                'price' => $row['price'],
+                'status' => $row['status']
+            ];
+        }
+
+        return $orders;
     }
 }
