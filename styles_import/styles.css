@@ -18,3 +18,8 @@
 .debug-max {
     max-height: calc(100vh / 2);
 }
+
+/* Ajustement de la taille du main */
+.min-h-main {
+    min-height: calc(100vh - 275px);
+}
