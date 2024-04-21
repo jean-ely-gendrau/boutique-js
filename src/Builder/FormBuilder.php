@@ -2,6 +2,8 @@
 
 namespace App\Boutique\Builder;
 
+use App\Boutique\Validators\ValidatorJS;
+
 // Classe de construction de formulaire de base
 class FormBuilder extends AbstractFormBuilder
 {
@@ -86,14 +88,13 @@ class FormBuilder extends AbstractFormBuilder
 
         $output .= '</form>'; // Fermeture de l'élément form
 
-        // Ajouter du scripts JS de validation à la fin du formulaire
+        // Ajouter du scripts JS de validation des champs inputs à la fin du formulaire
         // Voir si il pourrait être rendu en bas de page
+        /*
         $output .= '<script>';
-        foreach ($this->validationScripts as $script) {
-            $output .= $script;
-        }
+        $output .= $this->generateValidationScript();
         $output .= '</script>';
-
+*/
         return $output;
     }
 
@@ -155,7 +156,7 @@ class FormBuilder extends AbstractFormBuilder
                 // Début de la balise Select
                 $output .= '<select name="' . $name . '" id="' . $id . '"';
                 break;
-            /* Tout les champs Input ce ressemble écrivons en dernière condition de switch*/
+                /* Tout les champs Input ce ressemble écrivons en dernière condition de switch*/
             case 'text':
             case 'password':
             case 'email':
@@ -200,6 +201,16 @@ class FormBuilder extends AbstractFormBuilder
         }
 
         /**************************************
+         * generateValidationScript
+         */
+
+        foreach ($this->generateValidationScript($id) as $rules => $rule) {
+            $output .= 'data-js="validateRules,blur"';
+            $output .= 'data-key-input="' . $id . '"';
+            $output .= 'data-message="' . $rule['message'] . '"';
+            $output .= 'data-regex="' . $rule['regex'] . '"';
+        }
+        /**************************************
          * Fin des champs Input/TextArea/Select
          */
         // TEXTAREA
@@ -217,8 +228,8 @@ class FormBuilder extends AbstractFormBuilder
             $optionsMulti =
                 isset($options['select-array-multi']) &&
                 $options['select-array-multi'] === true
-                    ? true
-                    : false;
+                ? true
+                : false;
 
             /* Assignation d'un valeur avec la condition Ternaire */
             $optionSelectKey = isset($options['options-keys'])
@@ -274,13 +285,15 @@ class FormBuilder extends AbstractFormBuilder
         $options = $elementAction['options'];
 
         /* Assignation d'un valeur avec la condition Ternaire */
-        $anchor = isset($options['anchor']) ? $options['anchor'] : '#';
+        $anchor = isset($options['anchor']) ? $options['anchor'] : 'envoyer';
 
         $output = '';
         switch ($type) {
             case 'link':
                 $output .= '<a ' . $name . ' ' . $id . '';
                 break;
+            case 'reset':
+            case 'submit':
             case 'button':
                 $output .=
                     '<button type="' . $type . '" ' . $name . ' ' . $id . '';
@@ -302,12 +315,18 @@ class FormBuilder extends AbstractFormBuilder
                 $output .= ' ' . $attr . '="' . $value . '"';
             }
         }
-        /* Assignation d'un valeur avec la condition Ternaire */
-        $output .=
-            $type === 'button'
-                ? '>' . $anchor . '</button>' // Fin de la balise Button
-                : '>' . $anchor . '</a>'; // Fin de la balise link
+        /* SWITCH de fermeture de Balise */
 
+        switch ($type) {
+            case 'link':
+                $output .= '>' . $anchor . '</a>'; // Fin de la balise link
+                break;
+            case 'reset':
+            case 'submit':
+            case 'button':
+                $output .= '>' . $anchor . '</button>'; // Fin de la balise Button
+                break;
+        }
         return $output;
     }
 
@@ -371,8 +390,8 @@ class FormBuilder extends AbstractFormBuilder
                     $optionSelected =
                         $isSelectedOption &&
                         $isSelectedOption === $optionSelectKey['keyValue']
-                            ? 'selected'
-                            : '';
+                        ? 'selected'
+                        : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -381,11 +400,13 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
-                } /**************************************************************
+                }
+                /**************************************************************
                  *
                  * Associatif avec sélection de clé [optionnel]
                  *
-                 */ elseif (
+                 */
+                elseif (
                     !$optionsMulti && // Si Faux
                     is_array($option) && // Si c'est un array AND
                     !empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
@@ -396,8 +417,8 @@ class FormBuilder extends AbstractFormBuilder
                     $optionSelected =
                         $isSelectedOption &&
                         $isSelectedOption === $optionSelectKey['keyValue']
-                            ? 'selected'
-                            : '';
+                        ? 'selected'
+                        : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -406,13 +427,15 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
-                } /**************************************************************
+                }
+                /**************************************************************
                  *
                  * Associatif sans sélection de clé
                  * ici en option nous aurron l'index du tableu comme value de l'option - array_keys
                  * et comme text on obtiendra la valeur de l'index du tableau - array_values
                  *
-                 */ elseif (
+                 */
+                elseif (
                     !$optionsMulti && // Si Faux
                     is_array($option) && // Si c'est un array AND
                     empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
@@ -423,8 +446,8 @@ class FormBuilder extends AbstractFormBuilder
                     $optionSelected =
                         $isSelectedOption &&
                         $isSelectedOption === array_keys($option)
-                            ? 'selected'
-                            : '';
+                        ? 'selected'
+                        : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -433,16 +456,18 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         array_values($option) . // On définit le text avec la valeur de l'array
                         '</option>';
-                } /**************************************************************
+                }
+                /**************************************************************
                  *
                  * Tableau listé exemple ['item1','item2']
                  *
-                 */ elseif (!empty($option) && array_is_list($option)) {
+                 */
+                elseif (!empty($option) && array_is_list($option)) {
                     /* Assignation d'un valeur avec la condition Ternaire */
                     $optionSelected =
                         $isSelectedOption && $isSelectedOption === $option
-                            ? 'selected'
-                            : '';
+                        ? 'selected'
+                        : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -451,11 +476,13 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         $option .
                         '</option>';
-                } /**************************************************************
+                }
+                /**************************************************************
                  *
                  * Dans le cas ou aucun condition n'est remplit
                  *
-                 */ else {
+                 */
+                else {
                     return '<option value="aucun">Aucune options disponible</option>';
                 }
             }, $optionsList),
@@ -474,5 +501,19 @@ class FormBuilder extends AbstractFormBuilder
     protected function addValidationScript($script)
     {
         $this->validationScripts[] = $script;
+    }
+
+    /**
+     * Method setValidatorJS
+     *
+     * Cette méthode pertmet de définir une instance du Validator JS
+     * 
+     * @param ValidatorJS $validator [Instance de ValidatorJS]
+     *
+     * @return void
+     */
+    public function setValidator(ValidatorJS $validator)
+    {
+        $this->validatorJS = $validator;
     }
 }

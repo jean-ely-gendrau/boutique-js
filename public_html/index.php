@@ -40,15 +40,14 @@ $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion
 /**********
  * FormBuilder Routes Pour les testes
  */
-// Connect
-$router->map('GET', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-registration');
-$router->map('POST', '/form-test-inscription', 'FormControllerTest#RegistrationUser', 'form-registration-validate');
-
 // Inscription
+$router->map('GET', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-registration');
+$router->map('POST', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-registration-validate');
+
+// Connect
 $router->map('GET', '/form-test-connect', 'FormControllerTest#ConnectForm', 'form-connect');
 $router->map('POST', '/form-test-connect', 'FormControllerTest#ConnectUser', 'form-connect-validate');
 
-$router->map('GET', '/form-test', 'formBuilder/form-test', 'form-builder');
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 $router->map('GET', '/contact', 'contact', 'contact');

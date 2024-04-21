@@ -3,6 +3,7 @@
 namespace App\Boutique;
 
 use Attribute;
+use App\Boutique\Components\FileImportJson;
 
 /**
  * ValidatorData
@@ -37,27 +38,27 @@ class ValidatorData
     {
         switch ($this->type) {
             case 'numeric': // Si c'est un numérique
-                if (is_numeric($value)):
+                if (is_numeric($value)) :
                     return true;
-                else:
+                else :
                     $this->messageError =
                         'Veuillez entrez une valeur numérique';
                     return false;
                 endif;
 
             case 'email': // Filter Mail
-                if (filter_var($value, FILTER_VALIDATE_EMAIL) === false):
+                if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) :
                     $this->messageError = 'Veuillez entrez une email valide';
                     return false;
-                else:
+                else :
                     return true;
                 endif;
 
             case 'string': // Si c'est une chaîne de caratère
-                if (!is_string($value)):
+                if (!is_string($value)) :
                     $this->messageError = 'Veuillez vérifier vos données.';
                     return false;
-                else:
+                else :
                     return true;
                 endif;
 
@@ -69,7 +70,7 @@ class ValidatorData
                     $this->options &&
                     isset($this->options['min']) &&
                     $length < $this->options['min']
-                ):
+                ) :
                     $this->messageError = "Veuillez entrez une longueur valide comprise entre $this->options['min'] et {$this->options['max']} caratères";
 
                     return false;
@@ -80,7 +81,7 @@ class ValidatorData
                     $this->options &&
                     isset($this->options['max']) &&
                     $length > $this->options['max']
-                ):
+                ) :
                     $this->messageError = "Veuillez entrez une longueur valide comprise entre $this->options['min'] et {$this->options['max']} caratères";
 
                     return false;
@@ -94,7 +95,7 @@ class ValidatorData
                 return in_array($value, $this->options);
 
             case 'full_name': // Pour le champ full_name
-                if (preg_match('/^(\w{3,25})$/', $value)):
+                if (preg_match('/^(\w{3,25})$/', $value)) :
                     // test regex sur les caratère \w min 3 et max 25
 
                     return true; // Si le masque est bon true
@@ -110,7 +111,7 @@ class ValidatorData
                         '/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_])[a-zA-Z0-9\%\$\,\;\!\-_]{6,25})$/',
                         $value,
                     )
-                ):
+                ) :
                     // test regex une majuscule minimum, un caratère numeric minimum, un caratère spécial minimum % $ , ; ! _ - sont accépté, 6 caratère min et 25 max.
 
                     return true; // Si le masque est bon true
@@ -122,7 +123,7 @@ class ValidatorData
                 return false;
 
             case 'passwordCompare':
-                if ($value === $this->options['password']):
+                if ($value === $this->options['password']) :
                     // test password identique
 
                     return true; // Si le masque est bon true
@@ -133,7 +134,7 @@ class ValidatorData
                 return false;
 
             case 'regex':
-                if (preg_match('/^' . $this->options['regex'] . '$/', $value)):
+                if (preg_match('/^' . $this->options['regex'] . '$/', $value)) :
                     // test regex sur les caratère \w min 3 et max 25
 
                     return true; // Si le masque est bon true

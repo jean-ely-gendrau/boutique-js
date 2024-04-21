@@ -3,7 +3,9 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Builder\FormBuilder;
+use App\Boutique\Components\Debug;
 use App\Boutique\Utils\Render;
+use App\Boutique\Validators\ValidatorJS;
 
 /**
  * FormControllerTest
@@ -26,10 +28,12 @@ class FormControllerTest
      */
     public function ConnectForm(...$arguments)
     {
+
         $formBuilderConnect = new FormBuilder();
 
         $formBuilderConnect
-            ->setClassForm('space-y-4 md:space-y-6')
+            ->setIdForm('form-connect') // ID FORM
+            ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
             ->addField('email', 'email', [
                 'text-label' => 'Email',
                 'class' =>
@@ -37,7 +41,7 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
-            ])
+            ]) // CHAMP MAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
                 'class' =>
@@ -45,12 +49,22 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
-            ]);
-
+            ]) // CHAMP PASSWORD
+            ->addElementAction('submit', 'buttonA', 'buttonA', [
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'anchor' => 'Connection',
+            ]) // BUTTON SUBMIT
+            ->addElementAction('link', 'buttonA', 'isRegistred', [
+                'class' =>
+                'text-gray-900 text-sm dark:text-white',
+                'anchor' => 'pas encore inscrit ?',
+                'attributes' => ['title' => 'connection', 'href' => '/form-test-inscription'],
+            ]); // LINK ADDITIONAL
 
 
         /** @var \App\Boutique\Utils\Render $render */
-        $render = $arguments['rendering'];
+        $render = $arguments['render'];
 
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formConnect', $formBuilderConnect);
@@ -70,17 +84,32 @@ class FormControllerTest
      */
     public function RegistrationForm(...$arguments)
     {
+        // Debug::view($arguments);
+
         $formRegister = new FormBuilder();
 
+        // Instancier le ValidatorJS
+        $validatorJS = new ValidatorJS();
+
+        // Mappage des régles de validation au champs du formulaire
+        $validatorJS->addRule('full_name', '/^(\w{3,25})$/', "Votre nom et prénom n'est pas conforme");
+        $validatorJS->addRule('password', '/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\@\.\-_])[a-zA-Z0-9\%\$\,\;\!\@\.\-_]{6,25}$/', "Votre mot de passe doit être complété");
+        $validatorJS->addRule('email', '/^[^\s@]+@[^\s@]+\.[^\s@]+$/', "Votre adresse email n'a pas un format valide");
+
+        // Ajout des régles de validation au formulaire
+        $formRegister->setValidator($validatorJS);
+
         $formRegister
+            ->setIdForm('form-registration') // ID FORM
+            ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
             ->addField('text', 'full_name', [
                 'text-label' => 'Votre nom et prénom',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-                'placeholder' => 'Enter votre mot de pass',
-            ])
+                'placeholder' => 'Enter votre nom complet',
+            ]) // CHAMP FULL_NAME
             ->addField('email', 'email', [
                 'text-label' => 'Votre Email',
                 'class' =>
@@ -88,7 +117,7 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
-            ])
+            ]) // CHAMP EMAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
                 'class' =>
@@ -96,7 +125,7 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
-            ])
+            ]) // CHAMP PASSWORD
             ->addField('password', 'passwordCompare', [
                 'text-label' => 'Confirmation de mot de passe',
                 'class' =>
@@ -104,21 +133,23 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
-            ])
-            ->addElementAction('button', 'buttonA', 'buttonA', [
+            ]) // CHAMP PASSWORD COMPARE
+            ->addElementAction('submit', 'buttonA', 'buttonA', [
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-            ])
-            ->addElementAction('link', 'buttonA', 'buttonA', [
+                'anchor' => 'Inscription',
+            ]) // BUTTON SUBMIT
+            ->addElementAction('link', 'buttonA', 'isRegistred', [
                 'class' =>
-                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-                'anchor' => 'connection',
-                'attributes' => ['title' => 'connection', 'href' => '/'],
-            ]);
+                'text-gray-900 text-sm dark:text-white',
+                'anchor' => 'Vous avez déjà un compte ?',
+                'attributes' => ['title' => 'connection', 'href' => '/form-test-connect'],
+            ]); // LINK ADDITIONAL
+
 
 
         /** @var \App\Boutique\Utils\Render $render */
-        $render = $arguments['rendering'];
+        $render = $arguments['render'];
 
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formRegister', $formRegister);

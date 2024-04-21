@@ -62,11 +62,11 @@ abstract class AbstractFormBuilder
     protected $fields = [];
 
     /**
-     * validator
+     * validatorJS
      *
      * @var mixed
      */
-    protected $validator;
+    protected $validatorJS;
 
     /**
      * Method setIdForm
@@ -265,7 +265,7 @@ abstract class AbstractFormBuilder
         ];
 
         // Cette méthode génère le code Javascript pour la validation du champ
-        $this->generateValidationScript($name);
+        //$this->generateValidationScript($name);
 
         return $this;
     }
@@ -276,68 +276,19 @@ abstract class AbstractFormBuilder
     // Méthode pour générer le code Javascript de validation côté Client
     // La validation côté client améliore UI/UX pour le client
     // mais nécessite tout de même une validation côté serveur
-    protected function generateValidationScript($fieldName)
+
+    /**
+     * Method generateValidationScript
+     *
+     * @param string $fieldName [nom de la balise de l'input auquel une régle de validation est à inclure]
+     *
+     * @return array|object
+     */
+    protected function generateValidationScript(string $fieldName)
     {
-        if ($this->validator && $this->validator->hasRules($fieldName)) {
-            $rules = $this->validator->getRules($fieldName);
-
-            // Générer le code Javascript de validation selon les règles définies dans la class Validator
-            // 3 méthodes de validation sont disponibles pour le moment
-
-            // required, min_length, max_length
-            // required le champ doit être rempli lors de la validation
-            // min_length le nombre de caractère minimum n'a pas été atteinte
-            // max_length le nombre de caractère maximum a été dépassé
-            $validationScript =
-                'var ' .
-                $fieldName .
-                ' = document.getElementById("' .
-                $fieldName .
-                '").value;';
-
-            foreach ($rules as $rule) {
-                switch ($rule['type']) {
-                    case 'required':
-                        $validationScript .=
-                            'if (' .
-                            $fieldName .
-                            '.trim() === "") { alert("' .
-                            $rule['message'] .
-                            '"); return; }';
-                        break;
-
-                    case 'min_length':
-                        $validationScript .=
-                            'if (' .
-                            $fieldName .
-                            '.length < ' .
-                            $rule['value'] .
-                            ') { alert("' .
-                            $rule['message'] .
-                            '"); return; }';
-                        break;
-
-                    case 'max_length':
-                        $validationScript .=
-                            'if (' .
-                            $fieldName .
-                            '.length > ' .
-                            $rule['value'] .
-                            ') { alert("' .
-                            $rule['message'] .
-                            '"); return; }';
-                        break;
-                    // Pour continuer les méthodes de validation Javascript
-                    // C'est du Javascript que l'on écrit au format TEXT car il est généré par PHP
-                    // Dynamiquement côté serveur et sera rendu et interpréter côté client par le navigateur.
-                }
-            }
-
-            // Ajouter le code JavaScript de validation au formulaire
-            $this->addValidationScript($validationScript);
+        if ($this->validatorJS && $this->validatorJS->hasRules($fieldName)) {
+            return $this->validatorJS->getRules($fieldName);
         }
+        return [];
     }
-
-    // Méthode abstraite pour ajouter le code JavaScript de validation au formulaire
-    abstract protected function addValidationScript($script);
 }
