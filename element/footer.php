@@ -1,4 +1,8 @@
-    <footer>
+    </main>
+    <!-- END MAIN -->
+
+    <!-- START FOOTER -->
+    <footer class="bg-white dark:rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 dark:mx-2">
         <div class="flex flex-row justify-around">
             <img src="http://<?= $serverName ?>/assets/images/icon/instagram.svg" alt="" class="icon" />
             <img src="http://<?= $serverName ?>/assets/images/icon/pinterest.svg" alt="" class="icon" />
@@ -6,12 +10,13 @@
             <img src="http://<?= $serverName ?>/assets/images/icon/youtube.svg" alt="" class="icon" />
             <img src="http://<?= $serverName ?>/assets/images/icon/gmail.svg" alt="" class="icon" />
         </div>
-        <div class="flex flex-row justify-center">
+        <div class="flex flex-row justify-center dark:text-white">
             <p><a href="#" class="mr-2">CGU</a></p>
             <p><a href="#" class="ml-2">CGV</a></p>
         </div>
-        <p class="text-center">©Copyright 2024. Tous droits non reservées</p>
+        <p class="text-center dark:text-white">©Copyright 2024. Tous droits non reservées</p>
     </footer>
+    <!-- END FOOTER -->
 
 
     <!-- ADD JS -->

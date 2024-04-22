@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Ancient_Geek";
-  src: url("../font/geek.ttf") format("truetype");
+    font-family: "Ancient_Geek";
+    src: url("../font/geek.ttf") format("truetype");
 }
 
 /* `.bg-acceuil` est une classe appelé par la balise main de la page d'acceuil,
@@ -28,9 +28,14 @@
     max-height: calc(100vh / 2);
 }
 
+/* Ajustement de la taille du main */
+.min-h-main {
+    min-height: calc(100vh - 275px);
+}
+
 /* `#font` utilise le fichier déclaré par @font-face et modifie la Police d'écriture
  * des boutons ayant l'id 'font' dans Slider.php  
  */
-#font{
+#font {
     font-family: "Ancient_Geek";
 }

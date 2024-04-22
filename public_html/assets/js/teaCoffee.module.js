@@ -135,7 +135,9 @@ teaCoffee.sys = {
     return this;
   },
   darkMode: function () {
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    // Implémente Dark mode celon les préferences utilisateur
+    // Vérifie si une clé theme est accéssible dans localstorage
+    // La clé theme est créer losque l'utilisateur choisit de basculer son affichage en mode ligth/dark
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
@@ -146,15 +148,20 @@ teaCoffee.sys = {
       document.documentElement.classList.remove("dark");
     }
 
-    // Whenever the user explicitly chooses light mode
-    localStorage.theme = "light";
-
-    // Whenever the user explicitly chooses dark mode
-    localStorage.theme = "dark";
-
-    // Whenever the user explicitly chooses to respect the OS preference
-    localStorage.removeItem("theme");
-
+    return this;
+  },
+  darkModeSwitch: function (e) {
+    // Commutateur de mode ligth/dark
+    // Pour changer les préference du navigateur on ajoute une clé au localstorage 
+    // Cette valeursera lu lors du chargement de page par la méthode darkMode
+    if(!document.documentElement.classList.contains("dark")){
+      document.documentElement.classList.add("dark"); // Add Dark mode
+      localStorage.theme = "dark"; // Ajout de la clé au localstorage
+    }
+   else{
+      document.documentElement.classList.remove("dark"); // Remove Dark mode
+      localStorage.theme = "light";// Ajout de la clé au localstorage
+   }
     return this;
   },
 };
@@ -170,19 +177,19 @@ teaCoffee.action = {
         : (elementScroll.scrollLeft += -355); // scoll to left
     }
   },
+  darkSwitch: (e) => {
+    teaCoffee.sys.darkModeSwitch(e);
+  },
   debugToggle: (e) => {
     var elemId = e.target.getAttribute("data-id");
     if (elemId) {
       teaCoffee.sys.getById(...elemId.split(","));
-      
-      if(teaCoffee.sys.hasClass('debug-min')){
-        teaCoffee.sys.addClass('debug-max');
-        teaCoffee.sys.delClass('debug-min');
 
-      }else if(teaCoffee.sys.hasClass('debug-max')){
-        teaCoffee.sys.addClass('debug-min');
-        teaCoffee.sys.delClass('debug-max');
+      if (teaCoffee.sys.hasClass('debug-min')) {
+        teaCoffee.sys.addClass('debug-max').delClass('debug-min');
 
+      } else if (teaCoffee.sys.hasClass('debug-max')) {
+        teaCoffee.sys.addClass('debug-min').delClass('debug-max');
       }
     }
   },
@@ -201,5 +208,5 @@ if (typeof module != "undefined" && module.exports) {
   module.exports = teaCoffee;
 }
 
-//teaCoffee.sys.loadLazyImg().darkMode();
-teaCoffee.sys.loadLazyJS();
+teaCoffee.sys.loadLazyImg();
+teaCoffee.sys.loadLazyJS().darkMode();
