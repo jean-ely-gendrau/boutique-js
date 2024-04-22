@@ -15,9 +15,13 @@ $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
 $router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
-// $router->map('GET', '/produit', 'produit', 'produit');
+
+// page de tout les produits café et thé
 $router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
 $router->map('POST', '/produit/[a:categoryName]', 'produit', 'produit-post');
+
+// page detail du produit sélectionné
+$router->map('GET', '/detail/[a:id_product]', 'detail', 'detail');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
