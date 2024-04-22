@@ -31,6 +31,7 @@
     <script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
     <script src="http://<?= $serverName ?>/assets/js/script.js"></script>
     <script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
+    <script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 
     </body>
 
