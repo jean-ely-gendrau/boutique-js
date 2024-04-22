@@ -14,11 +14,15 @@ $rendering = new Render();
 // Appelle de la méthode addParams afin d'ajouter la variable $uri et $serverName
 $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
-// Route accueil rendu après l'appel du controller HomeController et de sa méthode RenderHome
-$router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
+// Test de la route acceuil avec la méthode ProductTest de la classe TestRender
+$router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
 
-// Route produit
-$router->map('GET', '/produit', 'produit', 'produit');
+// page de tout les produits café et thé
+$router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
+$router->map('POST', '/produit/[a:categoryName]', 'produit', 'produit-post');
+
+// page detail du produit sélectionné
+$router->map('GET', '/detail/[a:id_product]', 'detail', 'detail');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
@@ -185,7 +189,12 @@ if (is_array($match)) :
          *
          * Enfin on affiche le resultat de la méthode
          */
+<<<<<<< HEAD
     else :
+=======
+    else:
+        $rendering->addParams("params", $match['params']);
+>>>>>>> main
         echo $rendering->defaultRender($match['target']);
     endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
