@@ -1,5 +1,6 @@
 <section class="bg-acceuil">
 <div style="backdrop-filter: blur(1px)">
+<!-- box-shadow: 3px 3px 9px 0px gray; #808080-->
   
   <div id="default-carousel" class="relative md:max-w-[85rem] mx-auto" data-carousel="slide">
     <!-- Carousel wrapper -->
@@ -113,17 +114,17 @@
         data-carousel-slide-to="4"
       ></button>
     </div>
-    <!-- Slider controls -->
+    <!-- Slider controls  group-focus:ring-4 group-focus:ring-gray-300 dark:group-focus:ring-gray-800/70 group-focus:outline-none -->
     <button
       type="button"
-      class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      class="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer"
       data-carousel-prev
     >
       <span
-        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-white-800/60 group-focus:ring-4 group-focus:ring-gray-300 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
       >
         <svg
-          class="w-4 h-4 text-black dark:text-gray-800 rtl:rotate-180"
+          class="w-8 h-8 text-black dark:text-gray-800 rtl:rotate-180"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -142,14 +143,14 @@
     </button>
     <button
       type="button"
-      class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      class="absolute top-0 end-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none"
       data-carousel-next
     >
       <span
-        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-gray-300 dark:group-focus:ring-gray-800/70 group-focus:outline-none"
+        class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
       >
         <svg
-          class="w-4 h-4 text-black dark:text-gray-800 rtl:rotate-180"
+          class="w-8 h-8 text-black dark:text-gray-800 rtl:rotate-180"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
