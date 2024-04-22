@@ -50,7 +50,7 @@ class HomeController
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
         // Initialisation de la variable $content avec l'ensemble des arguments passé par la méthode addParams dans la clé `render`
-        $content = $arguments['render']->render('acceuil', $arguments);
+        $content = $arguments['render']->render('accueil', $arguments);
 
         return $content;
     }

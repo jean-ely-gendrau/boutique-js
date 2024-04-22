@@ -15,7 +15,7 @@ $rendering = new Render();
 $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 
 // Test de la route acceuil avec la méthode ProductTest de la classe TestRender
-$router->map('GET', '/', 'TestRender#ProductTest', 'acceuil');
+$router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
 
 // page de tout les produits café et thé
 $router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
@@ -189,12 +189,8 @@ if (is_array($match)) :
          *
          * Enfin on affiche le resultat de la méthode
          */
-<<<<<<< HEAD
     else :
-=======
-    else:
         $rendering->addParams("params", $match['params']);
->>>>>>> main
         echo $rendering->defaultRender($match['target']);
     endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
