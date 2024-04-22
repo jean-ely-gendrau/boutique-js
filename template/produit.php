@@ -3,13 +3,14 @@
 use App\Boutique\Models\Products;
 use App\Boutique\Manager\BddManager;
 
-$categoryName = "666";
+$categoryName = $params["categoryName"];
 $pageURL = "999";
 
-if (isset($_GET['cafe'])) {
+if ($categoryName === "cafe") {
     $categoryName = '0';
     $pageURL = 'café';
-} elseif (isset($_GET['the'])) {
+    
+} elseif ($categoryName === "the") {
     $categoryName = '1';
     $pageURL = 'thé';
 }
