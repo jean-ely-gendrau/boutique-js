@@ -1,6 +1,7 @@
 <?php
 
 use App\Boutique\Utils\Render;
+use App\Boutique\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -142,6 +143,9 @@ if (is_array($match)):
 
         */
         $match['params']['render'] = $rendering;
+
+        // Test De la Debug BAR : Debug::view($match);
+
         // $match['params']['uri'] = $uri;
         // $match['params']['serverName'] = $serverName;
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
