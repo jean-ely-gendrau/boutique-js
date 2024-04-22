@@ -2464,9 +2464,18 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
+.dark\:mx-2:is(.dark *) {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .dark\:divide-gray-600:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-divide-opacity));
+}
+
+.dark\:rounded-lg:is(.dark *) {
+  border-radius: 0.5rem;
 }
 
 .dark\:border:is(.dark *) {
