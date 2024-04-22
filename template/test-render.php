@@ -1,4 +1,5 @@
 <section class="bg-acceuil">
+<div style="backdrop-filter: blur(1px)">
   
   <div id="default-carousel" class="relative md:max-w-[85rem] mx-auto" data-carousel="slide">
     <!-- Carousel wrapper -->
@@ -216,4 +217,5 @@
   </div>
 
   <?= $productsTea ?>
+</div>
 </section>

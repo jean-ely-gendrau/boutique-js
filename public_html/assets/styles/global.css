@@ -1236,6 +1236,10 @@ input:checked + .toggle-bg {
   margin-left: 2.5rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1270,10 +1274,6 @@ input:checked + .toggle-bg {
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
 }
 
 .block {
@@ -1640,6 +1640,10 @@ input:checked + .toggle-bg {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .justify-evenly {
   justify-content: space-evenly;
 }
@@ -1658,12 +1662,6 @@ input:checked + .toggle-bg {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.75rem * var(--tw-space-x-reverse));
   margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
@@ -2245,6 +2243,11 @@ input:checked + .toggle-bg {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.backdrop-filter {
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
 .transition {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -2466,9 +2469,18 @@ input:checked + .toggle-bg {
   --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
+.dark\:mx-2:is(.dark *) {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .dark\:divide-gray-600:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-divide-opacity));
+}
+
+.dark\:rounded-lg:is(.dark *) {
+  border-radius: 0.5rem;
 }
 
 .dark\:border:is(.dark *) {
@@ -2855,12 +2867,6 @@ input:checked + .toggle-bg {
     --tw-space-x-reverse: 0;
     margin-right: calc(2rem * var(--tw-space-x-reverse));
     margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
-  }
-
-  .md\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(1rem * var(--tw-space-y-reverse));
   }
 
   .md\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
