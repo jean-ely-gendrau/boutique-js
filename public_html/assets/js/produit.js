@@ -1,3 +1,5 @@
+// ----------     si pas de sous catégorie selectionné     ----------
+
 document.getElementById('submitSubCat').addEventListener('click', function (event) {
     var selectElement = document.getElementById('counterSubCat');
     var selectedValue = selectElement.value;
@@ -9,6 +11,8 @@ document.getElementById('submitSubCat').addEventListener('click', function (even
         event.preventDefault();
     }
 });
+
+// ----------     get pour detail     ----------
 
 document.addEventListener("DOMContentLoaded", function () {
 
