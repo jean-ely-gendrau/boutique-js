@@ -4,6 +4,8 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Manager\CrudManager;
 
+use App\Boutique\Models\Users;
+
 
 class PanierController
 {
@@ -39,11 +41,19 @@ class PanierController
 
     public function Panier(...$arguments)
     {
-        $panier = new CrudManager("orders", "Panier");
-        $clientId = $arguments[0]; // Get the client's id from the arguments
-        $paniers = $panier->getbyidbasket($clientId); // Get the orders by the client's id
 
-        // Now $orders should contain all orders made by the client
-        return $paniers;
+        $IdclientCrudManager = new CrudManager("users", Users::class);
+
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id_user;
+
+        $panier = new CrudManager("orders", "Panier");
+        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id
+
+        // Return both the client's ID and the orders
+        return [
+            'id' => $id,
+            'paniers' => $paniers,
+        ];
     }
 }
