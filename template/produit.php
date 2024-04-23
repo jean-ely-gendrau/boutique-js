@@ -152,3 +152,8 @@ if (isset($counterSubCat)):
 endif;
 
 ?>
+<select name="Filtre" id="prix" onchange="filterPrice()">
+    <option value="default">---</option>
+    <option value="asc">Ascendent</option>
+    <option value="desc">Descendent</option>
+</select>
