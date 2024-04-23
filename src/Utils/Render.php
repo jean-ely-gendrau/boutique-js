@@ -10,7 +10,6 @@ use App\Boutique\Components\FileImportJson;
  */
 class Render extends SessionManager
 {
-    protected $serverPath;
     protected $params = [];
     protected $seoConfig;
 
@@ -19,10 +18,8 @@ class Render extends SessionManager
     /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
      */
-    public function __construct($serverName = null)
+    public function __construct()
     {
-        global $serverName;
-        $this->serverPath = $serverName;
         $this->seoConfig = FileImportJson::getFile('config/seo.fr.json');
         $this->addParams('rendering', $this);
         parent::__construct();
