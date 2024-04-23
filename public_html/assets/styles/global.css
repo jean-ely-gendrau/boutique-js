@@ -1095,6 +1095,14 @@ input:checked + .toggle-bg {
   inset: 0px;
 }
 
+.-left-12 {
+  left: -3rem;
+}
+
+.-right-12 {
+  right: -3rem;
+}
+
 .bottom-0 {
   bottom: 0px;
 }
@@ -1141,14 +1149,6 @@ input:checked + .toggle-bg {
 
 .top-4 {
   top: 1rem;
-}
-
-.-left-12 {
-  left: -3rem;
-}
-
-.-right-12 {
-  right: -3rem;
 }
 
 .z-10 {
@@ -1324,6 +1324,10 @@ input:checked + .toggle-bg {
   height: 3rem;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
 .h-2 {
   height: 0.5rem;
 }
@@ -1376,8 +1380,8 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
-.h-16 {
-  height: 4rem;
+.max-h-\[32rem\] {
+  max-height: 32rem;
 }
 
 .max-h-\[35rem\] {
@@ -1386,10 +1390,6 @@ input:checked + .toggle-bg {
 
 .max-h-full {
   max-height: 100%;
-}
-
-.max-h-\[32rem\] {
-  max-height: 32rem;
 }
 
 .min-h-20 {
@@ -2228,6 +2228,18 @@ input:checked + .toggle-bg {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-\[3px_3px_8px_0px_rgba\(0\2c 0\2c 0\2c 0\.6\)\] {
+  --tw-shadow: 3px 3px 8px 0px rgba(0,0,0,0.6);
+  --tw-shadow-colored: 3px 3px 8px 0px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-\[3px_3px_9px_0px_rgba\(0\2c 0\2c 0\2c 0\.6\)\] {
+  --tw-shadow: 3px 3px 9px 0px rgba(0,0,0,0.6);
+  --tw-shadow-colored: 3px 3px 9px 0px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -2243,18 +2255,6 @@ input:checked + .toggle-bg {
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-\[3px_3px_8px_0px_rgba\(0\2c 0\2c 0\2c 0\.6\)\] {
-  --tw-shadow: 3px 3px 8px 0px rgba(0,0,0,0.6);
-  --tw-shadow-colored: 3px 3px 8px 0px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-\[3px_3px_9px_0px_rgba\(0\2c 0\2c 0\2c 0\.6\)\] {
-  --tw-shadow: 3px 3px 9px 0px rgba(0,0,0,0.6);
-  --tw-shadow-colored: 3px 3px 9px 0px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -2377,6 +2377,10 @@ input:checked + .toggle-bg {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-gray-400\/30:hover {
+  background-color: rgb(156 163 175 / 0.3);
+}
+
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -2390,10 +2394,6 @@ input:checked + .toggle-bg {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-gray-400\/30:hover {
-  background-color: rgb(156 163 175 / 0.3);
 }
 
 .hover\:bg-gradient-to-br:hover {
@@ -2434,6 +2434,12 @@ input:checked + .toggle-bg {
   outline-offset: 2px;
 }
 
+.focus\:ring:focus {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
 .focus\:ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2443,12 +2449,6 @@ input:checked + .toggle-bg {
 .focus\:ring-4:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-.focus\:ring:focus {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
@@ -2493,10 +2493,6 @@ input:checked + .toggle-bg {
 
 .active\:bg-gray-800\/30:active {
   background-color: rgb(31 41 55 / 0.3);
-}
-
-.group:hover .group-hover\:bg-white\/50 {
-  background-color: rgb(255 255 255 / 0.5);
 }
 
 .group:focus .group-focus\:outline-none {
@@ -2717,10 +2713,6 @@ input:checked + .toggle-bg {
 .dark\:focus\:ring-red-800:focus:is(.dark *) {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(155 28 28 / var(--tw-ring-opacity));
-}
-
-.group:hover .dark\:group-hover\:bg-gray-800\/60:is(.dark *) {
-  background-color: rgb(31 41 55 / 0.6);
 }
 
 .group:focus .dark\:group-focus\:ring-gray-800\/70:is(.dark *) {

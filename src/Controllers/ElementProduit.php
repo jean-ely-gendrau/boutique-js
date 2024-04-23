@@ -26,7 +26,6 @@ class ElementProduit extends BddManager
 
         $id_product = $arguments["id_product"];
 
-        //SELECT * FROM `products` WHERE id_product = 1;
         $sql = "SELECT * FROM products WHERE id_product = :id_product";
         $request = $this->linkConnect()->prepare($sql);
         $request->bindParam(':id_product', $id_product);
