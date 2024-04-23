@@ -2,10 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Builder\FormBuilder;
-use App\Boutique\Components\Debug;
+use App\Boutique\Models\Users;
 use App\Boutique\Utils\Render;
+use App\Boutique\Components\Debug;
+use App\Boutique\Builder\FormBuilder;
 use App\Boutique\Validators\ValidatorJS;
+use App\Boutique\Validators\ReflectionValidator;
 
 /**
  * FormControllerTest
@@ -88,8 +90,25 @@ class FormControllerTest
 
         $formRegister = new FormBuilder();
 
-        // Instancier le ValidatorJS
+        // Instancier le ValidatorJS Pour les validation d'input avec Javascript
+        // Verifier que vous posséder les méthode JS suivante validateRules et addAndCleanErrorHtmlMessage dans vos fichier JS
+        // Si c'est méthode ne son pas présente vous ne pourrai pas valider vos input est des erreurs pourrais en résulter.
         $validatorJS = new ValidatorJS();
+
+        $modelUser = new Users($arguments); // Instance d'un models de class User
+
+        // ReflectionValidator::validate($modelUser)
+        // Cette méthode statice de la class ReflectionValidator
+        // Permet de valider les données côter backend en utilisant 
+        // les attributs introduit depuis php 8.*.
+        // Préfixer vos propriéte dans vos class est utilisé le 
+        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+        if (!empty($_POST)) {
+            $errors = ReflectionValidator::validate($modelUser);
+            //DEBUG var_dump($errors);
+        }
+
+
 
         // Mappage des régles de validation au champs du formulaire
         $validatorJS->addRule('full_name', '/^(\w{3,25})$/', "Votre nom et prénom n'est pas conforme");
@@ -109,6 +128,9 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre nom complet',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->full_name ?? "", 'autocomplete' => "section-blue shipping family-name"],
+                'error-message' => $errors['full_name'] ?? false,
             ]) // CHAMP FULL_NAME
             ->addField('email', 'email', [
                 'text-label' => 'Votre Email',
@@ -117,6 +139,9 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->email ?? "", 'autocomplete' => "section-blue shipping email"],
+                'error-message' => $errors['email'] ?? false,
             ]) // CHAMP EMAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
@@ -125,6 +150,9 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
+                'required' => 1,
+                'attributes' => ['autocomplete' => "new-password"],
+                'error-message' => $errors['password'] ?? false,
             ]) // CHAMP PASSWORD
             ->addField('password', 'passwordCompare', [
                 'text-label' => 'Confirmation de mot de passe',
@@ -133,6 +161,8 @@ class FormControllerTest
                 'class-label' =>
                 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
+                'required' => 1,
+                'error-message' => $errors['passwordCompare'] ?? false,
             ]) // CHAMP PASSWORD COMPARE
             ->addElementAction('submit', 'buttonA', 'buttonA', [
                 'class' =>

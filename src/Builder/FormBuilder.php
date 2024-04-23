@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Builder;
 
+use App\Boutique\Components\Debug;
 use App\Boutique\Validators\ValidatorJS;
 
 // Classe de construction de formulaire de base
@@ -192,6 +193,12 @@ class FormBuilder extends AbstractFormBuilder
         if (isset($options['placeholder'])) {
             $output .= ' placeholder="' . $options['placeholder'] . '"';
         }
+
+        // Si l'input est requit pour la validation 
+        if (isset($options['required'])) {
+            $output .= ' required ';
+        }
+
         // Pour toute autre attributes à ajouté à l'input
         // Vous pouvez trouvez tout les attributs possible de balise sur https://developer.mozilla.org/fr/docs/Web/HTML/Element
         if (isset($options['attributes']) && is_array($options['attributes'])) {
@@ -257,6 +264,16 @@ class FormBuilder extends AbstractFormBuilder
             $output .= '>'; // Fin de la balise Input
         }
 
+        // error-message : Ajout d'un paragraphe error, avec l'id définit dans le  js addAndCleanErrorHtmlMessage 
+        if (isset($options['error-message']) && $options['error-message']) {
+            $output .= '<p id="message-warn-' . $id . '"';
+
+
+            $output .= ' class="' . $options['error-message-class'] ?? 'text-red-600 text-sm' . '" ';
+
+            $output .= '>' . $options['error-message'] . '</p>';
+        }
+
         $output .= '</div>';
         return $output;
     }
@@ -312,6 +329,7 @@ class FormBuilder extends AbstractFormBuilder
         // Vous pouvez trouvez tout les attributs possible de balise sur https://developer.mozilla.org/fr/docs/Web/HTML/Element
         if (isset($options['attributes']) && is_array($options['attributes'])) {
             foreach ($options['attributes'] as $attr => $value) {
+                // Debug::view($attr, $value);
                 $output .= ' ' . $attr . '="' . $value . '"';
             }
         }

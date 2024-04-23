@@ -9,7 +9,7 @@ class Debug implements DebugInterface
 
   public static function view(mixed $data)
   {
-    $count = count($data);
+    $count = count((array) $data);
     echo
     '<div id="contain-debug" class="border-t-2 border-black fixed bottom-0 left-0 right-0 w-full z-50 flex-colum debug-min">
       <div class="flex flex-row bg-gray-700 justify-evenly w-50 m-auto p-2">
