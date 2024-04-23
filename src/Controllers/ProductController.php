@@ -30,6 +30,8 @@ class ProductController extends BddManager
   
         $categoryName = $arguments["categoryName"];
 
+        $produitLimit = 5;
+
         if ($categoryName === "cafe") {
             $categoryName = '0';
 
@@ -63,10 +65,11 @@ class ProductController extends BddManager
                 $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
                 // affiche les produits de la catégorie.
-                $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
+                $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat LIMIT :produitLimit";
                 $request = $this->linkConnect()->prepare($sql);
                 $request->bindParam(':categoryName', $categoryName);
                 $request->bindParam(':counterSubCat', $counterSubCat);
+                $request->bindParam(':produitLimit', $produitLimit, \PDO::PARAM_INT);
                 $request->execute();
                 $products = $request->fetchAll(\PDO::FETCH_ASSOC);
 
