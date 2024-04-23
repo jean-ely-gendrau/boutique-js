@@ -6,6 +6,7 @@ use App\Boutique\Models\Users;
 use App\Boutique\Utils\Render;
 use App\Boutique\Components\Debug;
 use App\Boutique\Builder\FormBuilder;
+use App\Boutique\Builder\ModalContent;
 use App\Boutique\Validators\ValidatorJS;
 use App\Boutique\Validators\ReflectionValidator;
 
@@ -177,13 +178,22 @@ class FormControllerTest
             ]); // LINK ADDITIONAL
 
 
+        $modal = new ModalContent();
+
+        $modal->setIdModal('modal-content-example');
+        $modal->addHeader('ma-modal', 'la modal test');
+        $modal->addBody('mon-body', '<p>la modal test</p>');
+        $modal->addBody('mon-footer', '<p>le footer</p>');
 
         /** @var \App\Boutique\Utils\Render $render */
         $render = $arguments['render'];
 
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formRegister', $formRegister);
-
+        $render->addParams('modal', $modal);
+        $render->addParams('buttonModal', '<button data-modal-target="modal-content-example" data-modal-toggle="modal-content-example" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        modal
+      </button>');
         // Affichage du template HTML de la vue test-mail-sender
         $content = $render->render('formBuilder/register/registration', $arguments);
         return $content;

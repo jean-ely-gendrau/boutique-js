@@ -14,4 +14,10 @@
       </div>
     </div>
   </div>
+  <?php
+  /** @var \App\Boutique\Builder\ModalContent $modal */
+  echo $modal->render();
+  echo $buttonModal;
+  ?>
+
 </section>
