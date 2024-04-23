@@ -180,7 +180,7 @@ teaCoffee.html = {
         // On créer une balise paragraphe
         let elementText = document.createElement("p");
         elementText.setAttribute("id", idWarn); // On définit l'id
-        elementText.setAttribute("class", "text-danger"); // On définit une classe text-danger
+        elementText.setAttribute("class", "text-red-600 text-sm"); // On définit une classe text-danger
         elementText.textContent = objectMessage[key]; // On définit le text du paragraphe avec le message renvoyé par PHP
         elementError.after(elementText); // On ajoute l'élément après l'élément qui initialise l'événement
       }

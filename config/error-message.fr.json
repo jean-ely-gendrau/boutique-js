@@ -1,5 +1,5 @@
 {
-  "ValidatorManager": {
+  "ValidatorData": {
     "numeric": "Veuillez entrez une valeur numérique",
     "email": "Veuillez entrez une email valide",
     "string": "Veuillez vérifier vos données.",
@@ -7,8 +7,9 @@
     "in": "La valeur n'as pas était trouvé",
     "firstname": "Votre nom n'as pas un format valide",
     "lastname": "Votre prénom n'as pas un format valide",
+    "full_name": "Votre nom et prénom n'ont pas un format valide",
     "login": "Votre pseudo n'as pas un format valide",
-    "password": "La valeur n'as pas était trouvé",
+    "password": "Votre mots de passe dois être conforme au modèle exemple : A12xHs5a!25",
     "passwordCompare": "Les mots de passe ne sont pas identique",
     "regex": "Ooops une erreur c'est produitee"
   }

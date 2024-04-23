@@ -18,11 +18,22 @@ $rendering->addParams(['uri' => $uri, 'serverName' => $serverName]);
 $router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
 
 // page de tout les produits café et thé
-$router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
-$router->map('POST', '/produit/[a:categoryName]', 'produit', 'produit-post');
+// $router->map('GET', '/produit/[a:categoryName]', 'produit', 'produit');
+// $router->map('POST', '/produit/[a:categoryName]', 'produit', 'produit-post');
+
+// // page detail du produit sélectionné
+// $router->map('GET', '/detail/[a:id_product]', 'detail', 'detail');
+
+// ---------------------------------
+
+// page de tout les produits café et thé
+$router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit');
+$router->map('POST', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit-post');
 
 // page detail du produit sélectionné
-$router->map('GET', '/detail/[a:id_product]', 'detail', 'detail');
+$router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+
+// -------------------------------
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
