@@ -1,4 +1,5 @@
-
+const currentPageUrl = window.location.origin + '/';
+console.log(currentPageUrl); // Output: "http://boutique-js.test:8080/"
 const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
@@ -17,11 +18,13 @@ function filterPrice() {
       })
       .then(products => {
         products.forEach(product => {
+          const images = JSON.parse(product.images);
+          console.log(product);
           const productCard = document.createElement('div');
           productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
           
           const productImage = document.createElement('img');
-          productImage.setAttribute('src', `http:/\${serverName}/assets/images/\${product.images.main}`);
+          productImage.setAttribute('src', `${currentPageUrl}assets/images/${images.main}`);
           productImage.setAttribute('alt', product.name);
           productImage.classList.add('article-image');
           productCard.appendChild(productImage);
