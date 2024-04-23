@@ -135,7 +135,9 @@ teaCoffee.sys = {
     return this;
   },
   darkMode: function () {
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    // Implémente Dark mode celon les préferences utilisateur
+    // Vérifie si une clé theme est accéssible dans localstorage
+    // La clé theme est créer losque l'utilisateur choisit de basculer son affichage en mode ligth/dark
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
@@ -146,18 +148,51 @@ teaCoffee.sys = {
       document.documentElement.classList.remove("dark");
     }
 
-    // Whenever the user explicitly chooses light mode
-    localStorage.theme = "light";
-
-    // Whenever the user explicitly chooses dark mode
-    localStorage.theme = "dark";
-
-    // Whenever the user explicitly chooses to respect the OS preference
-    localStorage.removeItem("theme");
-
+    return this;
+  },
+  darkModeSwitch: function (e) {
+    // Commutateur de mode ligth/dark
+    // Pour changer les préference du navigateur on ajoute une clé au localstorage 
+    // Cette valeursera lu lors du chargement de page par la méthode darkMode
+    if (!document.documentElement.classList.contains("dark")) {
+      document.documentElement.classList.add("dark"); // Add Dark mode
+      localStorage.theme = "dark"; // Ajout de la clé au localstorage
+    }
+    else {
+      document.documentElement.classList.remove("dark"); // Remove Dark mode
+      localStorage.theme = "light";// Ajout de la clé au localstorage
+    }
     return this;
   },
 };
+
+teaCoffee.html = {
+  addAndCleanErrorHtmlMessage: function (key, objectMessage) {
+    // On définit un id message-warn-{Nom de la balise en cour de focus out}
+    let idWarn = `message-warn-${key}`;
+    const elementWarn = document.getElementById(idWarn); // Sélection de la balise
+    const elementError = document.getElementById(key); // Séléction de l'élément ou il y à une erreur
+
+    // Si le résultat de la requête retourn false
+    if (objectMessage !== true) {
+      // On vérifie si la balise n'est pas dans le DOM
+      if (elementWarn === null) {
+        // On créer une balise paragraphe
+        let elementText = document.createElement("p");
+        elementText.setAttribute("id", idWarn); // On définit l'id
+        elementText.setAttribute("class", "text-red-600 text-sm"); // On définit une classe text-danger
+        elementText.textContent = objectMessage[key]; // On définit le text du paragraphe avec le message renvoyé par PHP
+        elementError.after(elementText); // On ajoute l'élément après l'élément qui initialise l'événement
+      }
+    } else {
+      //Sinon tout c'est bien passé
+      // Si elementWarn existe dans le DOM
+      if (elementWarn) {
+        elementWarn.remove(); // On le retire.
+      }
+    }
+  }
+}
 
 teaCoffee.action = {
   handelScrollX: (e) => {
@@ -170,19 +205,19 @@ teaCoffee.action = {
         : (elementScroll.scrollLeft += -355); // scoll to left
     }
   },
+  darkSwitch: (e) => {
+    teaCoffee.sys.darkModeSwitch(e);
+  },
   debugToggle: (e) => {
     var elemId = e.target.getAttribute("data-id");
     if (elemId) {
       teaCoffee.sys.getById(...elemId.split(","));
-      
-      if(teaCoffee.sys.hasClass('debug-min')){
-        teaCoffee.sys.addClass('debug-max');
-        teaCoffee.sys.delClass('debug-min');
 
-      }else if(teaCoffee.sys.hasClass('debug-max')){
-        teaCoffee.sys.addClass('debug-min');
-        teaCoffee.sys.delClass('debug-max');
+      if (teaCoffee.sys.hasClass('debug-min')) {
+        teaCoffee.sys.addClass('debug-max').delClass('debug-min');
 
+      } else if (teaCoffee.sys.hasClass('debug-max')) {
+        teaCoffee.sys.addClass('debug-min').delClass('debug-max');
       }
     }
   },
@@ -195,11 +230,31 @@ teaCoffee.action = {
       elements.innerHTML += button;
     }
   },
+  validateRules: (e) => {
+    var keyInput = e.target.getAttribute("data-key-input");
+    var valuesInput = document.getElementById(keyInput);
+    var messageClient = e.target.getAttribute("data-message");
+    var regex = e.target.getAttribute("data-regex");
+    let reponse;
+
+    if (regex) {
+
+      if (eval(regex).test(valuesInput.value)) {
+        reponse = true; // Si le masque est bon true
+      }
+      else {
+        reponse = {
+          [keyInput]: messageClient,
+        }; // si la condition n'a pas été remplie alors on retourne un message d'erreur
+      }
+    }
+    teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
+  }
 };
 // LOAD MODULE
 if (typeof module != "undefined" && module.exports) {
   module.exports = teaCoffee;
 }
 
-//teaCoffee.sys.loadLazyImg().darkMode();
-teaCoffee.sys.loadLazyJS();
+teaCoffee.sys.loadLazyImg();
+teaCoffee.sys.loadLazyJS().darkMode();

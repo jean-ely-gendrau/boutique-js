@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "Ancient_Geek";
+    src: url("../font/geek.ttf") format("truetype");
+}
+
+/* `.bg-acceuil` est une classe appelé par la balise main de la page d'acceuil,
+ * elle permet de figé l'image d'arrière-plan 
+ */
 .bg-acceuil {
     background-image: url('../images/bg-acceuil-1.png');
     background-repeat: no-repeat;
     background-size: inherit;
     background-attachment: fixed;
     background-position: center;
+    margin-top: 1.5rem;
 }
 
 /* DEBUG BAR CSS */
@@ -17,4 +26,16 @@
 
 .debug-max {
     max-height: calc(100vh / 2);
+}
+
+/* Ajustement de la taille du main */
+.min-h-main {
+    min-height: calc(100vh - 275px);
+}
+
+/* `#font` utilise le fichier déclaré par @font-face et modifie la Police d'écriture
+ * des boutons ayant l'id 'font' dans Slider.php  
+ */
+#font {
+    font-family: "Ancient_Geek";
 }

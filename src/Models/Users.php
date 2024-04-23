@@ -3,17 +3,18 @@
 namespace App\Boutique\Models;
 
 use DateTime;
+use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Manager\PasswordHashManager;
 
 class Users extends PasswordHashManager
 {
     // #[ValidatorData('numeric')]
     private $id_user;
-    // #[ValidatorData('full_name')]
+    #[ValidatorData('full_name')]
     private $full_name;
-    // #[ValidatorData('email')]
+    #[ValidatorData('email')]
     private $email;
-    // #[ValidatorData('password')]
+    #[ValidatorData('password')]
     private $password;
 
     private $birthday;
@@ -50,7 +51,9 @@ class Users extends PasswordHashManager
      */
     public function __get(string $name)
     {
-        return $this->$name;
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
     }
 
     public function __isset($name)
@@ -94,7 +97,6 @@ class Users extends PasswordHashManager
         return $newDate->format('Y-m-d');
     }
 
-<<<<<<< HEAD
     public function getAge()
     {
         $dateNow = date("Y-m-d");
@@ -159,7 +161,8 @@ class Users extends PasswordHashManager
         $this->adress = $adress;
 
         return $this;
-=======
+    }
+
     public function update($full_name, $birthday, $adress, $password)
     {
 
@@ -178,6 +181,5 @@ class Users extends PasswordHashManager
 
         // Exécutez la requête
         $stmt->execute();
->>>>>>> main
     }
 }

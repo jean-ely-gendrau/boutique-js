@@ -33,6 +33,12 @@ class FileImportJson
         // Import du fichier. Vérifier que ce chemin mène à la racine : __DIR__ . DIRECTORY_SEPARATOR . "../../
         $getFile = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "../../{$filePath}");
 
+        // Si file_get_contents return false, on définit une chaîne vide, afin d'évité une erreur du retour de la méthode
+        // Vérifier simplement que la valeur n'est pas vide à l'appel de cette méthode
+        if (!$getFile) {
+            $getFile = '';
+        }
+
         /* Assignation de la valeur de retour avec la condition Ternaire */
         return $array ? json_decode($getFile, true) /* Tableau Associatif */ : json_decode($getFile); /* stdClass */
     }

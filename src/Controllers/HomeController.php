@@ -3,7 +3,6 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Slider;
-use App\Boutique\Models\Orders;
 use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
 
@@ -11,22 +10,22 @@ use App\Boutique\Models\ProductsModels;
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
  * renvoyer une vue (View) avec les données de l'exemple.
  */
-class TestRender
+class HomeController
 {
     public function __construct()
     {
     }
 
     /**
-     * Méthode Index qui affiche les variables transmises à la méthode.
+     * Méthode RenderHome qui renvoie les arguments passé assigné à la clé 'render'.
      *
      * @param array ...$arguments Les arguments transmis à la méthode.
      * @return void
      */
-    public function Index(...$arguments)
+    public function RenderHome(...$arguments)
     {
         /*
-         * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
+         * Utilisation de la méthode RenderHome afin de renvoyer l'ensemble des sélections de la page accueil
          */
 
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
@@ -51,25 +50,8 @@ class TestRender
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
         // Initialisation de la variable $content avec l'ensemble des arguments passé par la méthode addParams dans la clé `render`
-        $content = $arguments['render']->render('test-render', $arguments);
+        $content = $arguments['render']->render('accueil', $arguments);
 
-        return $content;
-    }
-
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function View(...$arguments)
-    {
-        // Test de la méthode getById du CrudManager pour la classe Orders
-        $crudManager = new CrudManager('orders', Orders::class);
-        $tableIdOrder = $crudManager->getById('1', 'id_order');
-        $arguments['render']->addParams('order', $tableIdOrder);
-        $content = $arguments['render']->render('test-orders', $arguments);
         return $content;
     }
 }
