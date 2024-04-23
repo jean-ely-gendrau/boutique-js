@@ -46,14 +46,14 @@ $(function() {
                     partialMatches.push(item);
                 }
             });
-                        response(exactMatches.concat([{ label: "----", value: "" }]));
+                        response(exactMatches.concat([{ label: "", value: "" }]));
         },
         focus: function(event, ui) {
             event.preventDefault();
         },
         select: function(event, ui) {
             if (ui.item.value !== "") {
-                window.location.href = 'product.php?id=' + ui.item.id;
+                window.location.href = 'detail/' + ui.item.id;
             }
             return false;
         },
