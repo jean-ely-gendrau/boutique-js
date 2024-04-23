@@ -27,21 +27,12 @@ class ProductController extends BddManager
     {
         /** @var \App\Boutique\Utils\Render $render */
         $render = $arguments['render'];
-  
+
         $categoryName = $arguments["categoryName"];
 
         $produitLimit = 5;
 
-        if ($categoryName === "cafe") {
-            $categoryName = '0';
-
-        } elseif ($categoryName === "the") {
-            $categoryName = '1';
-        }
-
-        $counterSubCat = "";
-
-
+        // affiche les produit les plus livrer
         $sqlMostSell = "SELECT * FROM products WHERE id_category = :categoryName AND id_product IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
@@ -54,41 +45,30 @@ class ProductController extends BddManager
         if (isset($arguments['counterSubCat'])) {
             $counterSubCat = $arguments['counterSubCat'];
 
-            if ($counterSubCat === '0' || $counterSubCat === '1' || $counterSubCat === '2' || $counterSubCat === '3' || $counterSubCat === '4' || $counterSubCat === '5') {
+            // affiche le nom de la sous catégorie ainsi que la description.
+            $sqlSousCategorie = "SELECT * FROM sub_category WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
+            $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
+            $requestSqlSubCat->bindParam(':categoryName', $categoryName);
+            $requestSqlSubCat->bindParam(':counterSubCat', $counterSubCat);
+            $requestSqlSubCat->execute();
+            $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
-                // affiche le nom de la sous catégorie.
-                $sqlSousCategorie = "SELECT * FROM sub_category WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
-                $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
-                $requestSqlSubCat->bindParam(':categoryName', $categoryName);
-                $requestSqlSubCat->bindParam(':counterSubCat', $counterSubCat);
-                $requestSqlSubCat->execute();
-                $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
+            // affiche les produits de la sous catégorie.
+            $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat LIMIT :produitLimit";
+            $request = $this->linkConnect()->prepare($sql);
+            $request->bindParam(':categoryName', $categoryName);
+            $request->bindParam(':counterSubCat', $counterSubCat);
+            $request->bindParam(':produitLimit', $produitLimit, \PDO::PARAM_INT);
+            $request->execute();
+            $products = $request->fetchAll(\PDO::FETCH_ASSOC);
 
-                // affiche les produits de la catégorie.
-                $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat LIMIT :produitLimit";
-                $request = $this->linkConnect()->prepare($sql);
-                $request->bindParam(':categoryName', $categoryName);
-                $request->bindParam(':counterSubCat', $counterSubCat);
-                $request->bindParam(':produitLimit', $produitLimit, \PDO::PARAM_INT);
-                $request->execute();
-                $products = $request->fetchAll(\PDO::FETCH_ASSOC);
+            $render->addParams(["subCat" => $subCat, "products" => $products]);
 
-                $render->addParams(["subCat"=>$subCat, "products"=>$products]);
-
-            } else if ($counterSubCat === '99') {
-                echo "ajouté javascript";
-            } else {
-            }
         }
 
-
-        // var_dump($arguments);
         $render->addParams("mostSell", $mostSell);
 
-
-       return $render->render("produit", $arguments);
+        return $render->render("produit", $arguments);
+        
     }
-
-
-
 }

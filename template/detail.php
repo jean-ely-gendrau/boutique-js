@@ -1,17 +1,4 @@
 <?php
-
-// use App\Boutique\Models\ElementProduit;
-// use App\Boutique\Manager\BddManager;
-
-// $id_product = $params["id_product"];
-
-// $bddManager = new BddManager();
-// $link = $bddManager->linkConnect();
-
-// $rankObject = new ElementProduit($bddManager);
-// $rankObject->produitElement($id_product);
-
-
 foreach ($detail as $details) :
     $imageData = json_decode($details['images'], true);
     $details['images'] = $imageData;
