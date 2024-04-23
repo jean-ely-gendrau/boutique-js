@@ -1,50 +1,35 @@
 <?php
 namespace App\Boutique\Controllers;
 
-// use App\Boutique\Manager\BddManager;
-use PDO;
+use App\Boutique\Manager\BddManager;
 
-class FilterPrice
+class FilterPrice extends BddManager
 {
-
-    private $dataBase;
-    protected $serverPath;
-
-    // public function __construct(BddManager $bddManager)
-    // {
-    //     global $serverName;
-    //     $this->serverPath = $serverName;
-    //     $this->dataBase = $bddManager->linkConnect();
-    // }
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function testJS(...$arguments)
     {
         $data = "test.js";
-        // var_dump(json_encode($data));
-        // header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data);
     }
 
     public function produitElement(...$arguments)
     {
         if ($arguments['filter'] == 'asc') {
-            echo json_encode("Produit par prix ascendent");
-            // $sql = "SELECT * FROM products ORDER BY price ASC LIMIT 10;";
-            // $request = $this->dataBase->prepare($sql);
-            // $request->execute();
-            // $detail = $request->fetchAll(PDO::FETCH_ASSOC);
-            // return $detail;
+            $sqlSousCategorie = "SELECT * FROM products ORDER BY price ASC LIMIT 5";
+            $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
+            $requestSqlSubCat->execute();
+            $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
+            echo json_encode($subCat);
         } elseif ($arguments['filter'] == 'desc') {
-            echo json_encode("Produit par prix descendent");
-            // $sql = "SELECT * FROM products ORDER BY price DESC LIMIT 10;";
-            // $request = $this->dataBase->prepare($sql);
-            // $request->execute();
-            // $detail = $request->fetchAll(PDO::FETCH_ASSOC);
-            // return $detail;
+            $sqlSousCategorie = "SELECT * FROM products ORDER BY price DESC LIMIT 5";
+            $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
+            $requestSqlSubCat->execute();
+            $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
+            echo json_encode($subCat);
         }
     }
 }
-// $bddManager = new BddManager();
-
-// $class = new FilterPrice($bddManager);
-// $class->testJS();
