@@ -3,11 +3,14 @@
 use App\Boutique\Controllers\PanierController;
 use App\Boutique\Models\Products;
 
-$clientId = 1; // replace 1 with the actual client ID
+
 
 $panierController = new PanierController();
+$panierData = $panierController->Panier(); // Call the Panier method to get the data
 
-$paniers = $panierController->Panier($clientId); // replace $clientId with the actual client ID
+$clientId = $panierData['id']; // Now you can get the id from panierData
+$paniers = $panierData['paniers']; // And the paniers
+
 ?>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
