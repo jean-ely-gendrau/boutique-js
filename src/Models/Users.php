@@ -12,10 +12,6 @@ use JsonSerializable;
 class Users extends PasswordHashManager implements \JsonSerializable
 {
     protected const EXCLUDE_PROPERTIES = ['password'];
-<<<<<<< HEAD
-=======
-
->>>>>>> main
     // #[ValidatorData('numeric')]
     private $id_user;
     #[ValidatorData('full_name')]
