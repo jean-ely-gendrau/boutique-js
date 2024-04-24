@@ -31,6 +31,6 @@ class Orders implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
-        return array_diff_key(get_object_vars($this));
+        return get_object_vars($this);
     }
 }
