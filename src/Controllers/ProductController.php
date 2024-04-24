@@ -39,7 +39,11 @@ class ProductController extends BddManager
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(\PDO::FETCH_ASSOC);
 
-
+        $sqlNameSousCategorie = "SELECT * FROM sub_category WHERE id_category = :categoryName";
+        $requestNameSqlSubCat = $this->linkConnect()->prepare($sqlNameSousCategorie);
+        $requestNameSqlSubCat->bindParam(':categoryName', $categoryName);
+        $requestNameSqlSubCat->execute();
+        $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
 
         if (isset($arguments['counterSubCat'])) {
@@ -67,8 +71,9 @@ class ProductController extends BddManager
         }
 
         $render->addParams("mostSell", $mostSell);
+        $render->addParams("NameSubCat", $NameSubCat);
 
         return $render->render("produit", $arguments);
-        
+
     }
 }
