@@ -10,37 +10,37 @@
   <title>Teacoffe</title>
   <title>
     <?= $seoConfig->seoTitlePage
-/* TITRE */
-?>
+    /* TITRE */
+    ?>
   </title>
   <meta name="description" content="<?= $seoConfig->seoDescriptionPage
-/* DESCRIPTION */
-?>" />
+                                    /* DESCRIPTION */
+                                    ?>" />
   <link rel="canonical" href="/" />
   <!-- META SEO OG  -->
   <meta property="og:image" content="<?= $seoConfig->seoUrlImage
-/* Url de l'image de partage */
-?>" />
+                                      /* Url de l'image de partage */
+                                      ?>" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage
-/* Text Alt de l'image de partage */
-?>" />
+                                          /* Text Alt de l'image de partage */
+                                          ?>" />
   <meta property="og:type" content="<?= $seoConfig->seoType
-/* Type de contenue */
-?>" />
+                                    /* Type de contenue */
+                                    ?>" />
   <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']
-/* Url  de la page courante */
-?>" />
+                                    /* Url  de la page courante */
+                                    ?>" />
   <meta property="og:title" content="<?= $seoConfig->seoOgTitlePage ?? $seoConfig->seoTitlePage
-/* TITRE de partage, peu être légerement différent du titre */
-?>" />
+                                      /* TITRE de partage, peu être légerement différent du titre */
+                                      ?>" />
   <meta property="og:description" content="<?= $seoConfig->seoOgDescriptionPage ?? $seoConfig->seoDescriptionPage
-/* DESCRIPTION de partage, peu être légerement différent de la déscription */
-?>" />
+                                            /* DESCRIPTION de partage, peu être légerement différent de la déscription */
+                                            ?>" />
   <meta name="robots" content="<?= $seoConfig->seoRobotIndex
-/* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
-?>" />
+                                /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
+                                ?>" />
   <?php  ?>
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
@@ -64,14 +64,14 @@
           <?php
           $result = $rendering->give('isConnected') ? true : false;
           if ($result) {
-              echo '<button type="button"
+            echo '<button type="button"
             class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Ouvrir le menu utilisateur</span>
             <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full font-bold">' .
-                  $rendering->give('full_name')[0] .
-                  '</p>
+              $rendering->give('full_name')[0] .
+              '</p>
           </button>
           <!-- Dropdown menu -->
           <div
@@ -79,19 +79,19 @@
             id="user-dropdown">
             <div class="px-4 py-3">
               <span class="block text-sm text-gray-900 dark:text-white">' .
-                  $rendering->give('full_name') .
-                  '</span>
+              $rendering->give('full_name') .
+              '</span>
               <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">' .
-                  $rendering->give('email') .
-                  '</span>
+              $rendering->give('email') .
+              '</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="user"
+                <a href="/user"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
               </li>
               <li>
-                <a href="panier"
+                <a href="/panier"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Commande</a>
               </li>
               <li>
@@ -102,9 +102,9 @@
             </ul>
           </div>';
           } else {
-              echo '<img class="rounded-full h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8 mx-2" src="http://' .
-                  $serverName .
-                  '/assets/images/icon/userIcon.svg" alt="connexion-inscription utilisateur" class="icon" />
+            echo '<img class="rounded-full h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8 mx-2" src="http://' .
+              $serverName .
+              '/assets/images/icon/userIcon.svg" alt="connexion-inscription utilisateur" class="icon" />
               <div class="flex flex-nowrap md:space-x-1">
                 <a href="/inscription" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Inscription</a>
                 <a href="/connexion" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connexion</a>
@@ -132,10 +132,10 @@
               <a href="/" class="block py-2 px-2 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Acceuil</a>
             </li>
             <li>
-              <a href="/produit/cafe" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Café</a>
+              <a href="/produit/0" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Café</a>
             </li>
             <li>
-              <a href="/produit/the" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Thé</a>
+              <a href="/produit/1" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Thé</a>
             </li>
             <li>
               <a href="/contact" class="block py-2 px-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>

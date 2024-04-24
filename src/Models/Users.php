@@ -6,10 +6,16 @@ use DateTime;
 
 use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Manager\PasswordHashManager;
+use JsonSerializable;
 
-class Users extends PasswordHashManager
+
+class Users extends PasswordHashManager implements \JsonSerializable
 {
     protected const EXCLUDE_PROPERTIES = ['password'];
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     // #[ValidatorData('numeric')]
     private $id_user;
     #[ValidatorData('full_name')]
@@ -71,6 +77,21 @@ class Users extends PasswordHashManager
      */
     public function __set(string $property, mixed $value)
     {
+    }
+
+    /* ----------------------------------- implements jsonSerialize ------------------------------ */
+    /**
+     * Method jsonSerialize
+     *
+     * Cette méthode retourne les propriétés de la classe sous forme de tableau
+     * Cela permet l'encodage avec json_endode des propriétés privées.
+     *  
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
+        return array_diff_key(get_object_vars($this), array_flip(self::EXCLUDE_PROPERTIES));
     }
 
     /* ----------------------------------- GETTER / SETTER ------------------------------ */

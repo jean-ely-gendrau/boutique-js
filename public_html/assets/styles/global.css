@@ -1408,6 +1408,7 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
+<<<<<<< HEAD
 .h-20 {
   height: 5rem;
 }
@@ -1420,6 +1421,8 @@ input:checked + .toggle-bg {
   height: 0.875rem;
 }
 
+=======
+>>>>>>> main
 .max-h-\[32rem\] {
   max-height: 32rem;
 }
@@ -1520,6 +1523,7 @@ input:checked + .toggle-bg {
   width: 100%;
 }
 
+<<<<<<< HEAD
 .w-3\.5 {
   width: 0.875rem;
 }
@@ -1528,6 +1532,8 @@ input:checked + .toggle-bg {
   width: auto;
 }
 
+=======
+>>>>>>> main
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -2529,12 +2535,15 @@ input:checked + .toggle-bg {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+<<<<<<< HEAD
 .shadow-xl {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+=======
+>>>>>>> main
 .outline {
   outline-style: solid;
 }
@@ -2688,11 +2697,14 @@ input:checked + .toggle-bg {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+<<<<<<< HEAD
 .hover\:bg-gray-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
 }
 
+=======
+>>>>>>> main
 .hover\:bg-gradient-to-br:hover {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }

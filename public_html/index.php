@@ -43,7 +43,6 @@ $router->map('GET', '/historique', 'historique', 'historique');
 $router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
 $router->map('GET', '/panier', 'panier', 'panier');
 $router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
-$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -63,7 +62,9 @@ $router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-
 $router->map('GET', '/panel-admin/test', 'AdminPanel#IndexTest', 'admin-panel-test');
 
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
+$router->map('GET', '/js-testOrder/[a:idCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS1');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS2');
 /**********
  * FormBuilder Routes Pour les testes
  */

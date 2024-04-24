@@ -2,7 +2,9 @@
 
 namespace App\Boutique\Models;
 
-class Orders
+use JsonSerializable;
+
+class Orders implements JsonSerializable
 {
     private $id_order;
     private $id_user;
@@ -24,5 +26,11 @@ class Orders
 
     public function __set($name, $value)
     {
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
+        return get_object_vars($this);
     }
 }
