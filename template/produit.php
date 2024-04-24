@@ -59,14 +59,14 @@
     <div class="mx-auto flex justify-start max-w-6x1">
         <form method="post">
             <label for="counterSubCat"><?= $type . $pageURL ?>: </label>
-            <select name="counterSubCat" id="counterSubCat" onchange="checkSelection()">
-                <option value="99">---</option>
+            <select name="counterSubCat" id="counterSubCat" onchange="filterPrice()">
+                <option value="subCatDefault">---</option>
                 <?php foreach ($NameSubCat as $subCatName): ?>
                     <option value="<?= $subCatName['id_sub_cat'] ?>"><?= $subCatName['name'] ?></option>
                 <?php endforeach; ?>
             </select>
             <select name="Filtre" id="orderBy" onchange="filterPrice()">
-                <option value="default">---</option>
+                <option value="orderByDefault">---</option>
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>
             </select>

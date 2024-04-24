@@ -1,18 +1,35 @@
 const currentPageUrl = window.location.origin;
 const currentPagePath = window.location.pathname;
-console.log(currentPagePath.charAt(currentPagePath.length - 1));
+const idCat = currentPagePath.charAt(currentPagePath.length - 1);
 console.log(currentPageUrl);
 const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
     const selectOrderBy = document.getElementById('orderBy').value;
     const selectSubCat = document.getElementById('counterSubCat').value;
-    console.log(selectOrderBy); 
+    let order;
+    if (selectOrderBy == 'asc') {
+      order = 'ASC';
+    }
+    if (selectOrderBy == 'desc') {
+      order = 'DESC';
+    }
+    let myFetchRequest;
+    if (selectOrderBy != 'orderByDefault' && selectSubCat != 'subCatDefault') {
+      myFetchRequest = `/js-testBoth/${idCat}/${selectSubCat}/${order}`;
+    }
+    else if (selectOrderBy != 'orderByDefault') {
+      myFetchRequest = `/js-testOrder/${idCat}/${order}`;
+    } else if (selectSubCat != 'subCatDefault') {
+      myFetchRequest = `/js-testSub/${idCat}/${selectSubCat}`;
+    } 
+    console.log(order); 
     console.log(selectSubCat);
+    console.log(myFetchRequest);
     // const minPriceInput = document.getElementById('prix').value;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    fetch(`/js-test/${selectSubCat}/${selectOrderBy}`, {
+    fetch(myFetchRequest, {
       headers:headers
     })
       .then(response => {
@@ -22,11 +39,12 @@ function filterPrice() {
         return response.json();
       })
       .then(products => {
+        console.log(products);
         products.forEach(product => {
           const images = JSON.parse(product.images);
           console.log(product);
           const productCard = document.createElement('div');
-          productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'i nline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
+          productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
           
           const productImage = document.createElement('img');
           productImage.setAttribute('src', `${currentPageUrl}/assets/images/${images.main}`);
