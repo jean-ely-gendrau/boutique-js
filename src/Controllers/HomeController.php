@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers;
 use App\Boutique\Components\Slider;
 use App\Boutique\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Components\Carousel;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -27,6 +28,23 @@ class HomeController
         /*
          * Utilisation de la méthode RenderHome afin de renvoyer l'ensemble des sélections de la page accueil
          */
+
+        // Instance de Carousel
+        $carousel = new Carousel();
+
+        // Passage des elements php dans la clé element, le chemin relatif des images dans la clé image
+        // dans la méthode appelé RenderCarousel
+        $RenderCarousel = $carousel->RenderCarousel([
+            'element' => ['../../element/bannerCarousel.php'],
+            'image' => [
+                '/assets//images//banière//HomeCoffee.jpg',
+                '/assets//images//banière//hearderCoffeePage.jpg',
+                '/assets//images//banière//hearderCoffeePage2.jpg',
+            ],
+        ]);
+
+        // Envoie de la variable $RenderCarousel déclaré dans la méthode addParams
+        $arguments['render']->addParams('carousel', $RenderCarousel);
 
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
         $crudManager = new CrudManager('products', ProductsModels::class);
