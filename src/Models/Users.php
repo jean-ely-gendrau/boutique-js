@@ -134,9 +134,4 @@ class Users extends PasswordHashManager implements \JsonSerializable
         // Exécutez la requête
         $stmt->execute();
     }
-
-    public function jsonSerialize(): array
-    {
-        return get_object_vars($this);
-    }
 }
