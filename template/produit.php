@@ -1,57 +1,19 @@
 <div>
     <?php
 
-    // use App\Boutique\Models\Products;
-// use App\Boutique\Manager\BddManager;
-    
-    // $categoryName = $params["categoryName"];
-// $pageURL = "999";
-    
-    // if ($categoryName === "cafe") {
-//     $categoryName = '0';
-//     $pageURL = 'café';
-    
-    // } elseif ($categoryName === "the") {
-//     $categoryName = '1';
-//     $pageURL = 'thé';
-// }
-    
-    // $bddManager = new BddManager();
-// $link = $bddManager->linkConnect();
-    
-    // $rankObject = new Products($bddManager);
-// $rankObject->produitLeak($categoryName, $pageURL);
-    
-    $pageURL = "999";
-
-    if ($categoryName === "cafe") {
+    if ($categoryName == "0") {
         $pageURL = 'café';
 
-    } elseif ($categoryName === "the") {
-        $pageURL = 'thé';
-    }
-
-    if ($categoryName == "cafe") {
-        $counterSubCat0 = "0";
-        $nameSubCat0 = "Corsé";
-
-        $counterSubCat1 = "1";
-        $nameSubCat1 = "Moyen";
-
-        $counterSubCat2 = "2";
-        $nameSubCat2 = "Faible";
         $type = "Choisissez la force de votre ";
 
-    } else if ($categoryName == "the") {
-        $counterSubCat0 = "3";
-        $nameSubCat0 = "Noir";
+    } else if ($categoryName == "1") {
+        $pageURL = 'thé';
 
-        $counterSubCat1 = "4";
-        $nameSubCat1 = "Vert";
-
-        $counterSubCat2 = "5";
-        $nameSubCat2 = "Blanc";
         $type = "Choisissez votre feuille de ";
+
+    } else {
+        $pageURL = "Autres";
+        $type = "Choisissez une sous catégorie";
     }
 
     ?>
@@ -65,6 +27,7 @@
         $imageData = json_decode($sellMost["images"], true);
         $sellMost["images"] = $imageData;
         ?>
+
         <div class="bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-x1">
             <div
                 class="bg-grav-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
@@ -98,9 +61,9 @@
             <label for="counterSubCat"><?= $type . $pageURL ?>: </label>
             <select name="counterSubCat" id="counterSubCat" onchange="checkSelection()">
                 <option value="99">---</option>
-                <option value="<?= $counterSubCat0 ?>"><?= $nameSubCat0 ?></option>
-                <option value="<?= $counterSubCat1 ?>"><?= $nameSubCat1 ?></option>
-                <option value="<?= $counterSubCat2 ?>"><?= $nameSubCat2 ?></option>
+                <?php foreach ($NameSubCat as $subCatName): ?>
+                    <option value="<?= $subCatName['id_sub_cat'] ?>"><?= $subCatName['name'] ?></option>
+                <?php endforeach; ?>
             </select>
             <select name="Filtre" id="orderBy" onchange="filterPrice()">
                 <option value="default">---</option>
@@ -114,7 +77,6 @@
 
     </div>
 
-
     <div id="resultat">
         <?php
 
@@ -123,7 +85,7 @@
             foreach ($subCat as $catSub):
                 ?>
 
-                <div class="mx-auto flex justify-start max-w-6x1" id="<?= $catSub['id_sub_cat'] ?>">
+                <div class="mx-auto flex justify-start max-w-6x1">
                     <h2 class="bg-gray-100 ml-10 p-2 rounded-xl"><?= $catSub["description"] ?>"</h2>
                 </div>
 
