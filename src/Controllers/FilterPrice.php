@@ -19,13 +19,13 @@ class FilterPrice extends BddManager
     public function produitElement(...$arguments)
     {
         if ($arguments['filter'] == 'asc') {
-            $sqlSousCategorie = "SELECT * FROM products ORDER BY price ASC LIMIT 5";
+            $sqlSousCategorie = "SELECT * FROM products WHERE id_category = 0 ORDER BY price ASC LIMIT 5";
             $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
             $requestSqlSubCat->execute();
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
             echo json_encode($subCat);
         } elseif ($arguments['filter'] == 'desc') {
-            $sqlSousCategorie = "SELECT * FROM products ORDER BY price DESC LIMIT 5";
+            $sqlSousCategorie = "SELECT * FROM products WHERE id_category = 0 ORDER BY price DESC LIMIT 5";
             $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
             $requestSqlSubCat->execute();
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
