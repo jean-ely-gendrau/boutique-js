@@ -5,8 +5,10 @@ namespace App\Boutique\Models;
 use DateTime;
 use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Manager\PasswordHashManager;
+use JsonSerializable;
 
-class Users extends PasswordHashManager
+
+class Users extends PasswordHashManager implements JsonSerializable
 {
     // #[ValidatorData('numeric')]
     private $id_user;
@@ -114,5 +116,10 @@ class Users extends PasswordHashManager
 
         // Exécutez la requête
         $stmt->execute();
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

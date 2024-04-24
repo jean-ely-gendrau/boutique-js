@@ -2,7 +2,9 @@
 
 namespace App\Boutique\Models;
 
-class ProductsModels
+use JsonSerializable;
+
+class ProductsModels implements JsonSerializable
 {
 
   /**
@@ -275,5 +277,10 @@ class ProductsModels
     $this->updated_at = $updated_at;
 
     return $this;
+  }
+
+  public function jsonSerialize()
+  {
+    return get_object_vars($this);
   }
 }

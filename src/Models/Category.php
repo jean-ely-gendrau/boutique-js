@@ -2,7 +2,9 @@
 
 namespace App\Boutique\Models;
 
-class Category
+use JsonSerializable;
+
+class Category implements JsonSerializable
 {
 
   /**
@@ -106,5 +108,10 @@ class Category
     $this->description = $description;
 
     return $this;
+  }
+
+  public function jsonSerialize()
+  {
+    return get_object_vars($this);
   }
 }
