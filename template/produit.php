@@ -123,7 +123,7 @@
             foreach ($subCat as $catSub):
                 ?>
 
-                <div class="mx-auto flex justify-start max-w-6x1">
+                <div class="mx-auto flex justify-start max-w-6x1" id="<?= $catSub['id_sub_cat'] ?>">
                     <h2 class="bg-gray-100 ml-10 p-2 rounded-xl"><?= $catSub["description"] ?>"</h2>
                 </div>
 

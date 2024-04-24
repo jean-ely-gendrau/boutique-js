@@ -1,5 +1,5 @@
 const currentPageUrl = window.location.origin + '/';
-console.log(currentPageUrl); // Output: "http://boutique-js.test:8080/"
+console.log(currentPageUrl);
 const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
