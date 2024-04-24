@@ -3,6 +3,12 @@
 
 
 
+use App\Boutique\Models\ProductsModels;
+use App\Boutique\Models\Category;
+use App\Boutique\Models\Orders;
+use App\Boutique\Models\Users;
+
+
 
 
 
@@ -11,18 +17,39 @@
 
 class API
 {
+
+    private $products;
+    private $category;
+    private $orders;
+    private $users;
+
+
     public function __construct()
     {
-        /* Action du contructure au besoins */
+        $this->products = new ProductsModels();
+        $this->category = new Category();
+        $this->orders = new Orders();
+        $this->users = new Users();
     }
 
-    public function index()
+    public function getProducts()
     {
-        echo 'API';
+
+        return json_encode($this->products->getName());
     }
 
-    public function show()
+    public function getCategories()
     {
-        echo 'API';
+        return json_encode($this->category->getCategories());
+    }
+
+    public function getOrders()
+    {
+        return json_encode($this->orders->getOrders());
+    }
+
+    public function getUsers()
+    {
+        return json_encode($this->users->getUsers());
     }
 }
