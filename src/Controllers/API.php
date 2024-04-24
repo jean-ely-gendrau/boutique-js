@@ -14,11 +14,6 @@ class API
     private $orders;
     private $users;
 
-
-
-
-
-
     public function __construct()
     {
         $this->products = new CrudManager("products", ProductsModels::class);
@@ -111,5 +106,101 @@ class API
         header('Content-Type: application/json');
 
         echo json_encode($GetorderById);
+    }
+
+    public function getUserById($id)
+    {
+
+        $GetuserById = $this->users->getById($id, 'id_user');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetuserById);
+    }
+
+    public function addProducts()
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->products->add($data);
+
+        http_response_code(201);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function addCategory()
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->category->add($data);
+
+        http_response_code(201);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function addOrders()
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->orders->add($data);
+
+        http_response_code(201);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function addUsers()
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->users->add($data);
+
+        http_response_code(201);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function updateProducts($id)
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->products->update($id, $data, 'id_product');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function updateCategory($id)
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->category->update($id, $data, 'id_category');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
     }
 }
