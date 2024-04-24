@@ -125,7 +125,7 @@ class API
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->products->add($data);
+        $this->products->create($this->products, $data);
 
         http_response_code(201);
 
@@ -139,7 +139,7 @@ class API
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->category->add($data);
+        $this->category->create($this->category, $data);
 
         http_response_code(201);
 
@@ -153,7 +153,7 @@ class API
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->orders->add($data);
+        $this->orders->create($data);
 
         http_response_code(201);
 
