@@ -10,70 +10,70 @@ class ProductsModels
    *
    * @var int
    */
-  private $id_product;
+  public $id_product;
 
   /**
    * name
    *
    * @var string
    */
-  private $name;
+  public $name;
 
   /**
    * description
    *
    * @var string
    */
-  private $description;
+  public $description;
 
   /**
    * price
    *
    * @var float
    */
-  private $price;
+  public $price;
 
   /**
    * quantity
    *
    * @var int
    */
-  private $quantity;
+  public $quantity;
 
   /**
    * images
    *
    * @var mixed
    */
-  private $images;
+  public $images;
 
   /**
    * id_category
    *
    * @var int
    */
-  private $id_category;
+  public $id_category;
 
   /**
    * id_sub_cat
    *
    * @var int
    */
-  private $id_sub_cat;
+  public $id_sub_cat;
 
   /**
    * created_at
    *
    * @var string
    */
-  private $created_at;
+  public $created_at;
 
   /**
    * updated_at
    *
    * @var string
    */
-  private $updated_at;
+  public $updated_at;
 
   public function __construct()
   {
