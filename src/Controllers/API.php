@@ -31,25 +31,4 @@ class API
         $this->orders = new Orders();
         $this->users = new Users();
     }
-
-    public function getProducts()
-    {
-
-        return json_encode($this->products->getName());
-    }
-
-    public function getCategories()
-    {
-        return json_encode($this->category->getCategories());
-    }
-
-    public function getOrders()
-    {
-        return json_encode($this->orders->getOrders());
-    }
-
-    public function getUsers()
-    {
-        return json_encode($this->users->getUsers());
-    }
 }
