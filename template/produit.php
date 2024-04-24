@@ -102,7 +102,7 @@
                 <option value="<?= $counterSubCat1 ?>"><?= $nameSubCat1 ?></option>
                 <option value="<?= $counterSubCat2 ?>"><?= $nameSubCat2 ?></option>
             </select>
-            <select name="Filtre" id="prix" onchange="filterPrice()">
+            <select name="Filtre" id="orderBy" onchange="filterPrice()">
                 <option value="default">---</option>
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>

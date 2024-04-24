@@ -50,8 +50,9 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-$router->map('GET', '/js-test/[a:filter]', 'FilterPrice#produitElement', 'testJS');
-
+$router->map('GET', '/js-test/[a:orderBy]', 'FilterPrice#produitElement', 'testJS');
+$router->map('GET', '/js-test/[a:idCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS1');
+$router->map('GET', '/js-test/[a:orderBy]/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS2');
 /**********
  * FormBuilder Routes Pour les testes
  */

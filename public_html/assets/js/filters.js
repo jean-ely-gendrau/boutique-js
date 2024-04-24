@@ -1,13 +1,18 @@
 const currentPageUrl = window.location.origin;
-console.log(currentPageUrl); // Resultat: "http://boutique-js.test:8080"
+const currentPagePath = window.location.pathname;
+console.log(currentPagePath.charAt(currentPagePath.length - 1));
+console.log(currentPageUrl);
 const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
-    const select = document.getElementById('prix').value;
+    const selectOrderBy = document.getElementById('orderBy').value;
+    const selectSubCat = document.getElementById('counterSubCat').value;
+    console.log(selectOrderBy); 
+    console.log(selectSubCat);
     // const minPriceInput = document.getElementById('prix').value;
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    fetch(`/js-test/${select}`, {
+    fetch(`/js-test/${selectSubCat}/${selectOrderBy}`, {
       headers:headers
     })
       .then(response => {
@@ -21,7 +26,7 @@ function filterPrice() {
           const images = JSON.parse(product.images);
           console.log(product);
           const productCard = document.createElement('div');
-          productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
+          productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'i nline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
           
           const productImage = document.createElement('img');
           productImage.setAttribute('src', `${currentPageUrl}/assets/images/${images.main}`);
