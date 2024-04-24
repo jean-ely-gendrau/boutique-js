@@ -1,19 +1,10 @@
 <?php
 
-
-
-
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Category;
 use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
-
-
-
-
-
-
-
+use App\Boutique\Manager\CrudManager;
 
 class API
 {
@@ -24,11 +15,101 @@ class API
     private $users;
 
 
+
+
+
+
     public function __construct()
     {
-        $this->products = new ProductsModels();
-        $this->category = new Category();
-        $this->orders = new Orders();
-        $this->users = new Users();
+        $this->products = new CrudManager("products", ProductsModels::class);
+        $this->category = new CrudManager("category", Category::class);
+        $this->orders = new CrudManager("orders", Orders::class);
+        $this->users = new CrudManager("users", Users::class);
+    }
+
+    public function getProductsAll()
+    {
+
+        $GetproductsAll = $this->products->getAll();
+
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetproductsAll);
+    }
+
+    public function getCategory()
+    {
+
+        $GetgategoryAll = $this->category->getAll();
+
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetgategoryAll);
+    }
+
+    public function getOrders()
+    {
+
+        $GetordersAll = $this->orders->getAll();
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetordersAll);
+    }
+
+    public function getUsers()
+    {
+
+        $GetusersAll = $this->users->getAll();
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetusersAll);
+    }
+
+    public function getProductsById($id)
+    {
+
+        $GetproductsById = $this->products->getById($id, 'id_product');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetproductsById);
+    }
+
+    public function getCategoryById($id)
+    {
+
+        $GetcategoryById = $this->category->getById($id, 'id_category');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetcategoryById);
+    }
+
+    public function getOrderById($id)
+    {
+
+        $GetorderById = $this->orders->getById($id, 'id_order');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($GetorderById);
     }
 }

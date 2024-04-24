@@ -46,7 +46,7 @@ $(function() {
                     partialMatches.push(item);
                 }
             });
-                        response(exactMatches.concat([{ label: "----", value: "" }]));
+                        response(exactMatches.concat([{ label: "", value: "" }]));
         },
         focus: function(event, ui) {
             event.preventDefault();
