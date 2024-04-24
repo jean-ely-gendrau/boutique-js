@@ -4,13 +4,13 @@ namespace App\Boutique\Models;
 
 class Orders
 {
-    public $id_order;
-    public $id_user;
-    public $id_product;
-    public $basket;
-    public $status;
-    public $created_at;
-    public $updated_at;
+    private $id_order;
+    private $id_user;
+    private $id_product;
+    private $basket;
+    private $status;
+    private $created_at;
+    private $updated_at;
 
     function __construct(?array $data = null)
     {

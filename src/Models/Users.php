@@ -9,19 +9,19 @@ use App\Boutique\Manager\PasswordHashManager;
 class Users extends PasswordHashManager
 {
     // #[ValidatorData('numeric')]
-    public $id_user;
+    private $id_user;
     #[ValidatorData('full_name')]
-    public $full_name;
+    private $full_name;
     #[ValidatorData('email')]
-    public $email;
+    private $email;
     #[ValidatorData('password')]
     private $password;
 
-    public $birthday;
-    public $adress;
+    private $birthday;
+    private $adress;
     private $role;
-    public $created_at;
-    public $updated_at;
+    private $created_at;
+    private $updated_at;
 
     /**
      * Method __construct

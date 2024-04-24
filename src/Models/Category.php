@@ -10,21 +10,21 @@ class Category
    *
    * @var mixed
    */
-  public  $id_category;
+  private  $id_category;
 
   /**
    * name
    *
    * @var mixed
    */
-  public  $name;
+  private  $name;
 
   /**
    * description
    *
    * @var mixed
    */
-  public  $description;
+  private  $description;
 
 
 
