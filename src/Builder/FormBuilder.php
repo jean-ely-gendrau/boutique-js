@@ -268,7 +268,7 @@ class FormBuilder extends AbstractFormBuilder
         if (isset($options['error-message']) && $options['error-message']) {
             $output .= '<p id="message-warn-' . $id . '"';
 
-
+            // Si aucune class est ajouté au tableau d'options la class TailwindCSS  : text-red-600 text-sm  
             $output .= ' class="' . $options['error-message-class'] ?? 'text-red-600 text-sm' . '" ';
 
             $output .= '>' . $options['error-message'] . '</p>';

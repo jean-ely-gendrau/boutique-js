@@ -3,23 +3,26 @@
 namespace App\Boutique\Models;
 
 use DateTime;
+
 use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Manager\PasswordHashManager;
 
 class Users extends PasswordHashManager
 {
+    protected const EXCLUDE_PROPERTIES = ['password'];
     // #[ValidatorData('numeric')]
     private $id_user;
     #[ValidatorData('full_name')]
     private $full_name;
     #[ValidatorData('email')]
     private $email;
+
     #[ValidatorData('password')]
     private $password;
 
     private $birthday;
-    private $adress;
-    private $role;
+    private string $adress;
+    private string $role;
     private $created_at;
     private $updated_at;
 
@@ -161,6 +164,20 @@ class Users extends PasswordHashManager
         $this->adress = $adress;
 
         return $this;
+    }
+
+    public function json()
+    {
+        return [
+            "id_user" => $this->id_user,
+            "full_name" => $this->full_name,
+            "email" => $this->email,
+            "birthday" => $this->birthday,
+            "adress" => $this->adress,
+            "role" => $this->role,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+        ];
     }
 
     public function update($full_name, $birthday, $adress, $password)

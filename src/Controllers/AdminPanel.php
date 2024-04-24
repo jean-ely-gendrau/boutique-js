@@ -118,6 +118,8 @@ class AdminPanel
     *  On utilise la méthode getAllPaginate du CrudApi
     */
     $usersAllPaginate = $this->userInit->getAllPaginate();
+    //preg_replace('/\\\/', "", )
+    echo json_encode($usersAllPaginate);
     /*
     $data['id_user'] = 1;
     $data['full_name'] = "test name";
@@ -138,7 +140,7 @@ class AdminPanel
 
     // Rendre le template
     $content = $render->renderAdmin('users', $arguments);
-    return $content;
+    //return $content;
   }
 
   /**
