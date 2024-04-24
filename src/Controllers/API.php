@@ -147,13 +147,13 @@ class API
 
         echo json_encode($data);
     }
-
+    /*
     public function addOrders()
     {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->orders->create($data);
+        $this->orders->create($this->orders, $data);
 
         http_response_code(201);
 
@@ -161,13 +161,13 @@ class API
 
         echo json_encode($data);
     }
-
+*/
     public function addUsers()
     {
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->users->add($data);
+        $this->users->create($this->users, $data);
 
         http_response_code(201);
 
