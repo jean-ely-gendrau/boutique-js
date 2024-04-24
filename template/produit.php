@@ -18,9 +18,9 @@
 
     ?>
 
-        <div class="mx-auto flex justify-start max-w-6x1">
-            <h2 class="bg-gray-100 ml-10 p-2 rounded-xl">Meilleurs ventes de <?= $pageURL ?></h2>
-        </div>
+    <div class="mx-auto flex justify-start max-w-6x1">
+        <h2 class="bg-gray-100 ml-10 p-2 rounded-xl">Meilleurs ventes de <?= $pageURL ?></h2>
+    </div>
 
     <?php
     foreach ($mostSell as $sellMost):
@@ -59,14 +59,14 @@
     <div class="mx-auto flex justify-start max-w-6x1">
         <form method="post">
             <label for="counterSubCat"><?= $type . $pageURL ?>: </label>
-            <select name="counterSubCat" id="counterSubCat" onchange="checkSelection()">
-                <option value="99">---</option>
+            <select name="counterSubCat" id="counterSubCat" onchange="filterPrice()">
+                <option value="subCatDefault">---</option>
                 <?php foreach ($NameSubCat as $subCatName): ?>
                     <option value="<?= $subCatName['id_sub_cat'] ?>"><?= $subCatName['name'] ?></option>
                 <?php endforeach; ?>
             </select>
-            <select name="Filtre" id="prix" onchange="filterPrice()">
-                <option value="default">---</option>
+            <select name="Filtre" id="orderBy" onchange="filterPrice()">
+                <option value="orderByDefault">---</option>
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>
             </select>
