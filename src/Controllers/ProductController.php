@@ -45,6 +45,12 @@ class ProductController extends BddManager
         $requestNameSqlSubCat->execute();
         $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
+        $sqlProduit = "SELECT * FROM products WHERE id_category = :categoryName limit 10";
+        $requestProduit = $this->linkConnect()->prepare($sqlProduit);
+        $requestProduit->bindParam(':categoryName', $categoryName);
+        $requestProduit->execute();
+        $produitSql = $requestProduit->fetchAll(\PDO::FETCH_ASSOC);
+
 
         if (isset($arguments['counterSubCat'])) {
             $counterSubCat = $arguments['counterSubCat'];
@@ -58,11 +64,10 @@ class ProductController extends BddManager
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
             // affiche les produits de la sous catégorie.
-            $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat LIMIT :produitLimit";
+            $sql = "SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat";
             $request = $this->linkConnect()->prepare($sql);
             $request->bindParam(':categoryName', $categoryName);
             $request->bindParam(':counterSubCat', $counterSubCat);
-            $request->bindParam(':produitLimit', $produitLimit, \PDO::PARAM_INT);
             $request->execute();
             $products = $request->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -72,6 +77,7 @@ class ProductController extends BddManager
 
         $render->addParams("mostSell", $mostSell);
         $render->addParams("NameSubCat", $NameSubCat);
+        $render->addParams("produitSql", $produitSql);
 
         return $render->render("produit", $arguments);
 
