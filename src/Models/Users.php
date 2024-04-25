@@ -5,6 +5,8 @@ namespace App\Boutique\Models;
 use DateTime;
 use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Manager\PasswordHashManager;
+use JsonSerializable;
+
 
 class Users extends PasswordHashManager implements \JsonSerializable
 {

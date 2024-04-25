@@ -2,7 +2,9 @@
 
 namespace App\Boutique\Models;
 
-class Category
+use JsonSerializable;
+
+class Category implements JsonSerializable
 {
 
   /**
@@ -106,5 +108,11 @@ class Category
     $this->description = $description;
 
     return $this;
+  }
+
+  public function jsonSerialize(): mixed
+  {
+    // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
+    return get_object_vars($this);
   }
 }

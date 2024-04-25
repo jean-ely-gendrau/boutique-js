@@ -2,7 +2,9 @@
 
 namespace App\Boutique\Models;
 
-class ProductsModels
+use JsonSerializable;
+
+class ProductsModels implements JsonSerializable
 {
 
   /**
@@ -275,5 +277,11 @@ class ProductsModels
     $this->updated_at = $updated_at;
 
     return $this;
+  }
+
+  public function jsonSerialize(): mixed
+  {
+    // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
+    return get_object_vars($this);
   }
 }
