@@ -255,4 +255,12 @@ class API
 
         http_response_code(204);
     }
+
+    public function deleteUsers($id)
+    {
+
+        $this->users->delete($id, 'id_user');
+
+        http_response_code(204);
+    }
 }
