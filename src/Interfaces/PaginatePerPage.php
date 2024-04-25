@@ -18,5 +18,5 @@ interface PaginatePerPage
    *
    * @return array
    */
-  public static function paginatePerPage(int $numberOfRows, int $itemPerPage): array;
+  public function paginatePerPage(int $numberOfRows, int $itemPerPage): array;
 }

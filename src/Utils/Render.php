@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Boutique\Utils;
+
 use App\Boutique\Manager\SessionManager;
 use App\Boutique\Components\FileImportJson;
 
@@ -113,6 +114,15 @@ class Render extends SessionManager
         } else {
             $this->params[$values] = $params;
         }
+    }
+
+    // Set params
+    public function setParams($key, $value)
+    {
+        if (isset($this->params[$key])) {
+            $this->params[$key] = $value;
+        }
+        return $this;
     }
 
     // Get params

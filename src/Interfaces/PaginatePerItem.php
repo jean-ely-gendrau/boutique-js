@@ -17,5 +17,5 @@ interface PaginatePerItem
    *
    * @return array
    */
-  public static function paginatePerItem(int $numberOfRows, int $itemLast, int $page, int $itemPerPage): array;
+  public function paginatePerItem(int $numberOfRows, int $itemLast, int $page, int $itemPerPage): array;
 }
