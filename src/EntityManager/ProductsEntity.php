@@ -75,6 +75,7 @@ class ProductsEntity extends CrudApi
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
         //var_dump($req->fetchAll());
         // self::paginatePerItem();
+        var_dump($this->limit, $this->offset);
         return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
     }
 }

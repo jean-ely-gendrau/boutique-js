@@ -44,8 +44,7 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
 
         // Pagination
         $this->limit = $limit;
-        $this->offset = $page === 1 ? 0 : $this->limit * $page;
-        $this->offsetNext = $this->offset + 1;
+        $this->setPage($page);
     }
 
     /********************************************** Méthode de L'API */
@@ -179,7 +178,7 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
         $this->page = $page;
 
         // Pagination
-        $this->offset = $page === 1 ? 0 : $this->limit * $page;
+        $this->offset = $page === 1 ? 0 : $this->limit * $page - $this->limit;
         $this->offsetNext = $this->offset + 1;
 
         return $this;
