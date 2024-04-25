@@ -203,4 +203,56 @@ class API
 
         echo json_encode($data);
     }
+
+    public function updateOrders($id)
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->orders->update($id, $data, 'id_order');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function updateUsers($id)
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $this->users->update($id, $data, 'id_user');
+
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
+    }
+
+    public function deleteProducts($id)
+    {
+
+        $this->products->delete($id, 'id_product');
+
+        http_response_code(204);
+    }
+
+    public function deleteCategory($id)
+    {
+
+        $this->category->delete($id, 'id_category');
+
+        http_response_code(204);
+    }
+
+    public function deleteOrders($id)
+    {
+
+        $this->orders->delete($id, 'id_order');
+
+        http_response_code(204);
+    }
 }
