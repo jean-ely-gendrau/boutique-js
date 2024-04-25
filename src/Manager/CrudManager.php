@@ -2,10 +2,12 @@
 
 namespace App\Boutique\Manager;
 
+use App\Boutique\Interfaces\PaginatePerPage;
+
 /**
  * CrudManager
  */
-class CrudManager extends BddManager
+class CrudManager extends BddManager implements PaginatePerPage
 {
     /**
      * _tableName
@@ -28,21 +30,36 @@ class CrudManager extends BddManager
      */
     protected $_dbConnect;
 
+    protected int $page;
+
+    protected int $limit;
+
+    protected int $offset;
+
+    protected int $offsetNext;
+
     /**
      * Method __construct
      *
      * @param $tableName [nom de la table]
      * @param $objectClass [La class representant les données de la requête]
+     * @param int $limit [nombre de résultat à séléctionner]
+     * @param int $offset [1 er résultat à séléctionner]
      * @param $configDatabase [configuration de la  base de données]
      *
      * @return void
      */
-    public function __construct(string $tableName, string $objectClass, $configDatabase = null)
+    public function __construct(string $tableName, string $objectClass, int $limit = 5, int $page = 1, $configDatabase = null)
     {
         parent::__construct($configDatabase);
         $this->_tableName = $tableName;
         $this->_objectClass = $objectClass;
         $this->_dbConnect = $this->linkConnect();
+
+        // Pagination
+        $this->limit = $limit;
+        $this->offset = $page === 1 ? 0 : $this->limit * $page;
+        $this->offsetNext = $this->offset + 1;
     }
 
     /**
@@ -55,6 +72,25 @@ class CrudManager extends BddManager
     public function getConnectBdd(): object
     {
         return $this->_dbConnect;
+    }
+
+    /**
+     * Method getCountResult
+     *
+     * Cette méthode retourne le nombre d'enregistrement maximum de la table instancié
+     *
+     * @return array
+     */
+    public function getCountResult(): array
+    {
+        $sql = "SELECT COUNT(*) as numberOfRows FROM {$this->_tableName} LIMIT 1";
+
+        //Prépare
+        $req = $this->_dbConnect->prepare($sql);
+        $req->execute();
+
+        // self::paginatePerItem();
+        return $req->fetch();
     }
 
     /** EXEMPLE DE Méthod
@@ -127,6 +163,29 @@ class CrudManager extends BddManager
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
+        return $req->fetchAll();
+    }
+
+    /**
+     * Method getAllPaginate
+     *
+     * @params array $select [les collones à séléctionner | si null toutes les collones seront extraite]
+     * @return string|array
+     */
+    public function getAllPaginate(?array $select = null, bool $returnJson = false): string|array
+    {
+        $selectItem = is_null($select) ? '*' : join(', ', $select);
+
+        $sql = "SELECT {$selectItem} FROM {$this->_tableName} LIMIT :limit OFFSET :offset";
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        //Prépare
+        $req = $connect->prepare($sql);
+        $req->execute(['limit' => $this->limit, 'offset' => $this->offset]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+        // self::paginatePerItem();
         return $req->fetchAll();
     }
 
@@ -226,6 +285,73 @@ class CrudManager extends BddManager
         }
     }
 
+    /***************************************************** Implements PaginatePerPage */
+
+    public function paginatePerPage(int $page, int $itemPerPage): array
+    {
+        $numberOfRows = $this->getCountResult();
+
+        $this->setPage($page);
+        $this->setLimit($itemPerPage);
+        $numberPages = (int) ceil($numberOfRows[0] / $itemPerPage);
+        $pageLast = $page === 1 ? false : $page - 1;
+        $pageNext = $page === $numberPages ? false : $page + 1;
+        return ['total_result' => $numberOfRows[0], 'number_pages' => $numberPages, 'page_last' => $pageLast, 'page_next' => $pageNext];
+    }
+
+    public function paginatePerItem(int $numberOfRows, int $itemLast, int $page, int $itemPerPage): array
+    {
+        $itemLast = 0;
+        $itemPerPage = 0;
+        return ['total_result' => $numberOfRows, 'item_last' => $itemLast, 'item_page' => $itemPerPage];
+    }
+
+    /************************************** GETTER/SETTER ************************************/
+
+    /**
+     * Get the value of page
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Set the value of page
+     *
+     * @return  self
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+
+        // Pagination
+        $this->offset = $page === 1 ? 0 : $this->limit * $page;
+        $this->offsetNext = $this->offset + 1;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of limit
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set the value of limit
+     *
+     * @return  self
+     */
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
     /*------------------------------------ STATIC METHOD ------------------------------------*/
 
     /**
@@ -264,14 +390,12 @@ class CrudManager extends BddManager
 
     public function getByIdOrder($clientId)
     {
-        $adresse = $this->_dbConnect->prepare(
-            'SELECT adress FROM users WHERE id_user = :client_id',
-        );
+        $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id_user = :client_id');
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch()['adress'];
 
-        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket != 1";
+        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
@@ -283,7 +407,7 @@ class CrudManager extends BddManager
                 'product_name' => $row['name'],
                 'adress' => $adresse,
                 'price' => $row['price'],
-                'status' => $row['status']
+                'status' => $row['status'],
             ];
         }
 
@@ -292,7 +416,7 @@ class CrudManager extends BddManager
 
     public function getbyidbasket($clientId)
     {
-        $sql = "SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1";
+        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
@@ -305,7 +429,7 @@ class CrudManager extends BddManager
                 'images' => $row['images'],
                 'product_name' => $row['name'],
                 'price' => $row['price'],
-                'status' => $row['status']
+                'status' => $row['status'],
             ];
         }
 
