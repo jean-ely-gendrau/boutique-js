@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Components;
+namespace Motor\Mvc\Components;
 
 class ReCaptcha
 {
@@ -10,19 +10,19 @@ class ReCaptcha
     {
         $secretKey = $this->secretKey;
         $api_url = 'https://www.google.com/recaptcha/api/siteverify';
-        $resq_data = array(
+        $resq_data = [
             'secret' => $secretKey,
             'response' => $response,
-            'remoteip' => $_SERVER['REMOTE_ADDR']
-        );
+            'remoteip' => $_SERVER['REMOTE_ADDR'],
+        ];
 
-        $curlConfig = array(
+        $curlConfig = [
             CURLOPT_URL => $api_url,
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POSTFIELDS => $resq_data,
-            CURLOPT_SSL_VERIFYPEER => false
-        );
+            CURLOPT_SSL_VERIFYPEER => false,
+        ];
 
         $ch = curl_init();
         curl_setopt_array($ch, $curlConfig);

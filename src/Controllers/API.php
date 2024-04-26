@@ -4,11 +4,10 @@ use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Category;
 use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 
 class API
 {
-
     private $products;
     private $category;
     private $orders;
@@ -16,15 +15,14 @@ class API
 
     public function __construct()
     {
-        $this->products = new CrudManager("products", ProductsModels::class);
-        $this->category = new CrudManager("category", Category::class);
-        $this->orders = new CrudManager("orders", Orders::class);
-        $this->users = new CrudManager("users", Users::class);
+        $this->products = new CrudManager('products', ProductsModels::class);
+        $this->category = new CrudManager('category', Category::class);
+        $this->orders = new CrudManager('orders', Orders::class);
+        $this->users = new CrudManager('users', Users::class);
     }
 
     public function getProductsAll()
     {
-
         $GetproductsAll = $this->products->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
@@ -39,7 +37,6 @@ class API
 
     public function getCategory()
     {
-
         $GetgategoryAll = $this->category->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
@@ -54,7 +51,6 @@ class API
 
     public function getOrders()
     {
-
         $GetordersAll = $this->orders->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
@@ -69,7 +65,6 @@ class API
 
     public function getUsers()
     {
-
         $GetusersAll = $this->users->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
@@ -84,7 +79,6 @@ class API
 
     public function getProductsById($id)
     {
-
         $GetproductsById = $this->products->getById($id, 'id_product');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -99,7 +93,6 @@ class API
 
     public function getCategoryById($id)
     {
-
         $GetcategoryById = $this->category->getById($id, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -114,7 +107,6 @@ class API
 
     public function getOrderById($id)
     {
-
         $GetorderById = $this->orders->getById($id, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -129,7 +121,6 @@ class API
 
     public function getUserById($id)
     {
-
         $GetuserById = $this->users->getById($id, 'id_user');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -144,13 +135,12 @@ class API
 
     public function addProducts()
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->products->create($this->products, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Products was created with data: " . json_encode($data) . "\n", 3, $logFile);
+        error_log('Products was created with data: ' . json_encode($data) . "\n", 3, $logFile);
 
         http_response_code(201);
 
@@ -161,13 +151,12 @@ class API
 
     public function addCategory()
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->category->create($this->category, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Category was created with data: " . json_encode($data) . "\n", 3, $logFile);
+        error_log('Category was created with data: ' . json_encode($data) . "\n", 3, $logFile);
 
         http_response_code(201);
 
@@ -195,13 +184,12 @@ class API
     */
     public function addUsers()
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->users->create($this->users, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("User was created with data: " . json_encode($data) . "\n", 3, $logFile);
+        error_log('User was created with data: ' . json_encode($data) . "\n", 3, $logFile);
 
         http_response_code(201);
 
@@ -212,7 +200,6 @@ class API
 
     public function updateProducts($id)
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->products->update($id, $data, 'id_product');
@@ -229,7 +216,6 @@ class API
 
     public function updateCategory($id)
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->category->update($id, $data, 'id_category');
@@ -246,7 +232,6 @@ class API
 
     public function updateOrders($id)
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->orders->update($id, $data, 'id_order');
@@ -263,7 +248,6 @@ class API
 
     public function updateUsers($id)
     {
-
         $data = json_decode(file_get_contents('php://input'), true);
 
         $this->users->update($id, $data, 'id_user');
@@ -280,7 +264,6 @@ class API
 
     public function deleteProducts($id)
     {
-
         $this->products->delete($id, 'id_product');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -291,7 +274,6 @@ class API
 
     public function deleteCategory($id)
     {
-
         $this->category->delete($id, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -302,7 +284,6 @@ class API
 
     public function deleteOrders($id)
     {
-
         $this->orders->delete($id, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';

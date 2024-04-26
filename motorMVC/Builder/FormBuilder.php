@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Boutique\Builder;
+namespace Motor\Mvc\Builder;
 
-use App\Boutique\Components\Debug;
-use App\Boutique\Validators\ValidatorJS;
+use Motor\Mvc\Components\Debug;
+use Motor\Mvc\Validators\ValidatorJS;
 
 // Classe de construction de formulaire de base
 class FormBuilder extends AbstractFormBuilder
@@ -73,9 +73,7 @@ class FormBuilder extends AbstractFormBuilder
         $output .= '<div class="';
 
         /* Assignation d'un valeur avec la condition Ternaire */
-        $output .= !empty($this->class_action_group)
-            ? $this->class_action_group
-            : 'actions-group';
+        $output .= !empty($this->class_action_group) ? $this->class_action_group : 'actions-group';
 
         $output .= '">'; // Fermetur balise Div
 
@@ -117,9 +115,7 @@ class FormBuilder extends AbstractFormBuilder
         $output = '<div class="';
 
         /* Assignation d'un valeur avec la condition Ternaire */
-        $output .= isset($options['class-label-group'])
-            ? $options['class-label-group']
-            : 'label-group' . '">';
+        $output .= isset($options['class-label-group']) ? $options['class-label-group'] : 'label-group' . '">';
 
         /*******************************
          *         CHAMP LABEL
@@ -144,20 +140,13 @@ class FormBuilder extends AbstractFormBuilder
         switch ($type) {
             case 'textarea':
                 // Début de la balise TextArea type === switch ($type)
-                $output .=
-                    '<textarea type="' .
-                    $type .
-                    '" name="' .
-                    $name .
-                    '" id="' .
-                    $id .
-                    '"';
+                $output .= '<textarea type="' . $type . '" name="' . $name . '" id="' . $id . '"';
                 break;
             case 'select':
                 // Début de la balise Select
                 $output .= '<select name="' . $name . '" id="' . $id . '"';
                 break;
-                /* Tout les champs Input ce ressemble écrivons en dernière condition de switch*/
+            /* Tout les champs Input ce ressemble écrivons en dernière condition de switch*/
             case 'text':
             case 'password':
             case 'email':
@@ -171,14 +160,7 @@ class FormBuilder extends AbstractFormBuilder
             case 'reset':
             case 'file':
                 // Début de la balise Input type === switch ($type)
-                $output .=
-                    '<input type="' .
-                    $type .
-                    '" name="' .
-                    $name .
-                    '" id="' .
-                    $id .
-                    '"';
+                $output .= '<input type="' . $type . '" name="' . $name . '" id="' . $id . '"';
                 break;
         }
         // Si il y à une class
@@ -194,7 +176,7 @@ class FormBuilder extends AbstractFormBuilder
             $output .= ' placeholder="' . $options['placeholder'] . '"';
         }
 
-        // Si l'input est requit pour la validation 
+        // Si l'input est requit pour la validation
         if (isset($options['required'])) {
             $output .= ' required ';
         }
@@ -232,31 +214,19 @@ class FormBuilder extends AbstractFormBuilder
         // SELECT
         elseif ($type === 'select') {
             /* Assignation d'un valeur avec la condition Ternaire */
-            $optionsMulti =
-                isset($options['select-array-multi']) &&
-                $options['select-array-multi'] === true
-                ? true
-                : false;
+            $optionsMulti = isset($options['select-array-multi']) && $options['select-array-multi'] === true ? true : false;
 
             /* Assignation d'un valeur avec la condition Ternaire */
-            $optionSelectKey = isset($options['options-keys'])
-                ? $options['options-keys']
-                : [];
+            $optionSelectKey = isset($options['options-keys']) ? $options['options-keys'] : [];
 
             /* Assignation d'un valeur avec la condition Ternaire */
-            $isSelectedOption = isset($options['options-selected'])
-                ? $options['options-selected']
-                : false;
+            $isSelectedOption = isset($options['options-selected']) ? $options['options-selected'] : false;
 
             $output .= '>';
 
             /* Assignation d'un valeur avec la condition Ternaire */
             $output .= isset($options['options-select-array']) // ISSET options-select
-                ? $this->addSelectedOption(
-                    $options['options-select-array'],
-                    $optionSelectKey,
-                    $optionsMulti,
-                ) // Construction des options de l'élément select
+                ? $this->addSelectedOption($options['options-select-array'], $optionSelectKey, $optionsMulti) // Construction des options de l'élément select
                 : '' . '</select>'; // Fin de la balise Select
         }
         // INPUT
@@ -264,10 +234,9 @@ class FormBuilder extends AbstractFormBuilder
             $output .= '>'; // Fin de la balise Input
         }
 
-        // error-message : Ajout d'un paragraphe error, avec l'id définit dans le  js addAndCleanErrorHtmlMessage 
+        // error-message : Ajout d'un paragraphe error, avec l'id définit dans le  js addAndCleanErrorHtmlMessage
         if (isset($options['error-message']) && $options['error-message']) {
             $output .= '<p id="message-warn-' . $id . '"';
-
 
             $output .= ' class="' . $options['error-message-class'] ?? 'text-red-600 text-sm' . '" ';
 
@@ -291,13 +260,9 @@ class FormBuilder extends AbstractFormBuilder
 
         $type = $elementAction['type'];
         /* Assignation d'un valeur avec la condition Ternaire */
-        $id = isset($elementAction['id'])
-            ? 'id="' . $elementAction['id'] . '"'
-            : '';
+        $id = isset($elementAction['id']) ? 'id="' . $elementAction['id'] . '"' : '';
         /* Assignation d'un valeur avec la condition Ternaire */
-        $name = isset($elementAction['name'])
-            ? 'name="' . $elementAction['name'] . '"'
-            : '';
+        $name = isset($elementAction['name']) ? 'name="' . $elementAction['name'] . '"' : '';
 
         $options = $elementAction['options'];
 
@@ -312,8 +277,7 @@ class FormBuilder extends AbstractFormBuilder
             case 'reset':
             case 'submit':
             case 'button':
-                $output .=
-                    '<button type="' . $type . '" ' . $name . ' ' . $id . '';
+                $output .= '<button type="' . $type . '" ' . $name . ' ' . $id . '';
                 break;
         }
         // Si il y à une class
@@ -387,11 +351,7 @@ class FormBuilder extends AbstractFormBuilder
     ) {
         return join(
             '',
-            array_map(function ($option) use (
-                $optionSelectKey,
-                $optionsMulti,
-                $isSelectedOption,
-            ) {
+            array_map(function ($option) use ($optionSelectKey, $optionsMulti, $isSelectedOption) {
                 /**************************************************************
                  *
                  * Multidimentionnel avec sélection de clé [obligatoire]
@@ -405,11 +365,7 @@ class FormBuilder extends AbstractFormBuilder
                     !empty($option) // que l'array option n'est pas vide
                 ) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected =
-                        $isSelectedOption &&
-                        $isSelectedOption === $optionSelectKey['keyValue']
-                        ? 'selected'
-                        : '';
+                    $optionSelected = $isSelectedOption && $isSelectedOption === $optionSelectKey['keyValue'] ? 'selected' : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -418,13 +374,11 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
-                }
-                /**************************************************************
+                } /**************************************************************
                  *
                  * Associatif avec sélection de clé [optionnel]
                  *
-                 */
-                elseif (
+                 */ elseif (
                     !$optionsMulti && // Si Faux
                     is_array($option) && // Si c'est un array AND
                     !empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
@@ -432,11 +386,7 @@ class FormBuilder extends AbstractFormBuilder
                     !empty($option) // que l'array option n'est pas vide
                 ) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected =
-                        $isSelectedOption &&
-                        $isSelectedOption === $optionSelectKey['keyValue']
-                        ? 'selected'
-                        : '';
+                    $optionSelected = $isSelectedOption && $isSelectedOption === $optionSelectKey['keyValue'] ? 'selected' : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -445,15 +395,13 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
-                }
-                /**************************************************************
+                } /**************************************************************
                  *
                  * Associatif sans sélection de clé
                  * ici en option nous aurron l'index du tableu comme value de l'option - array_keys
                  * et comme text on obtiendra la valeur de l'index du tableau - array_values
                  *
-                 */
-                elseif (
+                 */ elseif (
                     !$optionsMulti && // Si Faux
                     is_array($option) && // Si c'est un array AND
                     empty($optionSelectKey) && // que l'array optionSelectKey n'est pas vide AND
@@ -461,11 +409,7 @@ class FormBuilder extends AbstractFormBuilder
                     !empty($option) // que l'array option n'est pas vide
                 ) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected =
-                        $isSelectedOption &&
-                        $isSelectedOption === array_keys($option)
-                        ? 'selected'
-                        : '';
+                    $optionSelected = $isSelectedOption && $isSelectedOption === array_keys($option) ? 'selected' : '';
 
                     return '<option ' .
                         $optionSelected .
@@ -474,33 +418,20 @@ class FormBuilder extends AbstractFormBuilder
                         '">' .
                         array_values($option) . // On définit le text avec la valeur de l'array
                         '</option>';
-                }
-                /**************************************************************
+                } /**************************************************************
                  *
                  * Tableau listé exemple ['item1','item2']
                  *
-                 */
-                elseif (!empty($option) && array_is_list($option)) {
+                 */ elseif (!empty($option) && array_is_list($option)) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected =
-                        $isSelectedOption && $isSelectedOption === $option
-                        ? 'selected'
-                        : '';
+                    $optionSelected = $isSelectedOption && $isSelectedOption === $option ? 'selected' : '';
 
-                    return '<option ' .
-                        $optionSelected .
-                        ' value="' .
-                        $option .
-                        '">' .
-                        $option .
-                        '</option>';
-                }
-                /**************************************************************
+                    return '<option ' . $optionSelected . ' value="' . $option . '">' . $option . '</option>';
+                } /**************************************************************
                  *
                  * Dans le cas ou aucun condition n'est remplit
                  *
-                 */
-                else {
+                 */ else {
                     return '<option value="aucun">Aucune options disponible</option>';
                 }
             }, $optionsList),
@@ -525,7 +456,7 @@ class FormBuilder extends AbstractFormBuilder
      * Method setValidatorJS
      *
      * Cette méthode pertmet de définir une instance du Validator JS
-     * 
+     *
      * @param ValidatorJS $validator [Instance de ValidatorJS]
      *
      * @return void
