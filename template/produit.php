@@ -75,8 +75,6 @@
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>
             </select>
-            <button id="submitSubCat" type="submit"
-                class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">allons voir</button>
             <div id="text"></div>
         </form>
 

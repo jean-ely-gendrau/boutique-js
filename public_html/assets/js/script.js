@@ -15,10 +15,10 @@ $(function() {
             "category": "Cafe"
         },
         {
-            "label": "cafe 2",
+            "name": "cafe 2",
             "stock": "20",
-            "id": "2",
-            "category": "Cafe"
+            "id_product": "2",
+            "id_category": "Cafe"
         },
         {
             "label": "the 1",
@@ -46,7 +46,7 @@ $(function() {
                     partialMatches.push(item);
                 }
             });
-                        response(exactMatches.concat([{ label: "----", value: "" }]));
+                        response(exactMatches.concat([{ label: "", value: "" }]));
         },
         focus: function(event, ui) {
             event.preventDefault();
