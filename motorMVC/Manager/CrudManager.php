@@ -118,13 +118,12 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @param string $id [id de la requête]
      *
-     * @param string $idTable [id de la table (ex: id_order)]
      *
      * @return object|bool
      */
-    public function getById(string $id, string $idTable): object|bool
+    public function getById(string $id): object|bool
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = :id');
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
@@ -136,14 +135,13 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @param string $id [id de la requête]
      *
-     * @param string $idTable [id de la table (ex: pour products : id_category)]
      *
      * @return array
      */
     public function getAllById(string $id, string $idTable): array
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = ' . $id);
-        $req->execute();
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
+        $req->execute(['id' => $id]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -245,7 +243,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
         $valueString = self::formatParams($paramsUpdate, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
 
-        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE ' . $param[0] . ' = :id_user';
+        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE id = :id';
 
         $req = $this->_dbConnect->prepare($sql);
 
@@ -262,7 +260,7 @@ class CrudManager extends BddManager implements PaginatePerPage
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
-        var_dump($boundParam);
+        // var_dump($boundParam);
         $req->execute($boundParam);
     }
 
@@ -400,6 +398,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         $orders = [];
+
         while ($row = $stmt->fetch()) {
             $orders[] = [
                 'client_id' => $clientId,
