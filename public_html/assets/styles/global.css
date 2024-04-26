@@ -1939,6 +1939,11 @@ input:checked + .toggle-bg {
   fill: #1F2937;
 }
 
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
