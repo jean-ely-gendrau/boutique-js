@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Boutique\Manager;
+namespace Motor\Mvc\Manager;
 
-use App\Boutique\Interfaces\PaginatePerPage;
+use Motor\Mvc\Interfaces\PaginatePerPage;
 
 /**
  * CrudManager
@@ -65,9 +65,7 @@ class CrudManager extends BddManager implements PaginatePerPage
     /**
      * Method getConnectBdd
      *
-     * Instance de la connection PDO
-     *
-     * @return void
+     * @return object
      */
     public function getConnectBdd(): object
     {

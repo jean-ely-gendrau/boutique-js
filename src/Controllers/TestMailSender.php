@@ -2,8 +2,8 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\MailManager;
-use App\Boutique\Utils\Render;
+use Motor\Mvc\Manager\MailManager;
+use Motor\Mvc\Utils\Render;
 
 /**
  * TestMailSender
@@ -22,17 +22,8 @@ class TestMailSender extends Render
      */
     public function SendMail(...$arguments)
     {
-        $message =
-            'Merci de votre inscription sur TheCoffee vous pouvez dès à présent faire des commandes de café ou de thé';
-        $mail = MailManager::sendMailPHP(
-            [
-
-                'jean-philippe.douzou@laplateforme.io',
-
-            ],
-            'Bienvenue sur TheCoffe.test',
-            $message,
-        );
+        $message = 'Merci de votre inscription sur TheCoffee vous pouvez dès à présent faire des commandes de café ou de thé';
+        $mail = MailManager::sendMailPHP(['jean-philippe.douzou@laplateforme.io'], 'Bienvenue sur TheCoffe.test', $message);
         // Affichage du template HTML de la vue test-mail-sender
         $content = $this->render('test-mail-sender', $arguments);
         return $content;

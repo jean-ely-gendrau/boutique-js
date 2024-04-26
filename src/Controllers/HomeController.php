@@ -3,7 +3,7 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Slider;
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Components\Carousel;
 

@@ -15,10 +15,10 @@ $(function() {
             "category": "Cafe"
         },
         {
-            "label": "cafe 2",
+            "name": "cafe 2",
             "stock": "20",
-            "id": "2",
-            "category": "Cafe"
+            "id_product": "2",
+            "id_category": "Cafe"
         },
         {
             "label": "the 1",

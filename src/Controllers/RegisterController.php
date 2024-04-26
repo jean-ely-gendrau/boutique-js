@@ -2,11 +2,11 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\Users;
-use App\Boutique\Manager\PasswordHashManager;
-use App\Boutique\Manager\MailManager;
-use App\Boutique\Components\ReCaptcha;
+use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Manager\MailManager;
+use Motor\Mvc\Components\ReCaptcha;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -196,13 +196,13 @@ class RegisterController
      */
     public function ContactMail(...$arguments)
     {
-        echo "<pre>";
+        echo '<pre>';
         var_dump($arguments['email']);
         var_dump($arguments['sujet']);
         var_dump($arguments['message']);
-        echo "</pre>";
+        echo '</pre>';
         $noBot = new ReCaptcha();
-        $mail = new MailManager;
+        $mail = new MailManager();
         if ($noBot->notRobot($arguments['g-recaptcha-response']) === true) {
             $mail->sendMailPHP(['esteban.bare@laplateforme.io'], $arguments['sujet'], $arguments['message']);
             return header('Location:/');

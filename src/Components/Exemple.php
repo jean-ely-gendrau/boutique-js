@@ -4,7 +4,12 @@ namespace App\Boutique\Components;
 
 class Exemple
 {
-    public static function Test()
+    /**
+     * Method Test
+     *
+     * @return string
+     */
+    public static function Test(): string
     {
         return 'ceci est un exemple de méthod static';
     }

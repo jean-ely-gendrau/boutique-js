@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Boutique\Validators;
+namespace Motor\Mvc\Validators;
 
-use App\Boutique\Components\FileImportJson;
+use Motor\Mvc\Components\FileImportJson;
+use App\Boutique\Validators\ValidatorData;
 
 class ReflectionValidator
 {
     public static function importErrorMessage()
     {
         // Erreur par défault dans le cas ou aucun type d'eereur ou le fichier ne serairt pas trouvé
-        $errorDefault = "Vérifier les données que vous avez saisie.";
+        $errorDefault = 'Vérifier les données que vous avez saisie.';
 
         // Import du fichier json error dans le dossier /config
         // Vois ici la possibilité de charger un autre fichier
-        $importMessageError = FileImportJson::getFile(
-            'config/error-message.fr.json',
-        );
+        $importMessageError = FileImportJson::getFile('config/error-message.fr.json');
 
         // Sélectrion de la branche ValidatorData dans le fichier Json
         // Vois ici la possibilité de charger un autre branche
         $fileMessage = $importMessageError?->ValidatorData;
 
-        return (object)['errorDefault' => $errorDefault, 'fileMessage' => $fileMessage];
+        return (object) ['errorDefault' => $errorDefault, 'fileMessage' => $fileMessage];
     }
 
     /**
@@ -37,7 +36,6 @@ class ReflectionValidator
         // Nex Instance de ReflectionClass
         $reflection = new \ReflectionClass($object);
         $properties = $reflection->getProperties(); //Obtenir les propriétés de la classe
-
 
         $errorsMessage = self::importErrorMessage();
 
@@ -55,7 +53,6 @@ class ReflectionValidator
 
                 // Si la méthode return false (une erreur a été trouver lors de la validation de données)
                 if (!$validator->validate($propertyValue)) {
-
                     // On ajoute au tableau errors le message indexés par son nom
                     $errors[$propertyName] = $errorsMessage->fileMessage->{$propertyName} ?? $errorsMessage->errorDefault;
                 }

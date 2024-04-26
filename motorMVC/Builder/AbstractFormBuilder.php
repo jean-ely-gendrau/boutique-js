@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Builder;
+namespace Motor\Mvc\Builder;
 
 // Classe abstraite pour la construction de formulaires de base
 abstract class AbstractFormBuilder
@@ -125,9 +125,8 @@ abstract class AbstractFormBuilder
      *
      * @return AbstractFormBuilder
      */
-    public function setClassActionGroup(
-        string $class_action_group,
-    ): AbstractFormBuilder {
+    public function setClassActionGroup(string $class_action_group): AbstractFormBuilder
+    {
         $this->class_action_group = $class_action_group;
 
         return $this;
@@ -175,9 +174,8 @@ abstract class AbstractFormBuilder
      *
      * @return AbstractFormBuilder
      */
-    public function addAttributesForm(
-        array $attributesForm,
-    ): AbstractFormBuilder {
+    public function addAttributesForm(array $attributesForm): AbstractFormBuilder
+    {
         foreach ($attributesForm as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
@@ -210,12 +208,8 @@ abstract class AbstractFormBuilder
      *
      * @return AbstractFormBuilder
      */
-    public function addElementAction(
-        string $type,
-        string $id,
-        string $name,
-        array $options = [],
-    ): AbstractFormBuilder {
+    public function addElementAction(string $type, string $id, string $name, array $options = []): AbstractFormBuilder
+    {
         $this->buttons[] = [
             'type' => $type,
             'id' => $id,
@@ -247,11 +241,8 @@ abstract class AbstractFormBuilder
      *
      * @return AbstractFormBuilder
      */
-    public function addField(
-        string $type,
-        string $name,
-        array $options = [],
-    ): AbstractFormBuilder {
+    public function addField(string $type, string $name, array $options = []): AbstractFormBuilder
+    {
         // On fait passé la valur de $name à $id
         // les id de formumlaire peuvent avoir la même valeur.
         $id = $name;
