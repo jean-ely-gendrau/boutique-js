@@ -38,6 +38,8 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     protected int $offsetNext;
 
+    protected object $model;
+
     /**
      * Method __construct
      *
@@ -49,7 +51,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @return void
      */
-    public function __construct(string $tableName, string $objectClass, int $limit = 5, int $page = 1, $configDatabase = null)
+    public function __construct(string $tableName = null, string $objectClass = null, int $limit = 5, int $page = 1, $configDatabase = null)
     {
         parent::__construct($configDatabase);
         $this->_tableName = $tableName;
@@ -303,6 +305,12 @@ class CrudManager extends BddManager implements PaginatePerPage
         return ['total_result' => $numberOfRows, 'item_last' => $itemLast, 'item_page' => $itemPerPage];
     }
 
+    /************************************** Private Méthode */
+    private function initFetchObject(string $tableName, mixed $objectModelData)
+    {
+        $this->_tableName = $tableName;
+        $this->_objectClass = $objectModelData;
+    }
     /************************************** GETTER/SETTER ************************************/
 
     /**
@@ -432,5 +440,25 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
 
         return $orders;
+    }
+
+    /**
+     * Get the value of model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the value of model
+     *
+     * @return  self
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }
