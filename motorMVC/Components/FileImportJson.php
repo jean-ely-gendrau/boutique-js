@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Components;
+namespace Motor\Mvc\Components;
 
 /**
  * FileImportJson
