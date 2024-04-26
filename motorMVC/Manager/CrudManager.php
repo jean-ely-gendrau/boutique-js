@@ -387,12 +387,12 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getByIdOrder($clientId)
     {
-        $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id_user = :client_id');
+        $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id = :client_id');
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch()['adress'];
 
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket != 1';
+        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id WHERE users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
