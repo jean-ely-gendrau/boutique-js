@@ -1,13 +1,14 @@
 <?php
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\BddManager;
+use App\Boutique\Manager\CrudManager;
+use App\Boutique\Models\ProductsModels;
 
-class FilterPrice extends BddManager
+class FilterPrice extends CrudManager
 {
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct("products", ProductsModels::class);
     }
 
     public function testJS(...$arguments)
@@ -27,7 +28,7 @@ class FilterPrice extends BddManager
             $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
         }
         if (isset($sql)) {
-            $requestSqlSubCat = $this->linkConnect()->prepare($sql);
+            $requestSqlSubCat = $this->getConnectBdd()->prepare($sql);
             $requestSqlSubCat->execute();
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
             echo json_encode($subCat);
