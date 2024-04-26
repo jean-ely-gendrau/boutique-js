@@ -31,21 +31,22 @@ class ProductController extends BddManager
         $produitLimit = 5;
 
         // affiche les produit les plus livrer
-        $sqlMostSell = "SELECT products.*FROM products JOIN category ON products.category_id = category.id WHERE category.id = :categoryName IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')"; //OK
+        // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = 1;
+        $sqlMostSell = "SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = :categoryName"; //OK OK
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(\PDO::FETCH_ASSOC);
 
-        // récup value et nom sous categorie
-        $sqlNameSousCategorie = 'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK
+        // récup id et nom sous categorie
+        $sqlNameSousCategorie = 'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
         $requestNameSqlSubCat = $this->linkConnect()->prepare($sqlNameSousCategorie);
         $requestNameSqlSubCat->bindParam(':categoryName', $categoryName);
         $requestNameSqlSubCat->execute();
         $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
         // afficher 10 produit de la catégorie voulu    
-        $sqlProduit = 'SELECT products.* FROM products JOIN category ON products.category_id = category.id WHERE category.id = :categoryName LIMIT 10'; //OK
+        $sqlProduit = 'SELECT * FROM `products` WHERE category_id = :categoryName LIMIT 10'; //OK OK
         $requestProduit = $this->linkConnect()->prepare($sqlProduit);
         $requestProduit->bindParam(':categoryName', $categoryName);
         $requestProduit->execute();
@@ -54,8 +55,8 @@ class ProductController extends BddManager
         if (isset($arguments['counterSubCat'])) {
             $counterSubCat = $arguments['counterSubCat'];
 
-            // affiche le nom de la sous catégorie ainsi que la description.
-            $sqlSousCategorie = 'SELECT * FROM sub_category WHERE category_id = :categotyName AND id = :counterSubCat'; //OK
+            // affiche la description de la sous categorie
+            $sqlSousCategorie = 'SELECT * FROM sub_category WHERE category_id = :categotyName AND id = :counterSubCat'; //a tester
             $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
             $requestSqlSubCat->bindParam(':categoryName', $categoryName);
             $requestSqlSubCat->bindParam(':counterSubCat', $counterSubCat);
@@ -63,7 +64,7 @@ class ProductController extends BddManager
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
             // affiche les produits de la sous catégorie.
-            $sql = 'SELECT products.* FROM products JOIN sub_category ON products.sub_category_id = sub_category.id JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName AND sub_category.id = :$counterSubCat'; //OK
+            $sql = 'SELECT * FROM products WHERE category_id = :categoryName AND sub_category_id = :counterSubCat'; //a tester
             $request = $this->linkConnect()->prepare($sql);
             $request->bindParam(':categoryName', $categoryName);
             $request->bindParam(':counterSubCat', $counterSubCat);
