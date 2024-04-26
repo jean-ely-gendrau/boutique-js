@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 26, 2024 at 12:54 PM
+-- Generation Time: Apr 26, 2024 at 01:01 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `category`
 --
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -47,6 +48,7 @@ INSERT INTO `category` (`id`, `name`, `description`) VALUES
 -- Table structure for table `charac`
 --
 
+DROP TABLE IF EXISTS `charac`;
 CREATE TABLE `charac` (
   `id` int NOT NULL,
   `name` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
@@ -67,6 +69,7 @@ INSERT INTO `charac` (`id`, `name`, `type`) VALUES
 -- Table structure for table `comments`
 --
 
+DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id` int NOT NULL,
   `comment` text COLLATE utf8mb4_general_ci,
@@ -89,6 +92,7 @@ INSERT INTO `comments` (`id`, `comment`, `users_id`, `products_id`) VALUES
 -- Table structure for table `images`
 --
 
+DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int NOT NULL,
   `image_main` tinyint DEFAULT NULL,
@@ -112,6 +116,7 @@ INSERT INTO `images` (`id`, `image_main`, `url_image`, `products_id`) VALUES
 -- Table structure for table `orders`
 --
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int NOT NULL,
   `id_product` int DEFAULT NULL,
@@ -137,6 +142,7 @@ INSERT INTO `orders` (`id`, `id_product`, `basket`, `status`, `created_at`, `upd
 -- Table structure for table `productorder`
 --
 
+DROP TABLE IF EXISTS `productorder`;
 CREATE TABLE `productorder` (
   `products_id` int UNSIGNED NOT NULL,
   `orders_id` int NOT NULL
@@ -157,6 +163,7 @@ INSERT INTO `productorder` (`products_id`, `orders_id`) VALUES
 -- Table structure for table `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` int UNSIGNED NOT NULL,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -185,6 +192,7 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `quantity`, `creat
 -- Table structure for table `productscharac`
 --
 
+DROP TABLE IF EXISTS `productscharac`;
 CREATE TABLE `productscharac` (
   `value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `products_id` int UNSIGNED NOT NULL,
@@ -207,6 +215,7 @@ INSERT INTO `productscharac` (`value`, `products_id`, `charac_id`) VALUES
 -- Table structure for table `ratings`
 --
 
+DROP TABLE IF EXISTS `ratings`;
 CREATE TABLE `ratings` (
   `id` int NOT NULL,
   `rating` int DEFAULT NULL,
@@ -229,6 +238,7 @@ INSERT INTO `ratings` (`id`, `rating`, `products_id`, `users_id`) VALUES
 -- Table structure for table `sub_category`
 --
 
+DROP TABLE IF EXISTS `sub_category`;
 CREATE TABLE `sub_category` (
   `id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -252,6 +262,7 @@ INSERT INTO `sub_category` (`id`, `name`, `description`, `category_id`) VALUES
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int NOT NULL,
   `full_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
