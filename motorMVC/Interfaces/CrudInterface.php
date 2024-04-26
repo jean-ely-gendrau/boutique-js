@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Interfaces;
+namespace Motor\Mvc\Interfaces;
 
 interface CrudInterface
 {

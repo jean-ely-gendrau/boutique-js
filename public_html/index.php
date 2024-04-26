@@ -1,7 +1,7 @@
 <?php
 
-use App\Boutique\Utils\Render;
-use App\Boutique\Components\Debug;
+use Motor\Mvc\Utils\Render;
+use Motor\Mvc\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

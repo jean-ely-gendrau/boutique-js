@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Boutique\Manager;
+namespace Motor\Mvc\Manager;
 
-use App\Boutique\Interfaces\PaginatePerPage;
+use Motor\Mvc\Interfaces\PaginatePerPage;
 
 /**
  * CrudManager
@@ -38,6 +38,8 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     protected int $offsetNext;
 
+    protected object $model;
+
     /**
      * Method __construct
      *
@@ -49,7 +51,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @return void
      */
-    public function __construct(string $tableName, string $objectClass, int $limit = 5, int $page = 1, $configDatabase = null)
+    public function __construct(string $tableName = null, string $objectClass = null, int $limit = 5, int $page = 1, $configDatabase = null)
     {
         parent::__construct($configDatabase);
         $this->_tableName = $tableName;
@@ -65,9 +67,7 @@ class CrudManager extends BddManager implements PaginatePerPage
     /**
      * Method getConnectBdd
      *
-     * Instance de la connection PDO
-     *
-     * @return void
+     * @return object
      */
     public function getConnectBdd(): object
     {
@@ -120,13 +120,12 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @param string $id [id de la requête]
      *
-     * @param string $idTable [id de la table (ex: id_order)]
      *
      * @return object|bool
      */
-    public function getById(string $id, string $idTable): object|bool
+    public function getById(string $id): object|bool
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = :id');
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
         return $req->fetch(\PDO::FETCH_ASSOC);
@@ -137,14 +136,13 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @param string $id [id de la requête]
      *
-     * @param string $idTable [id de la table (ex: pour products : id_category)]
      *
      * @return array
      */
     public function getAllById(string $id, string $idTable): array
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE ' . $idTable . ' = ' . $id);
-        $req->execute();
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
+        $req->execute(['id' => $id]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -246,7 +244,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
         $valueString = self::formatParams($paramsUpdate, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
 
-        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE ' . $param[0] . ' = :id_user';
+        $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE id = :id';
 
         $req = $this->_dbConnect->prepare($sql);
 
@@ -263,7 +261,7 @@ class CrudManager extends BddManager implements PaginatePerPage
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
-        var_dump($boundParam);
+        // var_dump($boundParam);
         $req->execute($boundParam);
     }
 
@@ -306,6 +304,12 @@ class CrudManager extends BddManager implements PaginatePerPage
         return ['total_result' => $numberOfRows, 'item_last' => $itemLast, 'item_page' => $itemPerPage];
     }
 
+    /************************************** Private Méthode */
+    private function initFetchObject(string $tableName, mixed $objectModelData)
+    {
+        $this->_tableName = $tableName;
+        $this->_objectClass = $objectModelData;
+    }
     /************************************** GETTER/SETTER ************************************/
 
     /**
@@ -401,6 +405,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         $orders = [];
+
         while ($row = $stmt->fetch()) {
             $orders[] = [
                 'client_id' => $clientId,
@@ -434,5 +439,25 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
 
         return $orders;
+    }
+
+    /**
+     * Get the value of model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Set the value of model
+     *
+     * @return  self
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }

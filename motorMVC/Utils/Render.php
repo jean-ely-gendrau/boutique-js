@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Boutique\Utils;
-
-use App\Boutique\Manager\SessionManager;
-use App\Boutique\Components\FileImportJson;
+namespace Motor\Mvc\Utils;
+use Motor\Mvc\Manager\SessionManager;
+use Motor\Mvc\Components\FileImportJson;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
@@ -28,7 +27,7 @@ class Render extends SessionManager
 
     /**
      * méthode renderAdmin
-     * 
+     *
      * La fonction render capture la sortie, fusionne les arguments avec les paramètres,
      * inclut les modèles header et footer, et renvoie le contenu final.
      *

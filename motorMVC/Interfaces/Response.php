@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Boutique\Interfaces;
-
+namespace Motor\Mvc\Interfaces;
 
 interface Response
 {
-
-  /**
-   * **Method Text**
-   *  * Cette méthode retourne tout résultats sous format text
-   * 
-   * * Paramètres
-   * @param mixed $data [Les données à afficher sous forme de chaîne de caractère]
-   *
-   * @return string
-   */
-  public static function Text(mixed $data): string;
+    /**
+     * **Method Text**
+     *  * Cette méthode retourne tout résultats sous format text
+     *
+     * * Paramètres
+     * @param mixed $data [Les données à afficher sous forme de chaîne de caractère]
+     *
+     * @return string
+     */
+    public static function Text(mixed $data): string;
 }
 
 /*

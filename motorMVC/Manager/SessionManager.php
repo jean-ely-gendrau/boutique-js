@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Boutique\Manager;
+namespace Motor\Mvc\Manager;
 
-use App\Boutique\Interfaces\SessionInterface;
+use Motor\Mvc\Interfaces\SessionInterface;
 
 class SessionManager implements SessionInterface
 {
