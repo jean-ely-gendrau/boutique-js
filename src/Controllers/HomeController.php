@@ -53,7 +53,8 @@ class HomeController
         $horizontalSlide = new Slider();
 
         // Création d'un slider importent l'ensemble des produits
-        $products = $crudManager->getAll();
+        $products = $crudManager->getAllProduct();
+        // var_dump($crudManager->getAllProduct());
         $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
         $arguments['render']->addParams('product', $allProducts);
 

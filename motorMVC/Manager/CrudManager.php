@@ -147,6 +147,17 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $req->fetchAll();
     }
 
+    public function getAllProduct()
+    {
+        $req = $this->_dbConnect->prepare(
+            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id",
+        );
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
     /**
      * Method getAll
      *
