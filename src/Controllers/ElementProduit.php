@@ -22,11 +22,11 @@ class ElementProduit extends BddManager
         /** @var \Motor\Mvc\Utils\Render $render */
         $render = $arguments['render'];
 
-        $id = 'id';
+        $product_id = $arguments['id_product'];
 
         $sql = 'SELECT * FROM products WHERE id = :id';
         $request = $this->linkConnect()->prepare($sql);
-        $request->bindParam(':id', $id);
+        $request->bindParam(':id', $product_id);
         $request->execute();
         $detail = $request->fetchAll(\PDO::FETCH_ASSOC);
 
