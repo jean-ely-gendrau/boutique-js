@@ -31,7 +31,8 @@ $router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'p
 $router->map('POST', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit-post');
 
 // page detail du produit sélectionné
-$router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+// TODO ProduitElement ?
+$router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', 'details-produit');
 
 // -------------------------------
 
