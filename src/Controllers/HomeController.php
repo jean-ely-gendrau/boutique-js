@@ -59,12 +59,12 @@ class HomeController
         $arguments['render']->addParams('product', $allProducts);
 
         // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-        $productsCoffee = $crudManager->getAllById('0', 'id_category');
+        $productsCoffee = $crudManager->getAllByCategoryId('2');
         $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
         $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
 
         // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-        $productsTea = $crudManager->getAllById('1', 'id_category');
+        $productsTea = $crudManager->getAllByCategoryId('1');
         $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 

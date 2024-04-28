@@ -25,12 +25,12 @@
         <h2 class="bg-gray-100 ml-10 p-2 rounded-xl">Meilleurs ventes de <?= $pageURL ?></h2>
     </div>
 
-    <?php foreach ($mostSell as $sellMost):
+    <?php foreach ($mostSell as $sellMost): ?>
 
-        $imageData = json_decode($sellMost['images'], true);
-        $sellMost['images'] = $imageData;
-        ?>
 
+        <!-- $imageData = json_decode($sellMost['images'], true);
+        $sellMost['images'] = $imageData; -->
+        
         <div class="bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-x1">
             <div
                 class="bg-grav-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
@@ -44,10 +44,11 @@
                     </path>
                 </svg>
             </div>
+            <!-- ?= $sellMost['images']['main'] ?> -->
              <img id="<?= $sellMost['id'] ?>" class="article-image"
-                src="http://<?= $serverName ?>/assets/images/<?= $sellMost['images']['main'] ?>"
+                src="http://<?= $serverName ?>/assets/images/"
                 alt="<?= $sellMost['name'] ?>">
-            <p id="<?= $sellMost['id_product'] ?>" class="mt-3 font-bold article-name"><?= $sellMost['name'] ?>"</p>
+            <p id="<?= $sellMost['id'] ?>" class="mt-3 font-bold article-name"><?= $sellMost['name'] ?>"</p>
             <div class="flex justify-center">
                 <p class="mt-3 font-bold mr-2"><?= $sellMost['price'] ?>€</p>
                 <p class="mt-3 font-medium text-gray-300"><?= $sellMost['price'] ?>€</p>
@@ -57,8 +58,7 @@
                     cart</button>
             </div>
         </div>
-    <?php
-    endforeach; ?>
+    <?php endforeach; ?>
 
     <div class="mx-auto flex justify-start max-w-6x1">
         <form method="post">
@@ -82,11 +82,10 @@
     <div id="resultat">
         <?php
         // affiche 10 produit
-        foreach ($produitSql as $sqlProduit):
-
-            $imageData = json_decode($sqlProduit['images'], true);
-            $sqlProduit['images'] = $imageData;
-            ?>
+        foreach ($produitSql as $sqlProduit): ?>
+            <!-- // $imageData = json_decode($sqlProduit['images'], true);
+            // $sqlProduit['images'] = $imageData; -->
+            
 
             <div class="bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-x1'">
                 <div
@@ -103,10 +102,11 @@
                         </path>
                     </svg>
                 </div>
+                <!--  $sqlProduit['images']['main'] ?> -->
                  <img id="<?= $sqlProduit['id'] ?>" class="article-image"
-                    src="http://<?= $serverName ?>/assets/images/<?= $sqlProduit['images']['main'] ?>"
+                    src="http://<?= $serverName ?>/assets/images/"
                     alt="<?= $sqlProduit['name'] ?>">
-                <p id="<?= $sqlProduit['id_product'] ?>" class="mt-3 font-bold article-name"><?= $sqlProduit['name'] ?></p>
+                <p id="<?= $sqlProduit['id'] ?>" class="mt-3 font-bold article-name"><?= $sqlProduit['name'] ?></p>
                 <div class="flex justify-center">
                     <p class="mt-3 font-bold mr-2"><?= $sqlProduit['price'] ?>€</p>
                     <p class="mt-3 font-medium text-gray-300"><?= $sqlProduit['price'] ?>€</p>
@@ -118,8 +118,7 @@
                 </div>
             </div>
 
-            <?php
-        endforeach;
+            <?php endforeach;
 
         if (isset($counterSubCat)):
             foreach ($subCat as $catSub): ?>
@@ -131,11 +130,11 @@
             <?php endforeach;
 
             // affiche apres filtrage
-            foreach ($products as $product):
+            foreach ($products as $product): ?>
 
-                $imageData = json_decode($product['images'], true);
-                $product['images'] = $imageData;
-                ?>
+                <!-- $imageData = json_decode($product['images'], true);
+                $product['images'] = $imageData; -->
+               
 
                 <div class="bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-x1'">
                     <div
@@ -152,10 +151,11 @@
                             </path>
                         </svg>
                     </div>
+                    <!-- ?= $product['images']['main'] ?> -->
                     <img id="<?= $product['id'] ?>" class="article-image"
-                        src="http://<?= $serverName ?>/assets/images/<?= $product['images']['main'] ?>"
+                        src="http://<?= $serverName ?>/assets/images/"
                         alt="<?= $product['name'] ?>">
-                    <p id="<?= $product['id_product'] ?>" class="mt-3 font-bold article-name"><?= $product['name'] ?></p>
+                    <p id="<?= $product['id'] ?>" class="mt-3 font-bold article-name"><?= $product['name'] ?></p>
                     <div class="flex justify-center">
                         <p class="mt-3 font-bold mr-2"><?= $product['price'] ?>€</p>
                         <p class="mt-3 font-medium text-gray-300"><?= $product['price'] ?>€</p>
@@ -167,8 +167,7 @@
                     </div>
                 </div>
 
-                <?php
-            endforeach;
+                <?php endforeach;
         endif;
         ?>
     </div>

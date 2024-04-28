@@ -132,27 +132,21 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $req->fetch();
     }
 
-    /**
-     * Method getAllById
-     *
-     * @param string $id [id de la requête]
-     *
-     *
-     * @return array
-     */
-    public function getAllById(string $id, string $idTable): array
+    public function getAllProduct()
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id = :id');
-        $req->execute(['id' => $id]);
+        $req = $this->_dbConnect->prepare(
+            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id",
+        );
+        $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
     }
 
-    public function getAllProduct()
+    public function getAllByCategoryId(string $category_id)
     {
         $req = $this->_dbConnect->prepare(
-            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id",
+            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id WHERE p.category_id = {$category_id}",
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
