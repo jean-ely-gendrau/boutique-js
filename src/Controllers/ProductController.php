@@ -37,9 +37,10 @@ class ProductController extends BddManager
         $RenderCarouselCoffee = $carousel->RenderCarousel([
             'element' => ['../../element/bannerCarousel.php'],
             'image' => [
-                '/assets//images//banière//HomeCoffee.jpg',
-                '/assets//images//banière//hearderCoffeePage.jpg',
-                '/assets//images//banière//hearderCoffeePage2.jpg',
+                '/assets//images//banière//coffeeBanner.jpg',
+                '/assets//images//banière//coffeeBanner4.jpg',
+                '/assets//images//banière//coffeeBanner2.jpeg',
+                '/assets//images//banière//coffeeBanner3.jpg',
             ],
         ]);
 
