@@ -355,7 +355,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $LAST_ID = $connect->lastInsertId();
 
         $sql =
-            'INSERT INTO images( image_main, url_image ) VALUES ( image_main = :image_main, url_image = :url_image) FULL JOIN products ON products.id = :products_id';
+            'INSERT INTO images( image_main, url_image, products_id ) VALUES ( image_main = :image_main, url_image = :url_image, products_id = :products_id)';
 
         $req = $this->_dbConnect->prepare($sql);
         $boundParam = [];
