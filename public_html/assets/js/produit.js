@@ -1,18 +1,18 @@
 // ----------     si pas de sous catégorie selectionné     ----------
 
-if (window.location.pathname.includes("produit")) {
-    document.getElementById('submitSubCat').addEventListener('click', function (event) {
-        var selectElement = document.getElementById('counterSubCat');
-        var selectedValue = selectElement.value;
-        var textDiv = document.getElementById('text');
+// if (window.location.pathname.includes("produit")) {
+//     document.getElementById('submitSubCat').addEventListener('click', function (event) {
+//         var selectElement = document.getElementById('counterSubCat');
+//         var selectedValue = selectElement.value;
+//         var textDiv = document.getElementById('text');
 
-        if (selectedValue === '99') {
+//         if (selectedValue === '99') {
 
-            textDiv.innerHTML = "Veuillez sélectionner une sous-catégorie";
-            event.preventDefault();
-        }
-    });
-}
+//             textDiv.innerHTML = "Veuillez sélectionner une sous-catégorie";
+//             event.preventDefault();
+//         }
+//     });
+// }
 
 // ----------     get pour detail     ----------
 

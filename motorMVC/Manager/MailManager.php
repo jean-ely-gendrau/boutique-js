@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Manager;
+namespace Motor\Mvc\Manager;
 
 class MailManager
 {
@@ -28,20 +28,13 @@ class MailManager
         return $bufferOUT;
     }
 
-    private static function importTemplateMail(
-        $templateMail,
-        $subject,
-        $messageMail,
-    ) {
+    private static function importTemplateMail($templateMail, $subject, $messageMail)
+    {
         // Remplacement des variable $titleMessageMail et $messageMail
         return str_replace(
             ['$titleMessageMail', '$messageMail'],
             [$subject, $messageMail],
-            file_get_contents(
-                __DIR__ .
-                DIRECTORY_SEPARATOR .
-                "../../templateMail/{$templateMail}.php",
-            ),
+            file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . "../../templateMail/{$templateMail}.php"),
         );
     }
     /**
@@ -55,12 +48,8 @@ class MailManager
      *
      * @return void
      */
-    public static function sendMailPHP(
-        array $emails,
-        string $subjectMail,
-        string $messageMail,
-        string $templateMail = 'default',
-    ): void {
+    public static function sendMailPHP(array $emails, string $subjectMail, string $messageMail, string $templateMail = 'default'): void
+    {
         /* CODE EXTRAIT DE PHP https://www.php.net/manual/fr/function.mail.php */
         $mailHeader = implode(',', self::extractUserNameMail($emails));
 
@@ -71,11 +60,7 @@ class MailManager
         $subject = "{$subjectMail}";
 
         // message HTML
-        $message = self::importTemplateMail(
-            $templateMail,
-            $subject,
-            $messageMail,
-        );
+        $message = self::importTemplateMail($templateMail, $subject, $messageMail);
 
         // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
         $headers[] = 'MIME-Version: 1.0';

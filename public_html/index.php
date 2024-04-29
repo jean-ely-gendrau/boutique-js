@@ -1,7 +1,7 @@
 <?php
 
-use App\Boutique\Utils\Render;
-use App\Boutique\Components\Debug;
+use Motor\Mvc\Utils\Render;
+use Motor\Mvc\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -31,7 +31,10 @@ $router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'p
 $router->map('POST', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit-post');
 
 // page detail du produit sélectionné
-$router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+// $router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+
+// Modification de la route 'detail' par 'details-produit', majuscule rajouté à la méthode ProduitElement
+$router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', 'details-produit');
 
 // -------------------------------
 

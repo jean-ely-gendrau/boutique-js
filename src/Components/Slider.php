@@ -66,8 +66,8 @@ class Slider
                                     <path d='M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 div0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z' data-original='#000000'></path>
                                 </svg>
                             </div>                 
-                            <img id='{$productItem->id_product}' src='/assets/images/{$productItem->getImages()->main}' alt='{$productItem->name}' class='w-32 h-28 mx-auto mt-12 article-image' />
-                            <p id='{$productItem->id_product}' class='article-name mt-3 font-bold'>{$productItem->name}</p>
+                            <img id='{$productItem->id}' src='/assets/images/{$productItem->url_image}' alt='{$productItem->name}' class='w-32 h-28 mx-auto mt-12 article-image' />
+                            <p id='{$productItem->id}' class='article-name mt-3 font-bold'>{$productItem->name}</p>
                             <div class='flex justify-center'>
                                 <p class='mt-3 font-bold mr-2'>{$productItem->price}€</p>
                                 <p class='mt-3 font-medium text-gray-300'>{$productItem->price}€</p>

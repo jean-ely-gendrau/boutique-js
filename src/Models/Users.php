@@ -4,9 +4,8 @@ namespace App\Boutique\Models;
 
 use DateTime;
 use App\Boutique\Validators\ValidatorData;
-use App\Boutique\Manager\PasswordHashManager;
+use Motor\Mvc\Manager\PasswordHashManager;
 use JsonSerializable;
-
 
 class Users extends PasswordHashManager implements \JsonSerializable
 {
@@ -79,7 +78,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
      *
      * Cette méthode retourne les propriétés de la classe sous forme de tableau
      * Cela permet l'encodage avec json_endode des propriétés privées.
-     *  
+     *
      * @return mixed
      */
     public function jsonSerialize(): mixed
@@ -117,9 +116,8 @@ class Users extends PasswordHashManager implements \JsonSerializable
 
     public function update($full_name, $birthday, $adress, $password)
     {
-
         // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user";
+        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user';
 
         // Préparez la requête avec PDO
         $stmt = $this->pdo->prepare($sql);
