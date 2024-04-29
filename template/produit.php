@@ -41,9 +41,8 @@
                     </path>
                 </svg>
             </div>
-            <!-- <img id="<?= $sellMost['id'] ?>" class="article-image"
-                src="http://<?= $serverName ?>/assets/images/<?= $sellMost['images']['main'] ?>"
-                alt="<?= $sellMost["name"] ?>"> -->
+            <img id="<?= $sellMost['id'] ?>" class="article-image"
+                src="http://<?= $serverName ?>/assets/images/<?= $sellMost['url_image'] ?>" alt="<?= $sellMost["name"] ?>">
             <p id="<?= $sellMost['id'] ?>" class="mt-3 font-bold article-name"><?= $sellMost["name"] ?>"</p>
             <div class="flex justify-center">
                 <p class="mt-3 font-bold mr-2"><?= $sellMost["price"] ?>€</p>
@@ -100,9 +99,9 @@
                             </path>
                         </svg>
                     </div>
-                    <!-- <img id="<?= $sqlProduit['id'] ?>" class="article-image"
-                    src="http://<?= $serverName ?>/assets/images/<?= $sqlProduit['images']['main'] ?>"
-                    alt="<?= $sqlProduit["name"] ?>"> -->
+                    <img id="<?= $sqlProduit['id'] ?>" class="article-image"
+                        src="http://<?= $serverName ?>/assets/images/<?= $sqlProduit['url_image'] ?>"
+                        alt="<?= $sqlProduit["name"] ?>">
                     <p id="<?= $sqlProduit['id'] ?>" class="mt-3 font-bold article-name"><?= $sqlProduit["name"] ?></p>
                     <div class="flex justify-center">
                         <p class="mt-3 font-bold mr-2"><?= $sqlProduit["price"] ?>€</p>
