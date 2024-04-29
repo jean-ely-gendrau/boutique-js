@@ -14,7 +14,7 @@ class BddManager
             $configs = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '../../config/config.json'));
             $config = $configs->database->pdo;
         endif;
-
+        //DEBUG echo 'BDDD__';
         $this->dsn = "{$config->dsn}:dbname={$config->bdd};host={$config->host};port={$config->port}";
         $this->username = $config->username;
         $this->password = $config->password;

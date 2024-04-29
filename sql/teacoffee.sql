@@ -285,22 +285,21 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `birthday`, `adress
 (2, 'Alexandre', 'alexandre.detroy@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-04-15', '83000 Toulon', 'admin', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
 (3, 'Jean-Philippe', 'jean-philippe.douzou@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-04-15', '83000 Toulon', 'admin', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
 (4, 'Angel', 'angel.putz@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-04-15', '83000 Toulon', 'admin', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(5, 'Alice Smith', 'alice@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-04-15', '75001 Paris', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(6, 'Bob Johnson', 'bob@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1985-09-20', '69001 Lyon', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(7, 'Charlie Brown', 'charlie@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1988-12-10', '33000 Bordeaux', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(8, 'Diana Miller', 'diana@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1983-06-25', '13001 Marseille', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(9, 'Ethan Davis', 'ethan@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1992-03-08', '67000 Strasbourg', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(10, 'Fiona Clark', 'fiona@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1987-11-03', '59000 Lille', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(11, 'George Evans', 'george@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1984-08-17', '21000 Dijon', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(12, 'Hannah Brown', 'hannah@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1991-05-29', '35000 Rennes', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(13, 'Ian Wilson', 'ian@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1986-02-14', '44000 Nantes', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(14, 'Julia Martinez', 'julia@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1982-09-07', '67000 Strasbourg', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(15, 'Kevin Garcia', 'kevin@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1989-06-18', '13001 Marseille', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(16, 'Linda Taylor', 'linda@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1983-03-22', '21000 Dijon', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(17, 'Michael Lee', 'michael@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-12-05', '59000 Lille', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(18, 'Natalie Harris', 'natalie@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1987-07-28', '35000 Rennes', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20'),
-(19, 'Oliver Clark', 'oliver@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1985-04-14', '44000 Nantes', 'user', '2024-04-26 14:46:20', '2024-04-26 14:46:20');
-
+(5, 'Alice Smith', 'alice@example.com', '$argon2id$v=19$m=65536,t=2,p=1$oWIfdaXwWwhVmovOBc2NAQ$EbsZ+JnZyyavkafS0hoc4HdaOB0ILWZESAZ7kVGa+Iw', '1990-04-15', '75001 Paris', 'user', NOW(), NOW()),
+(6, 'Bob Johnson', 'bob@example.com', '$argon2id$v=19$m=65536,t=2,p=1$S1vTSF6itjQp6D2+MIt2Lg$QyO7Znx9yX8a2q0cWeeFZATupVoEeNQ6LwbcjYM5lCY', '1985-09-20', '69001 Lyon', 'user', NOW(), NOW()),
+(7, 'Charlie Brown', 'charlie@example.com', '$argon2id$v=19$m=65536,t=2,p=1$Ql95kEp2D1xrCvtDF75DJA$V3Ih+e3UB4p8kZt9QW7c3ud5Mg9lkFjCDy03MgmJFwk', '1988-12-10', '33000 Bordeaux', 'user', NOW(), NOW()),
+(8, 'Diana Miller', 'diana@example.com', '$argon2id$v=19$m=65536,t=2,p=1$zFBC3d4mszgkj32CqHbX3g$S0B+9cyCp3A4/Y6UYWzJqslz1OXocDS3m/k3p1r2R+Y', '1983-06-25', '13001 Marseille', 'user', NOW(), NOW()),
+(9, 'Ethan Davis', 'ethan@example.com', '$argon2id$v=19$m=65536,t=2,p=1$WrJmJItMbbQ+8o99WmLq1A$O6b9ynzJ97HVyPBBp00yp1Nk41D4E8l4TJ1iBq3VVso', '1992-03-08', '67000 Strasbourg', 'user', NOW(), NOW()),
+(10, 'Fiona Clark', 'fiona@example.com', '$argon2id$v=19$m=65536,t=2,p=1$PvlbuGmIa1vMS+2Czg6K+A$EeyqTRcDvzR6BhGH9S1RnNKlqOe5UMo5D8JQvN6LZdM', '1987-11-03', '59000 Lille', 'user', NOW(), NOW()),
+(11, 'George Evans', 'george@example.com', '$argon2id$v=19$m=65536,t=2,p=1$iJHZyJ/bk6q/9/N6M0hFOQ$3N+0G+2hXnvThDcHvdBlvG8YF7p06wE9tdgnsHK9ATM', '1984-08-17', '21000 Dijon', 'user', NOW(), NOW()),
+(12, 'Hannah Brown', 'hannah@example.com', '$argon2id$v=19$m=65536,t=2,p=1$7YxuF50JFBJA2ijIYKUeBw$X9ZtOum06hhFOkFpJ4fNl4U6vQMEoohSBWZ/YGgeilU', '1991-05-29', '35000 Rennes', 'user', NOW(), NOW()),
+(13, 'Ian Wilson', 'ian@example.com', '$argon2id$v=19$m=65536,t=2,p=1$1dFikvqoZC8d5IV17WHXGA$vzBxwSD7U1y0CgLxBh1Kd6EK6mNmjTOevT3VULIrF4c', '1986-02-14', '44000 Nantes', 'user', NOW(), NOW()),
+(14, 'Julia Martinez', 'julia@example.com', '$argon2id$v=19$m=65536,t=2,p=1$aiOkpBgNEQz/Tv8K5FlXww$VRkUIbS4kgV3+TGL9W9tajb3pZvV5TyfAg2yEt7bEDY', '1982-09-07', '67000 Strasbourg', 'user', NOW(), NOW()),
+(15, 'Kevin Garcia', 'kevin@example.com', '$argon2id$v=19$m=65536,t=2,p=1$o4K5i6JkZz3AYlfMb2vN+A$DprcZfuHLfRbYkKyaGJ78SLS3T19xMjfcLcGgrPrEwI', '1989-06-18', '13001 Marseille', 'user', NOW(), NOW()),
+(16, 'Linda Taylor', 'linda@example.com', '$argon2id$v=19$m=65536,t=2,p=1$dJ/XDy8B2RY/Z8J7PlvCBg$avXgCnv92zAFWlqyHmYXXu+DF7RDKWtJNR+NvjqDpEo', '1983-03-22', '21000 Dijon', 'user', NOW(), NOW()),
+(17, 'Michael Lee', 'michael@example.com', '$argon2id$v=19$m=65536,t=2,p=1$1chq+GI+j92bF4IOyU77Ug$enJG0pF9XG+6qJX7LjlPhnkngfZN8E7PBPRKWhKz7Uo', '1990-12-05', '59000 Lille', 'user', NOW(), NOW()),
+(18, 'Natalie Harris', 'natalie@example.com', '$argon2id$v=19$m=65536,t=2,p=1$5dXVP/VzL2p3Jpx0/h5hyA$8mZMgoOhvLlw07rGHf98AMJi1uEji7a8kAWgVPKc9Ak', '1987-07-28', '35000 Rennes', 'user', NOW(), NOW()),
+(19, 'Oliver Clark', 'oliver@example.com', '$argon2id$v=19$m=65536,t=2,p=1$jPylzPYRh8XhS5i8rWbKjw$rb7cyqUQvZDo4w/odIa7P4jgadNkSPjCprEe7mmk1tc', '1985-04-14', '44000 Nantes', 'user', NOW(), NOW());
 --
 -- Indexes for dumped tables
 --

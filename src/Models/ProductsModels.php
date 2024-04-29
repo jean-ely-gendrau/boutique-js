@@ -69,6 +69,22 @@ class ProductsModels implements JsonSerializable
      */
     private $updated_at;
 
+    /******************************** ADDITIONAL PROPERTIES IMAGES */
+
+    /**
+     * id_images
+     *
+     * @var string
+     */
+    private $id_images;
+
+    /**
+     * image_main
+     *
+     * @var bool
+     */
+    private $image_main;
+
     /**
      * url_images
      *
@@ -280,5 +296,77 @@ class ProductsModels implements JsonSerializable
     {
         // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
         return get_object_vars($this);
+    }
+
+    /**
+     * Get category_id
+     *
+     * @return  int
+     */
+    public function getCategory_id()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set category_id
+     *
+     * @param  int  $category_id  category_id
+     *
+     * @return  self
+     */
+    public function setCategory_id(int $category_id)
+    {
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    /**
+     * Get sub_category_id
+     *
+     * @return  int
+     */
+    public function getSub_category_id()
+    {
+        return $this->sub_category_id;
+    }
+
+    /**
+     * Set sub_category_id
+     *
+     * @param  int  $sub_category_id  sub_category_id
+     *
+     * @return  self
+     */
+    public function setSub_category_id(int $sub_category_id)
+    {
+        $this->sub_category_id = $sub_category_id;
+
+        return $this;
+    }
+
+    /**
+     * Get image_main
+     *
+     * @return  bool
+     */
+    public function getImage_main()
+    {
+        return $this->image_main;
+    }
+
+    /**
+     * Set image_main
+     *
+     * @param  bool  $image_main  image_main
+     *
+     * @return  self
+     */
+    public function setImage_main(bool $image_main)
+    {
+        $this->image_main = $image_main;
+
+        return $this;
     }
 }

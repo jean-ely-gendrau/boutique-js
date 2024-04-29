@@ -2,6 +2,7 @@
 
 namespace Motor\Mvc\Manager;
 
+use Motor\Mvc\Components\Debug;
 use Motor\Mvc\Interfaces\PaginatePerPage;
 
 /**
@@ -39,7 +40,12 @@ class CrudManager extends BddManager implements PaginatePerPage
     protected int $offsetNext;
 
     protected object $model;
-
+    /**
+     * crud
+     *
+     * @var CrudManager
+     */
+    protected object $crud;
     /**
      * Method __construct
      *
@@ -57,11 +63,28 @@ class CrudManager extends BddManager implements PaginatePerPage
         $this->_tableName = $tableName;
         $this->_objectClass = $objectClass;
         $this->_dbConnect = $this->linkConnect();
-
+        $this->crud = $this;
+        // DEBUG echo 'CRUD';
         // Pagination
         $this->limit = $limit;
         $this->offset = $page === 1 ? 0 : $this->limit * $page;
         $this->offsetNext = $this->offset + 1;
+    }
+
+    public function __invoke(?string $model = null, array|object $data = null, $config = null)
+    {
+        $this->model = is_null($model) ? new $this->_objectClass($data) : new $model();
+        //echo 'CRUD__invoke';
+        parent::__construct($config);
+
+        $function = new \ReflectionClass($model);
+        // var_dump(lcfirst($function->getShortName()), $data);
+        $this->_tableName = lcfirst($function->getShortName());
+        $this->_objectClass = $function->getName();
+        $this->_dbConnect = $this->linkConnect();
+        $this->crud = $this;
+
+        return $this;
     }
 
     /**
@@ -208,6 +231,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function getByEmail(string $email): bool|object
     {
+        var_dump($this->_dbConnect);
         $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE email = :email');
         $req->execute(['email' => $email]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -252,9 +276,9 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function update(object $objectClass, array $param): void
     {
         // On mémorise les paramètres à mettre à jours
-        $paramsUpdate = $param;
-        unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
-        $valueString = self::formatParams($paramsUpdate, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
+        //MAJ 28/04 Comments/ $paramsUpdate = $param;
+        //MAJ 28/04 Comments/ unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
+        $valueString = self::formatParams($param, 'FORMAT_UPDATE'); // Préparation des paramètre de mise à jours
 
         $sql = 'UPDATE ' . $this->_tableName . ' SET ' . $valueString . ' WHERE id = :id';
 
@@ -262,13 +286,15 @@ class CrudManager extends BddManager implements PaginatePerPage
 
         // Paramètre SQL execute
         $boundParam = [];
+        // Récupere l'id de l'instance du model en cours d'execution et l'ajoute à boudParam pour l'execution de SQL est remplir la clause WHERE
+        $boundParam['id'] = $objectClass->id;
 
         // Parcours des paramètres à mettre à jour
         foreach ($param as $paramName) {
             // Si la proprété existe dans la class
 
             if (property_exists($objectClass, $paramName)) {
-                $boundParam[$paramName] = $objectClass->$paramName; // On le défini dans le tableau avec sa clé
+                $boundParam[$paramName] = $objectClass->$paramName; // On ajoute la propriété à mettre à jour au tableau associé pas sa clé afin de remplir les paramètre de mise à jours passé en argument de la méthode.
             } else {
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
@@ -295,14 +321,98 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
     }
 
+    /***************************************************** Additionnal Méthod */
+    /**
+     * Method create
+     *
+     * @param object $objectClass [object des données à créer dans la table]
+     * @param array $param [paramètre representant les données à créer]
+     *
+     * @return mixed
+     */
+    public function createProductWhitImage(object $objectClass, array $param): void
+    {
+        $valueString = self::formatParams($param, 'FORMAT_CREATE');
+        // $valueSelectWithAlias = self::formatParams($param, 'FORMAT_CREATE_ALIAS', 'prod');
+        $valueSelectWithAlias = join(' ,', $param);
+
+        $sql = "INSERT INTO {$this->_tableName} ( {$valueSelectWithAlias} ) VALUES ( {$valueString} )";
+
+        $connect = $this->_dbConnect;
+        $req = $connect->prepare($sql);
+        $boundParam = [];
+
+        foreach ($param as $paramName) {
+            if (property_exists($objectClass, $paramName)) {
+                $boundParam[$paramName] = $objectClass->$paramName;
+            } else {
+                echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+            }
+        }
+
+        $req->execute($boundParam);
+
+        $LAST_ID = $connect->lastInsertId();
+
+        $sql =
+            'INSERT INTO images( image_main, url_image ) VALUES ( image_main = :image_main, url_image = :url_image) FULL JOIN products ON products.id = :products_id';
+
+        $req = $this->_dbConnect->prepare($sql);
+        $boundParam = [];
+        var_dump(intval($LAST_ID));
+        $paramIMG = ['image_main', 'url_image', 'products_id'];
+        foreach ($paramIMG as $paramName) {
+            if ($paramName === 'products_id' || property_exists($objectClass, $paramName)) {
+                $boundParam[$paramName] = $paramName === 'products_id' ? intval($LAST_ID) : $objectClass->$paramName;
+            } else {
+                echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+            }
+        }
+        Debug::view($boundParam);
+        $req->execute($boundParam);
+    }
+
+    /**
+     * Method getSubCategoryByCategory_id
+     *
+     * @param ?int $id [id de la categories]
+     *
+     * @return array
+     */
+    public function getSubCatByCategory_id(?int $id = null): array
+    {
+        // Paraètre par défaut
+        $prepareExecute = false;
+        $whereClause = '';
+
+        // Si un id est transmis en arguments de la méthode
+        if (!is_null($id)) {
+            $whereClause = 'WHERE cat.id = :id '; // Format la $whereClause variable
+            $prepareExecute = ['id' => intval($id)]; // Tableau de la requête préparée
+        }
+        $sql = "SELECT cat.id, cat.name, sub.id as sub_id, sub.name as subName, sub.description as subDescription, sub.category_id FROM 
+                {$this->get_tableName()} as cat
+                LEFT JOIN sub_category as sub ON cat.id = sub.category_id {$whereClause}";
+
+        $req = $this->_dbConnect->prepare($sql);
+        if (!$prepareExecute) {
+            $req->execute();
+        } else {
+            $req->execute($prepareExecute);
+        }
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->get_objectClass());
+
+        return $req->fetchAll();
+    }
+
     /***************************************************** Implements PaginatePerPage */
 
     public function paginatePerPage(int $page, int $itemPerPage): array
     {
         $numberOfRows = $this->getCountResult();
 
-        $this->setPage($page);
         $this->setLimit($itemPerPage);
+        $this->setPage($page);
         $numberPages = (int) ceil($numberOfRows[0] / $itemPerPage);
         $pageLast = $page === 1 ? false : $page - 1;
         $pageNext = $page === $numberPages ? false : $page + 1;
@@ -383,7 +493,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @return string
      */
-    private static function formatParams(array $args, string $option): string
+    private static function formatParams(array $args, string $option, string $alias = null): string
     {
         switch ($option):
             case 'FORMAT_CREATE':
@@ -391,6 +501,14 @@ class CrudManager extends BddManager implements PaginatePerPage
                     ', ',
                     array_map(function ($x) {
                         return ':' . $x;
+                    }, $args),
+                );
+
+            case 'FORMAT_CREATE_ALIAS':
+                return join(
+                    ', ',
+                    array_map(function ($x) use ($alias) {
+                        return $alias . '.' . $x;
                     }, $args),
                 );
 
@@ -469,6 +587,64 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function setModel($model)
     {
         $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get crud
+     *
+     * @return  CrudManager
+     */
+    public function getCrud()
+    {
+        return $this->crud;
+    }
+
+    /**
+     * Get _tableName
+     *
+     * @return  string
+     */
+    public function get_tableName()
+    {
+        return $this->_tableName;
+    }
+
+    /**
+     * Set _tableName
+     *
+     * @param  string  $_tableName  _tableName
+     *
+     * @return  self
+     */
+    public function set_tableName(string $_tableName)
+    {
+        $this->_tableName = $_tableName;
+
+        return $this;
+    }
+
+    /**
+     * Get _objectClass
+     *
+     * @return  string
+     */
+    public function get_objectClass()
+    {
+        return $this->_objectClass;
+    }
+
+    /**
+     * Set _objectClass
+     *
+     * @param  string  $_objectClass  _objectClass
+     *
+     * @return  self
+     */
+    public function set_objectClass(string $_objectClass)
+    {
+        $this->_objectClass = $_objectClass;
 
         return $this;
     }

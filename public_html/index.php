@@ -53,21 +53,70 @@ $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion
 $router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
 $router->map('GET', '/js-testOrder/[a:idCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS1');
 $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS2');
-/**********
- * FormBuilder Routes Pour les testes
- */
-// Inscription
-$router->map('GET', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-registration');
-$router->map('POST', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-registration-validate');
 
-// Connect
-$router->map('GET', '/form-test-connect', 'FormControllerTest#ConnectForm', 'form-connect');
-$router->map('POST', '/form-test-connect', 'FormControllerTest#ConnectUser', 'form-connect-validate');
+/*--------------------------------------------------------------------------------------------------*/
+
+/** FormBuilder Routes Pour les testes du formulaire d'inscrition etde connexion
+ * Le formulaire est instancier par le contrôlleur utilisant les méthodes du FormBuilder
+ * pour générer le formulaire et sa structure.
+ *
+ * Ajoute une couche de sécuriter client gérer par javascript avec la librairie teaCoffee.module.js.
+ *
+ * Ajoute une couche de sécuriter supplémentaire avec un validateur de données utilisant les attributs.
+ *
+ *
+ *  # Routeur :
+ *      - GET|POST->/form-test-connect,/form-test-inscription
+ *      - Affichage du formulaire de connexion/inscription et validateur de formulaire PHP/JS
+ *      - Contrôlleur : FormControllerTest
+ *      - Méthode : ConnectUser,RegistrationForm
+ *
+ *  ## paramètres de la route /form-test-connect :
+ *
+ *  - $method = GET | POST
+ *  - $route  = /form-test-connect
+ *  - $target = GET | POST -> (C)FormControllerTest -> (M)ConnectUser
+ *  - $name   = GET | POST -> form-builder-test-connect
+ *
+ *  ## paramètres de la route /form-test-inscription:
+ *
+ *  - $method = GET | POST
+ *  - $route  = /form-test-inscription
+ *  - $target = GET | POST -> (C)FormControllerTest -> (M)RegistrationForm
+ *  - $name   = GET | POST -> form-builder-test-registration
+ *
+ *   (C) = Class Controlleur
+ *   (M) = Méthode utilé dans le (C)
+ *
+ */ // Connect -  Inscription
+$router->map('GET|POST', '/form-test-inscription', 'FormControllerTest#RegistrationForm', 'form-builder-test-registration');
+$router->map('GET|POST', '/form-test-connect', 'FormControllerTest#ConnectUser', 'form-builder-test-connect');
+
+/*--------------------------------------------------------------------------------------------------*/
 
 // define('BASE_TEMPLATE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
+/**********
+   Routeur : GET->/contact, POST->/contact
+            Affichage du formulaire de contact - template (contact.php)
+            Contrôlleur : RegisterController
+            Méthode : ContactMail
+
+  paramètres de la route :
+
+  $method = GET | POST
+  $route  = /contact
+  $target = GET -> template (contact.php) | POST -> (C)RegisterController -> (M)ContactMail
+  $name   = GET -> contact | POST -> contactForm
+
+  (C) = Class Controlleur
+  (M) = Méthode utilé dans le (C)
+
+ */ //contact
+
 $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm');
+/*--------------------------------------------------------------------------------------------------*/
 
 /*
   Classe-Render-View Route test
@@ -84,6 +133,8 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
 */
 $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
+/*--------------------------------------------------------------------------------------------------*/
+
 /*
   Class MailManager Route test
   Avec cette route nous allons faire un essaie d'envoie d'email
@@ -97,9 +148,26 @@ $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
   Ici on appel la class TestMailSender avec la méthode SendMail
 */
+
 $router->map('GET', '/test-mail-sender', 'TestMailSender#SendMail', 'test-mail-sender');
 
+/*--------------------------------------------------------------------------------------------------*/
+
+/*
+ Routeur : GET->/test-class
+            Simple exemple d'affichage d'une méthode static dans le template.
+
+  paramètres de la route :
+
+  $method = GET
+  $route  = /test-class
+  $target =  GET -> template (test-class.php)
+  $name   = test-class
+
+*/ // EXEMPLE
 $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un essai avec la class Exemple
+
+/*--------------------------------------------------------------------------------------------------*/
 
 /*
  Cette route n'existe plus je la laisse pour un exemple des valeurs transmises par la méthode $_GET
@@ -108,6 +176,28 @@ $router->map('GET', '/test-class', 'test-class', 'test-class'); // Route pour un
 
   $router->map('GET', '/blog/[*:slug]-[i:id]', 'blog/article', 'article');
 */
+
+/**********
+   Routeur : GET->/test-data-dummy, POST->/test-data-dummy
+            Affichage du formulaire de création de données factice
+            Contrôlleur : TeaCoffeeFixture
+            Méthode : IndexFixture
+
+  paramètres de la route :
+
+  $method = GET|POST
+  $route  = /test-data-dummy
+  $target = GET|POST -> (C)TeaCoffeeFixture -> (M)IndexFixture
+  $name   = GET|POST -> fixture-data-dummy
+
+  (C) = Class Controlleur
+  (M) = Méthode utilé dans le (C)
+
+ */ //test-data-dummy
+
+$router->map('GET', '/test-data-dummy', 'TeaCoffeeFixture#IndexFixture', 'fixture-data-dummy');
+
+/*--------------------------------------------------------------------------------------------------*/
 
 $match = $router->match();
 
@@ -148,10 +238,18 @@ if (is_array($match)):
 
         /*
          * Récupération des valeurs transmises par $_POST
-         * On parcourt le tableau $_POST et on assigne chaque valeur
-         * $match['params']['post']['key';
-         * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
-         * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
+         * On parcourt le tableau $_POST et on assigne chaque valeur au tableau.
+         *
+         * TABLEAU : $match['params']['key'];
+         *
+         * Sur chaque valeur on applique un peu de sécuriser, trim() efface les caractères vides en début et fin de chaîne,
+         * tandis que htmlspecialchars convertit les caractères spéciaux en code html,
+         * afin de s'assurer qu'aucun code malveillant et transmis par l'utilisateur.
+         *
+         * CE TABLEAU SERA ASSIGNE A LA METHOD ASSOCIER A LA ROUTE AVEC la SPREAD VARIALES ...$arguments(ce nom est arbitraire, il peu être modifié).
+         *
+         * Exemple : votre formulaire à une name attribute username, vous récupérer à partir de votre méthode
+         *           le tableau et votre name attribute néttoyé $arguments['username']
          */
         if (isset($_POST)) {
             foreach ($_POST as $key => $value) {

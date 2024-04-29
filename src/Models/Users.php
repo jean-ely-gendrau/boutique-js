@@ -12,7 +12,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     protected const EXCLUDE_PROPERTIES = ['password'];
 
     // #[ValidatorData('numeric')]
-    private $id_user;
+    private $id;
     #[ValidatorData('full_name')]
     private $full_name;
     #[ValidatorData('email')]
@@ -36,7 +36,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->full_name = $data['full_name'] ?? '';
-        $this->id_user = $data['id_user'] ?? '';
+        $this->id = $data['id'] ?? null;
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
@@ -131,5 +131,177 @@ class Users extends PasswordHashManager implements \JsonSerializable
 
         // Exécutez la requête
         $stmt->execute();
+    }
+
+    /**
+     * Get the value of full_name
+     */
+    public function getFull_name()
+    {
+        return $this->full_name;
+    }
+
+    /**
+     * Set the value of full_name
+     *
+     * @return  self
+     */
+    public function setFull_name($full_name)
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adress
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    /**
+     * Set the value of adress
+     *
+     * @return  self
+     */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $this->hash($password);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of birthday
+     *
+     * @return  self
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }

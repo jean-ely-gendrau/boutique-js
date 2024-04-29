@@ -211,7 +211,7 @@ teaCoffee.action = {
   debugToggle: (e) => {
     var elemId = e.target.getAttribute("data-id");
     if (elemId) {
-      teaCoffee.sys.getById(...elemId.split(","));
+      teaCoffee.sys.getById(...elemId.split(",")); // spread...
 
       if (teaCoffee.sys.hasClass('debug-min')) {
         teaCoffee.sys.addClass('debug-max').delClass('debug-min');
