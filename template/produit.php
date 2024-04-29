@@ -24,9 +24,6 @@
 
     <?php
     foreach ($mostSell as $sellMost):
-        var_dump($sellMost);
-        $sellMost = "";
-        var_dump($sellMost);
         // $imageData = json_decode($sellMost["images"], true);
         // $sellMost["images"] = $imageData;
         ?>
@@ -83,9 +80,6 @@
 
         // affiche 10 produit
         foreach ($produitSql as $sqlProduit):
-            var_dump($sqlProduit);
-            $sqlProduit = "";
-            var_dump($sqlProduit);
             // $imageData = json_decode($sqlProduit['images'], true);
             // $sqlProduit['images'] = $imageData;
             if (!empty($sqlProduit)):
