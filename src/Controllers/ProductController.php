@@ -59,6 +59,10 @@ class ProductController extends BddManager
         // Envoie de la variable $RenderCarousel déclaré dans la méthode addParams
         $arguments['render']->addParams('carouselTea', $RenderCarouselTea);
 
+        /*
+         *****************************************************************************
+         */
+
         // Initialisation de la clé de la classe 'render' dans la variable $render
         $render = $arguments['render'];
 
@@ -107,18 +111,18 @@ class ProductController extends BddManager
             $request->execute();
             $products = $request->fetchAll(\PDO::FETCH_ASSOC);
 
-            $render->addParams(['subCat' => $subCat, 'products' => $products]);
+            // $render->addParams(['subCat' => $subCat, 'products' => $products]);
             $render->addParams(['subCat' => $subCat, 'products' => $products]);
         }
 
-        $render->addParams('mostSell', $mostSell);
-        $render->addParams('NameSubCat', $NameSubCat);
-        $render->addParams('produitSql', $produitSql);
+        // $render->addParams('mostSell', $mostSell);
+        // $render->addParams('NameSubCat', $NameSubCat);
+        // $render->addParams('produitSql', $produitSql);
         $render->addParams('mostSell', $mostSell);
         $render->addParams('NameSubCat', $NameSubCat);
         $render->addParams('produitSql', $produitSql);
 
-        return $render->render('produit', $arguments);
+        // return $render->render('produit', $arguments);
         return $render->render('produit', $arguments);
     }
 }
