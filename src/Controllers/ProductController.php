@@ -37,9 +37,10 @@ class ProductController extends BddManager
         $RenderCarouselCoffee = $carousel->RenderCarousel([
             'element' => ['../../element/bannerCarousel.php'],
             'image' => [
-                '/assets//images//banière//HomeCoffee.jpg',
-                '/assets//images//banière//hearderCoffeePage.jpg',
-                '/assets//images//banière//hearderCoffeePage2.jpg',
+                '/assets//images//banière//coffeeBanner.jpg',
+                '/assets//images//banière//coffeeBanner4.jpg',
+                '/assets//images//banière//coffeeBanner2.jpeg',
+                '/assets//images//banière//coffeeBanner3.jpg',
             ],
         ]);
 
@@ -69,24 +70,22 @@ class ProductController extends BddManager
         $categoryName = $arguments['categoryName'];
 
         // affiche les produit les plus livrer
-        // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = 1;
-        $sqlMostSell =
-            "SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = :categoryName"; //OK OK
+        // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.stats = 'livrer' AND p.category_id = :categoryName;
+        $sqlMostSell = "SELECT p.*, i.url_image FROM products p INNER JOIN orders o ON p.id = o.id_product INNER JOIN images i ON p.id = i.products_id WHERE o.status = 'livrer' AND p.category_id = :categoryName";
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(\PDO::FETCH_ASSOC);
 
         // récup id et nom sous categorie
-        $sqlNameSousCategorie =
-            'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
+        $sqlNameSousCategorie = 'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
         $requestNameSqlSubCat = $this->linkConnect()->prepare($sqlNameSousCategorie);
         $requestNameSqlSubCat->bindParam(':categoryName', $categoryName);
         $requestNameSqlSubCat->execute();
         $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
         // afficher 10 produit de la catégorie voulu
-        $sqlProduit = 'SELECT * FROM `products` WHERE category_id = :categoryName LIMIT 10'; //OK OK
+        $sqlProduit = 'SELECT p.*, i.url_image FROM products p INNER JOIN images i ON p.id = i.products_id WHERE category_id = :categoryName LIMIT 10'; //OK OK
         $requestProduit = $this->linkConnect()->prepare($sqlProduit);
         $requestProduit->bindParam(':categoryName', $categoryName);
         $requestProduit->execute();
