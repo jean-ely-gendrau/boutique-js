@@ -23,7 +23,7 @@ class API
 
     public function getProductsAll()
     {
-        $GetproductsAll = $this->products->getAll();
+        $GetproductsAll = $this->products->getAllProduct();
 
         $logFile = '../../config/logs/logfile.txt';
         error_log("All products were retrieved.\n", 3, $logFile);
