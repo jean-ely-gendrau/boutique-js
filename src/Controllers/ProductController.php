@@ -3,6 +3,7 @@
 namespace App\Boutique\Controllers;
 
 use Motor\Mvc\Manager\BddManager;
+use App\Boutique\Components\Carousel;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -23,28 +24,69 @@ class ProductController extends BddManager
      */
     public function Produit(...$arguments)
     {
-        /** @var \Motor\Mvc\Utils\Render $render */
+        /** @var \App\Boutique\Utils\Render $render */
+
+        // Instance de Carousel
+        $carousel = new Carousel();
+
+        /* Initialisation de carousel pour la page café.
+         * Passage dans la variable $RenderCarouselCoffee des elements php dans la clé element,
+         * le chemin relatif des images dans la clé image
+         * dans la méthode appelé RenderCarousel.
+         */
+        $RenderCarouselCoffee = $carousel->RenderCarousel([
+            'element' => ['../../element/bannerCarousel.php'],
+            'image' => [
+                '/assets//images//banière//HomeCoffee.jpg',
+                '/assets//images//banière//hearderCoffeePage.jpg',
+                '/assets//images//banière//hearderCoffeePage2.jpg',
+            ],
+        ]);
+
+        // Envoie de la variable $RenderCarousel déclaré dans la méthode addParams
+        $arguments['render']->addParams('carouselCoffee', $RenderCarouselCoffee);
+
+        // Initialisation du carousel pour la page thé
+        $RenderCarouselTea = $carousel->RenderCarousel([
+            'element' => ['../../element/bannerCarousel.php'],
+            'image' => [
+                '/assets//images//banière//teaBanner.jpg',
+                '/assets//images//banière//teaBanner2.jpg',
+                '/assets//images//banière//teaBanner3.jpg',
+            ],
+        ]);
+
+        // Envoie de la variable $RenderCarousel déclaré dans la méthode addParams
+        $arguments['render']->addParams('carouselTea', $RenderCarouselTea);
+
+        /*
+         *****************************************************************************
+         */
+
+        // Initialisation de la clé de la classe 'render' dans la variable $render
         $render = $arguments['render'];
 
         $categoryName = $arguments['categoryName'];
 
-        $produitLimit = 5;
-
         // affiche les produit les plus livrer
+        // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = 1;
         $sqlMostSell =
-            "SELECT * FROM products WHERE id_category = :categoryName AND id_product IN (SELECT DISTINCT id_product FROM orders WHERE status = 'livrer')";
+            "SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = :categoryName"; //OK OK
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(\PDO::FETCH_ASSOC);
 
-        $sqlNameSousCategorie = 'SELECT * FROM sub_category WHERE id_category = :categoryName';
+        // récup id et nom sous categorie
+        $sqlNameSousCategorie =
+            'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
         $requestNameSqlSubCat = $this->linkConnect()->prepare($sqlNameSousCategorie);
         $requestNameSqlSubCat->bindParam(':categoryName', $categoryName);
         $requestNameSqlSubCat->execute();
         $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
-        $sqlProduit = 'SELECT * FROM products WHERE id_category = :categoryName limit 10';
+        // afficher 10 produit de la catégorie voulu
+        $sqlProduit = 'SELECT * FROM `products` WHERE category_id = :categoryName LIMIT 10'; //OK OK
         $requestProduit = $this->linkConnect()->prepare($sqlProduit);
         $requestProduit->bindParam(':categoryName', $categoryName);
         $requestProduit->execute();
@@ -53,8 +95,8 @@ class ProductController extends BddManager
         if (isset($arguments['counterSubCat'])) {
             $counterSubCat = $arguments['counterSubCat'];
 
-            // affiche le nom de la sous catégorie ainsi que la description.
-            $sqlSousCategorie = 'SELECT * FROM sub_category WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat';
+            // affiche la description de la sous categorie
+            $sqlSousCategorie = 'SELECT * FROM sub_category WHERE category_id = :categotyName AND id = :counterSubCat'; //a tester
             $requestSqlSubCat = $this->linkConnect()->prepare($sqlSousCategorie);
             $requestSqlSubCat->bindParam(':categoryName', $categoryName);
             $requestSqlSubCat->bindParam(':counterSubCat', $counterSubCat);
@@ -62,20 +104,25 @@ class ProductController extends BddManager
             $subCat = $requestSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
             // affiche les produits de la sous catégorie.
-            $sql = 'SELECT * FROM products WHERE id_category = :categoryName AND id_sub_cat = :counterSubCat';
+            $sql = 'SELECT * FROM products WHERE category_id = :categoryName AND sub_category_id = :counterSubCat'; //a tester
             $request = $this->linkConnect()->prepare($sql);
             $request->bindParam(':categoryName', $categoryName);
             $request->bindParam(':counterSubCat', $counterSubCat);
             $request->execute();
             $products = $request->fetchAll(\PDO::FETCH_ASSOC);
 
+            // $render->addParams(['subCat' => $subCat, 'products' => $products]);
             $render->addParams(['subCat' => $subCat, 'products' => $products]);
         }
 
+        // $render->addParams('mostSell', $mostSell);
+        // $render->addParams('NameSubCat', $NameSubCat);
+        // $render->addParams('produitSql', $produitSql);
         $render->addParams('mostSell', $mostSell);
         $render->addParams('NameSubCat', $NameSubCat);
         $render->addParams('produitSql', $produitSql);
 
+        // return $render->render('produit', $arguments);
         return $render->render('produit', $arguments);
     }
 }
