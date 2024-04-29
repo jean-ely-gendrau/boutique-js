@@ -25,29 +25,38 @@ class ElementProduit extends BddManager
         /** @var \Motor\Mvc\Utils\Render $render */
         // $render = $arguments['render'];
 
-        // $sql = 'SELECT * FROM products WHERE id = :id_product';
+        // $product_id = $arguments['id_product'];
+
+        // $sql = 'SELECT * FROM products WHERE id = :id';
         // $request = $this->linkConnect()->prepare($sql);
-        // $request->bindParam(':id_product', $id_product);
+        // $request->bindParam(':id', $product_id);
         // $request->execute();
         // $detail = $request->fetchAll(\PDO::FETCH_ASSOC);
 
         // $render->addParams('detail', $detail);
 
+        // return $render->render('detail', $arguments);
+        //-------------------------------------------------------------------------------------------------
+
+        // Instance de CrudManager, passage de la table 'products' en paramètre
         $crudManager = new CrudManager('products', ProductsModels::class);
 
-        // $detail = $crudManager->getById($arguments['product_id']);
+        // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
         $detail = $crudManager->getOneProduct($arguments['product_id']);
 
-        var_dump($detail);
-        // Nouvelle classe Components
+        // Nouvelle classe Components Details
         $view = new Details();
 
+        // Appel de la méthode DetailsProduct renvoyant un composant html avec les données du produit sélectionné
         $productView = $view->DetailsProduct($detail);
 
+        // Passage dans render des paramètres 'detail' => $productView
         $arguments['render']->addParams('detail', $productView);
 
+        // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
         $content = $arguments['render']->render('details-produit', $arguments);
 
+        // Renvoi $content
         return $content;
     }
 }
