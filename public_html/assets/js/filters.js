@@ -1,5 +1,6 @@
 const selectOrderBy = document.getElementById('orderBy');
 const selectSubCat = document.getElementById('counterSubCat');
+const selectRatings = document.getElementById('rating');
 
 document.addEventListener("DOMContentLoaded", function () {
   selectOrderBy.selectedIndex = 0;
@@ -17,21 +18,23 @@ const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
     let order;
-    if (selectOrderBy.value == 'asc') {
-      order = 'ASC';
-    }
-    if (selectOrderBy.value == 'desc') {
-      order = 'DESC';
-    }
-    let myFetchRequest;
-    if (selectOrderBy.value != 'orderByDefault' && selectSubCat.value != 'subCatDefault') {
-      myFetchRequest = `/js-testBoth/${idCat}/${selectSubCat.value}/${order}`;
-    }
-    else if (selectOrderBy.value != 'orderByDefault') {
-      myFetchRequest = `/js-testOrder/${idCat}/${order}`;
-    } else if (selectSubCat.value != 'subCatDefault') {
-      myFetchRequest = `/js-testSub/${idCat}/${selectSubCat.value}`;
-    } 
+    let rating = selectRatings.value
+    myFetchRequest = `/js-testBoth/${idCat}/${rating}`;
+    // if (selectOrderBy.value == 'asc') {
+    //   order = 'ASC';
+    // }
+    // if (selectOrderBy.value == 'desc') {
+    //   order = 'DESC';
+    // }
+    // let myFetchRequest;
+    // if (selectOrderBy.value != 'orderByDefault' && selectSubCat.value != 'subCatDefault') {
+    //   myFetchRequest = `/js-testBoth/${idCat}/${selectSubCat.value}/${order}`;
+    // }
+    // else if (selectOrderBy.value != 'orderByDefault') {
+    //   myFetchRequest = `/js-testOrder/${idCat}/${order}`;
+    // } else if (selectSubCat.value != 'subCatDefault') {
+    //   myFetchRequest = `/js-testSub/${idCat}/${selectSubCat.value}`;
+    // } 
     console.log(myFetchRequest);
     // console.log(order); 
     // console.log(selectSubCat.value);

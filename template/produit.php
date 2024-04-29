@@ -70,6 +70,11 @@
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>
             </select>
+            <select name="Rating" id="rating" onchange="filterPrice()">
+                <option value="ratingDefault">---</option>
+                <option value="Best">Best</option>
+                <option value="Worst">Worst</option>
+            </select>
             <div id="text"></div>
         </form>
 
