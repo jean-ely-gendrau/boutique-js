@@ -40,15 +40,15 @@ class FilterPrice extends CrudManager
         // var_dump($id_sub_category);
         // var_dump($orderBy);
         if (isset($id_sub_category) && isset($orderBy)) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category AND id_sub_cat = $id_sub_category ORDER BY price $orderBy LIMIT 5";
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND id_sub_cat = $id_sub_category ORDER BY price $orderBy LIMIT 5";
             return $sqlRequest;
         }
         if ($orderBy != null && $id_sub_category == null) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category ORDER BY price $orderBy LIMIT 5";
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category ORDER BY price $orderBy LIMIT 5";
             return $sqlRequest;
         }
         if ($orderBy == null && $id_sub_category != null) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category AND id_sub_cat = $id_sub_category LIMIT 5";
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND id_sub_cat = $id_sub_category LIMIT 5";
             return $sqlRequest;
         }
     }

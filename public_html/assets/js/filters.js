@@ -32,6 +32,7 @@ function filterPrice() {
     } else if (selectSubCat.value != 'subCatDefault') {
       myFetchRequest = `/js-testSub/${idCat}/${selectSubCat.value}`;
     } 
+    console.log(myFetchRequest);
     // console.log(order); 
     // console.log(selectSubCat.value);
     // console.log(myFetchRequest);

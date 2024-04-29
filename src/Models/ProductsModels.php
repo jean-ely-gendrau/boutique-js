@@ -85,8 +85,8 @@ class ProductsModels implements JsonSerializable
 
   /* ----------------------------------- METHOD MAGIC ------------------------------ */
   /* __get magic
-     * https://www.php.net/manual/en/language.oop5.magic.php
-     */
+   * https://www.php.net/manual/en/language.oop5.magic.php
+   */
 
   public function __get(string $name)
   {
@@ -99,10 +99,10 @@ class ProductsModels implements JsonSerializable
   }
 
   /*
-     * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode
-     * sinon on obtiendrait une erreur de ce type
-     * Using Dynamic Properties on Classes running PHP 8.2 will lead to PHP Deprecated
-     */
+   * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode
+   * sinon on obtiendrait une erreur de ce type
+   * Using Dynamic Properties on Classes running PHP 8.2 will lead to PHP Deprecated
+   */
 
   public function __set(string $property, mixed $value)
   {
