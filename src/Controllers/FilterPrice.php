@@ -24,7 +24,9 @@ class FilterPrice extends CrudManager
             $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['orderBy']);
         } elseif (!isset($arguments['orderBy'])) {
             $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
-        } else {
+        } elseif (isset($arguments['orderBy']) && isset($arguments['idSubCat']) && isset($arguments['ratings'])) {
+            $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
+        } elseif (!isset($arguments['ratings'])) {
             $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
         }
         if (isset($sql)) {
@@ -34,7 +36,7 @@ class FilterPrice extends CrudManager
             echo json_encode($subCat);
         }
     }
-    private function selectProductQuery($id_category, $id_sub_category = null, $orderBy = null /*, $limit = null*/)
+    private function selectProductQuery($id_category, $id_sub_category = null, $orderBy = null, /* $rating = null, $limit = null*/)
     {
         // var_dump($id_category);
         // var_dump($id_sub_category);
@@ -51,5 +53,6 @@ class FilterPrice extends CrudManager
             $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND id_sub_cat = $id_sub_category LIMIT 5";
             return $sqlRequest;
         }
+        // $sqlRequest = "SELECT p.*, AVG(r.rating) AS average_rating FROM products p LEFT JOIN ratings r ON p.id = r.product_id WHERE p.category_id = $id_category";
     }
 }
