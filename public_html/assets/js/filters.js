@@ -19,7 +19,7 @@ function filterPrice() {
   resultat.innerText = '';
     let order;
     let rating = selectRatings.value
-    myFetchRequest = `/js-testBoth/${idCat}/${rating}`;
+    myFetchRequest = `/js-testRating/${idCat}/${rating}`;
     // if (selectOrderBy.value == 'asc') {
     //   order = 'ASC';
     // }
