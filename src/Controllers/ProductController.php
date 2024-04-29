@@ -28,10 +28,7 @@ class ProductController extends BddManager
 
         $categoryName = $arguments['categoryName'];
 
-        $produitLimit = 5;
-
         // affiche les produit les plus livrer
-        // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = 1;
         $sqlMostSell = "SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.status = 'livrer' AND p.category_id = :categoryName"; //OK OK
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
