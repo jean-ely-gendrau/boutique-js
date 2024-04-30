@@ -65,10 +65,10 @@
                     <option value="<?= $subCatName['id'] ?>"><?= $subCatName['name'] ?></option>
                 <?php endforeach; ?>
             </select>
-            <button type="button" id="expensive" value="expensive">Plus cher</button>
-            <button type="button" id="cheaper" value="cheaper">Moins cher</button>
-            <button type="button" id="bestSeller" value="bestSeller">Top de vente</button>
-            <button type="button" id="bestRatings" value="bestRatings">Mieux note</button>
+            <button type="button" class="filters" id="expensive" value="expensive">Plus cher</button>
+            <button type="button" class="filters" id="cheaper" value="cheaper">Moins cher</button>
+            <button type="button" class="filters" id="bestSeller" value="bestSeller">Top de vente</button>
+            <button type="button" class="filters" id="bestRated" value="bestRated">Mieux note</button>
             <!-- <select name="Filtre" id="orderBy" onchange="filterPrice()">
                 <option value="orderByDefault">---</option>
                 <option value="asc">Ascendent</option>

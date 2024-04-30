@@ -20,7 +20,7 @@ class FilterPrice extends CrudManager
     public function produitElement(...$arguments)
     {
         // var_dump($arguments);
-        $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
+        $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
         // echo json_encode($sql);
         // if (!isset($arguments['idSubCat'])) {
         //     $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['orderBy']);
