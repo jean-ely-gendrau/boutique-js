@@ -18,23 +18,23 @@ const resultat = document.getElementById('resultat');
 function filterPrice() {
   resultat.innerText = '';
     let order;
-    let rating = selectRatings.value
-    myFetchRequest = `/js-testRating/${idCat}/${rating}`;
-    // if (selectOrderBy.value == 'asc') {
-    //   order = 'ASC';
-    // }
-    // if (selectOrderBy.value == 'desc') {
-    //   order = 'DESC';
-    // }
-    // let myFetchRequest;
-    // if (selectOrderBy.value != 'orderByDefault' && selectSubCat.value != 'subCatDefault') {
-    //   myFetchRequest = `/js-testBoth/${idCat}/${selectSubCat.value}/${order}`;
-    // }
-    // else if (selectOrderBy.value != 'orderByDefault') {
-    //   myFetchRequest = `/js-testOrder/${idCat}/${order}`;
-    // } else if (selectSubCat.value != 'subCatDefault') {
-    //   myFetchRequest = `/js-testSub/${idCat}/${selectSubCat.value}`;
-    // } 
+    // let rating = selectRatings.value
+    // myFetchRequest = `/js-testRating/${idCat}/${rating}`;
+    if (selectOrderBy.value == 'asc') {
+      order = 'ASC';
+    }
+    if (selectOrderBy.value == 'desc') {
+      order = 'DESC';
+    }
+    let myFetchRequest;
+    if (selectOrderBy.value != 'orderByDefault' && selectSubCat.value != 'subCatDefault') {
+      myFetchRequest = `/js-testBoth/${idCat}/${selectSubCat.value}/${order}`;
+    }
+    else if (selectOrderBy.value != 'orderByDefault') {
+      myFetchRequest = `/js-testOrder/${idCat}/${order}`;
+    } else if (selectSubCat.value != 'subCatDefault') {
+      myFetchRequest = `/js-testSub/${idCat}/${selectSubCat.value}`;
+    } 
     console.log(myFetchRequest);
     // console.log(order); 
     // console.log(selectSubCat.value);
@@ -54,17 +54,17 @@ function filterPrice() {
       .then(products => {
         // console.log(products);
         products.forEach(product => {
-          const images = JSON.parse(product.images);
+          // const images = JSON.parse(product.images);
           // console.log(product);
           const productCard = document.createElement('div');
           productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
           
-          const productImage = document.createElement('img');
-          productImage.setAttribute('id', product.id_product);
-          productImage.setAttribute('src', `${currentPageUrl}/assets/images/${images.main}`);
-          productImage.setAttribute('alt', product.name);
-          productImage.classList.add('article-image');
-          productCard.appendChild(productImage);
+          // const productImage = document.createElement('img');
+          // productImage.setAttribute('id', product.id_product);
+          // productImage.setAttribute('src', `${currentPageUrl}/assets/images/${images.main}`);
+          // productImage.setAttribute('alt', product.name);
+          // productImage.classList.add('article-image');
+          // productCard.appendChild(productImage);
           
           const productName = document.createElement('p');
           productName.setAttribute('id', product.id_product);  

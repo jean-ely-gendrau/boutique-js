@@ -20,7 +20,8 @@ class FilterPrice extends CrudManager
     public function produitElement(...$arguments)
     {
         // var_dump($arguments);
-        $sql = $this->selectProductQuery($arguments['idCat']);
+        $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
+        // echo json_encode($sql);
         // if (!isset($arguments['idSubCat'])) {
         //     $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['orderBy']);
         // } elseif (!isset($arguments['orderBy'])) {
@@ -43,8 +44,8 @@ class FilterPrice extends CrudManager
         // var_dump($id_sub_category);
         // var_dump($orderBy);
         // if (isset($id_sub_category) && isset($orderBy)) {
-        //     $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND id_sub_cat = $id_sub_category ORDER BY price $orderBy LIMIT 5";
-        //     return $sqlRequest;
+        $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price $orderBy LIMIT 5";
+        return $sqlRequest;
         // }
         // if ($orderBy != null && $id_sub_category == null) {
         //     $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category ORDER BY price $orderBy LIMIT 5";
@@ -54,6 +55,6 @@ class FilterPrice extends CrudManager
         //     $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND id_sub_cat = $id_sub_category LIMIT 5";
         //     return $sqlRequest;
         // }
-        return $sqlRequest = "SELECT p.*, AVG(r.rating) AS average_rating FROM products p LEFT JOIN ratings r ON p.id = r.product_id WHERE p.category_id = $id_category";
+        // return $sqlRequest = "SELECT p.*, AVG(r.rating) AS average_rating FROM products p LEFT JOIN ratings r ON p.id = r.product_id WHERE p.category_id = $id_category";
     }
 }
