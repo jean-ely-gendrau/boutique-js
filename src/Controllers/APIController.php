@@ -23,11 +23,11 @@ class ApiController
         $this->users = new CrudManager('users', Users::class);
     }
 
-    public function GetProductsAll()
+    public function GetProductsAll(...$arguments)
     {
         $GetProductsAll = $this->products->getAllProduct();
 
-        $logFile = '../../config/logs/logfile.txt';
+        $logFile = __DIR__ . '/../../config/logs/logfile.txt';
 
         if (!file_exists($logFile)) {
             $directory = dirname($logFile);
@@ -49,6 +49,8 @@ class ApiController
         header('Content-Type: application/json');
 
         echo json_encode($GetProductsAll);
+
+        exit;
     }
 
     public function GetCategory()
