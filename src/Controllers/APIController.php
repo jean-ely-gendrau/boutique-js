@@ -8,7 +8,7 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
-class API
+class Api
 {
     private $products;
     private $category;
