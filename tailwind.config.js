@@ -15,6 +15,9 @@ module.exports = {
         md: "1px 3px 2px var(--tw-shadow-color)",
         lg: "0 8px 4px var(--tw-shadow-color)",
       },
+      boxShadow: {
+        'inner': 'rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset',
+      }
     },
   },
   plugins: [
