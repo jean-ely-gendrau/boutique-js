@@ -19,8 +19,13 @@ class FilterPrice extends CrudManager
 
     public function produitElement(...$arguments)
     {
+        if (!isset($arguments['filter']) && !isset($arguments['idSubCat'])) {
+            $sql = $this->selectProductQuery($arguments['idCat'], null, null);
+        } else {
+            $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
+        }
         // var_dump($arguments);
-        $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
+        // $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
         // echo json_encode($sql);
         // if (!isset($arguments['idSubCat'])) {
         //     $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['orderBy']);
@@ -38,13 +43,17 @@ class FilterPrice extends CrudManager
             echo json_encode($subCat);
         }
     }
-    private function selectProductQuery($id_category, $id_sub_category = null, $orderBy = null, /* $rating = null, $limit = null*/)
+    private function selectProductQuery($id_category, $id_sub_category = null, $filter = null, /* $rating = null, $limit = null*/)
     {
+        if ($id_sub_category === null && $filter === null) {
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category";
+            return $sqlRequest;
+        }
         // var_dump($id_category);
         // var_dump($id_sub_category);
         // var_dump($orderBy);
         // if (isset($id_sub_category) && isset($orderBy)) {
-        $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price $orderBy LIMIT 5";
+        $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price $filter LIMIT 5";
         return $sqlRequest;
         // }
         // if ($orderBy != null && $id_sub_category == null) {

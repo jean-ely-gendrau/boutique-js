@@ -3,7 +3,8 @@ const buttonExpensive = document.getElementById('expensive');
 const buttonCheaper = document.getElementById('cheaper');
 const buttonBestSeller = document.getElementById('bestSeller');
 const buttonBestRated = document.getElementById('bestRated');
-const filterButtons = document.querySelectorAll('.filters')
+const filterButtons = document.querySelectorAll('.filters');
+let buttonValue;
 
 document.addEventListener("DOMContentLoaded", function () {
   selectSubCat.selectedIndex = 0;
@@ -20,7 +21,7 @@ const resultat = document.getElementById('resultat');
 function filterPrice(filter = null, subCat = null) {
   resultat.innerText = '';
   let filterSelected;
-  if (filter == 'exepensive') {
+  if (filter == 'expensive') {
     filterSelected = 'asc';
   } else if (filter == 'cheaper') {
     filterSelected = 'desc';
@@ -33,8 +34,11 @@ function filterPrice(filter = null, subCat = null) {
   }
   else if (filterSelected != null) {
     myFetchRequest = `/js-testFilter/${idCat}/${filterSelected}`;
-  } else if (subCat != null) {
+  } else if (subCat != null && subCat != 'subCatDefault') {
     myFetchRequest = `/js-testSub/${idCat}/${subCat}`;
+  }
+  if (filter === null && subCat === null) {
+    myFetchRequest = `/js-testAll/${idCat}`;
   }
   console.log(myFetchRequest);
   const headers = new Headers();
@@ -49,7 +53,7 @@ function filterPrice(filter = null, subCat = null) {
       return response.json();
     })
     .then(products => {
-      // console.log(products);
+      console.log(products);
       products.forEach(product => {
         // const images = JSON.parse(product.images);
         // console.log(product);
@@ -102,11 +106,21 @@ function filterPrice(filter = null, subCat = null) {
 
 filterButtons.forEach(button => {
   button.addEventListener('click', event => {
-    const buttonValue = event.target.value
-    filterPrice();
+    buttonValue = event.target.value
+    if (selectSubCat.value === 'subCatDefault') {
+    filterPrice(buttonValue, null);
+    } else {
+    filterPrice(buttonValue, selectSubCat.value);
+    }
   });
 });
 
 selectSubCat.addEventListener('change', function () {
-  filterPrice(null, selectSubCat.value);
+  if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
+  filterPrice();
+  } else if (buttonValue === undefined) {
+    filterPrice(null, selectSubCat.value);
+  } else {
+    filterPrice(buttonValue, selectSubCat.value);
+  }
 });
