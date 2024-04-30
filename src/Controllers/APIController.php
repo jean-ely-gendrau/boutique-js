@@ -21,9 +21,9 @@ class API
         $this->users = new CrudManager('users', Users::class);
     }
 
-    public function getProductsAll()
+    public function GetProductsAll()
     {
-        $GetproductsAll = $this->products->getAllProduct();
+        $GetProductsAll = $this->products->getAllProduct();
 
         $logFile = '../../config/logs/logfile.txt';
         error_log("All products were retrieved.\n", 3, $logFile);
@@ -32,12 +32,12 @@ class API
 
         header('Content-Type: application/json');
 
-        echo json_encode($GetproductsAll);
+        echo json_encode($GetProductsAll);
     }
 
-    public function getCategory()
+    public function GetCategory()
     {
-        $GetgategoryAll = $this->category->getAll();
+        $GetGategoryAll = $this->category->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
         error_log("All category were retrieved.\n", 3, $logFile);
@@ -46,7 +46,7 @@ class API
 
         header('Content-Type: application/json');
 
-        echo json_encode($GetgategoryAll);
+        echo json_encode($GetGategoryAll);
     }
 
     public function getOrders()
