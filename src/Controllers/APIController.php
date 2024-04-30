@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Boutique\Controllers;
+
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Category;
 use App\Boutique\Models\Orders;
