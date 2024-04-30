@@ -48,13 +48,22 @@ class FilterPrice extends CrudManager
         if ($id_sub_category === null && $filter === null) {
             $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category";
             return $sqlRequest;
+        } elseif (isset($id_sub_category) && $filter === 'bestSeller') {
+            $sqlRequest = "SELECT * FROM products";
+            return $sqlRequest;
+        } elseif (isset($id_sub_category) && $filter === 'BestRating') {
+            $sqlRequest = "SELECT * FROM products";
+            return $sqlRequest;
+        } elseif (isset($id_sub_category) && $filter === 'asc') {
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price ASC";
+            return $sqlRequest;
+        } elseif (isset($id_sub_category) && $filter === 'desc') {
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price DESC";
+            return $sqlRequest;
+        } elseif (isset($id_sub_category) && $filter === null) {
+            $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category";
+            return $sqlRequest;
         }
-        // var_dump($id_category);
-        // var_dump($id_sub_category);
-        // var_dump($orderBy);
-        // if (isset($id_sub_category) && isset($orderBy)) {
-        $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price $filter LIMIT 5";
-        return $sqlRequest;
         // }
         // if ($orderBy != null && $id_sub_category == null) {
         //     $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category ORDER BY price $orderBy LIMIT 5";

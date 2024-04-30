@@ -6,6 +6,13 @@ const buttonBestRated = document.getElementById('bestRated');
 const filterButtons = document.querySelectorAll('.filters');
 let buttonValue;
 
+const buttonClear = document.getElementById('clear');
+buttonClear.addEventListener('click', function() {
+  buttonValue = null;
+  selectSubCat.selectedIndex = 0;
+  filterPrice();
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   selectSubCat.selectedIndex = 0;
 })
@@ -124,3 +131,4 @@ selectSubCat.addEventListener('change', function () {
     filterPrice(buttonValue, selectSubCat.value);
   }
 });
+

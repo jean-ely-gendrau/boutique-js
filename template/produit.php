@@ -69,6 +69,7 @@
             <button type="button" class="filters" id="cheaper" value="cheaper">Moins cher</button>
             <button type="button" class="filters" id="bestSeller" value="bestSeller">Top de vente</button>
             <button type="button" class="filters" id="bestRated" value="bestRated">Mieux note</button>
+            <button type="button" id="clear">Clear</button>
             <!-- <select name="Filtre" id="orderBy" onchange="filterPrice()">
                 <option value="orderByDefault">---</option>
                 <option value="asc">Ascendent</option>
