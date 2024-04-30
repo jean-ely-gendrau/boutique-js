@@ -8,7 +8,7 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
-class Api
+class ApiController
 {
     private $products;
     private $category;
@@ -28,7 +28,21 @@ class Api
         $GetProductsAll = $this->products->getAllProduct();
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("All products were retrieved.\n", 3, $logFile);
+
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
