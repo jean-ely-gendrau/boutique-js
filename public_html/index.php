@@ -38,7 +38,7 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 // -------------------------------
 
-$router->map('GET', '/search', 'ApiController#getProductsAll', 'search');
+$router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
