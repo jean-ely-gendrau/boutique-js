@@ -16,7 +16,7 @@ $(function() {
     var data = [];
 
     $.ajax({
-        url: 'getproduct.php',  // Change this to the URL that maps to your getProductsAll() method
+        url: 'search.php',  // Change this to the URL that maps to your getProductsAll() method
         method: 'GET',
         dataType: 'json',
         success: function(response) {
