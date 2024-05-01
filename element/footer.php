@@ -34,6 +34,7 @@
 <script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/filters.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 </body>
 
 </html>

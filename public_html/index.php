@@ -86,7 +86,12 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
   Ici on appel la class TestRender avec la méthode View
 */
 $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+// $router->map('GET', '/stripe/checkout', 'Stripe#Index', 'checkout');
+$router->map('GET', '/basket', 'Stripe#Index', 'basket');
+$router->map('GET', '/pay', 'Stripe#Pay', 'pay');
+$router->map('GET', '/stripe/cancel', 'cancel', 'cancel');
 
+// $router->map('POST', '/stripe/checkout', 'Stripe#StartPayment', 'checkout-confirm');
 /*
   Class MailManager Route test
   Avec cette route nous allons faire un essaie d'envoie d'email
