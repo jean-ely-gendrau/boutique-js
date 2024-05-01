@@ -5,6 +5,6 @@
     <p><?php echo $product->name; ?></p>
     <p><?php echo $product->price; ?>e</p>
     <button class="bg-gray-500 w-12">
-        <a href="/pay" class="text-white">Payer</a>
+        <a href="/stripe/pay" class="text-white">Payer</a>
     </button>
 </section>

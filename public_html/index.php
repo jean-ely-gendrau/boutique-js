@@ -86,12 +86,19 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
   Ici on appel la class TestRender avec la méthode View
 */
 $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
-// $router->map('GET', '/stripe/checkout', 'Stripe#Index', 'checkout');
-$router->map('GET', '/basket', 'Stripe#Index', 'basket');
-$router->map('GET', '/pay', 'Stripe#Pay', 'pay');
-$router->map('GET', '/stripe/cancel', 'cancel', 'cancel');
 
-// $router->map('POST', '/stripe/checkout', 'Stripe#StartPayment', 'checkout-confirm');
+// Route à supprimer
+$router->map('GET', '/basket', 'StripeController#Index', 'basket');
+
+// Route renvoyant sur l'API Stripe checkout
+$router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
+
+// Route si le paiment est abandonné
+$router->map('GET', '/stripe/cancel', 'stripe/cancel', 'cancel');
+
+// Route si le paiement est confirmé
+$router->map('GET', '/stripe/success', 'stripe/success', 'success');
+
 /*
   Class MailManager Route test
   Avec cette route nous allons faire un essaie d'envoie d'email

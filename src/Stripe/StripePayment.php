@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Controllers;
+namespace App\Boutique\Stripe;
 use Stripe\Checkout\Session;
 
 class StripePayment
@@ -11,12 +11,14 @@ class StripePayment
 
     public function StartPayment($cart)
     {
+        // TODO Voir où enregistrer la clé d'API
         require_once '../config/config.php';
 
         \Stripe\Stripe::setApiKey($stripeSecretKey);
 
         $YOUR_DOMAIN = 'http://boutique-js.test/';
 
+        // Ici voir quel id pour la commande à utiliser [pour le test j'utilise l'id product]
         $cartId = $cart->id;
 
         $session = Session::create([
@@ -29,7 +31,7 @@ class StripePayment
                         'product_data' => [
                             'name' => "$cart->name",
                         ],
-                        'unit_amount' => "$cart->price",
+                        'unit_amount' => "$cart->price", // A voir absolument, modification du type pour price dans la bdd
                     ],
                 ],
             ],
@@ -44,8 +46,10 @@ class StripePayment
                 'cart_id' => $cartId,
             ],
         ]);
+        // Voir implementation d'une methode d'initialisation de de $session
         // $cart->setSessionId($session->id);
 
+        // Voir nécéssité des header
         header('HTTP/1.1 303 See Other');
         header('Location: ' . $session->url);
     }
