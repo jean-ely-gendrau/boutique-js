@@ -143,7 +143,10 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getOneProduct(string $id): object
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT p.*, i.products_id, i.url_image FROM products AS p LEFT JOIN images AS i ON p.id = i.products_id WHERE p.id = :id',
+            'SELECT p.*, pi.products_id, i.url_image FROM products AS p 
+            INNER JOIN ProductsImages pi ON p.id = pi.products_id 
+            INNER JOIN images i ON pi.images_id = i.id 
+            WHERE p.id = :id',
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -159,7 +162,11 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getAllProduct(): array
     {
         $req = $this->_dbConnect->prepare(
-            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id",
+            "SELECT p.*, i.url_image
+            FROM {$this->_tableName} p
+            INNER JOIN ProductsImages pi ON p.id = pi.products_id
+            INNER JOIN images i ON pi.images_id = i.id
+            WHERE p.id = pi.images_id",
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -178,7 +185,9 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getAllByCategoryId(string $category_id): array
     {
         $req = $this->_dbConnect->prepare(
-            "SELECT p.*, i.products_id, i.url_image FROM {$this->_tableName} AS p LEFT JOIN images AS i ON p.id = i.products_id WHERE p.category_id = {$category_id}",
+            "SELECT p.*, pi.products_id, i.url_image FROM {$this->_tableName} AS p 
+            INNER JOIN ProductsImages pi ON p.id = pi.products_id 
+            INNER JOIN images i ON pi.images_id = i.id WHERE p.category_id = {$category_id}",
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
