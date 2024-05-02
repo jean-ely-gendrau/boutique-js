@@ -6,18 +6,10 @@
           Créer un compte
         </h1>
 
-        <?php
-        /** @var \App\Boutique\Builder\FormBuilder $formRegister */
-        echo $formRegister->render();
-        ?>
+        <?php /** @var \App\Boutique\Builder\FormBuilder $formRegister */
+        echo $formRegister->render(); ?>
 
       </div>
     </div>
   </div>
-  <?php
-  /** @var \App\Boutique\Builder\ModalContent $modal */
-  echo $modal->render();
-  echo $buttonModal;
-  ?>
-
 </section>

@@ -75,7 +75,7 @@ abstract class AbstractModalBuilder
    */
     public function addBody(string $id, string $contentHtml, array $options = [], string $type = 'div'): AbstractModalBuilder
     {
-        $this->headerModal[] = [
+        $this->bodyModal[] = [
             'type' => $type,
             'id' => $id,
             'contentHtml' => $contentHtml,
@@ -95,9 +95,9 @@ abstract class AbstractModalBuilder
      *
      * @return AbstractModalBuilder
      */
-    public function addFooter(string $id, string $contentHtml, array $options, string $type = 'div'): AbstractModalBuilder
+    public function addFooter(string $id, string $contentHtml, array $options = [], string $type = 'div'): AbstractModalBuilder
     {
-        $this->headerModal[] = [
+        $this->footerModal[] = [
             'type' => $type,
             'id' => $id,
             'contentHtml' => $contentHtml,

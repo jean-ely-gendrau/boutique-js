@@ -2,10 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Models\Users;
 use Motor\Mvc\Utils\Render;
+use App\Boutique\Models\Users;
 use Motor\Mvc\Components\Debug;
+
 use Motor\Mvc\Builder\FormBuilder;
+use Motor\Mvc\Builder\ModalBuilder;
 use Motor\Mvc\Validators\ValidatorJS;
 use Motor\Mvc\Validators\ReflectionValidator;
 
@@ -167,27 +169,23 @@ class FormControllerTest
                 'attributes' => ['title' => 'connection', 'href' => '/form-test-connect'],
             ]); // LINK ADDITIONAL
 
-<<<<<<< HEAD
-
-        $modal = new ModalContent();
-
-        $modal->setIdModal('modal-content-example');
-        $modal->addHeader('ma-modal', 'la modal test');
-        $modal->addBody('mon-body', '<p>la modal test</p>');
-        $modal->addBody('mon-footer', '<p>le footer</p>');
-
-        /** @var \App\Boutique\Utils\Render $render */
-=======
         /** @var \Motor\Mvc\Utils\Render $render */
->>>>>>> main
         $render = $arguments['render'];
 
+        $newModal = new ModalBuilder();
+        $newModal->setIdModal('modal-content-example');
+        $newModal->addHeader('modal-content-head', '<p>la modal</p>');
+        $newModal->addBody('modal-content-body', '<p>la modal</p>');
+        $newModal->addFooter('modal-content-footer', '<footer>footer</footer>', [], 'footer');
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formRegister', $formRegister);
-        $render->addParams('modal', $modal);
-        $render->addParams('buttonModal', '<button data-modal-target="modal-content-example" data-modal-toggle="modal-content-example" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        $render->addParams('modal', $newModal);
+        $render->addParams(
+            'buttonModal',
+            '<button data-modal-target="modal-content-example" data-modal-toggle="modal-content-example" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
         modal
-      </button>');
+      </button>',
+        );
         // Affichage du template HTML de la vue test-mail-sender
         $content = $render->render('formBuilder/register/registration', $arguments);
         return $content;
