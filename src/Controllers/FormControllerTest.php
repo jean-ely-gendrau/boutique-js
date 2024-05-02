@@ -3,20 +3,11 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Models\Users;
-<<<<<<< HEAD
-use App\Boutique\Utils\Render;
-use App\Boutique\Components\Debug;
-use App\Boutique\Builder\FormBuilder;
-use App\Boutique\Builder\ModalContent;
-use App\Boutique\Validators\ValidatorJS;
-use App\Boutique\Validators\ReflectionValidator;
-=======
 use Motor\Mvc\Utils\Render;
 use Motor\Mvc\Components\Debug;
 use Motor\Mvc\Builder\FormBuilder;
 use Motor\Mvc\Validators\ValidatorJS;
 use Motor\Mvc\Validators\ReflectionValidator;
->>>>>>> main
 
 /**
  * FormControllerTest
