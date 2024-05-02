@@ -71,21 +71,29 @@ class ProductController extends BddManager
 
         // affiche les produit les plus livrer
         // SELECT p.* FROM products p INNER JOIN orders o ON p.id = o.id_product WHERE o.stats = 'livrer' AND p.category_id = :categoryName;
-        $sqlMostSell = "SELECT p.*, i.url_image FROM products p INNER JOIN orders o ON p.id = o.id_product INNER JOIN images i ON p.id = i.products_id WHERE o.status = 'livrer' AND p.category_id = :categoryName";
+
+        /* A CORRIGER 
+        $sqlMostSell =
+            "SELECT p.*, i.url_image FROM products p INNER JOIN orders o ON p.id = o.id_product INNER JOIN images i ON p.id = i.products_id WHERE o.status = 'livrer' AND p.category_id = :categoryName";
         $requestMostSell = $this->linkConnect()->prepare($sqlMostSell);
         $requestMostSell->bindParam(':categoryName', $categoryName);
         $requestMostSell->execute();
         $mostSell = $requestMostSell->fetchAll(\PDO::FETCH_ASSOC);
+        */
 
         // récup id et nom sous categorie
-        $sqlNameSousCategorie = 'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
+        $sqlNameSousCategorie =
+            'SELECT sub_category.* FROM sub_category JOIN category ON sub_category.category_id = category.id WHERE category.id = :categoryName'; //OK OK
         $requestNameSqlSubCat = $this->linkConnect()->prepare($sqlNameSousCategorie);
         $requestNameSqlSubCat->bindParam(':categoryName', $categoryName);
         $requestNameSqlSubCat->execute();
         $NameSubCat = $requestNameSqlSubCat->fetchAll(\PDO::FETCH_ASSOC);
 
         // afficher 10 produit de la catégorie voulu
-        $sqlProduit = 'SELECT p.*, i.url_image FROM products p INNER JOIN images i ON p.id = i.products_id WHERE category_id = :categoryName LIMIT 10'; //OK OK
+        $sqlProduit = 'SELECT p.*, i.url_image FROM products p 
+        INNER JOIN ProductsImages pi ON p.id = pi.products_id 
+        INNER JOIN images i ON pi.images_id = i.id ON p.id = pi.products_id WHERE category_id = :categoryName LIMIT 10'; //OK OK
+
         $requestProduit = $this->linkConnect()->prepare($sqlProduit);
         $requestProduit->bindParam(':categoryName', $categoryName);
         $requestProduit->execute();
