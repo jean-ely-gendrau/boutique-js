@@ -8,7 +8,7 @@ var categoryMap = {
 $('#cafe, #the').on('mousedown', function() {
     var selectedText = $(this).text();
     $('#dropdown-button').text(selectedText);
-    selectedCategory = 1;
+    selectedCategory = selectedText;
     //console.log('Selected category:', selectedCategory); // Log selected category
 });
 
