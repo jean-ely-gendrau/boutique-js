@@ -29,9 +29,9 @@ class StripePayment
                     'price_data' => [
                         'currency' => 'EUR',
                         'product_data' => [
-                            'name' => "$cart->name",
+                            'name' => $cart->name,
                         ],
-                        'unit_amount' => "$cart->price", // A voir absolument, modification du type pour price dans la bdd
+                        'unit_amount' => $cart->price * 100, // A voir absolument, modification du type pour price dans la bdd
                     ],
                 ],
             ],
