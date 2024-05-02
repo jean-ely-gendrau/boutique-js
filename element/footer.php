@@ -11,8 +11,8 @@
         <img src="http://<?= $serverName ?>/assets/images/icon/gmail.svg" alt="" class="icon" />
     </div>
     <div class="flex flex-row justify-center dark:text-white">
-        <p><a href="#" class="mr-2">CGU</a></p>
-        <p><a href="#" class="ml-2">CGV</a></p>
+        <p><a href="../public_html/assets/pdf/CGU.pdf" class="mr-2">CGU</a></p>
+        <p><a href="../public_html/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" class="ml-2">CGV</a></p>
     </div>
     <p class="text-center dark:text-white">©Copyright 2024. Tous droits non reservées</p>
 </footer>

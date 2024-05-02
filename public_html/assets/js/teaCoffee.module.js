@@ -197,6 +197,10 @@ teaCoffee.html = {
 teaCoffee.action = {
   handelScrollX: (e) => {
     var elemScrollX = e.target.getAttribute("data-scroll-x");
+
+    // TODO Modifié l'appel des valeurs par data-scroll-value
+    // var elemScrollX = e.target.getAttribute("data-scroll-x");
+    
     var direction = e.target.getAttribute("data-direction-scroll");
     if (elemScrollX && direction) {
       var elementScroll = document.getElementById(elemScrollX);

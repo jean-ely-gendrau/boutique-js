@@ -7,11 +7,11 @@ use JsonSerializable;
 class ProductsModels implements JsonSerializable
 {
     /**
-     * id_product
+     * id
      *
      * @var int
      */
-    private $id_product;
+    private $id;
 
     /**
      * name
@@ -42,25 +42,18 @@ class ProductsModels implements JsonSerializable
     private $quantity;
 
     /**
-     * images
-     *
-     * @var mixed
-     */
-    private $images;
-
-    /**
-     * id_category
+     * category_id
      *
      * @var int
      */
-    private $id_category;
+    private $category_id;
 
     /**
-     * id_sub_cat
+     * sub_category_id
      *
      * @var int
      */
-    private $id_sub_cat;
+    private $sub_category_id;
 
     /**
      * created_at
@@ -77,32 +70,11 @@ class ProductsModels implements JsonSerializable
     private $updated_at;
 
     /**
-     * numberOfRows
-     *
-     * @var int
-     */
-    private $numberOfRows;
-
-    /**
-     * nameCat
+     * url_images
      *
      * @var string
      */
-    private $nameCat;
-
-    /**
-     * nameSubCat
-     *
-     * @var string
-     */
-    private $nameSubCat;
-
-    /**
-     * countMaxOrderProduct
-     *
-     * @var int
-     */
-    private $countMaxOrderProduct;
+    private $url_image;
 
     public function __construct()
     {
@@ -233,30 +205,6 @@ class ProductsModels implements JsonSerializable
     }
 
     /**
-     * Get images
-     *
-     * @return  mixed
-     */
-    public function getImages()
-    {
-        return json_decode($this->images);
-    }
-
-    /**
-     * Set images
-     *
-     * @param  mixed  $images  images
-     *
-     * @return  self
-     */
-    public function setImages(mixed $images)
-    {
-        $this->images = json_encode($this->images);
-
-        return $this;
-    }
-
-    /**
      * Get created_at
      *
      * @return  string
@@ -300,6 +248,30 @@ class ProductsModels implements JsonSerializable
     public function setUpdated_at(string $updated_at)
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Get url_image
+     *
+     * @return  string
+     */
+    public function getUrl_image()
+    {
+        return $this->url_image;
+    }
+
+    /**
+     * Set url_image
+     *
+     * @param  string  $url_image
+     *
+     * @return  self
+     */
+    public function setUrl_image(string $url_image)
+    {
+        $this->url_image = $url_image;
 
         return $this;
     }
