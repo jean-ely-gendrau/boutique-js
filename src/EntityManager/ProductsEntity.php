@@ -2,7 +2,7 @@
 
 namespace App\Boutique\EntityManager;
 
-use App\Boutique\Manager\CrudApi;
+use Motor\Mvc\Manager\CrudApi;
 use App\Boutique\Models\ProductsModels;
 
 class ProductsEntity extends CrudApi
@@ -52,19 +52,17 @@ class ProductsEntity extends CrudApi
     {
         //     GROUP BY ord.id_product
         $selectItem = is_null($select) ? '*' : join(', ', $select);
-        //       LEFT JOIN orders as ord ON p.id_order = ord.id_order   COUNT(ord.id_product) as countMaxOrderProduct
-        $sql = "SELECT p.* , c.name as nameCat, sub.name as nameSubCat , ord.id_order 
-            FROM {$this->getTableName()} as p 
-            LEFT JOIN category as c ON p.id_category = c.id_category 
-            LEFT JOIN sub_category as sub ON p.id_sub_cat = sub.id_sub_cat
-            LEFT JOIN orders as ord ON p.id_product = ord.id_product 
-        
+
+        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName, ord.id 
+            FROM {$this->getTableName()} as prod 
+            LEFT JOIN category as c ON prod.category_id = c.id 
+            LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
+            LEFT JOIN productsimages pi ON prod.id = pi.products_id 
+            LEFT JOIN images i ON pi.images_id = i.id 
+            LEFT JOIN productsorders as prod_order ON prod.id = prod_order.products_id 
+            LEFT JOIN orders as ord ON prod_order.orders_id = ord.id 
             LIMIT :limit OFFSET :offset";
-        /*
-    $sql = "SELECT p.* , c.name as id_category  
-    FROM {$this->getTableName()} as p 
-    NATURAL JOIN category as c";
-*/
+
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
         $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
@@ -73,9 +71,11 @@ class ProductsEntity extends CrudApi
         $req = $connect->prepare($sql);
         $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+
         //var_dump($req->fetchAll());
         // self::paginatePerItem();
-        var_dump($this->limit, $this->offset);
+        //var_dump($this->limit, $this->offset);
+
         return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
     }
 }

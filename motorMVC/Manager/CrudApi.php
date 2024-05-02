@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Boutique\Manager;
+namespace Motor\Mvc\Manager;
 
-use App\Boutique\Manager\BddManager;
-use App\Boutique\Interfaces\ResponseJson;
-use App\Boutique\Interfaces\PaginatePerItem;
-use App\Boutique\Interfaces\PaginatePerPage;
+use Motor\Mvc\Manager\BddManager;
+use Motor\Mvc\Interfaces\ResponseJson;
+use Motor\Mvc\Interfaces\PaginatePerItem;
+use Motor\Mvc\Interfaces\PaginatePerPage;
 
 class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, PaginatePerItem
 {

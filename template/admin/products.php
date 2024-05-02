@@ -70,13 +70,12 @@
                 </td>
                 <!--PRODUCT NAME/IMAGE -->
                 <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  <img src="http://<?= $serverName ?>/assets/images/<?= $product->getImages()
-    ->main ?>" alt="<?= $product->name ?>" class="w-auto h-8 mr-3">
+                  <img src="http://<?= $serverName ?>/assets/images/<?= $product->url_image ?>" alt="<?= $product->name ?>" class="w-auto h-8 mr-3">
                   <?= $product->name ?>
                 </th>
                 <!-- CATEGORY/SUB_CAT -->
                 <td class="px-4 py-2">
-                  <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300"><?= $product->nameCat ?> (<?= $product->nameSubCat ?>)</span>
+                  <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300"><?= $product->catName ?> (<?= $product->subCatName ?>)</span>
                 </td>
                 <!-- PRICE -->
                 <td class="px-4 py-2">

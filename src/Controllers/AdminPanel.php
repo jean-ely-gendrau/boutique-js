@@ -3,9 +3,10 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Models\Users;
-use App\Boutique\Manager\CrudApi;
+use Motor\Mvc\Manager\CrudApi;
+use Motor\Mvc\Components\Debug;
 use App\Boutique\Models\Category;
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\EntityManager\UsersEntity;
 use App\Boutique\EntityManager\ProductsEntity;
 
@@ -84,7 +85,7 @@ class AdminPanel
                     $replaceURI = $render->getParams('uri');
                     $render->setParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
                 }
-
+                //var_dump($selectAllPaginate);
                 //var_dump($render->getParams('uri'));
                 $render->addParams('categoryName', 'produits');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);

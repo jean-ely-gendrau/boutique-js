@@ -76,6 +76,24 @@ class ProductsModels implements JsonSerializable
      */
     private $url_image;
 
+    /************************************************* Other Properties */
+
+    // CAT SUBCAT NAME
+
+    /**
+     * catName
+     *
+     * @var string
+     */
+    private $catName;
+
+    /**
+     * subCatName
+     *
+     * @var string
+     */
+    private $subCatName;
+
     public function __construct()
     {
         //Ajouté les propriétés et méthodes au besoins

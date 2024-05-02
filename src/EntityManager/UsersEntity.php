@@ -3,7 +3,7 @@
 namespace App\Boutique\EntityManager;
 
 use App\Boutique\Models\Users;
-use App\Boutique\Manager\CrudApi;
+use Motor\Mvc\Manager\CrudApi;
 
 class UsersEntity extends CrudApi
 {
