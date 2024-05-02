@@ -4,8 +4,9 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Slider;
 use App\Boutique\Models\Orders;
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Components\Carousel;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -28,6 +29,21 @@ class TestRender
         /*
          * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
          */
+        //!SECTION
+        $carousel = new Carousel();
+
+        //passage methode'../../element/itemCarousel.php'], ['/assets//images//banière//HomeCoffee.jpg'
+        $RenderCarousel = $carousel->RenderCarousel([
+            'element' => ['../../element/bannerCarousel.php'],
+            'image' => [
+                '/assets//images//banière//HomeCoffee.jpg',
+                '/assets//images//banière//hearderCoffeePage.jpg',
+                '/assets//images//banière//hearderCoffeePage2.jpg',
+            ],
+        ]);
+
+        //
+        $arguments['render']->addParams('carousel', $RenderCarousel);
 
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
         $crudManager = new CrudManager('products', ProductsModels::class);

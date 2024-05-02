@@ -4,7 +4,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "App\\Boutique\\": "src/"
+            "App\\Boutique\\": "src/",
+            "Motor\\Mvc\\": "motorMVC/"
         }
     },
     "authors": [

@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 
-
+use App\Boutique\Models\Users;
 
 class HistoriqueController
 {
@@ -39,11 +38,15 @@ class HistoriqueController
     {
     }
 
-
     public function Historique(...$arguments)
     {
-        $order = new CrudManager("orders", "Historique");
-        $clientId = $arguments[0]; // Get the client's id from the arguments
+        $IdclientCrudManager = new CrudManager('users', Users::class);
+
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id_user;
+
+        $order = new CrudManager('orders', 'Historique');
+        $clientId = $id; // Get the client's id from the arguments
         $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client

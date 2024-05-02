@@ -2,8 +2,9 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\CrudManager;
+use Motor\Mvc\Manager\CrudManager;
 
+use App\Boutique\Models\Users;
 
 class PanierController
 {
@@ -14,7 +15,7 @@ class PanierController
 
     /**
      * Méthode Index qui affiche les variables transmises à la méthode.
-     * 
+     *
      * @param array ...$arguments
      * @return void
      */
@@ -29,7 +30,7 @@ class PanierController
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     * 
+     *
      * @param array ...$arguments
      * @return string
      */
@@ -39,11 +40,18 @@ class PanierController
 
     public function Panier(...$arguments)
     {
-        $panier = new CrudManager("orders", "Panier");
-        $clientId = $arguments[0]; // Get the client's id from the arguments
-        $paniers = $panier->getbyidbasket($clientId); // Get the orders by the client's id
+        $IdclientCrudManager = new CrudManager('users', Users::class);
 
-        // Now $orders should contain all orders made by the client
-        return $paniers;
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id_user;
+
+        $panier = new CrudManager('orders', 'Panier');
+        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id
+
+        // Return both the client's ID and the orders
+        return [
+            'id' => $id,
+            'paniers' => $paniers,
+        ];
     }
 }

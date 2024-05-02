@@ -2,15 +2,9 @@
 
 namespace App\Boutique\Controllers;
 
-
-use App\Boutique\Manager\CrudManager;
-
 use App\Boutique\Models\Users;
 
-
-
-
-
+use Motor\Mvc\Manager\CrudManager;
 
 class ModificationController
 {
@@ -45,21 +39,17 @@ class ModificationController
     {
     }
 
-
-
     public function Modification(...$arguments)
     {
-        /** @var \App\Boutique\Utils\Render $render */
+        /** @var \Motor\Mvc\Utils\Render $render */
 
         $render = $arguments['render'];
         $render->addParams('title', 'Modification du profil');
         $render->render('modification', $arguments);
 
-
-        echo "<pre>";
+        echo '<pre>';
 
         $EmailCrudManager = new CrudManager('users', Users::class);
-
 
         $email = $EmailCrudManager->getByEmail($_SESSION['email']);
         $id = $email->id_user;
@@ -80,10 +70,6 @@ class ModificationController
             'password' => $arguments['nouveau_password'],
         ];
 
-
-
-
-
         $usermanager = new CrudManager('users', Users::class);
 
         $user = new Users($paramSQL);
@@ -92,12 +78,11 @@ class ModificationController
 
         $usermanager->update($user, array_keys($paramSQL));
 
-
         $render->addSession([
-            'email' => $user->email
+            'email' => $user->email,
         ]);
 
-        echo "</pre>";
+        echo '</pre>';
         header('location:/user');
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Manager\BddManager;
-
+use App\Boutique\Components\Details;
+use App\Boutique\Models\ProductsModels;
+use Motor\Mvc\Manager\BddManager;
+use Motor\Mvc\Manager\CrudManager;
 
 class ElementProduit extends BddManager
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -19,23 +20,44 @@ class ElementProduit extends BddManager
      * @param array ...$arguments Les arguments transmis à la méthode.
      * @return string
      */
-    public function produitElement(...$arguments)
+    public function ProduitElement(...$arguments)
     {
-        /** @var \App\Boutique\Utils\Render $render */
-        $render = $arguments['render'];
+        /** @var \Motor\Mvc\Utils\Render $render */
+        // $render = $arguments['render'];
 
-        $id_product = $arguments["id_product"];
+        // $product_id = $arguments['id_product'];
 
-        //SELECT * FROM `products` WHERE id_product = 1;
-        $sql = "SELECT * FROM products WHERE id_product = :id_product";
-        $request = $this->linkConnect()->prepare($sql);
-        $request->bindParam(':id_product', $id_product);
-        $request->execute();
-        $detail = $request->fetchAll(\PDO::FETCH_ASSOC);
+        // $sql = 'SELECT * FROM products WHERE id = :id';
+        // $request = $this->linkConnect()->prepare($sql);
+        // $request->bindParam(':id', $product_id);
+        // $request->execute();
+        // $detail = $request->fetchAll(\PDO::FETCH_ASSOC);
 
-        $render->addParams("detail", $detail);
+        // $render->addParams('detail', $detail);
 
-        return $render->render("detail", $arguments);
+        // return $render->render('detail', $arguments);
+        //-------------------------------------------------------------------------------------------------
+
+        // Instance de CrudManager, passage de la table 'products' en paramètre
+        $crudManager = new CrudManager('products', ProductsModels::class);
+
+        // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
+        $detail = $crudManager->getOneProduct($arguments['product_id']);
+
+        // Nouvelle classe Components Details
+        $view = new Details();
+
+        // Appel de la méthode DetailsProduct renvoyant un composant html avec les données du produit sélectionné
+        $productView = $view->DetailsProduct($detail);
+
+        // Passage dans render des paramètres 'detail' => $productView
+        $arguments['render']->addParams('detail', $productView);
+
+        // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
+        $content = $arguments['render']->render('details-produit', $arguments);
+
+        // Renvoi $content
+        return $content;
     }
 }
 

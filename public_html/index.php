@@ -1,7 +1,7 @@
 <?php
 
-use App\Boutique\Utils\Render;
-use App\Boutique\Components\Debug;
+use Motor\Mvc\Utils\Render;
+use Motor\Mvc\Components\Debug;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -31,9 +31,14 @@ $router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'p
 $router->map('POST', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit-post');
 
 // page detail du produit sélectionné
-$router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+// $router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
+
+// Modification de la route 'detail' par 'details-produit', majuscule rajouté à la méthode ProduitElement
+$router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', 'details-produit');
 
 // -------------------------------
+
+$router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
@@ -43,7 +48,6 @@ $router->map('GET', '/historique', 'historique', 'historique');
 $router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
 $router->map('GET', '/panier', 'panier', 'panier');
 $router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
-$router->map('GET', '/remove-from-cart', 'remove-from-cart', 'remove-from-cart');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -51,7 +55,9 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
-
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
+$router->map('GET', '/js-testOrder/[a:idCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS1');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS2');
 /**********
  * FormBuilder Routes Pour les testes
  */
@@ -114,7 +120,7 @@ $match = $router->match();
 //require_once __DIR__ . '/../element/header.php';
 
 // Si la route est bien enregistré avec $router->map alors on execute la condition
-if (is_array($match)):
+if (is_array($match)) :
     $params = $match['params'];
 
     /* Cas de Figure Du contrôlleur et de la méthod à appeler
@@ -132,7 +138,7 @@ if (is_array($match)):
      * - Traiter les données avant de les rendre au client
      * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
      */
-    if (str_contains($match['target'], '#')):
+    if (str_contains($match['target'], '#')) :
         // On assign les valeurs du tableau à
         // $contoller pour $match['target'][0]
         // $method    pour $match['target'][1]
@@ -172,7 +178,7 @@ if (is_array($match)):
         // $match['params']['serverName'] = $serverName;
         // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
         // https://www.php.net/manual/en/function.is-callable.php
-        if (is_callable([$controller, $method])):
+        if (is_callable([$controller, $method])) :
             /*
              * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
              * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
@@ -193,25 +199,25 @@ if (is_array($match)):
              */
             echo call_user_func_array([$controller, $method], $match['params']);
         endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
          *
          * On appel la méthode defaultRender prenant en paramétre
          * le nom de la page ($match['target']) et la variable $serverName
          *
          * Enfin on affiche le resultat de la méthode
          */
-    else:
+    else :
         $rendering->addParams('params', $match['params']);
         echo $rendering->defaultRender($match['target']);
     endif;
-    /*Si la page demandé est inexistante, nouvelle instance de Render
+/*Si la page demandé est inexistante, nouvelle instance de Render
      *
      * On passe en paramétre de la méthode la page '404'
      *
      * Enfin On affiche le résultat de la méthode
      */
-else:
+else :
     echo $rendering->defaultRender('404');
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+/* APPEL ICI DE LA CLASS RENDER */
+// require_once __DIR__ . '/../template/404.php';
 endif;

@@ -4,10 +4,13 @@ namespace App\Boutique\Models;
 
 use DateTime;
 use App\Boutique\Validators\ValidatorData;
-use App\Boutique\Manager\PasswordHashManager;
+use Motor\Mvc\Manager\PasswordHashManager;
+use JsonSerializable;
 
-class Users extends PasswordHashManager
+class Users extends PasswordHashManager implements \JsonSerializable
 {
+    protected const EXCLUDE_PROPERTIES = ['password'];
+
     // #[ValidatorData('numeric')]
     private $id_user;
     #[ValidatorData('full_name')]
@@ -69,6 +72,21 @@ class Users extends PasswordHashManager
     {
     }
 
+    /* ----------------------------------- implements jsonSerialize ------------------------------ */
+    /**
+     * Method jsonSerialize
+     *
+     * Cette méthode retourne les propriétés de la classe sous forme de tableau
+     * Cela permet l'encodage avec json_endode des propriétés privées.
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
+        return array_diff_key(get_object_vars($this), array_flip(self::EXCLUDE_PROPERTIES));
+    }
+
     /* ----------------------------------- GETTER / SETTER ------------------------------ */
     /**
      * Method setDateTime
@@ -98,9 +116,8 @@ class Users extends PasswordHashManager
 
     public function update($full_name, $birthday, $adress, $password)
     {
-
         // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = "UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user";
+        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user';
 
         // Préparez la requête avec PDO
         $stmt = $this->pdo->prepare($sql);
