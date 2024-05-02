@@ -27,29 +27,11 @@ class ApiController
     {
         $GetProductsAll = $this->products->getAllProduct();
 
-        $logFile = __DIR__ . '/../../config/logs/logfile.txt';
-
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
-
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Create the file
-            touch($logFile);
-        }
-
-        // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
+        $this->logToFile($GetProductsAll, 'Product');
 
         http_response_code(200);
-
         header('Content-Type: application/json');
-
         echo json_encode($GetProductsAll);
-
         exit;
     }
 
@@ -57,26 +39,10 @@ class ApiController
     {
         $GetGategoryAll = $this->category->getAll();
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
-
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Create the file
-            touch($logFile);
-        }
-
-        // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
+        $this->logToFile($GetGategoryAll, 'Category');
 
         http_response_code(200);
-
         header('Content-Type: application/json');
-
         echo json_encode($GetGategoryAll);
     }
 
@@ -84,26 +50,10 @@ class ApiController
     {
         $GetordersAll = $this->orders->getAll();
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
-
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Create the file
-            touch($logFile);
-        }
-
-        // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
+        $this->logToFile($GetordersAll, 'Order');
 
         http_response_code(200);
-
         header('Content-Type: application/json');
-
         echo json_encode($GetordersAll);
     }
 
@@ -111,26 +61,10 @@ class ApiController
     {
         $GetusersAll = $this->users->getAll();
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
-
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Create the file
-            touch($logFile);
-        }
-
-        // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
+        $this->logToFile($GetusersAll, 'User');
 
         http_response_code(200);
-
         header('Content-Type: application/json');
-
         echo json_encode($GetusersAll);
     }
 
@@ -138,6 +72,15 @@ class ApiController
     {
         $GetproductsById = $this->products->getById($id, 'id_product');
 
+        $this->logToFile($GetproductsById, 'Product');
+
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode($GetproductsById);
+    }
+
+    private function logToFile($data, $type)
+    {
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
             $directory = dirname($logFile);
@@ -152,13 +95,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetproductsById);
+        $logMessage = $data ? "{$type} retrieved successfully." : "Failed to retrieve {$type}.";
+        error_log($logMessage, 3, $logFile);
     }
 
     public function getCategoryById($id)
@@ -179,8 +117,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
+        $logMessage = $GetcategoryById ? "Category retrieved successfully." : "Failed to retrieve category.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -206,8 +144,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
+        $logMessage = $GetorderById ? "Order retrieved successfully." : "Failed to retrieve order.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -233,8 +171,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
+        $logMessage = $GetuserById ? "User retrieved successfully." : "Failed to retrieve user.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -246,7 +184,7 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->products->create($this->products, $data);
+        $result = $this->products->create($this->products, $data);
 
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
@@ -262,8 +200,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
+        $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(201);
 
         header('Content-Type: application/json');
@@ -275,7 +213,7 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->category->create($this->category, $data);
+        $result = $this->category->create($this->category, $data);
 
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
@@ -291,8 +229,8 @@ class ApiController
         }
 
         // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
+        $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(201);
 
         header('Content-Type: application/json');
@@ -300,35 +238,34 @@ class ApiController
         echo json_encode($data);
     }
     /*
-    public function addOrders()
-    {
+public function addOrders()
+{
+    $data = json_decode(file_get_contents('php://input'), true);
 
-        $data = json_decode(file_get_contents('php://input'), true);
+    $result = $this->orders->create($this->orders, $data);
 
-        $this->orders->create($this->orders, $data);
+    $logFile = '../../config/logs/logfile.txt';
+    if (!file_exists($logFile)) {
+        $directory = dirname($logFile);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
-
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Create the file
-            touch($logFile);
+        // Create the directory if it doesn't exist
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
         }
 
-        // Now you can use error_log
-        error_log('Your log message', 3, $logFile);
-
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
+        // Create the file
+        touch($logFile);
     }
+
+    // Now you can use error_log
+    $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
+    error_log($logMessage, 3, $logFile);
+    http_response_code(201);
+
+    header('Content-Type: application/json');
+
+    echo json_encode($data);
+}
     */
     public function addUsers()
     {
