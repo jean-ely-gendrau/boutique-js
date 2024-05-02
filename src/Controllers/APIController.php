@@ -58,7 +58,20 @@ class ApiController
         $GetGategoryAll = $this->category->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("All category were retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -72,7 +85,20 @@ class ApiController
         $GetordersAll = $this->orders->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("All orders were retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -86,7 +112,20 @@ class ApiController
         $GetusersAll = $this->users->getAll();
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("All users were retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -100,7 +139,20 @@ class ApiController
         $GetproductsById = $this->products->getById($id, 'id_product');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Products with ID $id was retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -114,7 +166,20 @@ class ApiController
         $GetcategoryById = $this->category->getById($id, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Category with ID $id was retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -128,7 +193,20 @@ class ApiController
         $GetorderById = $this->orders->getById($id, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Order with ID $id was retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -142,7 +220,20 @@ class ApiController
         $GetuserById = $this->users->getById($id, 'id_user');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("User with ID $id was retrieved.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(200);
 
@@ -158,7 +249,20 @@ class ApiController
         $this->products->create($this->products, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log('Products was created with data: ' . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(201);
 
@@ -174,7 +278,20 @@ class ApiController
         $this->category->create($this->category, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log('Category was created with data: ' . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(201);
 
@@ -191,7 +308,20 @@ class ApiController
         $this->orders->create($this->orders, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Order was created with data: " . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        error_log('Your log message', 3, $logFile);
 
         http_response_code(201);
 
@@ -204,11 +334,24 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->users->create($this->users, $data);
+        $result = $this->users->create($this->users, $data);
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log('User was created with data: ' . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(201);
 
         header('Content-Type: application/json');
@@ -220,11 +363,24 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->products->update($id, $data, 'id_product');
+        $result = $this->products->update($id, $data, 'id_product');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Products with ID $id was updated with data: " . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -236,11 +392,24 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->category->update($id, $data, 'id_category');
+        $result = $this->category->update($id, $data, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Category with ID $id was updated with data: " . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Category with ID $id was updated successfully." : "Failed to update category with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -252,11 +421,24 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->orders->update($id, $data, 'id_order');
+        $result = $this->orders->update($id, $data, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Order with ID $id was updated with data: " . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Order with ID $id was updated successfully." : "Failed to update order with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -268,11 +450,24 @@ class ApiController
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $this->users->update($id, $data, 'id_user');
+        $result = $this->users->update($id, $data, 'id_user');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("User with ID $id was updated with data: " . json_encode($data) . "\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(200);
 
         header('Content-Type: application/json');
@@ -282,42 +477,95 @@ class ApiController
 
     public function deleteProducts($id)
     {
-        $this->products->delete($id, 'id_product');
+        $result = $this->products->delete($id, 'id_product');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Category with ID $id was deleted.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(204);
     }
 
     public function deleteCategory($id)
     {
-        $this->category->delete($id, 'id_category');
+        $result = $this->category->delete($id, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Category with ID $id was deleted.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(204);
     }
 
     public function deleteOrders($id)
     {
-        $this->orders->delete($id, 'id_order');
+        $result = $this->orders->delete($id, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';
-        error_log("Order with ID $id was deleted.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(204);
     }
 
+
     public function deleteUsers($id)
     {
-        $this->users->delete($id, 'id_user');
+        $result = $this->users->delete($id, 'id_user');
 
         // Log the deletion
         $logFile = '../../config/logs/logfile.txt';
-        error_log("User with ID $id was deleted.\n", 3, $logFile);
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
 
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
+        error_log($logMessage, 3, $logFile);
         http_response_code(204);
     }
 }
