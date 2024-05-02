@@ -35,7 +35,7 @@ class ApiController
         exit;
     }
 
-    public function GetCategory()
+    public function GetCategory(...$arguments)
     {
         $GetGategoryAll = $this->category->getAll();
 
@@ -46,7 +46,7 @@ class ApiController
         echo json_encode($GetGategoryAll);
     }
 
-    public function getOrders()
+    public function getOrders(...$arguments)
     {
         $GetordersAll = $this->orders->getAll();
 
@@ -57,7 +57,7 @@ class ApiController
         echo json_encode($GetordersAll);
     }
 
-    public function getUsers()
+    public function getUsers(...$arguments)
     {
         $GetusersAll = $this->users->getAll();
 
@@ -180,7 +180,7 @@ class ApiController
         echo json_encode($GetuserById);
     }
 
-    public function addProducts()
+    public function addProducts(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -209,7 +209,7 @@ class ApiController
         echo json_encode($data);
     }
 
-    public function addCategory()
+    public function addCategory(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -238,7 +238,7 @@ class ApiController
         echo json_encode($data);
     }
     /*
-public function addOrders()
+public function addOrders(...$arguments)
 {
     $data = json_decode(file_get_contents('php://input'), true);
 
@@ -267,7 +267,7 @@ public function addOrders()
     echo json_encode($data);
 }
     */
-    public function addUsers()
+    public function addUsers(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 

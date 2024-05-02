@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
+use DateTime;
 
 class PanierController
 {
@@ -55,8 +56,26 @@ class PanierController
         ];
     }
 
-    public function Ajout(...$arguments)
+    public function AddToBasket(...$arguments)
     {
-        $
+        $IdclientCrudManager = new CrudManager('users', Users::class);
+
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id_user;
+
+        $idproduct = $_GET['id'];
+
+
+        $now = new DateTime();
+        $formattedNow = $now->format('Y-m-d H:i:s');
+
+        return [
+            'id_product' => $idproduct,
+            'basket' => 1,
+            'status' => "en attente",
+            'created_at' => $formattedNow,
+            'updated_at' => $formattedNow,
+            'users_id' => $id,
+        ];
     }
 }
