@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Boutique\Components;
 
 /* La classe `Slider` contient les méthodes permettant de générer un slide Html pour les produits
  avec des boutons de scroll.
 */
+
 class Slider
 {
     public function __construct()
@@ -58,7 +60,7 @@ class Slider
         $slider = "
             <div id='menu' class='relative flex justify-center'>
                 <ul id='{$id}' class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
-        foreach ($products as $productItem):
+        foreach ($products as $productItem) :
             $slider .= "  <div class='bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-xl shadow-[3px_3px_9px_0px_rgba(0,0,0,0.6)]'>
                             <div class='bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4'>
                                 <svg xmlns='http://www.w3.org/2000/svg' width='18px' class='fill-gray-800 inline-block' viewBox='0 0 64 64'>
@@ -72,9 +74,11 @@ class Slider
                                 <p class='mt-3 font-medium text-gray-300'>{$productItem->price}€</p>
                             </div>
                             <div>
+                            <a  href='addtobasket.php'>
                                 <button type='button' class='w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full'>
                                     Add to cart
                                 </button>
+                            </a>
                             </div>
                         </div>";
         endforeach;
@@ -83,5 +87,3 @@ class Slider
         return $slider;
     }
 }
-
-?>

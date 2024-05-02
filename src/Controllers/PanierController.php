@@ -54,4 +54,9 @@ class PanierController
             'paniers' => $paniers,
         ];
     }
+
+    public function Ajout(...$arguments)
+    {
+        $
+    }
 }
