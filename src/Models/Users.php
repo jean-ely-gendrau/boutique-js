@@ -12,7 +12,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     protected const EXCLUDE_PROPERTIES = ['password'];
 
     // #[ValidatorData('numeric')]
-    private $id_user;
+    private $id;
     #[ValidatorData('full_name')]
     private $full_name;
     #[ValidatorData('email')]
@@ -36,7 +36,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->full_name = $data['full_name'] ?? '';
-        $this->id_user = $data['id_user'] ?? '';
+        $this->id = $data['id_user'] ?? '';
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';

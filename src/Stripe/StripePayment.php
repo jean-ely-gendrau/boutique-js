@@ -9,7 +9,7 @@ class StripePayment
     {
     }
 
-    public function StartPayment($cart)
+    public function StartPayment($panier)
     {
         // TODO Voir où enregistrer la clé d'API
         require_once '../config/config.php';
@@ -19,31 +19,31 @@ class StripePayment
         $YOUR_DOMAIN = 'http://boutique-js.test/';
 
         // Ici voir quel id pour la commande à utiliser [pour le test j'utilise l'id product]
-        $cartId = $cart->id;
+        // $panierId = $panier->id;
+
+        $line_items = [];
+
+        foreach ($panier as $produit) {
+            $line_items[] = [
+                'quantity' => 1, // Vous pouvez modifier la quantité si nécessaire
+                'price_data' => [
+                    'currency' => 'EUR',
+                    'product_data' => [
+                        'name' => $produit->name,
+                    ],
+                    'unit_amount' => $produit->price * 100, // Assurez-vous que le prix est en centimes
+                ],
+            ];
+        }
 
         $session = Session::create([
-            'line_items' => [
-                [
-                    # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                    'quantity' => 1,
-                    'price_data' => [
-                        'currency' => 'EUR',
-                        'product_data' => [
-                            'name' => $cart->name,
-                        ],
-                        'unit_amount' => $cart->price * 100, // A voir absolument, modification du type pour price dans la bdd
-                    ],
-                ],
-            ],
+            'line_items' => $line_items,
             'mode' => 'payment',
             'success_url' => $YOUR_DOMAIN . 'stripe/success',
             'cancel_url' => $YOUR_DOMAIN . 'stripe/cancel',
             'billing_address_collection' => 'required',
             'shipping_address_collection' => [
                 'allowed_countries' => ['FR'],
-            ],
-            'metadata' => [
-                'cart_id' => $cartId,
             ],
         ]);
         // Voir implementation d'une methode d'initialisation de de $session

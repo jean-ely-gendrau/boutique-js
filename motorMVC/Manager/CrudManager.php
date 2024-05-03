@@ -488,6 +488,31 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $orders;
     }
 
+    /*NOTE - Methode a supprimer, utilisé pour testé Stripe avec panier*/
+    /**
+     * Method getById
+     *
+     * @param string $clientId [id de la requête]
+     *
+     *
+     * @return array
+     */
+    public function IdBasket($clientId): array
+    {
+        $req = $this->_dbConnect->prepare(
+            'SELECT o.*, p.id, p.name, p.price, i.id, i.url_image FROM orders o 
+            INNER JOIN productsorders po ON o.id = po.orders_id
+            INNER JOIN products p ON po.products_id = p.id 
+            INNER JOIN productsimages pi ON p.id = pi.products_id
+            INNER JOIN images i ON i.id = pi.images_id
+            WHERE o.users_id = :client_id AND o.basket = 1',
+        );
+        $req->execute([':client_id' => $clientId]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
     /**
      * Get the value of model
      */
