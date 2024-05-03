@@ -8,8 +8,7 @@
 
         <?php
         /** @var \App\Boutique\Builder\FormBuilder $formRegister */
-        echo $formRegister->render();
-        ?>
+        echo $formRegister->render(); ?>
 
       </div>
     </div>

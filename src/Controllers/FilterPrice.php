@@ -19,14 +19,24 @@ class FilterPrice extends CrudManager
 
     public function produitElement(...$arguments)
     {
+        // if (!isset($arguments['filter']) && !isset($arguments['idSubCat'])) {
+        //     $sql = $this->selectProductQuery($arguments['idCat'], null, null);
+        // } else {
+        //     $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
+        // }
         // var_dump($arguments);
-        if (!isset($arguments['idSubCat'])) {
-            $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['orderBy']);
-        } elseif (!isset($arguments['orderBy'])) {
+        // $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
+        // echo json_encode($sql);
+        if (!isset($arguments['filter']) && !isset($arguments['idSubCat'])) {
+            $sql = $this->selectProductQuery($arguments['idCat'], null, null);
+        } elseif (!isset($arguments['filter'])) {
             $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], null);
-        } else {
-            $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['orderBy']);
+        } elseif (!isset($arguments['idSubCat'])) {
+            $sql = $this->selectProductQuery($arguments['idCat'], null, $arguments['filter']);
+        } elseif (isset($arguments['idSubCat']) && isset($arguments['idSubCat'])) {
+            $sql = $this->selectProductQuery($arguments['idCat'], $arguments['idSubCat'], $arguments['filter']);
         }
+        // var_dump($sql);
         if (isset($sql)) {
             $requestSqlSubCat = $this->getConnectBdd()->prepare($sql);
             $requestSqlSubCat->execute();
@@ -34,22 +44,100 @@ class FilterPrice extends CrudManager
             echo json_encode($subCat);
         }
     }
-    private function selectProductQuery($id_category, $id_sub_category = null, $orderBy = null /*, $limit = null*/)
+    private function selectProductQuery($id_category, $id_sub_category = null, $filter = null)
     {
-        // var_dump($id_category);
-        // var_dump($id_sub_category);
-        // var_dump($orderBy);
-        if (isset($id_sub_category) && isset($orderBy)) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category AND id_sub_cat = $id_sub_category ORDER BY price $orderBy LIMIT 5";
+        if ($id_sub_category === null && $filter === null) {
+            $sqlRequest = "SELECT p.* FROM products p WHERE p.category_id = $id_category LIMIT 10";
             return $sqlRequest;
         }
-        if ($orderBy != null && $id_sub_category == null) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category ORDER BY price $orderBy LIMIT 5";
-            return $sqlRequest;
-        }
-        if ($orderBy == null && $id_sub_category != null) {
-            $sqlRequest = "SELECT * FROM products WHERE id_category = $id_category AND id_sub_cat = $id_sub_category LIMIT 5";
-            return $sqlRequest;
+        if ($id_sub_category === null) {
+            if ($filter === 'bestSeller') {
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold
+                FROM products p
+                JOIN productsorders po ON p.id = po.products_id
+                JOIN sub_category sc ON p.sub_category_id = sc.id
+                WHERE sc.category_id = $id_category
+                GROUP BY p.id, p.name, p.description, p.price
+                ORDER BY total_sold DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === 'bestRated') {
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating
+                FROM products p
+                JOIN ratings r ON p.id = r.products_id
+                JOIN sub_category sc ON p.sub_category_id = sc.id
+                WHERE sc.category_id = $id_category
+                GROUP BY p.id, p.name, p.description, p.price
+                ORDER BY average_rating DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === 'asc') {
+                $sqlRequest = "SELECT p.*
+                FROM products p
+                
+                WHERE p.category_id = $id_category
+                ORDER BY p.price ASC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === 'desc') {
+                $sqlRequest = "SELECT p.*
+                FROM products p
+                
+                WHERE p.category_id = $id_category
+                ORDER BY p.price DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } else {
+                $sqlRequest = "SELECT p.* FROM products p JOIN  images i ON p.id = i.id WHERE p.category_id = $id_category LIMIT 10";
+                return $sqlRequest;
+            }
+        } else {
+            if ($filter === 'asc') {
+                $sqlRequest = "SELECT p.*
+                FROM products p
+                
+                WHERE p.category_id = $id_category
+                AND p.sub_category_id = $id_sub_category
+                ORDER BY p.price ASC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === 'desc') {
+                $sqlRequest = "SELECT p.*
+                FROM products p
+                
+                WHERE p.category_id = $id_category
+                AND p.sub_category_id = $id_sub_category
+                ORDER BY p.price DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === null) {
+                $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category LIMIT 10";
+                return $sqlRequest;
+            } elseif ($filter === 'bestSeller') {
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold
+                FROM products p
+                JOIN productsorders po ON p.id = po.products_id
+                JOIN sub_category sc ON p.sub_category_id = sc.id
+                
+                WHERE sc.category_id = $id_category AND p.sub_category_id = $id_sub_category
+                GROUP BY p.id, p.name, p.description, p.price
+                ORDER BY total_sold DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } elseif ($filter === 'bestRated') {
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating
+                FROM products p
+                JOIN ratings r ON p.id = r.products_id
+                JOIN sub_category sc ON p.sub_category_id = sc.id
+                WHERE sc.category_id = $id_category AND p.sub_category_id = $id_sub_category
+                GROUP BY p.id, p.name, p.description, p.price
+                ORDER BY average_rating DESC
+                LIMIT 10;";
+                return $sqlRequest;
+            } else {
+                // Unknown filter
+                return "Error: Unknown filter.";
+            }
         }
     }
 }
