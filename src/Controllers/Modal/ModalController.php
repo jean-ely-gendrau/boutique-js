@@ -55,6 +55,7 @@ class ModalController
    * Route: /sample-modal-viewer
    * Page : template/modal/index.php
    * 
+   * 
    * @param array ...$arguments [Ici nous reçevons les arguments de la requete $_POST $_GET sous forme de tableau associatif]
    *
    * @return void
