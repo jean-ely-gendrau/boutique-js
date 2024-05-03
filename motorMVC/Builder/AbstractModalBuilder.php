@@ -63,16 +63,16 @@ abstract class AbstractModalBuilder
     }
 
     /**
-   * Method addBody
-   *
-   * 
-   * @param string $id [id de la modal]
-   * @param mixed $contentHtml [Insérer votre élémént HTML dans le corp du body]
-   * @param array $options = [] [option de la balise container body - exemple class]
-   *@param string $type = 'div' [type de l'élément de la modal par défaut div]
+     * Method addBody
+     *
+     * 
+     * @param string $id [id de la modal]
+     * @param mixed $contentHtml [Insérer votre élémént HTML dans le corp du body]
+     * @param array $options = [] [option de la balise container body - exemple class]
+     *@param string $type = 'div' [type de l'élément de la modal par défaut div]
 
-   * @return AbstractModalBuilder
-   */
+     * @return AbstractModalBuilder
+     */
     public function addBody(string $id, string $contentHtml, array $options = [], string $type = 'div'): AbstractModalBuilder
     {
         $this->bodyModal[] = [
@@ -106,43 +106,64 @@ abstract class AbstractModalBuilder
 
         return $this;
     }
-    // Méthode abstraite pour le rendu du formulaire
-    abstract public function render();
 
     /**
-     * Method createOpenButton
+     * Method generateIdModal
      *
-     * Cette permet de générer le bouton de la modale en
-     * correspondance avec son id définit lors de la création de l'instance
+     * Méthode utilisé en interne par la __CLASS__, l'id est générée lors de l'instanciation.
+     * Il sera remplacé si vous utilisez le setIdModale(string) pour définir un id personnalisé.
+     * 
+     * Ou lors de l'instanciation rapide directement dans le constructeur du contenue HTML.
+     * 
+     * Cette méthode générait l'id de gestion de la modale.
+     * 
+     * @return AbstractModalBuilder
+     */
+    protected function generateIdModal()
+    {
+        $time = time();
+        $stringIDHeX = range('A', 'F');
+        $randHex = array_rand($stringIDHeX, 6);
+
+        $stringIDNum = range('0', '9');
+        $randNum = array_rand($stringIDNum, 6);
+
+        $randomID = join(
+            '',
+            array_map(
+                function ($x, $z) use ($stringIDHeX, $stringIDNum) {
+                    return "{$stringIDHeX[$x]}{$stringIDNum[$z]}";
+                },
+                $randHex,
+                $randNum,
+            ),
+        );
+        $this->setIdModal($randomID . $time);
+
+        return $this;
+    }
+
+    /************************************************ ABSTRACT METHODE ******************************************************/
+    // render : Méthode abstraite pour le rendu du formulaire
+    abstract public function render();
+
+
+    /**
+     * Method renderOpenButton
      *
-     * @param string $anchor [Text du boutton ou du lien]
-     * @param string $type [explicite description]
-     * @param array $option [explicite description]
+     * Méthode abstraite pour la création d'un boutton de contrôlle Overture/Fermeture de Modal    
+     *
+     * Cette Méthode permet de générer le bouton de la modale en correspondance avec son id 
+     * définit lors de la création de l'instance
+     *
+     * @param string $anchor [Texte du bouton ou du lieu qui ouvre la modale]
+     * @param array $option [tableau de paramétre du boutton ['class'=>'la_class', type=>'button|link'] - Par défault c'est un boutton avec une class Tailwind FlowBite générique]
      *
      * @return string
      */
-    public function createOpenButton(
-        string $anchor,
-        array $option = [
-            'type' => 'button',
-            'class' =>
-                'block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
-        ],
-    ) {
-        $output = '<button ';
-        $output .= 'data-modal-target="' . $this->idModal . '" ';
-        $output .= 'data-modal-toggle="' . $this->idModal . '" ';
+    abstract public function renderOpenButton(string $anchor, array $option);
 
-        // Ajout des attributs du tableau d'options
-        foreach ($option as $keyOption => $valueOption) {
-            $output .= ' ' . $keyOption . '="' . $valueOption . '" ';
-        }
-
-        $output .= '">' . $anchor;
-        $output .= '</button>';
-
-        return $output;
-    }
+    /************************************************ GETTER/SETTER ******************************************************/
     /**
      * Get idModal
      *

@@ -4,7 +4,7 @@ module.exports = {
   content: [
     "./src/**/*.{php,html,js}",
     "./template/**/*.{php,html,js}",
-    "./motorMVC/**/*.{php}",
+    "./motormvc/**/*.{php}",
     "./element/**/*.{php,html,js}",
     "./node_modules/flowbite/**/*.js",
   ],

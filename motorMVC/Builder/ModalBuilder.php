@@ -21,25 +21,13 @@ class ModalBuilder extends AbstractModalBuilder
      */
     public function __construct(string $contentHtml = null)
     {
+        // Génération d'un idmodal auto pour la gestion de l'ouverture et de fermeture
+        // Cet id peu être définit avec la méthode setIdModal après avec instancié la CLASS.
+        $this->generateIdModal();
+
+        // Génération d'une modale si $contentHtml n'est pas null
         if (!is_null($contentHtml)) {
-            $stringIDHeX = range('A', 'F');
-            $randHex = array_rand($stringIDHeX, 6);
-
-            $stringIDNum = range('0', '9');
-            $randNum = array_rand($stringIDNum, 6);
-
-            $randomID = join(
-                '',
-                array_map(
-                    function ($x, $z) use ($stringIDHeX, $stringIDNum) {
-                        return "{$stringIDHeX[$x]}{$stringIDNum[$z]}";
-                    },
-                    $randHex,
-                    $randNum,
-                ),
-            );
-
-            $this->addBody($randomID, $contentHtml);
+            $this->addBody('body-content-' . $this->idModal, $contentHtml);
         }
     }
 
@@ -212,6 +200,30 @@ class ModalBuilder extends AbstractModalBuilder
         $output .= '">';
         $output .= $contentHtml;
         $output .= '</' . $type . '>';
+
+        return $output;
+    }
+
+    public function renderOpenButton(
+        string $anchor,
+        array $option = [
+            'type' => 'button',
+            'class' =>
+            'block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
+        ],
+    ) {
+
+        $output = '<button ';
+        $output .= 'data-modal-target="' . $this->idModal . '" ';
+        $output .= 'data-modal-toggle="' . $this->idModal . '" ';
+
+        // Ajout des attributs du tableau d'options
+        foreach ($option as $keyOption => $valueOption) {
+            $output .= ' ' . $keyOption . '="' . $valueOption . '" ';
+        }
+
+        $output .= '">' . $anchor;
+        $output .= '</button>';
 
         return $output;
     }

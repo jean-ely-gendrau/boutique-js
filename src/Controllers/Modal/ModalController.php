@@ -22,9 +22,9 @@ class ModalController
   public function modalConnect()
   {
     $newModal = new ModalBuilder(Users_Forms::ConnectForm());
-    $newModal->setIdModal('modal-connect-form');
+    // $newModal->setIdModal('modal-connect-form');
 
-    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->createOpenButton('Connect')];
+    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->renderOpenButton('Connect')];
   }
 
   /**
@@ -44,7 +44,8 @@ class ModalController
       )
       ->addFooter('modal-content-footer', 'Achat immédiat', [], 'footer');
 
-    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->createOpenButton('Achat immédiat')];
+
+    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->renderOpenButton('Achat immédiat')];
   }
 
   /**
@@ -68,7 +69,8 @@ class ModalController
     $this->render->addParams(['modalBuyerDirect' => $this->modalCheckout()->modal, 'buttonModalBuyerDirect' => $this->modalCheckout()->buttonOpen]);
 
     // Modal Connect
-    $this->render->addParams(['modalConnect' => $this->modalConnect()->modal, 'buttonModalConnect' => $this->modalConnect()->buttonOpen]);
+    $modalConnect = $this->modalConnect();
+    $this->render->addParams(['modalConnect' => $modalConnect->modal, 'buttonModalConnect' => $modalConnect->buttonOpen]);
 
     return $this->render->render('modal/index', $arguments);
   }
