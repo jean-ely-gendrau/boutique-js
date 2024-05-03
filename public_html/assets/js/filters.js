@@ -60,22 +60,20 @@ function filterPrice(filter = null, subCat = null) {
       return response.json();
     })
     .then(products => {
-      console.log(products);
       products.forEach(product => {
-        // const images = JSON.parse(product.images);
-        // console.log(product);
+        console.log(product.url_image);
         const productCard = document.createElement('div');
         productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
 
-        // const productImage = document.createElement('img');
-        // productImage.setAttribute('id', product.id_product);
-        // productImage.setAttribute('src', `${currentPageUrl}/assets/images/${images.main}`);
-        // productImage.setAttribute('alt', product.name);
-        // productImage.classList.add('article-image');
-        // productCard.appendChild(productImage);
+        const productImage = document.createElement('img');
+        productImage.setAttribute('id', product.id);
+        productImage.setAttribute('src', `${currentPageUrl}/assets/images/${product.url_image}`);
+        productImage.setAttribute('alt', product.name);
+        productImage.classList.add('article-image');
+        productCard.appendChild(productImage);
 
         const productName = document.createElement('p');
-        productName.setAttribute('id', product.id_product);
+        productName.setAttribute('id', product.id);
         productName.classList.add('mt-3', 'font-bold', 'article-name');
         productName.innerText = product.name;
         productCard.appendChild(productName);

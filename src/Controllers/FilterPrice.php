@@ -52,30 +52,42 @@ class FilterPrice extends CrudManager
         }
         if ($id_sub_category === null) {
             if ($filter === 'bestSeller') {
-                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold, i.url_image
                 FROM products p
                 JOIN productsorders po ON p.id = po.products_id
                 JOIN sub_category sc ON p.sub_category_id = sc.id
+                JOIN images i ON p.id = i.id
                 WHERE sc.category_id = $id_category
-                GROUP BY p.id, p.name, p.description, p.price
+                GROUP BY p.id, p.name, p.description, p.price, i.url_image
                 ORDER BY total_sold DESC
                 LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === 'BestRating') {
-                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating, i.url_image
                 FROM products p
                 JOIN ratings r ON p.id = r.products_id
                 JOIN sub_category sc ON p.sub_category_id = sc.id
+                JOIN images i ON p.id = i.id
                 WHERE sc.category_id = $id_category
-                GROUP BY p.id, p.name, p.description, p.price
+                GROUP BY p.id, p.name, p.description, p.price, i.url_image
                 ORDER BY average_rating DESC
                 LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === 'asc') {
-                $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category ORDER BY price ASC LIMIT 10";
+                $sqlRequest = "SELECT p.*, i.url_image
+                FROM products p
+                JOIN images i ON p.id = i.id
+                WHERE p.category_id = $id_category
+                ORDER BY p.price ASC
+                LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === 'desc') {
-                $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category ORDER BY price DESC LIMIT 10";
+                $sqlRequest = "SELECT p.*, i.url_image
+                FROM products p
+                JOIN images i ON p.id = i.id
+                WHERE p.category_id = $id_category
+                ORDER BY p.price DESC
+                LIMIT 10;";
                 return $sqlRequest;
             } else {
                 $sqlRequest = "SELECT p.*, i.url_image FROM products p JOIN  images i ON p.id = i.id WHERE p.category_id = $id_category LIMIT 10";
@@ -83,34 +95,47 @@ class FilterPrice extends CrudManager
             }
         } else {
             if ($filter === 'asc') {
-                $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price ASC LIMIT 10";
+                $sqlRequest = "SELECT p.*, i.url_image
+                FROM products p
+                JOIN images i ON p.id = i.id
+                WHERE p.category_id = $id_category
+                AND p.sub_category_id = $id_sub_category
+                ORDER BY p.price ASC
+                LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === 'desc') {
-                $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category ORDER BY price DESC LIMIT 10";
+                $sqlRequest = "SELECT p.*, i.url_image
+                FROM products p
+                JOIN images i ON p.id = i.id
+                WHERE p.category_id = $id_category
+                AND p.sub_category_id = $id_sub_category
+                ORDER BY p.price DESC
+                LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === null) {
                 $sqlRequest = "SELECT * FROM products WHERE category_id = $id_category AND sub_category_id = $id_sub_category LIMIT 10";
                 return $sqlRequest;
             } elseif ($filter === 'bestSeller') {
-                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, COUNT(po.products_id) AS total_sold, i.url_image
                 FROM products p
                 JOIN productsorders po ON p.id = po.products_id
                 JOIN sub_category sc ON p.sub_category_id = sc.id
+                JOIN images i ON p.id = i.id
                 WHERE sc.category_id = $id_category AND p.sub_category_id = $id_sub_category
-                GROUP BY p.id, p.name, p.description, p.price
+                GROUP BY p.id, p.name, p.description, p.price, i.url_image
                 ORDER BY total_sold DESC
                 LIMIT 10;";
                 return $sqlRequest;
             } elseif ($filter === 'bestRated') {
-                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating
+                $sqlRequest = "SELECT p.id, p.name, p.description, p.price, AVG(r.rating) AS average_rating, i.url_image
                 FROM products p
                 JOIN ratings r ON p.id = r.products_id
                 JOIN sub_category sc ON p.sub_category_id = sc.id
+                JOIN images i ON p.id = i.id
                 WHERE sc.category_id = $id_category AND p.sub_category_id = $id_sub_category
-                GROUP BY p.id, p.name, p.description, p.price
+                GROUP BY p.id, p.name, p.description, p.price, i.url_image
                 ORDER BY average_rating DESC
-                LIMIT 10;
-                ";
+                LIMIT 10;";
                 return $sqlRequest;
             } else {
                 // Unknown filter
