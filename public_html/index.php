@@ -214,9 +214,13 @@ if (is_array($match)) :
                 Cela permet de charger dynamique des function ou des méthodes définit dans les class.
              * https://www.php.net/manual/en/function.call-user-func-array.php
              */
-      echo call_user_func_array([$controller, $method], $match['params']);
-    endif;
-  /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+
+            echo call_user_func_array([$controller, $method], $match['params']);
+        else:
+            goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
+        endif;
+        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+
          *
          * On appel la méthode defaultRender prenant en paramétre
          * le nom de la page ($match['target']) et la variable $serverName
@@ -233,8 +237,10 @@ if (is_array($match)) :
      *
      * Enfin On affiche le résultat de la méthode
      */
-else :
-  echo $rendering->defaultRender('404');
-/* APPEL ICI DE LA CLASS RENDER */
-// require_once __DIR__ . '/../template/404.php';
+    // GOTO ERROR
+else:
+    error:
+    echo $rendering->defaultRender('404');
+    /* APPEL ICI DE LA CLASS RENDER */
+    // require_once __DIR__ . '/../template/404.php';
 endif;
