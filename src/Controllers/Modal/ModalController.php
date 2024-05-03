@@ -14,6 +14,11 @@ class ModalController
   {
   }
 
+  /**
+   * Method modalConnect
+   *
+   * @return object
+   */
   public function modalConnect()
   {
     $newModal = new ModalBuilder(Users_Forms::ConnectForm());
@@ -22,6 +27,11 @@ class ModalController
     return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->createOpenButton('Connect')];
   }
 
+  /**
+   * Method modalCheckout
+   *
+   * @return object
+   */
   public function modalCheckout()
   {
     $newModal = new ModalBuilder();
@@ -37,18 +47,28 @@ class ModalController
     return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->createOpenButton('Achat immédiat')];
   }
 
+  /**
+   * Method Index
+   *
+   * Cette méthode affiche un exemple d'implémentation de la class Modal 
+   * 
+   * Route: /sample-modal-viewer
+   * Page : template/modal/index.php
+   * 
+   * @param array ...$arguments [Ici nous reçevons les arguments de la requete $_POST $_GET sous forme de tableau associatif]
+   *
+   * @return void
+   */
   public function Index(...$arguments)
   {
     $this->render = $arguments['render'];
 
+    // Modal Checkout
     $this->render->addParams(['modalBuyerDirect' => $this->modalCheckout()->modal, 'buttonModalBuyerDirect' => $this->modalCheckout()->buttonOpen]);
+
+    // Modal Connect
     $this->render->addParams(['modalConnect' => $this->modalConnect()->modal, 'buttonModalConnect' => $this->modalConnect()->buttonOpen]);
-    /*
-             $this->render->addParams('modalBuyerDirect', $this->modalCheckout()->modal);
-        $this->render->addParams('modalConnect', $this->modalConnect()->modal);
-        $this->render->addParams('buttonModalConnect', $this->modalConnect()->buttonOpen);
-        $this->render->addParams('buttonModalBuyerDirect', $this->modalCheckout()->buttonOpen);
-*/
+
     return $this->render->render('modal/index', $arguments);
   }
 }
