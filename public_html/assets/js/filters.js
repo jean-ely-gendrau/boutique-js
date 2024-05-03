@@ -29,9 +29,9 @@ function filterPrice(filter = null, subCat = null) {
   resultat.innerText = '';
   let filterSelected;
   if (filter == 'expensive') {
-    filterSelected = 'asc';
-  } else if (filter == 'cheaper') {
     filterSelected = 'desc';
+  } else if (filter == 'cheaper') {
+    filterSelected = 'asc';
   } else {
     filterSelected = filter;
   }
@@ -125,7 +125,10 @@ filterButtons.forEach(button => {
 selectSubCat.addEventListener('change', function () {
   if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
   filterPrice();
-  } else if (buttonValue === undefined) {
+  } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) { 
+    filterPrice(buttonValue, null);
+  }
+  else if (buttonValue === undefined) {
     filterPrice(null, selectSubCat.value);
   } else {
     filterPrice(buttonValue, selectSubCat.value);
