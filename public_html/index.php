@@ -40,7 +40,9 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 $router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
 
-$router->map('GET', 'addtobasket', 'PanierCintroller#AddToBasket', 'addtobasket');
+$router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasket');
+
+$router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
