@@ -9,6 +9,7 @@ let buttonValue;
 const buttonClear = document.getElementById('clear');
 buttonClear.addEventListener('click', function() {
   buttonValue = null;
+  messageResearch.innerText = '';
   selectSubCat.selectedIndex = 0;
   filterPrice();
 });
@@ -57,8 +58,8 @@ function filterPrice(filter = null, subCat = null) {
   if (filter === null && subCat === null) {
     myFetchRequest = `/js-testAll/${idCat}`;
   }
-  console.log(filterSelected);
-  console.log(myFetchRequest);
+  // console.log(filterSelected);
+  // console.log(myFetchRequest);
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   fetch(myFetchRequest, {
@@ -71,14 +72,14 @@ function filterPrice(filter = null, subCat = null) {
       return response.json();
     })
     .then(products => {
-      console.log(products);
+      // console.log(products);
       if (products.length <= 0) {
         messageResearch.innerText = 'Aucun résultat';
       } else if (filterSelected !== null) {
         messageResearch.innerText = message;
       }
       products.forEach(product => {
-        console.log(product.url_image);
+        // console.log(product.url_image);
         const productCard = document.createElement('div');
         productCard.classList.add('bg-gray-100', 'w-60', 'h-80', 'inline-block', 'relative', 'text-center', 'm-2.5', 'rounded-x1');
 
