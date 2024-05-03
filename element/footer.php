@@ -11,8 +11,8 @@
         <img src="http://<?= $serverName ?>/assets/images/icon/gmail.svg" alt="" class="icon" />
     </div>
     <div class="flex flex-row justify-center dark:text-white">
-        <p><a href="#" class="mr-2">CGU</a></p>
-        <p><a href="#" class="ml-2">CGV</a></p>
+        <p><a href="../public_html/assets/pdf/CGU.pdf" class="mr-2">CGU</a></p>
+        <p><a href="../public_html/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" class="ml-2">CGV</a></p>
     </div>
     <p class="text-center dark:text-white">©Copyright 2024. Tous droits non reservées</p>
 </footer>
@@ -25,8 +25,7 @@
         document.getElementById("verif").submit();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
 <script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
