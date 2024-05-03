@@ -110,6 +110,40 @@ abstract class AbstractModalBuilder
     abstract public function render();
 
     /**
+     * Method createOpenButton
+     *
+     * Cette permet de générer le bouton de la modale en
+     * correspondance avec son id définit lors de la création de l'instance
+     *
+     * @param string $anchor [Text du boutton ou du lien]
+     * @param string $type [explicite description]
+     * @param array $option [explicite description]
+     *
+     * @return string
+     */
+    public function createOpenButton(
+        string $anchor,
+        array $option = [
+            'type' => 'button',
+            'class' =>
+                'block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
+        ],
+    ) {
+        $output = '<button ';
+        $output .= 'data-modal-target="' . $this->idModal . '" ';
+        $output .= 'data-modal-toggle="' . $this->idModal . '" ';
+
+        // Ajout des attributs du tableau d'options
+        foreach ($option as $keyOption => $valueOption) {
+            $output .= ' ' . $keyOption . '="' . $valueOption . '" ';
+        }
+
+        $output .= '">' . $anchor;
+        $output .= '</button>';
+
+        return $output;
+    }
+    /**
      * Get idModal
      *
      * @return  string

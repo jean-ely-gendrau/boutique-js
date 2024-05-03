@@ -42,6 +42,30 @@ class ModalBuilder extends AbstractModalBuilder
             $this->addBody($randomID, $contentHtml);
         }
     }
+
+    /************************************ MAGIC METHOD *********************************************/
+
+    public function __serialize(): array
+    {
+        return [
+            'idModal' => $this->idModal,
+            'buttons' => $this->buttons,
+            'headerModal' => $this->headerModal,
+            'bodyModal' => $this->bodyModal,
+            'footerModal' => $this->footerModal,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->idModal = $data['idModal'];
+        $this->buttons = $data['buttons'];
+        $this->headerModal = $data['headerModal'];
+        $this->bodyModal = $data['bodyModal'];
+        $this->footerModal = $data['footerModal'];
+    }
+
+    /************************************ GLOBAl METHOD *********************************************/
     /**
      * Method render
      *

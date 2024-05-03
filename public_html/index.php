@@ -104,7 +104,7 @@ Générer avec la CLASS ModalBuilder
   (C) Controller
   (M) Method
 */
-$router->map('GET', '/test-modal', 'ModalController#Index', 'modal-controller-index');
+$router->map('GET', '/test-modal', 'Modal\\ModalController#Index', 'modal-controller-index');
 
 /*
   Class MailManager Route test

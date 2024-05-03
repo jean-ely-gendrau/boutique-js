@@ -6,7 +6,8 @@
           Créer un compte
         </h1>
 
-        <?php /** @var \App\Boutique\Builder\FormBuilder $formRegister */
+        <?php
+        /** @var \App\Boutique\Builder\FormBuilder $formRegister */
         echo $formRegister->render(); ?>
 
       </div>

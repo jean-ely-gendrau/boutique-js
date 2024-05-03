@@ -40,20 +40,20 @@ class FormControllerTest
             ->addField('email', 'email', [
                 'text-label' => 'Email',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
             ]) // CHAMP MAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
             ]) // CHAMP PASSWORD
             ->addElementAction('submit', 'buttonA', 'buttonA', [
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'anchor' => 'Connection',
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [
@@ -122,7 +122,7 @@ class FormControllerTest
             ->addField('text', 'full_name', [
                 'text-label' => 'Votre nom et prénom',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre nom complet',
                 'required' => 1,
@@ -132,7 +132,7 @@ class FormControllerTest
             ->addField('email', 'email', [
                 'text-label' => 'Votre Email',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
                 'required' => 1,
@@ -142,7 +142,7 @@ class FormControllerTest
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
                 'required' => 1,
@@ -152,7 +152,7 @@ class FormControllerTest
             ->addField('password', 'passwordCompare', [
                 'text-label' => 'Confirmation de mot de passe',
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
                 'required' => 1,
@@ -160,7 +160,7 @@ class FormControllerTest
             ]) // CHAMP PASSWORD COMPARE
             ->addElementAction('submit', 'buttonA', 'buttonA', [
                 'class' =>
-                    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'anchor' => 'Inscription',
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [
@@ -172,20 +172,9 @@ class FormControllerTest
         /** @var \Motor\Mvc\Utils\Render $render */
         $render = $arguments['render'];
 
-        $newModal = new ModalBuilder();
-        $newModal->setIdModal('modal-content-example');
-        $newModal->addHeader('modal-content-head', '<p>la modal</p>');
-        $newModal->addBody('modal-content-body', '<p>la modal</p>');
-        $newModal->addFooter('modal-content-footer', '<footer>footer</footer>', [], 'footer');
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formRegister', $formRegister);
-        $render->addParams('modal', $newModal);
-        $render->addParams(
-            'buttonModal',
-            '<button data-modal-target="modal-content-example" data-modal-toggle="modal-content-example" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-        modal
-      </button>',
-        );
+
         // Affichage du template HTML de la vue test-mail-sender
         $content = $render->render('formBuilder/register/registration', $arguments);
         return $content;
