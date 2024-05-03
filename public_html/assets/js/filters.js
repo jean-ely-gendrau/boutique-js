@@ -24,16 +24,26 @@ const idCat = currentPagePath.charAt(currentPagePath.length - 1);
 // console.log(currentPageUrl);
 
 const resultat = document.getElementById('resultat');
+const messageResearch = document.getElementById('paramsResarch');
 
 function filterPrice(filter = null, subCat = null) {
   resultat.innerText = '';
   let filterSelected;
+  let message;
   if (filter == 'expensive') {
     filterSelected = 'desc';
+    message = 'Produits triés par prix décroissant';
   } else if (filter == 'cheaper') {
     filterSelected = 'asc';
+    message = 'Produits triés par prix croissant';
   } else {
     filterSelected = filter;
+    if (filterSelected === 'bestSeller') {
+      message = 'Produits triés selon nos meilleures ventes.';
+    }
+    else if (filterSelected === 'bestRated') {
+      message = 'Produits triés selon nos meilleures notes.';
+    }
   }
   let myFetchRequest;
   if (filterSelected != null && subCat != null) {
@@ -47,6 +57,7 @@ function filterPrice(filter = null, subCat = null) {
   if (filter === null && subCat === null) {
     myFetchRequest = `/js-testAll/${idCat}`;
   }
+  console.log(filterSelected);
   console.log(myFetchRequest);
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
@@ -60,6 +71,12 @@ function filterPrice(filter = null, subCat = null) {
       return response.json();
     })
     .then(products => {
+      console.log(products);
+      if (products.length <= 0) {
+        messageResearch.innerText = 'Aucun résultat';
+      } else if (filterSelected !== null) {
+        messageResearch.innerText = message;
+      }
       products.forEach(product => {
         console.log(product.url_image);
         const productCard = document.createElement('div');
@@ -124,6 +141,7 @@ selectSubCat.addEventListener('change', function () {
   if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
   filterPrice();
   } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) { 
+    
     filterPrice(buttonValue, null);
   }
   else if (buttonValue === undefined) {
@@ -132,4 +150,3 @@ selectSubCat.addEventListener('change', function () {
     filterPrice(buttonValue, selectSubCat.value);
   }
 });
-
