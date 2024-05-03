@@ -69,7 +69,8 @@ class PanierController
         $now = new DateTime();
         $formattedNow = $now->format('Y-m-d H:i:s');
 
-        return [
+
+        $order = [
             'id_product' => $idproduct,
             'basket' => 1,
             'status' => "en attente",
@@ -77,5 +78,11 @@ class PanierController
             'updated_at' => $formattedNow,
             'users_id' => $id,
         ];
+
+        $panier = new ApiController();
+
+        $panier->addOrders($order);
+
+        return;
     }
 }
