@@ -91,6 +91,23 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
 $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
 
 /*
+ Routeur: $_GET->/sample-modal-viewer
+  Avec cette route nous allons afficher une page avec différente modal
+Générer avec la CLASS ModalBuilder
+
+  paramètres de la route :
+
+  $method = GET
+  $route  = /sample-modal-viewer
+  $target = (C) ModalController # (M) Index 
+  $name   = modal-controller-index
+
+  (C) Controller
+  (M) Method
+*/
+$router->map('GET', '/sample-modal-viewer', 'Modal\\ModalController#Index', 'modal-controller-index');
+
+/*
   Class MailManager Route test
   Avec cette route nous allons faire un essaie d'envoie d'email
 
@@ -168,9 +185,9 @@ if (is_array($match)):
         }
 
         /* Ajoute l'Uri dans les params à transmettre à la class Controller
-        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
+            // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
-        */
+            */
         $match['params']['render'] = $rendering;
 
         // Test De la Debug BAR : Debug::view($match);
@@ -181,24 +198,27 @@ if (is_array($match)):
         // https://www.php.net/manual/en/function.is-callable.php
         if (is_callable([$controller, $method])):
             /*
-             * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
-             * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
-             * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
-             * 
-             * exemple simple de la doc
-               $func = function($arg1, $arg2) {
-                    return $arg1 * $arg2;
-                };
+                   * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
+                   * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
+                   * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
+                   * 
+                   * exemple simple de la doc
+                     $func = function($arg1, $arg2) {
+                          return $arg1 * $arg2;
+                      };
 
-                var_dump(call_user_func_array($func, array(2, 4)));
-                $arg1 = 2
-                $arg2 = 4
-                Ici il charge la function $func et il passe un tableau avec deux variable
+                      var_dump(call_user_func_array($func, array(2, 4)));
+                      $arg1 = 2
+                      $arg2 = 4
+                      Ici il charge la function $func et il passe un tableau avec deux variable
 
-                Cela permet de charger dynamique des function ou des méthodes définit dans les class.
-             * https://www.php.net/manual/en/function.call-user-func-array.php
-             */
+                      Cela permet de charger dynamique des function ou des méthodes définit dans les class.
+                   * https://www.php.net/manual/en/function.call-user-func-array.php
+                   */
+
             echo call_user_func_array([$controller, $method], $match['params']);
+        else:
+            goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
         endif;
         /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
          *
@@ -217,7 +237,9 @@ if (is_array($match)):
      *
      * Enfin On affiche le résultat de la méthode
      */
+    // GOTO ERROR
 else:
+    error:
     echo $rendering->defaultRender('404');
     /* APPEL ICI DE LA CLASS RENDER */
     // require_once __DIR__ . '/../template/404.php';
