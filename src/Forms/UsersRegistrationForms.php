@@ -58,13 +58,15 @@ class UsersRegistrationForms
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
             ]) // CHAMP PASSWORD
-            ->addElementAction('submit', 'buttonA', 'buttonA', [
+            ->addElementAction('button', 'buttonA', 'buttonA', [
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'anchor' => 'Connection',
-                'data-js' => 'handleSampleConnect,click',
-                'data-post-url' => '/sample-connect-js',
-                'data-id-form' => 'form-test-connect',
+                'attributes' => [
+                    'data-js' => 'handleSampleConnect,click',
+                    'data-post-url' => '/sample-connect-js',
+                    'data-id-form' => 'form-test-connect',
+                ]
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [
                 'class' => 'text-gray-900 text-sm dark:text-white',

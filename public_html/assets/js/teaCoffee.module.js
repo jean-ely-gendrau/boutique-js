@@ -176,8 +176,11 @@ teaCoffee.format = {
    * @param {Object.<string, string>} bodyParam - Les paramètres du corps de la requête.
    * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
    */
-  bodyParam: (bodyParam) => {
-    bufferData.push(
+  bodyParam: function (bodyParam) {
+
+    let tempParam = [];
+
+    tempParam.push(
       Object.entries(bodyParam)
         .map(([key, val], index) => {
           return `${key}=${val}`;
@@ -185,6 +188,7 @@ teaCoffee.format = {
         .join("&")
     );
 
+    this.bufferData = tempParam;
     return this;
   },
   /**
@@ -192,9 +196,12 @@ teaCoffee.format = {
    * @param {HTMLFormElement} form - Le formulaire HTML contenant les paramètres.
    * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
    */
-  formParam: (form) => {
+  formParam: function (form) {
+
+    let tempParam = [];
     let formData = new FormData(form);
-    bufferData.push(
+
+    tempParam.push(
       Array.from(formData)
         .map(([key, val]) => {
           return `${key}=${val}`;
@@ -202,6 +209,7 @@ teaCoffee.format = {
         .join("&")
     );
 
+    this.bufferData = tempParam;
     return this;
   },
 };
@@ -419,8 +427,8 @@ teaCoffee.action = {
   handleSampleConnect: async (e) => {
     e.preventDefault();
 
-    urlPost = e.target.getAttribute("data-post-url");
-    idForm = e.target.getAttribute("data-id-form");
+    let urlPost = e.target?.getAttribute("data-post-url");
+    let idForm = e.target?.getAttribute("data-id-form");
     const response = await teaCoffee.request.post({
       route: urlPost,
       idForm: idForm,
