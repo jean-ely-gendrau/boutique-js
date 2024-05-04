@@ -265,7 +265,7 @@ teaCoffee.request = {
       );
     }
 
-    const res = await fetch(`http://${window.location.hostname}/${route}`, {
+    const res = await fetch(`http://${window.location.hostname}${route}`, {
       method: method,
       headers: headersParams
         ? headersParams
