@@ -152,17 +152,72 @@ teaCoffee.sys = {
   },
   darkModeSwitch: function (e) {
     // Commutateur de mode ligth/dark
-    // Pour changer les préference du navigateur on ajoute une clé au localstorage 
+    // Pour changer les préference du navigateur on ajoute une clé au localstorage
     // Cette valeursera lu lors du chargement de page par la méthode darkMode
     if (!document.documentElement.classList.contains("dark")) {
       document.documentElement.classList.add("dark"); // Add Dark mode
       localStorage.theme = "dark"; // Ajout de la clé au localstorage
-    }
-    else {
+    } else {
       document.documentElement.classList.remove("dark"); // Remove Dark mode
-      localStorage.theme = "light";// Ajout de la clé au localstorage
+      localStorage.theme = "light"; // Ajout de la clé au localstorage
     }
     return this;
+  },
+};
+
+teaCoffee.request = {
+  /**
+   * Effectue une requête HTTP GET vers une URL spécifiée.
+   * @param {Object} options - Les options de la requête.
+   * @param {string} options.route - Le chemin de la route de l'API interne.
+   * @param {string} [options.defineRequest] - L'URL complète si vous souhaitez joindre une API externe.
+   * @param {string} [options.contentType="application/json"] - Le type de contenu de la requête (par défaut: application/json).
+   * @param {string} [options.resType="json"] - Le type de réponse attendu (par défaut: json).
+   * @param {Object|false} [options.headersParams=false] - Les paramètres d'en-tête personnalisés (par défaut: false).
+   * @returns {Promise} - Une promesse contenant la réponse de la requête.
+   *
+   * Exemple d'utilisation simple d'utilisation :
+   * 
+   * const response = await teaCoffee.request.fetch({
+   *   route: '/js-testAll/1',
+   *   contentType: 'application/json'
+   * });
+   * 
+   * Exemple d'utilisation complet d'utilisation avec l'ajout du header 'Authorization': 'Bearer myAccessToken' :
+   * 
+   * const response = await teaCoffee.request.fetch({
+   *   route: '/js-testAll/1',
+   *   contentType: 'application/json',
+   *   resType: 'json',
+   *   headersParams: {
+   *     'Authorization': 'Bearer myAccessToken'
+   *   }
+   * });
+   */
+  fetch: async ({
+    route,
+    defineRequest,
+    contentType = "application/json",
+    resType = "json",
+    headersParams = false,
+  }) => {
+    let defaultRequest = defineRequest ? defineRequest : `http://${window.location.hostname}${route}`;
+    const res = await fetch(defaultRequest, {
+      method: "GET",
+      headers: headersParams
+        ? headersParams
+        : {
+          "Content-Type": `${contentType}`,
+        },
+    });
+
+    let response = resType === "json"
+      ? res.json()
+      : resType === "text"
+        ? res.text()
+        : false;
+
+    return await response;
   },
 };
 
@@ -191,8 +246,8 @@ teaCoffee.html = {
         elementWarn.remove(); // On le retire.
       }
     }
-  }
-}
+  },
+};
 
 teaCoffee.action = {
   handelScrollX: (e) => {
@@ -200,7 +255,7 @@ teaCoffee.action = {
 
     // TODO Modifié l'appel des valeurs par data-scroll-value
     // var elemScrollX = e.target.getAttribute("data-scroll-x");
-    
+
     var direction = e.target.getAttribute("data-direction-scroll");
     if (elemScrollX && direction) {
       var elementScroll = document.getElementById(elemScrollX);
@@ -217,11 +272,10 @@ teaCoffee.action = {
     if (elemId) {
       teaCoffee.sys.getById(...elemId.split(","));
 
-      if (teaCoffee.sys.hasClass('debug-min')) {
-        teaCoffee.sys.addClass('debug-max').delClass('debug-min');
-
-      } else if (teaCoffee.sys.hasClass('debug-max')) {
-        teaCoffee.sys.addClass('debug-min').delClass('debug-max');
+      if (teaCoffee.sys.hasClass("debug-min")) {
+        teaCoffee.sys.addClass("debug-max").delClass("debug-min");
+      } else if (teaCoffee.sys.hasClass("debug-max")) {
+        teaCoffee.sys.addClass("debug-min").delClass("debug-max");
       }
     }
   },
@@ -242,18 +296,16 @@ teaCoffee.action = {
     let reponse;
 
     if (regex) {
-
       if (eval(regex).test(valuesInput.value)) {
         reponse = true; // Si le masque est bon true
-      }
-      else {
+      } else {
         reponse = {
           [keyInput]: messageClient,
         }; // si la condition n'a pas été remplie alors on retourne un message d'erreur
       }
     }
     teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
-  }
+  },
 };
 // LOAD MODULE
 if (typeof module != "undefined" && module.exports) {
@@ -262,3 +314,4 @@ if (typeof module != "undefined" && module.exports) {
 
 teaCoffee.sys.loadLazyImg();
 teaCoffee.sys.loadLazyJS().darkMode();
+
