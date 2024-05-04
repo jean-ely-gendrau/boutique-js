@@ -165,11 +165,117 @@ teaCoffee.sys = {
   },
 };
 
+teaCoffee.format = {
+  /**
+   * - Tableau de stockage des paramètre du corps de la requête formatée.
+   * @type {Array<string>}
+   */
+  bufferData: [],
+  /**
+   * - Ajoute les paramètres du corps de la requête à un tableau bufferData pour être utilisés ultérieurement.
+   * @param {Object.<string, string>} bodyParam - Les paramètres du corps de la requête.
+   * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
+   */
+  bodyParam: (bodyParam) => {
+    bufferData.push(
+      Object.entries(bodyParam)
+        .map(([key, val], index) => {
+          return `${key}=${val}`;
+        })
+        .join("&")
+    );
+
+    return this;
+  },
+  /**
+   * Ajoute les paramètres d'un formulaire à un tableau bufferData pour être utilisés ultérieurement.
+   * @param {HTMLFormElement} form - Le formulaire HTML contenant les paramètres.
+   * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
+   */
+  formParam: (form) => {
+    let formData = new FormData(form);
+    bufferData.push(
+      Array.from(formData)
+        .map(([key, val]) => {
+          return `${key}=${val}`;
+        })
+        .join("&")
+    );
+
+    return this;
+  },
+};
+
 teaCoffee.request = {
+  /**
+   *
+   * Effectue une requête HTTP POST vers une URL spécifiée.
+   * Envoyer des données à partir de formulaires HTML ou d'objets JSON
+   *
+   * @param {Object} options - Les options de la requête.
+   * @param {string} [options.route] - Le chemin de la route de l'API interne.
+   * @param {string} [options.bodyParam] - Un objet JSON avec les données encapsulé.
+   * @param {string|false} [options.idForm=false] - L'ID du formulaire à parser dans la reqête (par défaut: false).
+   * @param {string} [options.method] - La méthode de la requête (par défaut: POST).
+   * @param {string} [options.contentType="application/x-www-form-urlencoded"] - Le type de contenu de la requête (par défaut: application/x-www-form-urlencoded).
+   * @param {string} [options.resType="json"] - Le type de réponse attendu (par défaut: json).
+   * @param {Object|false} [options.headersParams=false] - Les paramètres d'en-tête personnalisés (par défaut: false).
+   * @returns {Promise} - Une promesse contenant la réponse de la requête.
+   *
+   * Exemple d'utilisation simple :
+   *
+   * const response = await teaCoffee.request.post({
+   *   route: '/sample-to-favoris',
+   *   bodyParam: { users_id:6, product_id:10 }
+   * });
+   *
+   * Exemple d'utilisation complet: connection utilisateur en utilisant la modale de la route /sample-modal-viewer
+   *
+   * const response = await teaCoffee.request.post({
+   *   route: '/sample-connect-js',
+   *   idForm: 'sample-form-connect',
+   *   contentType: 'multipart/form-data',
+   *   resType: 'text',
+   * });
+   */
+  post: async ({
+    route,
+    bodyParam,
+    idForm = false,
+    method = "POST",
+    contentType = "application/x-www-form-urlencoded",
+    resType = "json",
+    headersParams = false,
+  }) => {
+    let bodyParamFormat = "";
+
+    if (bodyParam) {
+      bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
+    } else if (idForm) {
+      bodyParamFormat = teaCoffee.format.formParam(
+        teaCoffee.sys.getById().elems[0]
+      );
+    }
+
+    const res = await fetch(`http://${window.location.hostname}/${route}`, {
+      method: method,
+      headers: headersParams
+        ? headersParams
+        : {
+          "Content-Type": `${contentType}`,
+        },
+      body: bodyParamFormat,
+    });
+
+    let response =
+      resType === "json" ? res.json() : resType === "text" ? res.text() : false;
+
+    return await response;
+  },
   /**
    * Effectue une requête HTTP GET vers une URL spécifiée.
    * @param {Object} options - Les options de la requête.
-   * @param {string} options.route - Le chemin de la route de l'API interne.
+   * @param {string} [options.route] - Le chemin de la route de l'API interne.
    * @param {string} [options.defineRequest] - L'URL complète si vous souhaitez joindre une API externe.
    * @param {string} [options.contentType="application/json"] - Le type de contenu de la requête (par défaut: application/json).
    * @param {string} [options.resType="json"] - Le type de réponse attendu (par défaut: json).
@@ -177,14 +283,13 @@ teaCoffee.request = {
    * @returns {Promise} - Une promesse contenant la réponse de la requête.
    *
    * Exemple d'utilisation simple d'utilisation :
-   * 
+   *
    * const response = await teaCoffee.request.fetch({
    *   route: '/js-testAll/1',
-   *   contentType: 'application/json'
    * });
-   * 
+   *
    * Exemple d'utilisation complet d'utilisation avec l'ajout du header 'Authorization': 'Bearer myAccessToken' :
-   * 
+   *
    * const response = await teaCoffee.request.fetch({
    *   route: '/js-testAll/1',
    *   contentType: 'application/json',
@@ -201,7 +306,9 @@ teaCoffee.request = {
     resType = "json",
     headersParams = false,
   }) => {
-    let defaultRequest = defineRequest ? defineRequest : `http://${window.location.hostname}${route}`;
+    let defaultRequest = defineRequest
+      ? defineRequest
+      : `http://${window.location.hostname}${route}`;
     const res = await fetch(defaultRequest, {
       method: "GET",
       headers: headersParams
@@ -211,11 +318,8 @@ teaCoffee.request = {
         },
     });
 
-    let response = resType === "json"
-      ? res.json()
-      : resType === "text"
-        ? res.text()
-        : false;
+    let response =
+      resType === "json" ? res.json() : resType === "text" ? res.text() : false;
 
     return await response;
   },
@@ -306,6 +410,24 @@ teaCoffee.action = {
     }
     teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
   },
+  /***************************************************** SAMPLE METHODE */
+  /**
+   * Gère l'événement de clic de souris pour l'exemple.
+   * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+   * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+   */
+  handleSampleConnect: async (e) => {
+    e.preventDefault();
+
+    urlPost = e.target.getAttribute("data-post-url");
+    idForm = e.target.getAttribute("data-id-form");
+    const response = await teaCoffee.request.post({
+      route: urlPost,
+      idForm: idForm,
+      contentType: "multipart/form-data",
+      resType: "text",
+    });
+  },
 };
 // LOAD MODULE
 if (typeof module != "undefined" && module.exports) {
@@ -314,4 +436,3 @@ if (typeof module != "undefined" && module.exports) {
 
 teaCoffee.sys.loadLazyImg();
 teaCoffee.sys.loadLazyJS().darkMode();
-

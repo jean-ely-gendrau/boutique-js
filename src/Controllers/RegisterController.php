@@ -2,11 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
-use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\Users;
-use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
 use Motor\Mvc\Components\ReCaptcha;
+use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Validators\ReflectionValidator;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -175,6 +176,67 @@ class RegisterController
         // $content = $this->render('connexion', $arguments);
         return $content;
     }
+
+    /******************************************************** SAMPLE CONNECT JS START */
+    public function ConnectJS(...$arguments): string
+    {
+        $modelUser = new Users($arguments); // Instance d'un models de class User
+
+        // ReflectionValidator::validate($modelUser)
+        // Cette méthode static de la class ReflectionValidator
+        // Permet de valider les données côter backend en utilisant
+        // les attributs introduit depuis php 8.*.
+        // Préfixer vos propriéte dans vos class est utilisé le
+        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+        if (!empty($_POST)) {
+            $errors = ReflectionValidator::validate($modelUser);
+            //DEBUG var_dump($errors);
+
+            if ($errors) {
+                // ERROR
+                $this->responseJson(404, $errors);
+            }
+
+            if (!$errors) {
+                /* CONNECT USER */
+                $crudManager = new CrudManager('users', Users::class);
+                $user = $crudManager->getByEmail($arguments['email']);
+
+                $verifPassword = new PasswordHashManager();
+
+                if ($verifPassword->verify($user->password, $arguments['password'])) {
+
+                    $arguments['render']->addSession([
+                        'email' => $user->email,
+                        'isConnected' => true,
+                        'full_name' => $user->full_name,
+                        'role' => $user->role,
+                    ]);
+
+                    $this->responseJson(200, ['isConnected' => true]);
+                }
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Method responseJson
+     *
+     * @param int $code [code la respo,se http]
+     * @param mixed $response [donnée du corp de la requête à encodée en JSON]
+     *
+     * @return string
+     */
+    public function responseJson(int $code, mixed $response): string
+    {
+        header('Content-type: application/json; charset=utf-8');
+        http_response_code($code);
+        echo json_encode($response);
+        exit;
+    }
+    /******************************************************** SAMPLE CONNECT JS END */
+
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
