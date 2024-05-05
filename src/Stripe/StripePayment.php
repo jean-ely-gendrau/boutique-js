@@ -46,8 +46,7 @@ class StripePayment
                 'allowed_countries' => ['FR'],
             ],
         ]);
-        // Voir implementation d'une methode d'initialisation de de $session
-        // $cart->setSessionId($session->id);
+        // Voir implementation d'image de produits par Content Delivery Network
 
         // Voir nécéssité des header
         header('HTTP/1.1 303 See Other');

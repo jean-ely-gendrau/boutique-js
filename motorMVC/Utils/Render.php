@@ -10,10 +10,23 @@ use Motor\Mvc\Components\FileImportJson;
  */
 class Render extends SessionManager
 {
+    /**
+     * params
+     *
+     * Tableau de valeurs passé en paramètre.
+     *
+     * @var array
+     */
     protected $params = [];
-    protected $seoConfig;
 
-    // Passer SESSION en paramètre de la classe Render
+    /**
+     * seoConfig
+     *
+     * Fichier json de config SEO décodé.
+     *
+     * @var mixed
+     */
+    protected $seoConfig;
 
     /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
