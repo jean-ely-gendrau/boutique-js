@@ -55,11 +55,23 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
+
+// Route filter controller
 $router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
-$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
-$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS1');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS2');
-/**********
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'querySubCat');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'queryFilter');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
+
+// Route wishlist
+$router->map('GET', '/jsConnected', 'Favoris#JsIsConnected', 'JsIsConnected');
+$router->map('GET', '/favoris/[a:email]', 'Favoris#VerifyFavorite', 'testIsConnected');
+
+/**
+ * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
+ */
+$router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
+$router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
+/********** 
  * FormBuilder Routes Pour les testes
  */
 // Inscription
@@ -139,65 +151,65 @@ $match = $router->match();
 
 // Si la route est bien enregistré avec $router->map alors on execute la condition
 if (is_array($match)):
-    $params = $match['params'];
+  $params = $match['params'];
 
-    /* Cas de Figure Du contrôlleur et de la méthod à appeler
-     * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
-     * Le controller TestRender
-     * la méthod Index
-     *
-     *                      Modification apporté
-     *
-     * Ov va tester la $match['target'] variable avec str_contains
-     *
-     * Si la chaîne contient un # alors nous sommes dans le cas de figure
-     * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
-     *
-     * - Traiter les données avant de les rendre au client
-     * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
+  /* Cas de Figure Du contrôlleur et de la méthod à appeler
+   * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+   * Le controller TestRender
+   * la méthod Index
+   *
+   *                      Modification apporté
+   *
+   * Ov va tester la $match['target'] variable avec str_contains
+   *
+   * Si la chaîne contient un # alors nous sommes dans le cas de figure
+   * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
+   *
+   * - Traiter les données avant de les rendre au client
+   * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
+   */
+  if (str_contains($match['target'], '#')):
+    // On assign les valeurs du tableau à
+    // $contoller pour $match['target'][0]
+    // $method    pour $match['target'][1]
+    [$controllers, $method] = explode('#', $match['target']);
+
+    // Définir le namespace du contrôlleur
+    $controller = 'App\\Boutique\\Controllers\\' . $controllers;
+
+    // On s'assure que la class existe pour éviter les erreurs. (fonction ternaire) condition ? true : false
+    // Si c'est vrai on instancie la class Controller sinon on assigne false à la vartiable $controller
+    $controller = class_exists($controller) ? new $controller() : false;
+
+    /*
+     * Récupération des valeurs transmises par $_POST
+     * On parcourt le tableau $_POST et on assigne chaque valeur
+     * $match['params']['post']['key';
+     * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
+     * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
      */
-    if (str_contains($match['target'], '#')):
-        // On assign les valeurs du tableau à
-        // $contoller pour $match['target'][0]
-        // $method    pour $match['target'][1]
-        [$controllers, $method] = explode('#', $match['target']);
+    if (isset($_POST)) {
+      foreach ($_POST as $key => $value) {
+        $match['params'][$key] = htmlspecialchars(trim($value));
+      }
 
-        // Définir le namespace du contrôlleur
-        $controller = 'App\\Boutique\\Controllers\\' . $controllers;
+      //DEBUG var_dump($match);
+    }
 
-        // On s'assure que la class existe pour éviter les erreurs. (fonction ternaire) condition ? true : false
-        // Si c'est vrai on instancie la class Controller sinon on assigne false à la vartiable $controller
-        $controller = class_exists($controller) ? new $controller() : false;
+    /* Ajoute l'Uri dans les params à transmettre à la class Controller
+        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
-        /*
-         * Récupération des valeurs transmises par $_POST
-         * On parcourt le tableau $_POST et on assigne chaque valeur
-         * $match['params']['post']['key';
-         * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
-         * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
-         */
-        if (isset($_POST)) {
-            foreach ($_POST as $key => $value) {
-                $match['params'][$key] = htmlspecialchars(trim($value));
-            }
+        */
+    $match['params']['render'] = $rendering;
 
-            //DEBUG var_dump($match);
-        }
+    // Test De la Debug BAR : Debug::view($match);
 
-        /* Ajoute l'Uri dans les params à transmettre à la class Controller
-            // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
-
-            */
-        $match['params']['render'] = $rendering;
-
-        // Test De la Debug BAR : Debug::view($match);
-
-        // $match['params']['uri'] = $uri;
-        // $match['params']['serverName'] = $serverName;
-        // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
-        // https://www.php.net/manual/en/function.is-callable.php
-        if (is_callable([$controller, $method])):
-            /*
+    // $match['params']['uri'] = $uri;
+    // $match['params']['serverName'] = $serverName;
+    // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
+    // https://www.php.net/manual/en/function.is-callable.php
+    if (is_callable([$controller, $method])):
+      /*
                    * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
                    * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
                    * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
@@ -216,31 +228,31 @@ if (is_array($match)):
                    * https://www.php.net/manual/en/function.call-user-func-array.php
                    */
 
-            echo call_user_func_array([$controller, $method], $match['params']);
-        else:
-            goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
-        endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
-         *
-         * On appel la méthode defaultRender prenant en paramétre
-         * le nom de la page ($match['target']) et la variable $serverName
-         *
-         * Enfin on affiche le resultat de la méthode
-         */
+      echo call_user_func_array([$controller, $method], $match['params']);
     else:
-        $rendering->addParams('params', $match['params']);
-        echo $rendering->defaultRender($match['target']);
+      goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
     endif;
-    /*Si la page demandé est inexistante, nouvelle instance de Render
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
      *
-     * On passe en paramétre de la méthode la page '404'
+     * On appel la méthode defaultRender prenant en paramétre
+     * le nom de la page ($match['target']) et la variable $serverName
      *
-     * Enfin On affiche le résultat de la méthode
+     * Enfin on affiche le resultat de la méthode
      */
-    // GOTO ERROR
+  else:
+    $rendering->addParams('params', $match['params']);
+    echo $rendering->defaultRender($match['target']);
+  endif;
+  /*Si la page demandé est inexistante, nouvelle instance de Render
+   *
+   * On passe en paramétre de la méthode la page '404'
+   *
+   * Enfin On affiche le résultat de la méthode
+   */
+  // GOTO ERROR
 else:
-    error:
-    echo $rendering->defaultRender('404');
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+  error:
+  echo $rendering->defaultRender('404');
+  /* APPEL ICI DE LA CLASS RENDER */
+  // require_once __DIR__ . '/../template/404.php';
 endif;
