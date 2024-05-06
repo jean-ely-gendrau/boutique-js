@@ -1,13 +1,20 @@
 <?php
 
-class Favoris
+class UsersHasProducts
 {
     /**
-     * id
+     * users_id
      *
      * @var int
      */
-    private $id;
+    private $users_id;
+
+    /**
+     * products_id
+     *
+     * @var int
+     */
+    private $products_id;
 
     public function __construct()
     {
@@ -41,25 +48,49 @@ class Favoris
     /************************************** Getter/Setter ***********************************/
 
     /**
-     * Get id
+     * Get users_id
      *
      * @return  int
      */
-    public function getId()
+    public function getUsers_id()
     {
-        return $this->id;
+        return $this->users_id;
     }
 
     /**
-     * Set id
+     * Set users_id
      *
-     * @param  int  $id  id
+     * @param  int  $users_id  users_id
      *
      * @return  self
      */
-    public function setId(int $id)
+    public function setUsers_id(int $users_id)
     {
-        $this->id = $id;
+        $this->users_id = $users_id;
+
+        return $this;
+    }
+
+    /**
+     * Get products_id
+     *
+     * @return  int
+     */
+    public function getProducts_id()
+    {
+        return $this->products_id;
+    }
+
+    /**
+     * Set products_id
+     *
+     * @param  int  $products_id  products_id
+     *
+     * @return  self
+     */
+    public function setProducts_id(int $products_id)
+    {
+        $this->products_id = $products_id;
 
         return $this;
     }
