@@ -6,8 +6,8 @@
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
-                <a href="http://<?= $serverName; ?>" class="flex items-center">
-                    <img src="http://<?= $serverName; ?>/assets/images/tea-coffee.png" class="h-8 me-3" alt="TeaCoffee Logo" />
+                <a href="http://<?= $serverName ?>" class="flex items-center">
+                    <img src="http://<?= $serverName ?>/assets/images/tea-coffee.png" class="h-8 me-3" alt="TeaCoffee Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TeaCoffee</span>
                 </a>
             </div>
@@ -15,7 +15,8 @@
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs Ventes</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <?php /*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
+                        <?php
+/*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
                     <li class="mb-4">
                             <a href="" class="hover:underline"></a>
                         </li>
@@ -23,13 +24,14 @@
                             <a href="" class="hover:underline"></a>
                         </li>
                         */
-                        ?>
+?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <?php /*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
+                        <?php
+/*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
                         <li class="mb-4">
                             <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
                         </li>
@@ -37,7 +39,7 @@
                             <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
                         </li>
                          */
-                        ?>
+?>
                     </ul>
                 </div>
                 <div>
@@ -95,7 +97,8 @@
         document.getElementById("verif").submit();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
 <script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
@@ -103,6 +106,7 @@
 <script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/filters.js"></script>
+<script src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 </body>
 
