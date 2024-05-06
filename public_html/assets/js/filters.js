@@ -5,18 +5,22 @@ const buttonBestSeller = document.getElementById('bestSeller');
 const buttonBestRated = document.getElementById('bestRated');
 const filterButtons = document.querySelectorAll('.filters');
 let buttonValue;
-
 const buttonClear = document.getElementById('clear');
+
+if (buttonClear !== null) {
 buttonClear.addEventListener('click', function () {
   buttonValue = null;
   messageResearch.innerText = '';
   selectSubCat.selectedIndex = 0;
   filterPrice();
 });
+}
 
+if (selectSubCat !== null) {
 document.addEventListener("DOMContentLoaded", function () {
   selectSubCat.selectedIndex = 0;
 })
+}
 
 const currentPageUrl = window.location.origin;
 const currentPagePath = window.location.pathname;
@@ -163,6 +167,7 @@ filterButtons.forEach(button => {
   });
 });
 
+if (selectSubCat!== null) {
 selectSubCat.addEventListener('change', function () {
   if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
     filterPrice();
@@ -176,3 +181,4 @@ selectSubCat.addEventListener('change', function () {
     filterPrice(buttonValue, selectSubCat.value);
   }
 });
+}
