@@ -1,6 +1,7 @@
 <?php
 
 namespace Motor\Mvc\Utils;
+
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Components\FileImportJson;
 
@@ -40,11 +41,14 @@ class Render extends SessionManager
         // Démarre la mise en mémoire tampon
         ob_start();
 
+        // Ajoute par la méthode addParams() les données de seoConfig en fonction de la variable $template, sinon par la donnée par Default
+        $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
+
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
         extract(array_merge($arguments[0], $this->params));
 
         // Inclusion du header
-        require_once __DIR__ . '/../../element/admin/header.php';
+        require_once __DIR__ . '/../../element/header.php';
 
         // Inclusion du template
         require_once __DIR__ . "/../../template/admin/{$template}.php";

@@ -17,7 +17,7 @@
 
 </head>
 
-<body class="bg-green-800 font-sans leading-normal tracking-normal mt-12">
+<body class="bg-green-800 font-sans leading-normal tracking-normal">
 
   <header>
     <!--Nav-->
@@ -25,8 +25,8 @@
 
       <div class="flex flex-wrap items-center">
         <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-          <a href="#" aria-label="Home">
-            <span class="text-xl pl-2"><i class="em em-grinning"></i></span>
+          <a href="http://<?= $serverName ?>/" aria-label="Home">
+            <img class="h-20" src="http://<?= $serverName ?>/assets/images/tea-coffee.png" />
           </a>
         </div>
 
@@ -76,7 +76,7 @@
       <nav aria-label="alternative nav">
         <div class="bg-green-800 shadow-xl h-20 fixed bottom-0 mt-12 md:relative md:h-screen z-10 w-full md:w-48 content-center">
 
-          <div class="md:mt-12 md:w-48 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between">
+          <div class="md:mt-20 md:w-48 md:fixed md:left-0 md:top-0 content-center text-left justify-between">
             <ul class="list-reset flex flex-row md:flex-col pt-3 md:py-3 px-1 md:px-2 text-center md:text-left">
               <li class="mr-3 flex-1">
                 <a href="/panel-admin/users" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">
