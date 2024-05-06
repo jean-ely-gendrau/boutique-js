@@ -42,7 +42,7 @@ class UsersRegistrationForms
              * Route de traitement du formulaire : /sample-connect-js
              */
             ->setIdForm('sample-form-connect') // ID FORM
-            ->setAction('/form-test-connect') // ID FORM
+            ->setAction('/form-test-connect') // ACTION -> ROUTE DE TRAITEMENT
             ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
             ->addField('email', 'email', [
                 'text-label' => 'Email',
@@ -65,7 +65,7 @@ class UsersRegistrationForms
                 'attributes' => [
                     'data-js' => 'handleSampleConnect,click',
                     'data-post-url' => '/sample-connect-js',
-                    'data-id-form' => 'form-test-connect',
+                    'data-id-form' => 'sample-form-connect',
                 ]
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [

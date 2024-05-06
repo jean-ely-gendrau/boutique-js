@@ -63,7 +63,7 @@ $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPri
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
 $router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
-$router->map('GET', '/sample-connect-js', 'FormControllerTest#ConnectUserJS', 'sample-connect-js');
+$router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
 /********** 
  * FormBuilder Routes Pour les testes
  */

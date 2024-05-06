@@ -170,17 +170,17 @@ teaCoffee.format = {
    * - Tableau de stockage des paramètre du corps de la requête formatée.
    * @type {Array<string>}
    */
-  bufferData: [],
+  bufferBodyParams: [],
   /**
-   * - Ajoute les paramètres du corps de la requête à un tableau bufferData pour être utilisés ultérieurement.
+   * - Ajoute les paramètres du corps de la requête à un tableau bufferBodyParams pour être utilisés ultérieurement.
    * @param {Object.<string, string>} bodyParam - Les paramètres du corps de la requête.
    * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
    */
   bodyParam: function (bodyParam) {
 
-    let tempParam = [];
+    let tempBodyParam = [];
 
-    tempParam.push(
+    tempBodyParam.push(
       Object.entries(bodyParam)
         .map(([key, val], index) => {
           return `${key}=${val}`;
@@ -188,20 +188,20 @@ teaCoffee.format = {
         .join("&")
     );
 
-    this.bufferData = tempParam;
+    this.bufferBodyParams = tempBodyParam;
     return this;
   },
   /**
-   * Ajoute les paramètres d'un formulaire à un tableau bufferData pour être utilisés ultérieurement.
+   * Ajoute les paramètres d'un formulaire à un tableau bufferBodyParams pour être utilisés ultérieurement.
    * @param {HTMLFormElement} form - Le formulaire HTML contenant les paramètres.
    * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
    */
   formParam: function (form) {
 
-    let tempParam = [];
+    let tempBodyParam = [];
     let formData = new FormData(form);
 
-    tempParam.push(
+    tempBodyParam.push(
       Array.from(formData)
         .map(([key, val]) => {
           return `${key}=${val}`;
@@ -209,7 +209,7 @@ teaCoffee.format = {
         .join("&")
     );
 
-    this.bufferData = tempParam;
+    this.bufferBodyParams = tempBodyParam;
     return this;
   },
 };
@@ -227,6 +227,7 @@ teaCoffee.request = {
    * @param {string} [options.method] - La méthode de la requête (par défaut: POST).
    * @param {string} [options.contentType="application/x-www-form-urlencoded"] - Le type de contenu de la requête (par défaut: application/x-www-form-urlencoded).
    * @param {string} [options.resType="json"] - Le type de réponse attendu (par défaut: json).
+   * @param {string} [options.defineRequest] - L'URL complète si vous souhaitez joindre une API externe.
    * @param {Object|false} [options.headersParams=false] - Les paramètres d'en-tête personnalisés (par défaut: false).
    * @returns {Promise} - Une promesse contenant la réponse de la requête.
    *
@@ -253,6 +254,7 @@ teaCoffee.request = {
     method = "POST",
     contentType = "application/x-www-form-urlencoded",
     resType = "json",
+    defineRequest,
     headersParams = false,
   }) => {
     let bodyParamFormat = "";
@@ -260,19 +262,24 @@ teaCoffee.request = {
     if (bodyParam) {
       bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
     } else if (idForm) {
+
       bodyParamFormat = teaCoffee.format.formParam(
-        teaCoffee.sys.getById().elems[0]
+        teaCoffee.sys.getById(idForm).elems[0]
       );
     }
 
-    const res = await fetch(`http://${window.location.hostname}${route}`, {
+    let defaultRequest = defineRequest
+      ? defineRequest
+      : `http://${window.location.hostname}${route}`;
+
+    const res = await fetch(defaultRequest, {
       method: method,
       headers: headersParams
         ? headersParams
         : {
           "Content-Type": `${contentType}`,
         },
-      body: bodyParamFormat,
+      body: teaCoffee.format.bufferBodyParams,
     });
 
     let response =
@@ -317,6 +324,7 @@ teaCoffee.request = {
     let defaultRequest = defineRequest
       ? defineRequest
       : `http://${window.location.hostname}${route}`;
+
     const res = await fetch(defaultRequest, {
       method: "GET",
       headers: headersParams
@@ -339,9 +347,9 @@ teaCoffee.html = {
     let idWarn = `message-warn-${key}`;
     const elementWarn = document.getElementById(idWarn); // Sélection de la balise
     const elementError = document.getElementById(key); // Séléction de l'élément ou il y à une erreur
-
-    // Si le résultat de la requête retourn false
-    if (objectMessage !== true) {
+    console.log(key, objectMessage, elementError, elementWarn, objectMessage[key]);
+    // Si le résultat de la requête retourn message erreurs et que l'élément de l'erreur existe bien sur la page.
+    if (objectMessage !== true && elementError) {
       // On vérifie si la balise n'est pas dans le DOM
       if (elementWarn === null) {
         // On créer une balise paragraphe
@@ -349,6 +357,7 @@ teaCoffee.html = {
         elementText.setAttribute("id", idWarn); // On définit l'id
         elementText.setAttribute("class", "text-red-600 text-sm"); // On définit une classe text-danger
         elementText.textContent = objectMessage[key]; // On définit le text du paragraphe avec le message renvoyé par PHP
+        console.log(elementText);
         elementError.after(elementText); // On ajoute l'élément après l'élément qui initialise l'événement
       }
     } else {
@@ -427,14 +436,33 @@ teaCoffee.action = {
   handleSampleConnect: async (e) => {
     e.preventDefault();
 
-    let urlPost = e.target?.getAttribute("data-post-url");
-    let idForm = e.target?.getAttribute("data-id-form");
+    let urlPost = e.target?.getAttribute("data-post-url"); // data attribute
+    let idForm = e.target?.getAttribute("data-id-form"); // data attribute
+
+    // POST REQUEST
     const response = await teaCoffee.request.post({
       route: urlPost,
       idForm: idForm,
-      contentType: "multipart/form-data",
-      resType: "text",
+      contentType: "application/x-www-form-urlencoded",
+      resType: "json",
     });
+
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+    if (response && response.hasOwnProperty('isConnected') && response.isConnected === true) {
+      window.location.assign('/'); // Redirect User 
+    }
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+    else if (response && response.hasOwnProperty('errors')) {
+      // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+      Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+        // 
+        let errorObject = {
+          [keyInput]: errorMessage,
+        }
+        teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+      });
+
+    }
   },
 };
 // LOAD MODULE
@@ -444,3 +472,12 @@ if (typeof module != "undefined" && module.exports) {
 
 teaCoffee.sys.loadLazyImg();
 teaCoffee.sys.loadLazyJS().darkMode();
+/*
+console.log(await teaCoffee.request.post(
+  {
+    route: '/sample-connect-js',
+    bodyParam: { 'email': 'rbartosinski0@meetup.com', 'password': 'Rbartosinski083!' },
+    contentType: "application/x-www-form-urlencoded",
+    resType: "json",
+  }));
+  */

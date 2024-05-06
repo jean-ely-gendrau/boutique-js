@@ -178,9 +178,18 @@ class RegisterController
     }
 
     /******************************************************** SAMPLE CONNECT JS START */
-    public function ConnectJS(...$arguments): string
+    public function ConnectJS(...$arguments): void
     {
         $modelUser = new Users($arguments); // Instance d'un models de class User
+
+        /**
+          Cette méthode n'est pas présente dans la classe Users du modèle. 
+         * Elle a été créée ici pour tester un cas suite à un bug lié à l'utilisation de ReflectionValidator::validate. 
+         * En effet, la méthode vérifie la regex sur un mot de passe encodé directement dans le constructeur de la classe Users.
+         * 
+          Créer un issues pour ajouter les setter au model User
+         */
+        $modelUser->setPassword($arguments['password']);
 
         // ReflectionValidator::validate($modelUser)
         // Cette méthode static de la class ReflectionValidator
@@ -189,23 +198,37 @@ class RegisterController
         // Préfixer vos propriéte dans vos class est utilisé le
         // validatorData pour créer vos Regex et réstriction sur vos valeurs.
         if (!empty($_POST)) {
-            $errors = ReflectionValidator::validate($modelUser);
-            //DEBUG var_dump($errors);
+            $errorsIntercept = ReflectionValidator::validate($modelUser);
 
+            /**
+             *On définit un tableau associatif arbitraire des données que nous souhaitons mapper avec les erreurs renvoyées par la classe ReflectionValidator. Ensuite, nous excluons de ce tableau toutes les clés ne figurant pas dans le tableau de comparaison $arrayinterseckeycompare.
+             *
+             *Pour modifier ce comportement, veuillez envisager une nouvelle issue :
+             *
+             *Réfléchir à la manière de procéder.
+             *Effectuer les changements et essayer plusieurs solutions.
+             *Effectuer les tests appropriés et valider l'issue.
+             */
+            $arrayIntersecKeyCompare = ['email' => '', 'password' => ''];
+            $errors = array_intersect_key($errorsIntercept, $arrayIntersecKeyCompare);
+
+            // réponse JSON 200 avec le corps suivant : {'errors' : $errors}
             if ($errors) {
                 // ERROR
-                $this->responseJson(404, $errors);
+                $this->responseJson(200, ['errors' => $errors]);
             }
 
+            // Pas d'erreur
             if (!$errors) {
                 /* CONNECT USER */
-                $crudManager = new CrudManager('users', Users::class);
-                $user = $crudManager->getByEmail($arguments['email']);
+                $crudManager = new CrudManager('users', Users::class);  // Instance of PasswordHashManager - table users, models Users
+                $user = $crudManager->getByEmail($arguments['email']); // Appel de la méthode getByEmail(email)
 
-                $verifPassword = new PasswordHashManager();
+                $verifPassword = new PasswordHashManager(); // Instance of PasswordHashManager
 
+                // Vérification du mot de passe.
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
-
+                    // Incorporation des paramètres de l'utilisateur dans la session.
                     $arguments['render']->addSession([
                         'email' => $user->email,
                         'isConnected' => true,
@@ -213,11 +236,11 @@ class RegisterController
                         'role' => $user->role,
                     ]);
 
+                    // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
                     $this->responseJson(200, ['isConnected' => true]);
                 }
             }
         }
-        return '';
     }
 
     /**
