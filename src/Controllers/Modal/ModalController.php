@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Controllers\Modal;
 
+use Motor\Mvc\Components\Debug;
 use Motor\Mvc\Builder\ModalBuilder;
 use App\Boutique\Forms\UsersRegistrationForms as Users_Forms;
 
@@ -71,7 +72,7 @@ class ModalController
     // Modal Connect
     $modalConnect = $this->modalConnect();
     $this->render->addParams(['modalConnect' => $modalConnect->modal, 'buttonModalConnect' => $modalConnect->buttonOpen]);
-
+    Debug::view($modalConnect);
     return $this->render->render('modal/index', $arguments);
   }
 }

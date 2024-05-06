@@ -1,6 +1,6 @@
 <?php
 
-class Images
+class Charac
 {
     /**
      * id
@@ -10,29 +10,18 @@ class Images
     private $id;
 
     /**
-     * image_main
-     *
-     * @var bool
-     */
-    private $image_main;
-
-    /**
-     * url_image
+     * name
      *
      * @var string
      */
-    private $url_image;
+    private $name;
 
     /**
-     * products_id
+     * type
      *
-     * @var int
+     * @var string
      */
-    private $products_id;
-
-    public function __construct()
-    {
-    }
+    private $type;
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
 
@@ -86,73 +75,49 @@ class Images
     }
 
     /**
-     * Get image_main
-     *
-     * @return  bool
-     */
-    public function getImage_main()
-    {
-        return $this->image_main;
-    }
-
-    /**
-     * Set image_main
-     *
-     * @param  bool  $image_main  image_main
-     *
-     * @return  self
-     */
-    public function setImage_main(bool $image_main)
-    {
-        $this->image_main = $image_main;
-
-        return $this;
-    }
-
-    /**
-     * Get url_image
+     * Get name
      *
      * @return  string
      */
-    public function getUrl_image()
+    public function getName()
     {
-        return $this->url_image;
+        return $this->name;
     }
 
     /**
-     * Set url_image
+     * Set name
      *
-     * @param  string  $url_image  url_image
+     * @param  string  $name  name
      *
      * @return  self
      */
-    public function setUrl_image(string $url_image)
+    public function setName(string $name)
     {
-        $this->url_image = $url_image;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get products_id
+     * Get type
      *
-     * @return  int
+     * @return  string
      */
-    public function getProducts_id()
+    public function getType()
     {
-        return $this->products_id;
+        return $this->type;
     }
 
     /**
-     * Set products_id
+     * Set type
      *
-     * @param  int  $products_id  products_id
+     * @param  string  $type  type
      *
      * @return  self
      */
-    public function setProducts_id(int $products_id)
+    public function setType(string $type)
     {
-        $this->products_id = $products_id;
+        $this->type = $type;
 
         return $this;
     }

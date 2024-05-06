@@ -1,12 +1,12 @@
 <div>
     <?php
 
-    if ($categoryName == "2") {
+    if ($categoryName == "1") {
         $pageURL = 'café';
 
         $type = "Choisissez la force de votre ";
 
-    } else if ($categoryName == "1") {
+    } else if ($categoryName == "2") {
         $pageURL = 'thé';
 
         $type = "Choisissez votre feuille de ";
@@ -58,22 +58,42 @@
     <div class="mx-auto flex justify-start max-w-6x1">
         <form method="post">
             <label for="counterSubCat"><?= $type . $pageURL ?>: </label>
-            <select name="counterSubCat" id="counterSubCat" onchange="filterPrice()">
+            <select name="counterSubCat" id="counterSubCat">
                 <option value="subCatDefault">---</option>
                 <?php foreach ($NameSubCat as $subCatName): ?>
                     <option value="<?= $subCatName['id'] ?>"><?= $subCatName['name'] ?></option>
                 <?php endforeach; ?>
             </select>
-            <select name="Filtre" id="orderBy" onchange="filterPrice()">
+            <button type="button"
+                class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                id="expensive" value="expensive">Plus cher</button>
+            <button type="button"
+                class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                id="cheaper" value="cheaper">Moins cher</button>
+            <button type="button"
+                class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                id="bestSeller" value="bestSeller">Top des ventes</button>
+            <button type="button"
+                class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                id="bestRated" value="bestRated">Mieux noté</button>
+            <button type="button"
+                class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                id="clear">Clear</button>
+            <!-- <select name="Filtre" id="orderBy" onchange="filterPrice()">
                 <option value="orderByDefault">---</option>
                 <option value="asc">Ascendent</option>
                 <option value="desc">Descendent</option>
-            </select>
+            </select> -->
+            <!-- <select name="Rating" id="rating" onchange="filterPrice()">
+                <option value="ratingDefault">---</option>
+                <option value="Best">Best</option>
+                <option value="Worst">Worst</option>
+            </select> -->
             <div id="text"></div>
         </form>
 
     </div>
-
+    <p id="paramsResarch"></p>
     <div id="resultat">
         <?php
 

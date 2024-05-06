@@ -11,20 +11,72 @@ use JsonSerializable;
 class Users extends PasswordHashManager implements \JsonSerializable
 {
     protected const EXCLUDE_PROPERTIES = ['password'];
+
+    /**
+     * id
+     *
+     * @var int
+     */
+    private $id;
     // #[ValidatorData('numeric')]
-    private $id_user;
+
+    /**
+     * full_name
+     *
+     * @var string
+     */
     #[ValidatorData('full_name')]
     private $full_name;
+
+    /**
+     * email
+     *
+     * @var string
+     */
     #[ValidatorData('email')]
     private $email;
 
+    /**
+     * password
+     *
+     * @var string
+     */
     #[ValidatorData('password')]
     private $password;
 
+    /**
+     * birthday
+     *
+     * @var string
+     */
     private $birthday;
-    private string $adress;
-    private string $role;
+
+    /**
+     * adress
+     *
+     * @var string
+     */
+    private $adress;
+
+    /**
+     * role
+     *
+     * @var string
+     */
+    private $role;
+
+    /**
+     * created_at
+     *
+     * @var string
+     */
     private $created_at;
+
+    /**
+     * updated_at
+     *
+     * @var string
+     */
     private $updated_at;
 
     /**
@@ -38,7 +90,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     {
         $this->id_user = $data['id_user'] ?? null;
         $this->full_name = $data['full_name'] ?? '';
-        $this->id_user = $data['id_user'] ?? '';
+        $this->id = $data['id'] ?? '';
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
@@ -89,6 +141,37 @@ class Users extends PasswordHashManager implements \JsonSerializable
         return array_diff_key(get_object_vars($this), array_flip(self::EXCLUDE_PROPERTIES));
     }
 
+    /* ----------------------------------- Méthode de date pour la classe Users ------------------------------ */
+    /**
+     * Get the value of birthday
+     *
+     * Cette méthode retourne la date String sans l'heure pour calculer l'âge
+     */
+    public function getBirthday()
+    {
+        $newDate = new DateTime($this->birthday);
+        return $newDate->format('Y-m-d');
+    }
+
+    public function update($full_name, $birthday, $adress, $password)
+    {
+        // Préparez une requête SQL pour mettre à jour l'enregistrement
+        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id';
+
+        // Préparez la requête avec PDO
+        $stmt = $this->pdo->prepare($sql);
+
+        // Liez les paramètres à la requête
+        $stmt->bindParam(':full_name', $full_name);
+        $stmt->bindParam(':birthday', $this->setDateTime($birthday));
+        $stmt->bindParam(':adress', $adress);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':id', $this->id);
+
+        // Exécutez la requête
+        $stmt->execute();
+    }
+
     /* ----------------------------------- GETTER / SETTER ------------------------------ */
     /**
      * Method setDateTime
@@ -102,17 +185,6 @@ class Users extends PasswordHashManager implements \JsonSerializable
     public function setDateTime(string $dateString)
     {
         $newDate = new DateTime($dateString);
-        return $newDate->format('Y-m-d');
-    }
-
-    /**
-     * Get the value of birthday
-     *
-     * Cette méthode retourne la date String sans l'heure pour calculer l'âge
-     */
-    public function getBirthday()
-    {
-        $newDate = new DateTime($this->birthday);
         return $newDate->format('Y-m-d');
     }
 
@@ -196,22 +268,83 @@ class Users extends PasswordHashManager implements \JsonSerializable
         ];
     }
 
-    public function update($full_name, $birthday, $adress, $password)
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
     {
-        // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user';
+        return $this->password;
+    }
 
-        // Préparez la requête avec PDO
-        $stmt = $this->pdo->prepare($sql);
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
-        // Liez les paramètres à la requête
-        $stmt->bindParam(':full_name', $full_name);
-        $stmt->bindParam(':birthday', $this->setDateTime($birthday));
-        $stmt->bindParam(':adress', $adress);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':id_user', $this->id_user);
+        return $this;
+    }
 
-        // Exécutez la requête
-        $stmt->execute();
+    /**
+     * Get the value of role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
     }
 }
