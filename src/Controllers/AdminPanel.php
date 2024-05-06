@@ -9,6 +9,8 @@ use App\Boutique\Models\Category;
 use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\EntityManager\UsersEntity;
 use App\Boutique\EntityManager\ProductsEntity;
+use App\Boutique\Forms\ProductsAdminForms;
+use Motor\Mvc\Builder\ModalBuilder;
 
 /**
  * AdminPanel
@@ -32,6 +34,40 @@ class AdminPanel
     {
         return preg_replace('/\/[0-9]*/', '', $argumentsCall);
     }
+
+    /**
+     * Method returnJson
+     *
+     * @param int $codeHTTP [code de la réponse http]
+     * @param mixed $data [les données à transmettre dans le corp du body]
+     *
+     * @return void
+     */
+    protected function returnJson(int $codeHTTP, mixed $data): void
+    {
+        header('Content-type: application/json; charset=utf-8');
+        http_response_code($codeHTTP);
+        echo json_encode($data);
+    }
+
+    public function ReturnForm(...$arguments)
+    {
+        switch ($arguments['tableName']) {
+                /*******
+             * User
+             */
+            case 'users':
+                $this->returnJson(200, ProductsAdminForms::ProductsForm());
+                break;
+                /*******
+                 * Product
+                 */
+            case 'users':
+                //ProductsAdminForms::ProductsForm();
+                break;
+        }
+    }
+
     /**
      * Méthode Index
      *
@@ -46,7 +82,7 @@ class AdminPanel
         $render = $argumentsCall['render'];
 
         switch ($argumentsCall['tableName']) {
-            /*******
+                /*******
              * User
              */
             case 'users':
@@ -68,9 +104,9 @@ class AdminPanel
 
                 break;
 
-            /*******
-             * Products
-             */
+                /*******
+                 * Products
+                 */
             case 'products':
                 /* selectAllPaginate
                  *  On utilise la méthode getAllPaginate du CrudApi
@@ -87,14 +123,19 @@ class AdminPanel
                 }
                 //var_dump($selectAllPaginate);
                 //var_dump($render->getParams('uri'));
+                $newModalProduct = new ModalBuilder();
+                $newModalProduct->addHeader('modal-add-product-adm', '<h2>Ajout de nouveaux produits</h2>')
+                    ->addBody('body-modal-add-product-adm', '');
+
+                $render->addParams('newModalProduct', $newModalProduct);
                 $render->addParams('categoryName', 'produits');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
 
                 break;
 
-            /********
-             * Category
-             */
+                /********
+                 * Category
+                 */
         }
         // Rendre le template
         $content = $render->renderAdmin($argumentsCall['tableName'], $argumentsCall);
