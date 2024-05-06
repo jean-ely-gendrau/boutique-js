@@ -1,6 +1,6 @@
 <?php
 
-class Images
+class Comments
 {
     /**
      * id
@@ -10,18 +10,18 @@ class Images
     private $id;
 
     /**
-     * image_main
-     *
-     * @var bool
-     */
-    private $image_main;
-
-    /**
-     * url_image
+     * comment
      *
      * @var string
      */
-    private $url_image;
+    private $comment;
+
+    /**
+     * users_id
+     *
+     * @var int
+     */
+    private $users_id;
 
     /**
      * products_id
@@ -86,49 +86,49 @@ class Images
     }
 
     /**
-     * Get image_main
+     * Get comment
      *
-     * @return  bool
+     * @return  string
      */
-    public function getImage_main()
+    public function getComment()
     {
-        return $this->image_main;
+        return $this->comment;
     }
 
     /**
-     * Set image_main
+     * Set comment
      *
-     * @param  bool  $image_main  image_main
+     * @param  string  $comment  comment
      *
      * @return  self
      */
-    public function setImage_main(bool $image_main)
+    public function setComment(string $comment)
     {
-        $this->image_main = $image_main;
+        $this->comment = $comment;
 
         return $this;
     }
 
     /**
-     * Get url_image
+     * Get users_id
      *
-     * @return  string
+     * @return  int
      */
-    public function getUrl_image()
+    public function getUsers_id()
     {
-        return $this->url_image;
+        return $this->users_id;
     }
 
     /**
-     * Set url_image
+     * Set users_id
      *
-     * @param  string  $url_image  url_image
+     * @param  int  $users_id  users_id
      *
      * @return  self
      */
-    public function setUrl_image(string $url_image)
+    public function setUsers_id(int $users_id)
     {
-        $this->url_image = $url_image;
+        $this->users_id = $users_id;
 
         return $this;
     }
