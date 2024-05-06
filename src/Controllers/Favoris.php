@@ -8,22 +8,17 @@ class Favoris extends CrudManager
 {
     public function __construct()
     {
-        parent::__construct('products', ProductsModels::class);
+        parent::__construct('users', ProductsModels::class);
     }
 
-    // public function JsIsConnected(...$arguments)
-    // {
-    //     if (isset($_SESSION['isConnected'])) {
-    //         echo json_encode($_SESSION['email']);
-    //     } else {
-    //         echo json_encode(False);
-    //     }
-    // }
     public function VerifyFavorite(...$arguments)
     {
         if (isset($_SESSION['isConnected'])) {
-            var_dump($_SESSION['email']);
-            var_dump($this->getByEmail($_SESSION['email']));
+            $user = $this->getByEmail($_SESSION['email']);
+            $sql = "SELECT * FROM users JOIN user_product ON users.id = user_product.user_id JOIN products ON user_product.product_id = products.id WHERE users.id = [user_id] AND products.id = [product_id]";
+            echo json_encode([$user->id, intval($arguments['product'])]);
+        } else {
+            echo json_encode("connect to use");
         }
     }
 }

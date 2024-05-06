@@ -58,15 +58,14 @@ $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion
 
 // Route filter controller
 $router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
-$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
-$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS1');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS2');
-/**
- * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
- */
-$router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
-$router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
-/********** 
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'querySubCat');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'queryFilter');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
+
+// Route wishlist
+$router->map('GET', '/jsConnected', 'Favoris#JsIsConnected', 'JsIsConnected');
+$router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
+/**********
  * FormBuilder Routes Pour les testes
  */
 // Inscription
