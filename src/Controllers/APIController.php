@@ -242,16 +242,9 @@ class ApiController
 
     public function addOrders($data)
     {
-        // Create a new stdClass object
-        $orderObject = new stdClass();
+        $order = new Orders();
 
-        // Set properties on the object that match the keys in the $data array
-        foreach ($data as $key => $value) {
-            $orderObject->$key = $value;
-        }
-
-        // Pass the new object to the create method
-        $result = $this->orders->create($orderObject, $data);
+        $result = $this->orders->create($order, $data);
 
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
