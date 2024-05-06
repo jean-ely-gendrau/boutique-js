@@ -56,6 +56,11 @@ $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionFo
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 
 /****************************
+ * Route API-HTML To JSON
+ */
+$router->map('POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
+
+/****************************
  * Route Administration
  */
 $router->map('GET', '/panel-admin', 'AdminPanel#IndexPanel', 'admin-panel-index');
@@ -66,6 +71,7 @@ $router->map('GET', '/panel-admin/orders', 'AdminPanel#IndexOrders', 'admin-pane
 $router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-panel-category');
 $router->map('GET', '/panel-admin/test', 'AdminPanel#IndexTest', 'admin-panel-test');
 */
+
 $router->map('GET|POST', '/panel-admin/[a:tableName]', 'AdminPanel#Index', 'admin-panel-select');
 $router->map('GET|POST', '/panel-admin/[a:tableName]/[i:id]', 'AdminPanel#Index', 'admin-panel-select-page');
 

@@ -50,23 +50,7 @@ class AdminPanel
         echo json_encode($data);
     }
 
-    public function ReturnForm(...$arguments)
-    {
-        switch ($arguments['tableName']) {
-                /*******
-             * User
-             */
-            case 'users':
-                $this->returnJson(200, ProductsAdminForms::ProductsForm());
-                break;
-                /*******
-                 * Product
-                 */
-            case 'users':
-                //ProductsAdminForms::ProductsForm();
-                break;
-        }
-    }
+
 
     /**
      * Méthode Index
