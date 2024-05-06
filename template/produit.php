@@ -55,10 +55,12 @@
         </div>
     <?php endforeach; ?>
 
-    <div class="mx-auto flex justify-start max-w-6x1">
-        <form method="post">
-            <label for="counterSubCat"><?= $type . $pageURL ?>: </label>
-            <select name="counterSubCat" id="counterSubCat">
+    <div class="mx-auto flex max-w-6xl">
+        <form method="post" class="flex items-center">
+            <label class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                for="counterSubCat"><?= $type . $pageURL ?>:</label>
+            <select name="counterSubCat" id="counterSubCat"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="subCatDefault">---</option>
                 <?php foreach ($NameSubCat as $subCatName): ?>
                     <option value="<?= $subCatName['id'] ?>"><?= $subCatName['name'] ?></option>
@@ -79,20 +81,9 @@
             <button type="button"
                 class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                 id="clear">Clear</button>
-            <!-- <select name="Filtre" id="orderBy" onchange="filterPrice()">
-                <option value="orderByDefault">---</option>
-                <option value="asc">Ascendent</option>
-                <option value="desc">Descendent</option>
-            </select> -->
-            <!-- <select name="Rating" id="rating" onchange="filterPrice()">
-                <option value="ratingDefault">---</option>
-                <option value="Best">Best</option>
-                <option value="Worst">Worst</option>
-            </select> -->
-            <div id="text"></div>
         </form>
-
     </div>
+
     <p id="paramsResarch"></p>
     <div id="resultat">
         <?php
