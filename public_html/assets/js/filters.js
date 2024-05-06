@@ -7,7 +7,7 @@ const filterButtons = document.querySelectorAll('.filters');
 let buttonValue;
 
 const buttonClear = document.getElementById('clear');
-buttonClear.addEventListener('click', function() {
+buttonClear.addEventListener('click', function () {
   buttonValue = null;
   messageResearch.innerText = '';
   selectSubCat.selectedIndex = 0;
@@ -131,18 +131,18 @@ filterButtons.forEach(button => {
   button.addEventListener('click', event => {
     buttonValue = event.target.value
     if (selectSubCat.value === 'subCatDefault') {
-    filterPrice(buttonValue, null);
+      filterPrice(buttonValue, null);
     } else {
-    filterPrice(buttonValue, selectSubCat.value);
+      filterPrice(buttonValue, selectSubCat.value);
     }
   });
 });
 
 selectSubCat.addEventListener('change', function () {
   if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
-  filterPrice();
-  } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) { 
-    
+    filterPrice();
+  } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) {
+
     filterPrice(buttonValue, null);
   }
   else if (buttonValue === undefined) {
