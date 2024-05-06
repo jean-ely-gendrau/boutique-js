@@ -258,22 +258,41 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @return mixed
      */
-    public function create(object $objectClass, array $param): void
+    public function create(object $objectClass, array $param): mixed
     {
-        $valueString = self::formatParams($param, 'FORMAT_CREATE');
+        try {
+            $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
-        $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
-        $req = $this->_dbConnect->prepare($sql);
-        $boundParam = [];
+            $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
+            // Désectivation ATTR_EMULATE_PREPARES
+            $connect = $this->_dbConnect;
 
-        foreach ($param as $paramName) {
-            if (property_exists($objectClass, $paramName)) {
-                $boundParam[$paramName] = $objectClass->$paramName;
-            } else {
-                echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+            $connect->beginTransaction();
+
+            $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            $req = $connect->prepare($sql);
+            $boundParam = [];
+
+            // Debug::view($sql);
+
+            foreach ($param as $paramName) {
+                if (property_exists($objectClass, $paramName)) {
+                    $boundParam[$paramName] = $objectClass->$paramName;
+                } else {
+                    echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+                }
             }
+            $req->execute($boundParam);
+
+            $lastID = $connect->lastInsertId();
+            $connect->commit();
+
+            return ['lastObject' => $objectClass, 'lastID' => $lastID];
+        } catch (\PDOException $e) {
+            // En cas d'erreur, annuler la transaction
+            $connect->rollback();
+            return 'PDOException : ' . $e->getMessage();
         }
-        $req->execute($boundParam);
     }
 
     /**
