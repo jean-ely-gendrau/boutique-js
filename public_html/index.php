@@ -38,6 +38,11 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 // -------------------------------
 
+$router->map('GET', '/api/products', 'ApiController#GetProductsAll', 'products');
+$router->map('GET', '/api/products/[a:category]', 'ApiController#GetProductsByCategory', 'products-category');
+
+
+
 $router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
 
 $router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasket');
@@ -219,11 +224,11 @@ if (is_array($match)) :
              * https://www.php.net/manual/en/function.call-user-func-array.php
              */
 
-            echo call_user_func_array([$controller, $method], $match['params']);
-        else:
-            goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
-        endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+      echo call_user_func_array([$controller, $method], $match['params']);
+    else :
+      goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
+    endif;
+  /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
 
          *
          * On appel la méthode defaultRender prenant en paramétre
@@ -241,10 +246,10 @@ if (is_array($match)) :
      *
      * Enfin On affiche le résultat de la méthode
      */
-    // GOTO ERROR
-else:
-    error:
-    echo $rendering->defaultRender('404');
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+// GOTO ERROR
+else :
+  error:
+  echo $rendering->defaultRender('404');
+/* APPEL ICI DE LA CLASS RENDER */
+// require_once __DIR__ . '/../template/404.php';
 endif;
