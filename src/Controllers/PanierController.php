@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
+use App\Boutique\Models\Orders;
 use DateTime;
 
 class PanierController
@@ -44,16 +45,24 @@ class PanierController
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id_user;
+        $id = $Idclient->id;
 
-        $panier = new CrudManager('orders', 'Panier');
+        $panier = new CrudManager('orders', Orders::class);
         $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id
 
         // Return both the client's ID and the orders
-        return [
-            'id' => $id,
-            'paniers' => $paniers,
+
+
+
+        $result = [
+            'name' => $paniers['name'],
+            'price' => $paniers['price'],
+            'images' => $paniers['url_image'],
+
         ];
+
+
+        return $result;
     }
 
     public function AddToBasket(...$arguments)

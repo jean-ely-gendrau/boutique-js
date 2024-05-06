@@ -490,6 +490,8 @@ class CrudManager extends BddManager implements PaginatePerPage
         $sql = 'SELECT * FROM orders o 
                 JOIN productsorders po ON o.id = po.orders_id 
                 JOIN products p ON p.id = po.products_id 
+                JOIN productsimages pi ON p.id = pi.products_id
+                JOIN images i ON i.id = pi.images_id
                 WHERE users_id = :client_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
@@ -497,11 +499,11 @@ class CrudManager extends BddManager implements PaginatePerPage
 
         $orders = [];
         while ($row = $stmt->fetch()) {
-            $orders[] = [
-                'client_id' => $clientId,
-                'id_product' => $row['id_product'],
-                'images' => $row['images'],
-                'product_name' => $row['name'],
+            $orders = [
+                'users_id' => $clientId,
+                'id' => $row['id'],
+                'images' => $row['url_image'],
+                'name' => $row['name'],
                 'price' => $row['price'],
                 'status' => $row['status'],
             ];
