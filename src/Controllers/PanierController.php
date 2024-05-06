@@ -71,7 +71,6 @@ class PanierController
 
 
         $order = [
-            'id_product' => $idproduct,
             'basket' => TRUE,
             'status' => "expedier",
             'created_at' => $formattedNow,
