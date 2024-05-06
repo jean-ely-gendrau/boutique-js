@@ -58,14 +58,9 @@ $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion
 
 // Route filter controller
 $router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
-$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'querySubCat');
-$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'queryFilter');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
-
-// Route wishlist
-$router->map('GET', '/jsConnected', 'Favoris#JsIsConnected', 'JsIsConnected');
-$router->map('GET', '/favoris/[a:email]', 'Favoris#VerifyFavorite', 'testIsConnected');
-
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS1');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS2');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
@@ -210,23 +205,23 @@ if (is_array($match)):
     // https://www.php.net/manual/en/function.is-callable.php
     if (is_callable([$controller, $method])):
       /*
-                   * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
-                   * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
-                   * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
-                   * 
-                   * exemple simple de la doc
-                     $func = function($arg1, $arg2) {
-                          return $arg1 * $arg2;
-                      };
+             * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
+             * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
+             * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
+             * 
+             * exemple simple de la doc
+               $func = function($arg1, $arg2) {
+                    return $arg1 * $arg2;
+                };
 
-                      var_dump(call_user_func_array($func, array(2, 4)));
-                      $arg1 = 2
-                      $arg2 = 4
-                      Ici il charge la function $func et il passe un tableau avec deux variable
+                var_dump(call_user_func_array($func, array(2, 4)));
+                $arg1 = 2
+                $arg2 = 4
+                Ici il charge la function $func et il passe un tableau avec deux variable
 
-                      Cela permet de charger dynamique des function ou des méthodes définit dans les class.
-                   * https://www.php.net/manual/en/function.call-user-func-array.php
-                   */
+                Cela permet de charger dynamique des function ou des méthodes définit dans les class.
+             * https://www.php.net/manual/en/function.call-user-func-array.php
+             */
 
       echo call_user_func_array([$controller, $method], $match['params']);
     else:

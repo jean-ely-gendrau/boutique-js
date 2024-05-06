@@ -86,9 +86,16 @@ class ProductsModels implements JsonSerializable
      * https://www.php.net/manual/en/language.oop5.magic.php
      */
 
+    /**
+     * Get magic __get
+     *
+     * @return mixed
+     */
     public function __get(string $name)
     {
-        return $this->$name;
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
     }
 
     public function __isset($name)
@@ -100,13 +107,43 @@ class ProductsModels implements JsonSerializable
      * Depuis Php 8.2 il est recommandé de ne pas implémenter cette méthode
      * sinon on obtiendrait une erreur de ce type
      * Using Dynamic Properties on Classes running PHP 8.2 will lead to PHP Deprecated
+     *
+     *
+     * Set magic __set
+     *
+     * @param string $property La propriétée
+     * @param mixed $value La valeur de la propriétée
+     * @return self
      */
-
     public function __set(string $property, mixed $value)
     {
     }
 
     /************************************** Getter/Setter ***********************************/
+
+    /**
+     * Get id
+     *
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param  int  $id  id
+     *
+     * @return  self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get name
@@ -276,9 +313,64 @@ class ProductsModels implements JsonSerializable
         return $this;
     }
 
+    /**
+     * La fonction `jsonSerialize` renvoie toutes les propriétés
+     * de l'objet sous forme de tableau associatif pour la sérialisation JSON, à l'exception des clés spécifiées.
+     *
+     * @return mixed La méthode `jsonSerialize` renvoie un tableau de toutes les propriétés publiques
+     * de l'objet en utilisant la fonction `get_object_vars`.
+     */
     public function jsonSerialize(): mixed
     {
         // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
         return get_object_vars($this);
+    }
+
+    /**
+     * Get category_id
+     *
+     * @return  int
+     */
+    public function getCategory_id()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set category_id
+     *
+     * @param  int  $category_id  category_id
+     *
+     * @return  self
+     */
+    public function setCategory_id(int $category_id)
+    {
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    /**
+     * Get sub_category_id
+     *
+     * @return  int
+     */
+    public function getSub_category_id()
+    {
+        return $this->sub_category_id;
+    }
+
+    /**
+     * Set sub_category_id
+     *
+     * @param  int  $sub_category_id  sub_category_id
+     *
+     * @return  self
+     */
+    public function setSub_category_id(int $sub_category_id)
+    {
+        $this->sub_category_id = $sub_category_id;
+
+        return $this;
     }
 }
