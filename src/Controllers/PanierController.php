@@ -63,7 +63,7 @@ class PanierController
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
         $id = $Idclient->id_user;
 
-        $idproduct = $_GET['id'];
+        $idproduct = $arguments["product_id"] ?? null;
 
 
         $now = new DateTime();
@@ -72,7 +72,7 @@ class PanierController
 
         $order = [
             'id_product' => $idproduct,
-            'basket' => 0,
+            'basket' => TRUE,
             'status' => "expedier",
             'created_at' => $formattedNow,
             'updated_at' => $formattedNow,
@@ -82,6 +82,8 @@ class PanierController
         $panier = new ApiController();
 
         $panier->addOrders($order);
+
+        var_dump($order);
 
         return;
     }

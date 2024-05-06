@@ -8,6 +8,8 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
+use stdClass;
+
 class ApiController
 {
     private $products;
@@ -240,9 +242,16 @@ class ApiController
 
     public function addOrders($data)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // Create a new stdClass object
+        $orderObject = new stdClass();
 
-        $result = $this->orders->create($this->orders, $data);
+        // Set properties on the object that match the keys in the $data array
+        foreach ($data as $key => $value) {
+            $orderObject->$key = $value;
+        }
+
+        // Pass the new object to the create method
+        $result = $this->orders->create($orderObject, $data);
 
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
