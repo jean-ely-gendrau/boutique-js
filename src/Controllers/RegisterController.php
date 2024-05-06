@@ -2,11 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
-use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\Users;
-use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
 use Motor\Mvc\Components\ReCaptcha;
+use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Validators\ReflectionValidator;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -175,6 +176,90 @@ class RegisterController
         // $content = $this->render('connexion', $arguments);
         return $content;
     }
+
+    /******************************************************** SAMPLE CONNECT JS START */
+    public function ConnectJS(...$arguments): void
+    {
+        $modelUser = new Users($arguments); // Instance d'un models de class User
+
+        /**
+          Cette méthode n'est pas présente dans la classe Users du modèle. 
+         * Elle a été créée ici pour tester un cas suite à un bug lié à l'utilisation de ReflectionValidator::validate. 
+         * En effet, la méthode vérifie la regex sur un mot de passe encodé directement dans le constructeur de la classe Users.
+         * 
+          Créer un issues pour ajouter les setter au model User
+         */
+        $modelUser->setPassword($arguments['password']);
+
+        // ReflectionValidator::validate($modelUser)
+        // Cette méthode static de la class ReflectionValidator
+        // Permet de valider les données côter backend en utilisant
+        // les attributs introduit depuis php 8.*.
+        // Préfixer vos propriéte dans vos class est utilisé le
+        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+        if (!empty($_POST)) {
+            $errorsIntercept = ReflectionValidator::validate($modelUser);
+
+            /**
+             *On définit un tableau associatif arbitraire des données que nous souhaitons mapper avec les erreurs renvoyées par la classe ReflectionValidator. Ensuite, nous excluons de ce tableau toutes les clés ne figurant pas dans le tableau de comparaison $arrayinterseckeycompare.
+             *
+             *Pour modifier ce comportement, veuillez envisager une nouvelle issue :
+             *
+             *Réfléchir à la manière de procéder.
+             *Effectuer les changements et essayer plusieurs solutions.
+             *Effectuer les tests appropriés et valider l'issue.
+             */
+            $arrayIntersecKeyCompare = ['email' => '', 'password' => ''];
+            $errors = array_intersect_key($errorsIntercept, $arrayIntersecKeyCompare);
+
+            // réponse JSON 200 avec le corps suivant : {'errors' : $errors}
+            if ($errors) {
+                // ERROR
+                $this->responseJson(200, ['errors' => $errors]);
+            }
+
+            // Pas d'erreur
+            if (!$errors) {
+                /* CONNECT USER */
+                $crudManager = new CrudManager('users', Users::class);  // Instance of PasswordHashManager - table users, models Users
+                $user = $crudManager->getByEmail($arguments['email']); // Appel de la méthode getByEmail(email)
+
+                $verifPassword = new PasswordHashManager(); // Instance of PasswordHashManager
+
+                // Vérification du mot de passe.
+                if ($verifPassword->verify($user->password, $arguments['password'])) {
+                    // Incorporation des paramètres de l'utilisateur dans la session.
+                    $arguments['render']->addSession([
+                        'email' => $user->email,
+                        'isConnected' => true,
+                        'full_name' => $user->full_name,
+                        'role' => $user->role,
+                    ]);
+
+                    // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
+                    $this->responseJson(200, ['isConnected' => true]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Method responseJson
+     *
+     * @param int $code [code la respo,se http]
+     * @param mixed $response [donnée du corp de la requête à encodée en JSON]
+     *
+     * @return string
+     */
+    public function responseJson(int $code, mixed $response): string
+    {
+        header('Content-type: application/json; charset=utf-8');
+        http_response_code($code);
+        echo json_encode($response);
+        exit;
+    }
+    /******************************************************** SAMPLE CONNECT JS END */
+
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.

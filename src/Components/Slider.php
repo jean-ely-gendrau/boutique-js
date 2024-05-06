@@ -57,6 +57,7 @@ class Slider
      */
     public function generateProductList(array $products, string $id)
     {
+
         $slider = "
             <div id='menu' class='relative flex justify-center'>
                 <ul id='{$id}' class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
