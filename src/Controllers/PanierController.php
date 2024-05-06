@@ -42,27 +42,19 @@ class PanierController
 
     public function Panier(...$arguments)
     {
+
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
         $id = $Idclient->id;
 
         $panier = new CrudManager('orders', Orders::class);
-        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id
-
+        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id    
         // Return both the client's ID and the orders
-
-
-
-        $result = [
-            'name' => $paniers['name'],
-            'price' => $paniers['price'],
-            'images' => $paniers['url_image'],
-
-        ];
-
-
-        return $result;
+        $render->addParams('paniers', $paniers);
+        return  $render->render('panier', $arguments);
     }
 
     public function AddToBasket(...$arguments)
@@ -70,7 +62,7 @@ class PanierController
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id_user;
+        $id = $Idclient->id;
 
         $idproduct = $arguments["product_id"] ?? null;
 
@@ -91,7 +83,6 @@ class PanierController
 
         $panier->addOrders($order);
 
-        var_dump($order);
 
         return;
     }

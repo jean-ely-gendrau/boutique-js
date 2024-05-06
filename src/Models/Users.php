@@ -12,7 +12,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     protected const EXCLUDE_PROPERTIES = ['password'];
 
     // #[ValidatorData('numeric')]
-    private $id_user;
+    private $id;
     #[ValidatorData('full_name')]
     private $full_name;
     #[ValidatorData('email')]
@@ -36,7 +36,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->full_name = $data['full_name'] ?? '';
-        $this->id_user = $data['id_user'] ?? '';
+        $this->id = $data['id'] ?? '';
         $this->email = $data['email'] ?? '';
 
         $this->password = isset($data['password']) ? $this->hash($data['password']) : '';
@@ -117,7 +117,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
     public function update($full_name, $birthday, $adress, $password)
     {
         // Préparez une requête SQL pour mettre à jour l'enregistrement
-        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id_user = :id_user';
+        $sql = 'UPDATE users SET full_name = :full_name, birthday = :birthday, adress = :adress, password = :password WHERE id = :id';
 
         // Préparez la requête avec PDO
         $stmt = $this->pdo->prepare($sql);
@@ -127,7 +127,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $stmt->bindParam(':birthday', $this->setDateTime($birthday));
         $stmt->bindParam(':adress', $adress);
         $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':id_user', $this->id_user);
+        $stmt->bindParam(':id', $this->id);
 
         // Exécutez la requête
         $stmt->execute();

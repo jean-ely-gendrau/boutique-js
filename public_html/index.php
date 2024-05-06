@@ -55,8 +55,8 @@ $router->map('GET', '/modification', 'modification', 'modification');
 $router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
 $router->map('GET', '/historique', 'historique', 'historique');
 $router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
-$router->map('GET', '/panier', 'panier', 'panier');
-$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/panier', 'PanierController#Panier', 'panier');
+//$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
