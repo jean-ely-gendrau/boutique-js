@@ -8,6 +8,8 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
+use stdClass;
+
 class ApiController
 {
     private $products;
@@ -35,7 +37,7 @@ class ApiController
         exit;
     }
 
-    public function GetCategory()
+    public function GetCategory(...$arguments)
     {
         $GetGategoryAll = $this->category->getAll();
 
@@ -46,7 +48,7 @@ class ApiController
         echo json_encode($GetGategoryAll);
     }
 
-    public function getOrders()
+    public function getOrders(...$arguments)
     {
         $GetordersAll = $this->orders->getAll();
 
@@ -57,7 +59,7 @@ class ApiController
         echo json_encode($GetordersAll);
     }
 
-    public function getUsers()
+    public function getUsers(...$arguments)
     {
         $GetusersAll = $this->users->getAll();
 
@@ -180,7 +182,7 @@ class ApiController
         echo json_encode($GetuserById);
     }
 
-    public function addProducts()
+    public function addProducts(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -209,7 +211,7 @@ class ApiController
         echo json_encode($data);
     }
 
-    public function addCategory()
+    public function addCategory(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -237,37 +239,36 @@ class ApiController
 
         echo json_encode($data);
     }
-    /*
-public function addOrders()
-{
-    $data = json_decode(file_get_contents('php://input'), true);
 
-    $result = $this->orders->create($this->orders, $data);
+    public function addOrders($data)
+    {
 
-    $logFile = '../../config/logs/logfile.txt';
-    if (!file_exists($logFile)) {
-        $directory = dirname($logFile);
+        $result = $this->orders->create($this->orders, $data);
 
-        // Create the directory if it doesn't exist
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Create the file
+            touch($logFile);
         }
 
-        // Create the file
-        touch($logFile);
+        // Now you can use error_log
+        $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
+        error_log($logMessage, 3, $logFile);
+        http_response_code(201);
+
+        header('Content-Type: application/json');
+
+        echo json_encode($data);
     }
 
-    // Now you can use error_log
-    $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
-    error_log($logMessage, 3, $logFile);
-    http_response_code(201);
-
-    header('Content-Type: application/json');
-
-    echo json_encode($data);
-}
-    */
-    public function addUsers()
+    public function addUsers(...$arguments)
     {
         $data = json_decode(file_get_contents('php://input'), true);
 
@@ -288,7 +289,7 @@ public function addOrders()
 
         // Now you can use error_log
         $logMessage = $result ? "User was added successfully." : "Failed to add user.";
-        error_log($logMessage, 3, $logFile);
+        error_log($logMessage . PHP_EOL, 3, $logFile);
         http_response_code(201);
 
         header('Content-Type: application/json');
