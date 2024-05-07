@@ -82,7 +82,8 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
 
 /************* CGV/CGU ****************/
 
-$router->map('GET', '/cgv', 'cgv', 'cgv');
+$router->map('GET', '/condition/cgv', 'condition/cgv', 'cgv');
+$router->map('GET', '/condition/cgu', 'condition/cgu', 'cgu');
 
 /*
   Classe-Render-View Route test
