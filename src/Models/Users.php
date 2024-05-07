@@ -11,19 +11,73 @@ class Users extends PasswordHashManager implements \JsonSerializable
 {
     protected const EXCLUDE_PROPERTIES = ['password'];
 
-    // #[ValidatorData('numeric')]
+    /**
+     * id
+     *
+     * @var int
+     */
     private $id;
+    // #[ValidatorData('numeric')]
+
+
+    /**
+     * full_name
+     *
+     * @var string
+     */
+  
     #[ValidatorData('full_name')]
     private $full_name;
+
+    /**
+     * email
+     *
+     * @var string
+     */
     #[ValidatorData('email')]
     private $email;
+
+    /**
+     * password
+     *
+     * @var string
+     */
     #[ValidatorData('password')]
     private $password;
 
+    /**
+     * birthday
+     *
+     * @var string
+     */
     private $birthday;
+
+    /**
+     * adress
+     *
+     * @var string
+     */
     private $adress;
+
+    /**
+     * role
+     *
+     * @var string
+     */
     private $role;
+
+    /**
+     * created_at
+     *
+     * @var string
+     */
     private $created_at;
+
+    /**
+     * updated_at
+     *
+     * @var string
+     */
     private $updated_at;
 
     /**
@@ -87,22 +141,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
         return array_diff_key(get_object_vars($this), array_flip(self::EXCLUDE_PROPERTIES));
     }
 
-    /* ----------------------------------- GETTER / SETTER ------------------------------ */
-    /**
-     * Method setDateTime
-     *
-     * Cette méthode retourne la date String au bon format SQL 'Y-m-d H:i:s'
-     *
-     * @param string $dateString [date string]
-     *
-     * @return void
-     */
-    public function setDateTime(string $dateString)
-    {
-        $newDate = new DateTime($dateString);
-        return $newDate->format('Y-m-d');
-    }
-
+    /* ----------------------------------- Méthode de date pour la classe Users ------------------------------ */
     /**
      * Get the value of birthday
      *
@@ -131,5 +170,165 @@ class Users extends PasswordHashManager implements \JsonSerializable
 
         // Exécutez la requête
         $stmt->execute();
+    }
+
+    /* ----------------------------------- GETTER / SETTER ------------------------------ */
+    /**
+     * Method setDateTime
+     *
+     * Cette méthode retourne la date String au bon format SQL 'Y-m-d H:i:s'
+     *
+     * @param string $dateString [date string]
+     *
+     * @return void
+     */
+    public function setDateTime(string $dateString)
+    {
+        $newDate = new DateTime($dateString);
+        return $newDate->format('Y-m-d');
+    }
+
+    /**
+     * Get full_name
+     *
+     * @return  string
+     */
+    public function getFull_name()
+    {
+        return $this->full_name;
+    }
+
+    /**
+     * Set full_name
+     *
+     * @param  string  $full_name  full_name
+     *
+     * @return  self
+     */
+    public function setFull_name(string $full_name)
+    {
+        $this->full_name = $full_name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adress
+     */
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    /**
+     * Set the value of adress
+     *
+     * @return  self
+     */
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
     }
 }
