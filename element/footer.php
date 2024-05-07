@@ -46,10 +46,10 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <li class="mb-4">
-                            <a href="#" class="hover:underline">Condition d'utilisation</a>
+                            <a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:underline">Condition de vente</a>
+                            <a href="/condition/cgv" class="hover:underline">Condition de vente</a>
                         </li>
                     </ul>
                 </div>
@@ -97,12 +97,11 @@
         document.getElementById("verif").submit();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
 <script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/script.js"></script>
+<script src="http://<?= $serverName ?>/assets/js/search.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/filters.js"></script>

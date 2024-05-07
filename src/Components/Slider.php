@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Boutique\Components;
 
 /* La classe `Slider` contient les méthodes permettant de générer un slide Html pour les produits
  avec des boutons de scroll.
 */
+
 class Slider
 {
     public function __construct()
@@ -72,9 +74,11 @@ class Slider
                                 <p class='mt-3 font-medium text-gray-300'>{$productItem->price}€</p>
                             </div>
                             <div>
+                            <a  href='addtobasket/{$productItem->id}'>
                                 <button type='button' class='w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full'>
                                     Add to cart
                                 </button>
+                            </a>
                             </div>
                         </div>";
         endforeach;
@@ -83,5 +87,3 @@ class Slider
         return $slider;
     }
 }
-
-?>
