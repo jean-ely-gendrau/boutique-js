@@ -75,12 +75,27 @@ class PanierController
         $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
 
 
-
-
-
-
-
         $render->addParams('addtobasket', $panier);
         return  $render->render('addtobasket', $arguments);
+    }
+
+    public function RemoveFromCart(...$arguments)
+    {
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
+
+        $IdclientCrudManager = new CrudManager('users', Users::class);
+
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id;
+
+        $idproduct = $arguments["product_id"] ?? null; // Get the product's id
+
+        $panier = new CrudManager('orders', Orders::class);
+
+        $panier->RemoveFromCart($id, $idproduct); // Remove an order (remove a product from the basket)
+
+        $render->addParams('removefromcart', $panier);
+        return  $render->render('removefromcart', $arguments);
     }
 }
