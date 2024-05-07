@@ -49,6 +49,8 @@ $router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket
 
 $router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
 
+$router->map('GET', '/remove_from_cart/[a:product_id]', 'PanierController#RemoveFromCart', 'removefromcart');
+
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
 $router->map('GET', '/modification', 'modification', 'modification');

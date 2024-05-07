@@ -512,6 +512,15 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt->execute([':product_id' => $productId, ':order_id' => $orderId]);
     }
 
+    public function RemoveFromCart($clientId, $productId)
+    {
+        $sql = 'DELETE FROM orders o 
+        JOIN productsorders po ON o.id = po.orders_id 
+        WHERE o.users_id = :client_id AND po.products_id = :product_id AND o.basket = 1';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId, ':product_id' => $productId]);
+    }
+
     /**
      * Get the value of model
      */
