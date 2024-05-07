@@ -38,14 +38,45 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 // -------------------------------
 
+$router->map('GET', '/api/products', 'ApiController#GetProductsAll', 'products');
+$router->map('GET', '/api/products/[a:category]', 'ApiController#GetProductsByCategory', 'products-category');
+$router->map("GET", "/api/category", "ApiController#GetCategory", "category");
+$router->map("GET", "/api/orders", "ApiController#GetOrders", "orders");
+$router->map("GET", "/api/users", "ApiController#GetUsers", "users");
+$router->map("GET", "/api/users/[i:id]", "ApiController#GetUserById", "user");
+$router->map("GET", "/api/products/[i:id]", "ApiController#GetProductById", "product");
+$router->map("GET", "/api/category/[i:id]", "ApiController#GetCategoryById", "category");
+$router->map("GET", "/api/orders/[i:id]", "ApiController#GetOrderById", "order");
+$router->map("POST", "/api/Products", "ApiController#addProducts", "addProducts");
+$router->map("POST", "/api/Category", "ApiController#addCategory", "addCategory");
+$router->map("POST", "/api/Orders", "ApiController#addOrders", "addOrders");
+$router->map("POST", "/api/Users", "ApiController#addUsers", "addUsers");
+$router->map("POST", "/api/Products/[i:id]", "ApiController#updateProducts", "updateProducts");
+$router->map("POST", "/api/Category/[i:id]", "ApiController#updateCategory", "updateCategory");
+$router->map("POST", "/api/Orders/[i:id]", "ApiController#updateOrders", "updateOrders");
+$router->map("POST", "/api/Users/[i:id]", "ApiController#updateUsers", "updateUsers");
+$router->map("DELETE", "/api/Products/[i:id]", "ApiController#deleteProducts", "deleteProducts");
+$router->map("DELETE", "/api/Category/[i:id]", "ApiController#deleteCategory", "deleteCategory");
+$router->map("DELETE", "/api/Orders/[i:id]", "ApiController#deleteOrders", "deleteOrders");
+$router->map("DELETE", "/api/Users/[i:id]", "ApiController#deleteUsers", "deleteUsers");
+
+
+$router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
+
+$router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasket');
+
+$router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
+
+$router->map('GET', '/removefromcart/[a:product_id]', 'PanierController#RemoveFromCart', 'removefromcart');
+
 // Route page profil
-$router->map('GET', '/user', 'user', 'user');
+$router->map('GET', '/user', 'ProfilController#Profil', 'user');
 $router->map('GET', '/modification', 'modification', 'modification');
 $router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
-$router->map('GET', '/historique', 'historique', 'historique');
-$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
-$router->map('GET', '/panier', 'panier', 'panier');
-$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/historique', 'HistoriqueController#Historique', 'historique');
+//$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'PanierController#Panier', 'panier');
+//$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -53,9 +84,15 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
+$router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
 $router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
-$router->map('GET', '/js-testOrder/[a:idCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS1');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:orderBy]', 'FilterPrice#produitElement', 'testJS2');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS1');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS2');
+/**
+ * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
+ */
+$router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
+$router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
 /**********
  * FormBuilder Routes Pour les testes
  */
@@ -72,6 +109,11 @@ $router->map('POST', '/form-test-connect', 'FormControllerTest#ConnectUser', 'fo
 $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm');
 
+/************* CGV/CGU ****************/
+
+$router->map('GET', '/condition/cgv', 'condition/cgv', 'cgv');
+$router->map('GET', '/condition/cgu', 'condition/cgu', 'cgu');
+
 /*
   Classe-Render-View Route test
   Avec cette route nous allons appeler le contrôlleur TestRender
@@ -86,6 +128,23 @@ $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm'
   Ici on appel la class TestRender avec la méthode View
 */
 $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+
+/*
+ Routeur: $_GET->/sample-modal-viewer
+  Avec cette route nous allons afficher une page avec différente modal
+Générer avec la CLASS ModalBuilder
+
+  paramètres de la route :
+
+  $method = GET
+  $route  = /sample-modal-viewer
+  $target = (C) ModalController # (M) Index 
+  $name   = modal-controller-index
+
+  (C) Controller
+  (M) Method
+*/
+$router->map('GET', '/sample-modal-viewer', 'Modal\\ModalController#Index', 'modal-controller-index');
 
 /*
   Class MailManager Route test
@@ -118,10 +177,10 @@ $match = $router->match();
 //require_once __DIR__ . '/../element/header.php';
 
 // Si la route est bien enregistré avec $router->map alors on execute la condition
-if (is_array($match)):
-    $params = $match['params'];
+if (is_array($match)) :
+  $params = $match['params'];
 
-    /* Cas de Figure Du contrôlleur et de la méthod à appeler
+  /* Cas de Figure Du contrôlleur et de la méthod à appeler
      * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
      * Le controller TestRender
      * la méthod Index
@@ -136,86 +195,91 @@ if (is_array($match)):
      * - Traiter les données avant de les rendre au client
      * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
      */
-    if (str_contains($match['target'], '#')):
-        // On assign les valeurs du tableau à
-        // $contoller pour $match['target'][0]
-        // $method    pour $match['target'][1]
-        [$controllers, $method] = explode('#', $match['target']);
+  if (str_contains($match['target'], '#')) :
+    // On assign les valeurs du tableau à
+    // $contoller pour $match['target'][0]
+    // $method    pour $match['target'][1]
+    [$controllers, $method] = explode('#', $match['target']);
 
-        // Définir le namespace du contrôlleur
-        $controller = 'App\\Boutique\\Controllers\\' . $controllers;
+    // Définir le namespace du contrôlleur
+    $controller = 'App\\Boutique\\Controllers\\' . $controllers;
 
-        // On s'assure que la class existe pour éviter les erreurs. (fonction ternaire) condition ? true : false
-        // Si c'est vrai on instancie la class Controller sinon on assigne false à la vartiable $controller
-        $controller = class_exists($controller) ? new $controller() : false;
+    // On s'assure que la class existe pour éviter les erreurs. (fonction ternaire) condition ? true : false
+    // Si c'est vrai on instancie la class Controller sinon on assigne false à la vartiable $controller
+    $controller = class_exists($controller) ? new $controller() : false;
 
-        /*
+    /*
          * Récupération des valeurs transmises par $_POST
          * On parcourt le tableau $_POST et on assigne chaque valeur
          * $match['params']['post']['key';
          * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
          * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
          */
-        if (isset($_POST)) {
-            foreach ($_POST as $key => $value) {
-                $match['params'][$key] = htmlspecialchars(trim($value));
-            }
+    if (isset($_POST)) {
+      foreach ($_POST as $key => $value) {
+        $match['params'][$key] = htmlspecialchars(trim($value));
+      }
 
-            //DEBUG var_dump($match);
-        }
+      //DEBUG var_dump($match);
+    }
 
-        /* Ajoute l'Uri dans les params à transmettre à la class Controller
-        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
+    /* Ajoute l'Uri dans les params à transmettre à la class Controller
+            // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
-        */
-        $match['params']['render'] = $rendering;
+            */
+    $match['params']['render'] = $rendering;
 
-        // Test De la Debug BAR : Debug::view($match);
+    // Test De la Debug BAR : Debug::view($match);
 
-        // $match['params']['uri'] = $uri;
-        // $match['params']['serverName'] = $serverName;
-        // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
-        // https://www.php.net/manual/en/function.is-callable.php
-        if (is_callable([$controller, $method])):
-            /*
-             * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
-             * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
-             * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
-             * 
-             * exemple simple de la doc
-               $func = function($arg1, $arg2) {
-                    return $arg1 * $arg2;
-                };
+    // $match['params']['uri'] = $uri;
+    // $match['params']['serverName'] = $serverName;
+    // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
+    // https://www.php.net/manual/en/function.is-callable.php
+    if (is_callable([$controller, $method])) :
+      /*
+                   * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
+                   * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
+                   * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
+                   * 
+                   * exemple simple de la doc
+                     $func = function($arg1, $arg2) {
+                          return $arg1 * $arg2;
+                      };
 
-                var_dump(call_user_func_array($func, array(2, 4)));
-                $arg1 = 2
-                $arg2 = 4
-                Ici il charge la function $func et il passe un tableau avec deux variable
+                      var_dump(call_user_func_array($func, array(2, 4)));
+                      $arg1 = 2
+                      $arg2 = 4
+                      Ici il charge la function $func et il passe un tableau avec deux variable
 
-                Cela permet de charger dynamique des function ou des méthodes définit dans les class.
-             * https://www.php.net/manual/en/function.call-user-func-array.php
-             */
-            echo call_user_func_array([$controller, $method], $match['params']);
-        endif;
-        /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+                      Cela permet de charger dynamique des function ou des méthodes définit dans les class.
+                   * https://www.php.net/manual/en/function.call-user-func-array.php
+                   */
+
+      echo call_user_func_array([$controller, $method], $match['params']);
+    else :
+      goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
+    endif;
+  /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
          *
          * On appel la méthode defaultRender prenant en paramétre
          * le nom de la page ($match['target']) et la variable $serverName
          *
          * Enfin on affiche le resultat de la méthode
          */
-    else:
-        $rendering->addParams('params', $match['params']);
-        echo $rendering->defaultRender($match['target']);
-    endif;
-    /*Si la page demandé est inexistante, nouvelle instance de Render
+  else :
+    $rendering->addParams('params', $match['params']);
+    echo $rendering->defaultRender($match['target']);
+  endif;
+/*Si la page demandé est inexistante, nouvelle instance de Render
      *
      * On passe en paramétre de la méthode la page '404'
      *
      * Enfin On affiche le résultat de la méthode
      */
-else:
-    echo $rendering->defaultRender('404');
-    /* APPEL ICI DE LA CLASS RENDER */
-    // require_once __DIR__ . '/../template/404.php';
+// GOTO ERROR
+else :
+  error:
+  echo $rendering->defaultRender('404');
+/* APPEL ICI DE LA CLASS RENDER */
+// require_once __DIR__ . '/../template/404.php';
 endif;

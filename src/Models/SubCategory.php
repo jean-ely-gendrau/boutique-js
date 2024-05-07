@@ -1,36 +1,34 @@
 <?php
 
-namespace App\Boutique\Models;
-
-use JsonSerializable;
-
-class Category implements JsonSerializable
+class SubCategory
 {
     /**
      * id
      *
-     * @var mixed
+     * @var int
      */
     private $id;
 
     /**
      * name
      *
-     * @var mixed
+     * @var string
      */
     private $name;
 
     /**
      * description
      *
-     * @var mixed
+     * @var string
      */
     private $description;
 
-    public function __construct()
-    {
-        /* Action du contructure au besoins */
-    }
+    /**
+     * category_id
+     *
+     * @var int
+     */
+    private $category_id;
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
 
@@ -39,7 +37,7 @@ class Category implements JsonSerializable
      *
      * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         if (property_exists($this, $name)) {
             return $this->$name;
@@ -57,7 +55,7 @@ class Category implements JsonSerializable
     {
     }
 
-    /**************************************** Getter/Setter **********************************************/
+    /************************************** Getter/Setter ***********************************/
 
     /**
      * Get id
@@ -72,11 +70,11 @@ class Category implements JsonSerializable
     /**
      * Set id
      *
-     * @param  mixed  $id  id
+     * @param  int  $id  id
      *
      * @return  self
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -100,7 +98,7 @@ class Category implements JsonSerializable
      *
      * @return  self
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -124,25 +122,34 @@ class Category implements JsonSerializable
      *
      * @return  self
      */
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /* ----------------------------------- implements jsonSerialize ------------------------------ */
     /**
-     * Method jsonSerialize
+     * Get category_id
      *
-     * Cette méthode retourne les propriétés de la classe sous forme de tableau
-     * Cela permet l'encodage avec json_endode des propriétés privées.
-     *
-     * @return mixed
+     * @return  int
      */
-    public function jsonSerialize(): mixed
+    public function getCategory_id()
     {
-        // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
-        return get_object_vars($this);
+        return $this->category_id;
+    }
+
+    /**
+     * Set category_id
+     *
+     * @param  int  $category_id  category_id
+     *
+     * @return  self
+     */
+    public function setCategory_id(int $category_id)
+    {
+        $this->category_id = $category_id;
+
+        return $this;
     }
 }

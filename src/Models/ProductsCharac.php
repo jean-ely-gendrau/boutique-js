@@ -1,27 +1,20 @@
 <?php
 
-class Images
+class ProductsCharac
 {
     /**
-     * id
-     *
-     * @var int
-     */
-    private $id;
-
-    /**
-     * image_main
-     *
-     * @var bool
-     */
-    private $image_main;
-
-    /**
-     * url_image
+     * value
      *
      * @var string
      */
-    private $url_image;
+    private $value;
+
+    /**
+     * charac_id
+     *
+     * @var int
+     */
+    private $charac_id;
 
     /**
      * products_id
@@ -62,73 +55,49 @@ class Images
     /************************************** Getter/Setter ***********************************/
 
     /**
-     * Get id
-     *
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set id
-     *
-     * @param  int  $id  id
-     *
-     * @return  self
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get image_main
-     *
-     * @return  bool
-     */
-    public function getImage_main()
-    {
-        return $this->image_main;
-    }
-
-    /**
-     * Set image_main
-     *
-     * @param  bool  $image_main  image_main
-     *
-     * @return  self
-     */
-    public function setImage_main(bool $image_main)
-    {
-        $this->image_main = $image_main;
-
-        return $this;
-    }
-
-    /**
-     * Get url_image
+     * Get value
      *
      * @return  string
      */
-    public function getUrl_image()
+    public function getValue()
     {
-        return $this->url_image;
+        return $this->value;
     }
 
     /**
-     * Set url_image
+     * Set value
      *
-     * @param  string  $url_image  url_image
+     * @param  string  $value  value
      *
      * @return  self
      */
-    public function setUrl_image(string $url_image)
+    public function setValue(string $value)
     {
-        $this->url_image = $url_image;
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get charac_id
+     *
+     * @return  int
+     */
+    public function getCharac_id()
+    {
+        return $this->charac_id;
+    }
+
+    /**
+     * Set charac_id
+     *
+     * @param  int  $charac_id  charac_id
+     *
+     * @return  self
+     */
+    public function setCharac_id(int $charac_id)
+    {
+        $this->charac_id = $charac_id;
 
         return $this;
     }
