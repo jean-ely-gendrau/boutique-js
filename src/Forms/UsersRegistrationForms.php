@@ -107,7 +107,7 @@ class UsersRegistrationForms
         // les attributs introduit depuis php 8.*.
         // Préfixer vos propriéte dans vos class est utilisé le
         // validatorData pour créer vos Regex et réstriction sur vos valeurs.
-        if (!empty($_POST)) {
+        if (!empty($_POST) && isset($_POST['validation-user'])) {
             $errors = ReflectionValidator::validate($modelUser);
             //DEBUG var_dump($errors);
         }
@@ -170,7 +170,7 @@ class UsersRegistrationForms
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['passwordCompare'] ?? false,
             ]) // CHAMP PASSWORD COMPARE
-            ->addElementAction('submit', 'buttonA', 'buttonA', [
+            ->addElementAction('submit', 'validation-user', 'validation-user', [
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'anchor' => 'Inscription',

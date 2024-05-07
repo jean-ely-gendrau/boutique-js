@@ -471,6 +471,8 @@ teaCoffee.action = {
         'id': targetId, 'jsonElement': response.htmlElement
       })
     }
+    // Rechergement du loader JS
+    teaCoffee.sys.loadLazyJS();
   },
   /***************************************************** SAMPLE METHODE */
   /**

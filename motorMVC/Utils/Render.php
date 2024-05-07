@@ -54,7 +54,7 @@ class Render extends SessionManager
         require_once __DIR__ . "/../../template/admin/{$template}.php";
 
         // Inclusion du footer
-        require_once __DIR__ . '/../../element/admin/footer.php';
+        require_once __DIR__ . '/../../element/footer.php';
 
         // Récupère le contenu mis en mémoire tampon et l'efface
         $content = ob_get_clean();
