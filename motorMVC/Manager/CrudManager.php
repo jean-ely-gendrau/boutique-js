@@ -514,11 +514,25 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function RemoveFromCart($clientId, $productId)
     {
-        $sql = 'DELETE FROM orders o 
-        JOIN productsorders po ON o.id = po.orders_id 
-        WHERE o.users_id = :client_id AND po.products_id = :product_id AND o.basket = 1';
+        // First, get the IDs of the orders to delete
+        $sql = 'SELECT o.id FROM orders o
+                JOIN productsorders po ON o.id = po.orders_id 
+                WHERE o.users_id = :client_id AND po.products_id = :product_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId, ':product_id' => $productId]);
+        $orderIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+
+        if (!empty($orderIds)) {
+            // Delete the corresponding rows from the productsorders table
+            $sql = 'DELETE FROM productsorders WHERE orders_id IN (' . implode(',', $orderIds) . ')';
+            $stmt = $this->_dbConnect->prepare($sql);
+            $stmt->execute();
+
+            // Then, delete the orders
+            $sql = 'DELETE FROM orders WHERE id IN (' . implode(',', $orderIds) . ')';
+            $stmt = $this->_dbConnect->prepare($sql);
+            $stmt->execute();
+        }
     }
 
     /**

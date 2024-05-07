@@ -41,7 +41,7 @@
                         <?= $productItem['price'] ?>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="remove_from_cart/<?= $productItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        <a href="removefromcart/<?= $productItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
