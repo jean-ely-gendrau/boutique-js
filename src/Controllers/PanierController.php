@@ -5,6 +5,8 @@ namespace App\Boutique\Controllers;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
+use App\Boutique\Models\Orders;
+use DateTime;
 
 class PanierController
 {
@@ -40,18 +42,45 @@ class PanierController
 
     public function Panier(...$arguments)
     {
+
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id_user;
+        $id = $Idclient->id;
 
-        $panier = new CrudManager('orders', 'Panier');
-        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id
-
+        $panier = new CrudManager('orders', Orders::class);
+        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id    
         // Return both the client's ID and the orders
-        return [
-            'id' => $id,
-            'paniers' => $paniers,
-        ];
+        $render->addParams('paniers', $paniers);
+        return  $render->render('panier', $arguments);
+    }
+
+    public function AddToBasket(...$arguments)
+    {
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
+
+        $IdclientCrudManager = new CrudManager('users', Users::class);
+
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        $id = $Idclient->id;
+
+        $idproduct = $arguments["product_id"] ?? null; // Get the product's id
+
+
+        $panier = new CrudManager('orders', Orders::class);
+
+        $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
+
+
+
+
+
+
+
+        $render->addParams('addtobasket', $panier);
+        return  $render->render('addtobasket', $arguments);
     }
 }
