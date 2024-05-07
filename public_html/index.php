@@ -40,6 +40,25 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 $router->map('GET', '/api/products', 'ApiController#GetProductsAll', 'products');
 $router->map('GET', '/api/products/[a:category]', 'ApiController#GetProductsByCategory', 'products-category');
+$router->map("GET", "/api/category", "ApiController#GetCategory", "category");
+$router->map("GET", "/api/orders", "ApiController#GetOrders", "orders");
+$router->map("GET", "/api/users", "ApiController#GetUsers", "users");
+$router->map("GET", "/api/users/[i:id]", "ApiController#GetUserById", "user");
+$router->map("GET", "/api/products/[i:id]", "ApiController#GetProductById", "product");
+$router->map("GET", "/api/category/[i:id]", "ApiController#GetCategoryById", "category");
+$router->map("GET", "/api/orders/[i:id]", "ApiController#GetOrderById", "order");
+$router->map("POST", "/api/Products", "ApiController#addProducts", "addProducts");
+$router->map("POST", "/api/Category", "ApiController#addCategory", "addCategory");
+$router->map("POST", "/api/Orders", "ApiController#addOrders", "addOrders");
+$router->map("POST", "/api/Users", "ApiController#addUsers", "addUsers");
+$router->map("POST", "/api/Products/[i:id]", "ApiController#updateProducts", "updateProducts");
+$router->map("POST", "/api/Category/[i:id]", "ApiController#updateCategory", "updateCategory");
+$router->map("POST", "/api/Orders/[i:id]", "ApiController#updateOrders", "updateOrders");
+$router->map("POST", "/api/Users/[i:id]", "ApiController#updateUsers", "updateUsers");
+$router->map("DELETE", "/api/Products/[i:id]", "ApiController#deleteProducts", "deleteProducts");
+$router->map("DELETE", "/api/Category/[i:id]", "ApiController#deleteCategory", "deleteCategory");
+$router->map("DELETE", "/api/Orders/[i:id]", "ApiController#deleteOrders", "deleteOrders");
+$router->map("DELETE", "/api/Users/[i:id]", "ApiController#deleteUsers", "deleteUsers");
 
 
 $router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
