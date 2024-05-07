@@ -499,6 +499,19 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $stmt->fetchAll();
     }
 
+    public function CreateOrder($clientId, $productId)
+    {
+        $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "expedier", NOW(), NOW(), :client_id)';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+
+        $orderId = $this->_dbConnect->lastInsertId();
+
+        $sql = 'INSERT INTO productsorders (products_id, orders_id) VALUES (:product_id, :order_id)';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':product_id' => $productId, ':order_id' => $orderId]);
+    }
+
     /**
      * Get the value of model
      */

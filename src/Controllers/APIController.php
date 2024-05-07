@@ -242,9 +242,8 @@ class ApiController
 
     public function addOrders($data)
     {
-        $order = new Orders();
 
-        $result = $this->orders->create($order, $data);
+        $result = $this->orders->create($this->orders, $data);
 
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {

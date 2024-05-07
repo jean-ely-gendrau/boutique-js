@@ -59,31 +59,28 @@ class PanierController
 
     public function AddToBasket(...$arguments)
     {
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
+
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
         $id = $Idclient->id;
 
-        $idproduct = $arguments["product_id"] ?? null;
+        $idproduct = $arguments["product_id"] ?? null; // Get the product's id
 
 
-        $now = new DateTime();
-        $formattedNow = $now->format('Y-m-d H:i:s');
+        $panier = new CrudManager('orders', Orders::class);
+
+        $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
 
 
-        $order = [
-            'basket' => TRUE,
-            'status' => "expedier",
-            'created_at' => $formattedNow,
-            'updated_at' => $formattedNow,
-            'users_id' => $id,
-        ];
-
-        $panier = new ApiController();
-
-        $panier->addOrders($order);
 
 
-        return;
+
+
+
+        $render->addParams('addtobasket', $panier);
+        return  $render->render('addtobasket', $arguments);
     }
 }
