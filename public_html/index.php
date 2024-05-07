@@ -38,16 +38,26 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 // -------------------------------
 
+$router->map('GET', '/api/products', 'ApiController#GetProductsAll', 'products');
+$router->map('GET', '/api/products/[a:category]', 'ApiController#GetProductsByCategory', 'products-category');
+
+
 $router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
+
+$router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasket');
+
+$router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
+
+$router->map('GET', '/removefromcart/[a:product_id]', 'PanierController#RemoveFromCart', 'removefromcart');
 
 // Route page profil
 $router->map('GET', '/user', 'user', 'user');
 $router->map('GET', '/modification', 'modification', 'modification');
 $router->map('POST', '/modification', 'ModificationController#Modification', 'modificationModification');
-$router->map('GET', '/historique', 'historique', 'historique');
-$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
-$router->map('GET', '/panier', 'panier', 'panier');
-$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
+$router->map('GET', '/historique', 'HistoriqueController#Historique', 'historique');
+//$router->map('POST', '/historique', 'HistoriqueController#Historique', 'historiqueTable');
+$router->map('GET', '/panier', 'PanierController#Panier', 'panier');
+//$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
@@ -65,6 +75,11 @@ $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPri
 // Route wishlist
 $router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
 $router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
+/**
+ * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
+ */
+$router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
+$router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
 /**********
  * FormBuilder Routes Pour les testes
  */
@@ -80,6 +95,11 @@ $router->map('POST', '/form-test-connect', 'FormControllerTest#ConnectUser', 'fo
 
 $router->map('GET', '/contact', 'contact', 'contact');
 $router->map('POST', '/contact', 'RegisterController#ContactMail', 'contactForm');
+
+/************* CGV/CGU ****************/
+
+$router->map('GET', '/condition/cgv', 'condition/cgv', 'cgv');
+$router->map('GET', '/condition/cgu', 'condition/cgu', 'cgu');
 
 /*
   Classe-Render-View Route test

@@ -5,12 +5,10 @@
         $pageURL = 'café';
 
         $type = "Choisissez la force de votre ";
-
     } else if ($categoryName == "2") {
         $pageURL = 'thé';
 
         $type = "Choisissez votre feuille de ";
-
     } else {
         $pageURL = "Autres";
         $type = "Choisissez une sous catégorie";
@@ -49,8 +47,11 @@
                 <p class="mt-3 font-medium text-gray-300"><?= $sellMost["price"] ?>€</p>
             </div>
             <div>
-                <button type="button" class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add to
-                    cart</button>
+                <a href="addtobasket/<?= $sqlProduit['id'] ?>">
+                    <button type="button" class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add
+                        to
+                        cart</button>
+                </a>
             </div>
         </div>
     <?php endforeach; ?>
@@ -119,9 +120,12 @@
                         <p class="mt-3 font-medium text-gray-300"><?= $sqlProduit["price"] ?>€</p>
                     </div>
                     <div>
-                        <button type="button" class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add
-                            to
-                            cart</button>
+                        <a href="addtobasket/<?= $sqlProduit['id'] ?>">
+                            <button type="button"
+                                class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add
+                                to
+                                cart</button>
+                        </a>
                     </div>
                 </div>
 
@@ -178,9 +182,12 @@
                         <p class="mt-3 font-medium text-gray-300"><?= $product["price"] ?>€</p>
                     </div>
                     <div>
-                        <button type="button" class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add
-                            to
-                            cart</button>
+                        <a href="addtobasket/<?= $product['id'] ?>">
+                            <button type="button"
+                                class="w-48 mt-4 px-4 py-3 bg-[#333] hover:bg-[#222] text-white rounded-full">Add
+                                to
+                                cart</button>
+                        </a>
                     </div>
                 </div>
 
