@@ -1,14 +1,14 @@
 <?php
 
-class Profil {
+class Profil
+{
     public function __construct()
     {
         /* Action du constucteur */
     }
 
-    
-    public function profil ()
+
+    public function profil()
     {
-        
     }
 }
