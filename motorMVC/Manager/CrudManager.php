@@ -465,7 +465,10 @@ class CrudManager extends BddManager implements PaginatePerPage
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch()['adress'];
 
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id WHERE users_id = :client_id AND o.basket != 1';
+        $sql = 'SELECT * FROM orders o 
+        JOIN productsorders po ON o.id = po.orders_id
+        JOIN products p ON p.id = po.products_id
+        WHERE users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
