@@ -62,7 +62,7 @@ class AdminPanel
      */
     public function Index(...$argumentsCall)
     {
-        /** @var \App\Boutique\Utils\Render $render */
+        /** @var \Motor\MVC\Utils\Render $render */
         $render = $argumentsCall['render'];
 
         switch ($argumentsCall['tableName']) {
@@ -75,13 +75,36 @@ class AdminPanel
                  */
                 $usersApi = new UsersEntity();
 
-                $render->addParams('paginatePerPage', $usersApi->paginatePerPage(isset($argumentsCall['id']) ? $argumentsCall['id'] : 1, 10));
+                $render->addParams('paginatePerPage', $usersApi->paginatePerPage(isset($argumentsCall['id']) ? $argumentsCall['id'] : 1, 50));
 
                 $selectAllPaginate = $usersApi->getAllPaginate();
                 if (isset($argumentsCall['id'])) {
                     $replaceURI = $render->getParams('uri');
                     $render->setParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
                 }
+
+                $newModalUser = new ModalBuilder();
+                $newModalUser->setIdModal('modal-form-users');
+                $newModalUser->addHeader('modal-add-users-adm', '<h2>Ajout de nouveaux produits</h2>')
+                    ->addBody('body-modal-add-users-adm', '<div id="replace-form-user"></div>');
+
+                $buttonModalUser =   $newModalUser->renderOpenButton('
+                    <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                    </svg>
+                    Ajouter un utilisateur', [
+                    'type' => 'button',
+                    'class' =>
+                    'flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800',
+                    'data-js' => 'handleViewHtml,click',
+                    'data-post-url' => '/api-html/form/users',
+                    'data-target-id' => 'replace-form-user',
+                ]);
+                $render->addParams([
+                    'newModalUser' => $newModalUser,
+                    'buttonModalUser' => $buttonModalUser
+                ]);
+
                 //var_dump($render->getParams('uri'));
                 $render->addParams('categoryName', 'Utilisateurs');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
@@ -97,7 +120,7 @@ class AdminPanel
                  */
                 $productsApi = new ProductsEntity();
 
-                $render->addParams('paginatePerPage', $productsApi->paginatePerPage(isset($argumentsCall['id']) ? $argumentsCall['id'] : 1, 5));
+                $render->addParams('paginatePerPage', $productsApi->paginatePerPage(isset($argumentsCall['id']) ? $argumentsCall['id'] : 1, 50));
 
                 $selectAllPaginate = $productsApi->getAllPaginate();
 
@@ -108,10 +131,26 @@ class AdminPanel
                 //var_dump($selectAllPaginate);
                 //var_dump($render->getParams('uri'));
                 $newModalProduct = new ModalBuilder();
+                $newModalProduct->setIdModal('modal-form-product');
                 $newModalProduct->addHeader('modal-add-product-adm', '<h2>Ajout de nouveaux produits</h2>')
-                    ->addBody('body-modal-add-product-adm', '');
+                    ->addBody('body-modal-add-product-adm', '<div></div>');
 
-                $render->addParams('newModalProduct', $newModalProduct);
+                $buttonModalProduct =   $newModalProduct->renderOpenButton('
+                    <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                    </svg>
+                    Ajouter un produit', [
+                    'type' => 'button',
+                    'class' =>
+                    'flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800',
+                    'data-js' => 'handleViewHtml,click',
+                    'data-post-url' => '/api-html/form/products',
+                    'data-target-id' => 'body-modal-add-product-adm',
+                ]);
+                $render->addParams([
+                    'newModalProduct' => $newModalProduct,
+                    'buttonModalProduct' => $buttonModalProduct
+                ]);
                 $render->addParams('categoryName', 'produits');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
 

@@ -368,6 +368,24 @@ teaCoffee.html = {
       }
     }
   },
+  /**
+   * viewHtml Insérer/Remplace un élément HTML à la page
+ * @param {Object} options - Les options de la vue html.
+ * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
+ */
+  viewHtml: (options) => {
+    let { replace = true, id, jsonElement } = options;
+    let selected = null;
+    // console.log(replace, id, jsonElement);
+    teaCoffee.sys.getById(id);
+    selected = teaCoffee.sys.elems[0]; // Assignation de valeur à une variable
+    teaCoffee.sys.elems.pop()
+    //  console.log(teaCoffee.sys.elems[0]);
+    if (replace && selected) {
+      let elementHtml = new DOMParser().parseFromString(jsonElement, "text/html");
+      selected.replaceWith(elementHtml.documentElement);
+    }
+  },
 };
 
 teaCoffee.action = {
@@ -426,6 +444,33 @@ teaCoffee.action = {
       }
     }
     teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
+  },
+  /** handleViewHtml
+    * Gère l'événement de clic de souris pour l'exemple.
+    * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+    * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+    */
+  handleViewHtml: async (e) => {
+    e.preventDefault();
+
+    let urlPost = e.target?.getAttribute('data-post-url'); // data attribute
+    let targetId = e.target?.getAttribute('data-target-id'); // data attribute
+    let replace = e.target?.getAttribute('data-replace'); // data attribute
+
+    // POST REQUEST
+    const response = await teaCoffee.request.post({
+      route: urlPost,
+      bodyParam: { 'view-html': true, 'target-id': targetId, 'replace': replace },
+      contentType: 'application/x-www-form-urlencoded',
+      resType: 'json',
+    });
+
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+    if (response && response.hasOwnProperty('htmlElement')) {
+      teaCoffee.html.viewHtml({
+        'id': targetId, 'jsonElement': response.htmlElement
+      })
+    }
   },
   /***************************************************** SAMPLE METHODE */
   /**

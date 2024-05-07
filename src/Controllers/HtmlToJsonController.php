@@ -3,6 +3,7 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Forms\ProductsAdminForms;
+use App\Boutique\Forms\UsersRegistrationForms;
 
 /**
  */
@@ -18,13 +19,13 @@ class HtmlToJsonController
    * @param int $codeHTTP [code de la réponse http]
    * @param mixed $data [les données à transmettre dans le corp du body]
    *
-   * @return void
+   * @return string
    */
-  protected function returnJson(int $codeHTTP, mixed $data): void
+  protected function returnJson(int $codeHTTP, mixed $data): string
   {
     header('Content-type: application/json; charset=utf-8');
     http_response_code($codeHTTP);
-    echo json_encode($data);
+    return json_encode($data);
   }
 
   /**
@@ -43,14 +44,17 @@ class HtmlToJsonController
        * User
        */
       case 'users':
-        return $this->returnJson(200, ProductsAdminForms::ProductsForm());
+        $returnJson = ['htmlElement' => UsersRegistrationForms::AdminAddUser()];
+        break;
 
         /*******
          * Product
          */
-      case 'users':
-        //ProductsAdminForms::ProductsForm();
+      case 'products':
+        $returnJson = ['htmlElement' => ProductsAdminForms::ProductsForm()];
         break;
     }
+
+    return $this->returnJson(200, $returnJson);
   }
 }

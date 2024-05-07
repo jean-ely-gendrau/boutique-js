@@ -58,7 +58,7 @@ $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConne
 /****************************
  * Route API-HTML To JSON
  */
-$router->map('POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
+$router->map('GET|POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
 
 /****************************
  * Route Administration
