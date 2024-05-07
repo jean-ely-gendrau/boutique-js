@@ -63,8 +63,8 @@ $router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitE
 $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
 
 // Route wishlist
-$router->map('GET', '/jsConnected', 'Favoris#JsIsConnected', 'JsIsConnected');
 $router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
+$router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
 /**********
  * FormBuilder Routes Pour les testes
  */
