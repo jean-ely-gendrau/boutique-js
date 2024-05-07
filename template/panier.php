@@ -20,8 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php
-            foreach ($paniers as $productItem) : ?>
+            <?php foreach ($paniers as $productItem): ?>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="p-4">
                         <?php $images = $productItem['url_image']; ?>
@@ -41,12 +40,14 @@
                         <?= $productItem['price'] ?>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="removefromcart/<?= $productItem['id'] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        <a href="removefromcart/<?= $productItem[
+                            'id'
+                        ] ?>" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
             <button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
-                Valider le panier
+                <a href="/stripe/pay">Valider le panier</a>
             </button>
         </tbody>
     </table>

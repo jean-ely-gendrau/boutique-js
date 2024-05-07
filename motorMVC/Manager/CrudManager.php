@@ -535,16 +535,15 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
     }
 
-    /*NOTE - Methode a supprimer, utilisé pour testé Stripe avec panier*/
     /**
-     * Method getById
+     * Methode de récupération du panier sous forme d'objet pour Stripe Checkout
      *
      * @param string $clientId [id de la requête]
      *
      *
      * @return array
      */
-    public function IdBasket($clientId): array
+    public function GetBasketForStripe($clientId): array
     {
         $req = $this->_dbConnect->prepare(
             'SELECT o.*, p.id, p.name, p.price, i.id, i.url_image FROM orders o 

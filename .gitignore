@@ -5,4 +5,4 @@ composer.lock
 .gitigniore
 /public_html/assets/js/flowbite.min.js
 /public_html/assets/styles/global.css
-/config/config.php
+config/config.php
