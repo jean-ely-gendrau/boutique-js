@@ -45,13 +45,10 @@ echo $newModalUser?->render() ?? "";
               <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Campagne Email</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Désactiver le compte</a>
                   </li>
                 </ul>
                 <div class="py-1">
@@ -59,7 +56,7 @@ echo $newModalUser?->render() ?? "";
                 </div>
               </div>
             </div>
-            <label for="table-search" class="sr-only">Search</label>
+            <label for="table-search" class="sr-only">Recherche</label>
             <div class="relative">
               <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -108,7 +105,14 @@ echo $newModalUser?->render() ?? "";
                   <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <?= $user->avatars ? '<img class="w-10 h-10 rounded-full" src="' . $user->avatars . '" alt="' . $user->full_name . '">' : '<p class="flex justify-center items-center rounded-full border border-gray-300 bg-blue-500 text-sm h-10 w-10">' . ucfirst($user->full_name[0]) . '</p>'; ?>
                     <div class="ps-3">
-                      <div class="text-base font-semibold"><?= $user->full_name ?></div>
+                      <?= $newModalUser->renderOpenButton($user->full_name, [
+                        'type' => 'a',
+                        'class' =>
+                        'text-base font-semibold',
+                        'data-js' => 'handleViewHtml,click',
+                        'data-post-url' => '/api-html/template/profile/' . $user->id . '',
+                        'data-target-id' => 'form-registration',
+                      ]); ?>
                       <div class="font-normal text-gray-500"><?= $user->email ?></div>
                     </div>
                   </th>

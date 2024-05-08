@@ -389,6 +389,14 @@ teaCoffee.html = {
   },
 };
 
+teaCoffee.response = {
+  success: function (callback, message) {
+    console.log(callback, message)
+  }, errors: function (callback, message) {
+    console.error(callback, message)
+  }
+}
+
 teaCoffee.action = {
   handelScrollX: (e) => {
     var elemScrollX = e.target.getAttribute("data-scroll-x");
@@ -445,6 +453,44 @@ teaCoffee.action = {
       }
     }
     teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
+  },
+  /**
+   * Gère l'événement de clic de souris pour l'exemple.
+   * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+   * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+   */
+  handlePost: async (e) => {
+    e.preventDefault();
+
+    let { idForm, method, postUrl } = e.target.dataset;
+    console.log(idForm, method, postUrl);
+    /*
+    let objectPost = {};
+      route: urlPost,
+      idForm: idForm,
+      method ? method: method,
+      contentType: "application/x-www-form-urlencoded",
+      resType: "json",
+    }
+  
+    // POST REQUEST
+    const response = await teaCoffee.request.post(objectPost);
+  
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+    if (response && response.hasOwnProperty('success')) {
+   teaCoffee.response.success(response)
+    }
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+    else if (response && response.hasOwnProperty('errors')) {
+      // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+      Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+        // 
+        let errorObject = {
+          [keyInput]: errorMessage,
+        }
+        teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+      });
+  */
   },
   /** handleViewHtml
     * Gère l'événement de clic de souris pour l'exemple.

@@ -17,8 +17,8 @@ class Users extends PasswordHashManager implements \JsonSerializable
      *
      * @var int
      */
+    #[ValidatorData('numeric')]
     private $id;
-    // #[ValidatorData('numeric')]
 
 
     /**
@@ -143,17 +143,21 @@ class Users extends PasswordHashManager implements \JsonSerializable
         return array_diff_key(get_object_vars($this), array_flip(self::EXCLUDE_PROPERTIES));
     }
 
-    /* ----------------------------------- Méthode de date pour la classe Users ------------------------------ */
-    /**
-     * Get the value of birthday
-     *
-     * Cette méthode retourne la date String sans l'heure pour calculer l'âge
-     */
-    public function getBirthday()
+    public function json()
     {
-        $newDate = new DateTime($this->birthday);
-        return $newDate->format('Y-m-d');
+        return [
+            "id" => $this->id,
+            "full_name" => $this->full_name,
+            "email" => $this->email,
+            "birthday" => $this->birthday,
+            "adress" => $this->adress,
+            "role" => $this->role,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+        ];
     }
+
+    /* ----------------------------------- Méthode de date pour la classe Users ------------------------------ */
 
     public function update($full_name, $birthday, $adress, $password)
     {
@@ -174,7 +178,6 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $stmt->execute();
     }
 
-    /* ----------------------------------- GETTER / SETTER ------------------------------ */
     /**
      * Method setDateTime
      *
@@ -195,6 +198,26 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $dateNow = date("Y-m-d");
         $dateDiff = date_diff(date_create($this->birthday), date_create($dateNow));
         return $dateDiff->format('%y');
+    }
+    /* ----------------------------------- GETTER / SETTER ------------------------------ */
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
     /**
      * Get the value of full_name
@@ -237,6 +260,31 @@ class Users extends PasswordHashManager implements \JsonSerializable
     }
 
     /**
+     * Get the value of birthday
+     *
+     * Cette méthode retourne la date String sans l'heure pour calculer l'âge
+     */
+    public function getBirthday()
+    {
+        $newDate = new DateTime($this->birthday);
+        return $newDate->format('Y-m-d');
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param  string  $birthday  birthday
+     *
+     * @return  self
+     */
+    public function setBirthday(string $birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
      * Get the value of adress
      */
     public function getAdress()
@@ -254,20 +302,6 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $this->adress = $adress;
 
         return $this;
-    }
-
-    public function json()
-    {
-        return [
-            "id_user" => $this->id_user,
-            "full_name" => $this->full_name,
-            "email" => $this->email,
-            "birthday" => $this->birthday,
-            "adress" => $this->adress,
-            "role" => $this->role,
-            "created_at" => $this->created_at,
-            "updated_at" => $this->updated_at,
-        ];
     }
 
     /**

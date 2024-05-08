@@ -139,7 +139,7 @@ class UsersRegistrationForms
                 'error-message' => $errors['avatar'] ?? false,
             ]) // CHAMP FULL_NAME
             ->addField('file', 'add-avatar', [
-                'label-false' => 'Ajouter un avatar',
+                'label-false' => 'Ajouter Client',
                 'class-label-group' => 'w-auto m-auto',
                 'class' =>
                 'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
@@ -147,54 +147,69 @@ class UsersRegistrationForms
                 'attributes' => ['value' => 'modifier l\'avatar'],
             ])
             ->addField('text', 'full_name', [
-                'text-label' => 'Votre nom et prénom',
+                'text-label' => 'Nom et prénom Client',
                 'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-                'placeholder' => 'Enter votre nom complet',
+                'placeholder' => 'Enter nom complet client',
                 'required' => 1,
                 'attributes' => ['value' => $modelUser->getFull_name() ?? '', 'autocomplete' => 'section-blue shipping family-name'],
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['full_name'] ?? false,
             ]) // CHAMP FULL_NAME
             ->addField('email', 'email', [
-                'text-label' => 'Votre Email',
+                'text-label' => 'Email Client',
                 'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-                'placeholder' => 'Enter votre email',
+                'placeholder' => 'Enter email client',
                 'required' => 1,
-                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'attributes' => ['value' => $modelUser->getEmail() ?? ''],
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['email'] ?? false,
-            ]); // CHAMP EMAIL
-
-
-        $formRegister->addField('password', 'password', [
-            'text-label' => 'Mot de passe',
-            'class-label-group' => 'flex flex-col w-full',
-            'class' =>
-            'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-            'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-            'placeholder' => 'Enter votre mot de pass',
-            'required' => 1,
-            'attributes' => ['autocomplete' => 'new-password'],
-            'error-message-class' => 'text-red-600 text-sm',
-            'error-message' => $errors['password'] ?? false,
-        ]) // CHAMP PASSWORD
-            ->addField('password', 'passwordCompare', [
-                'text-label' => 'Confirmation de mot de passe',
+            ]) // CHAMP EMAIL
+            ->addField('textarea', 'adress', [
+                'text-label' => 'Adresse Client',
                 'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-                'placeholder' => 'Enter votre mot de pass',
+                'placeholder' => 'Enter adresse client',
+                'required' => 1,
+                'value-area' => $modelUser->getAdress() ?? '',
+                'error-message-class' => 'text-red-600 text-sm',
+                'error-message' => $errors['adress'] ?? false,
+            ]); // CHAMP ADRESS
+
+        /**
+         * Paramètrage d'un champ de fomulaire type button GenerateMDP
+         * Visible seulement si on souhaite modifier un profile
+         */
+        if (isset($data['update-user'])) {
+            $formRegister->addField('button', 'generatePassword', [
+                'text-label' => 'Génération de mots de passe',
+                'class-label-group' => 'flex flex-col w-full',
+                'class' =>
+                'bg-gray-50 border border-gray-300 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'value' => 'Nouveau mot de passe',
+                'attributes' => ['data-js' => 'handlePost,click', 'data-post-url' => '/api/generateMPD/' . $modelUser->getId() . '']
+            ]); // CHAMP PASSWORD
+        } else {
+            $formRegister->addField('password', 'password', [
+                'text-label' => 'Mots de passe Client',
+                'class-label-group' => 'flex flex-col w-full',
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'placeholder' => 'Enter mots de pass client',
                 'required' => 1,
                 'error-message-class' => 'text-red-600 text-sm',
-                'error-message' => $errors['passwordCompare'] ?? false,
-            ]); // CHAMP PASSWORD COMPARE
+                'error-message' => $errors['password'] ?? false,
+            ]);
+        }
 
 
         /**
@@ -220,6 +235,7 @@ class UsersRegistrationForms
                 <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
               </svg>
               <span class="truncate hover:text-clip hover:text-balance text-sm font-medium">Supprimer ' . $modelUser->getFull_name() . '</span>',
+                'attributes' => ['data-js' => 'handlePost,click', 'data-post-url' => '/api/delete/' . $modelUser->getId() . '']
             ]);
         }
 

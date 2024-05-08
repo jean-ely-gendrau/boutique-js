@@ -179,6 +179,11 @@ class FormBuilder extends AbstractFormBuilder
             $output .= ' placeholder="' . $options['placeholder'] . '"';
         }
 
+        // Si il y à un value par défaut
+        if (isset($options['value'])) {
+            $output .= ' value="' . $options['value'] . '"';
+        }
+
         // Si l'input est requit pour la validation
         if (isset($options['required'])) {
             $output .= ' required ';
@@ -209,10 +214,10 @@ class FormBuilder extends AbstractFormBuilder
         if ($type === 'textarea') {
             $output .= '>';
 
-            /* Assignation d'un valeur avec la condition Ternaire */
-            $output .= isset($options['value-area']) // ISSET value-area
-                ? $options['value-area'] // Si une $options['value-area'] a été passée en argument
-                : '' . '</textarea>'; // Fin de la balise Textarea
+            /* Assignation d'un valeur avec l'opérateur coalescing ref: https://www.php.net/manual/en/migration70.new-features.php */
+            $output .= $options['value-area'] ?? '';
+
+            $output .= '</textarea>'; // Fin de la balise Textarea
         }
         // SELECT
         elseif ($type === 'select') {
