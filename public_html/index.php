@@ -116,6 +116,7 @@ $router->map('GET', '/condition/cgu', 'condition/cgu', 'cgu');
 /************* Info Client ************/
 $router->map('GET', '/information/livraison', 'information/livraison', 'livraison');
 $router->map('GET', '/information/paiement', 'information/paiement', 'paiement');
+$router->map('GET', '/information/boutique', 'information/boutique', 'boutique');
 /*
   Classe-Render-View Route test
   Avec cette route nous allons appeler le contrôlleur TestRender

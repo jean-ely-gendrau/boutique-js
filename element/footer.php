@@ -23,7 +23,7 @@ use Motor\Mvc\Manager\CrudManager;
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
                         </a>
                         </div>
-                        <p class="text-xs text-center">Livraison</p>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Livraison</p>
                     </div>
                 <!-- Paiement -->
                     <div class="mx-2">
@@ -32,7 +32,7 @@ use Motor\Mvc\Manager\CrudManager;
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
                         </a>
                         </div>
-                        <p class="text-xs text-center">Paiement</p>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Paiement</p>
                     </div>
                     <!-- Contact -->
                     <div class="mx-2">
@@ -41,16 +41,16 @@ use Motor\Mvc\Manager\CrudManager;
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
                         </a>
                         </div>
-                        <p class="text-xs text-center">Contact</p>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Contact</p>
                     </div>
                     <!-- Boutique -->
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
-                            <a href="#">
+                            <a href="/information/boutique">
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
                         </a>
                         </div>
-                        <p class="text-xs text-center">Boutique</p>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Boutique</p>
                     </div>
                 </div>
             </div>
@@ -80,9 +80,11 @@ use Motor\Mvc\Manager\CrudManager;
                         ?>
                         <?php foreach ($bestCategory as $category): ?>
                         <li class="mb-4">
-                            <a id="" class="cursor-pointer"><?php if (
-                                $category->id <= 3
-                            ) { ?>Café <?php echo $category->name;} else { ?>Thé <?php echo $category->name;} ?></a>
+                            <?php if ($category->id <= 3) { ?>
+                            <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
+                        <?php } else { ?>
+                            <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
+                            <?php } ?>
                         </li>
                         <?php endforeach; ?>
                     </ul>
