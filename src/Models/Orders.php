@@ -6,31 +6,254 @@ use JsonSerializable;
 
 class Orders implements JsonSerializable
 {
-    private $id_order;
-    private $id_user;
-    private $id_product;
+    /**
+     * id
+     *
+     * @var int
+     */
+    private $id;
+
+    /**
+     * basket
+     *
+     * @var bool
+     */
     private $basket;
+
+    /**
+     * status
+     *
+     * @var string
+     */
     private $status;
+
+    /**
+     * created_at
+     *
+     * @var string
+     */
     private $created_at;
+
+    /**
+     * updated_at
+     *
+     * @var string
+     */
     private $updated_at;
+    /**
+     * name
+     *
+     * @var string
+     */
+    private $name;
+    /**
+     * price
+     *
+     * @var float
+     */
+    private $price;
+    /**
+     * id
+     *
+     * @var string
+     */
+    private $url_image;
+
+    /**
+     * users_id
+     *
+     * @var int
+     */
+    private $users_id;
 
     function __construct(?array $data = null)
     {
         $this->id_order = $data['id_order'] ?? '';
     }
 
+    /* ----------------------------------- METHOD MAGIC ------------------------------ */
+
+    /**
+     * Get magic __get
+     *
+     * @return mixed
+     */
     public function __get($name)
     {
-        return $this->$name;
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
     }
 
-    public function __set($name, $value)
+    /**
+     * Set magic __set
+     *
+     * @param string $property La propriétée
+     * @param mixed $value La valeur de la propriétée
+     * @return self
+     */
+    public function __set(string $property, mixed $value)
     {
     }
 
+    /* ----------------------------------- implements jsonSerialize ------------------------------ */
+    /**
+     * Method jsonSerialize
+     *
+     * Cette méthode retourne les propriétés de la classe sous forme de tableau
+     * Cela permet l'encodage avec json_endode des propriétés privées.
+     *
+     * @return mixed
+     */
     public function jsonSerialize(): mixed
     {
         // array_diff_key et EXCLUDE_PROPERTIES permettent de retirer des clés du résultat que l'on ne souhaite pas renvoyer.
         return get_object_vars($this);
+    }
+
+    /* ----------------------------------- GETTER / SETTER ------------------------------ */
+
+    /**
+     * Get id
+     *
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param  int  $id  id
+     *
+     * @return  self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get basket
+     *
+     * @return  int
+     */
+    public function getBasket()
+    {
+        return $this->basket;
+    }
+
+    /**
+     * Set basket
+     *
+     * @param  int  $basket  basket
+     *
+     * @return  self
+     */
+    public function setBasket(int $basket)
+    {
+        $this->basket = $basket;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return  string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set status
+     *
+     * @param  string  $status  status
+     *
+     * @return  self
+     */
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get created_at
+     *
+     * @return  string
+     */
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set created_at
+     *
+     * @param  string  $created_at  created_at
+     *
+     * @return  self
+     */
+    public function setCreated_at(string $created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get updated_at
+     *
+     * @return  string
+     */
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set updated_at
+     *
+     * @param  string  $updated_at  updated_at
+     *
+     * @return  self
+     */
+    public function setUpdated_at(string $updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * Get users_id
+     *
+     * @return  int
+     */
+    public function getUsers_id()
+    {
+        return $this->users_id;
+    }
+
+    /**
+     * Set users_id
+     *
+     * @param  int  $users_id  users_id
+     *
+     * @return  self
+     */
+    public function setUsers_id(int $users_id)
+    {
+        $this->users_id = $users_id;
+
+        return $this;
     }
 }

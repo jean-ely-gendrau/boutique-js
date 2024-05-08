@@ -1,27 +1,13 @@
 <?php
 
-class Images
+class ProductsOrders
 {
     /**
-     * id
+     * orders_id
      *
      * @var int
      */
-    private $id;
-
-    /**
-     * image_main
-     *
-     * @var bool
-     */
-    private $image_main;
-
-    /**
-     * url_image
-     *
-     * @var string
-     */
-    private $url_image;
+    private $orders_id;
 
     /**
      * products_id
@@ -62,73 +48,25 @@ class Images
     /************************************** Getter/Setter ***********************************/
 
     /**
-     * Get id
+     * Get orders_id
      *
      * @return  int
      */
-    public function getId()
+    public function getOrders_id()
     {
-        return $this->id;
+        return $this->orders_id;
     }
 
     /**
-     * Set id
+     * Set orders_id
      *
-     * @param  int  $id  id
+     * @param  int  $orders_id  orders_id
      *
      * @return  self
      */
-    public function setId(int $id)
+    public function setOrders_id(int $orders_id)
     {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get image_main
-     *
-     * @return  bool
-     */
-    public function getImage_main()
-    {
-        return $this->image_main;
-    }
-
-    /**
-     * Set image_main
-     *
-     * @param  bool  $image_main  image_main
-     *
-     * @return  self
-     */
-    public function setImage_main(bool $image_main)
-    {
-        $this->image_main = $image_main;
-
-        return $this;
-    }
-
-    /**
-     * Get url_image
-     *
-     * @return  string
-     */
-    public function getUrl_image()
-    {
-        return $this->url_image;
-    }
-
-    /**
-     * Set url_image
-     *
-     * @param  string  $url_image  url_image
-     *
-     * @return  self
-     */
-    public function setUrl_image(string $url_image)
-    {
-        $this->url_image = $url_image;
+        $this->orders_id = $orders_id;
 
         return $this;
     }

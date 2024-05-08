@@ -258,22 +258,41 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @return mixed
      */
-    public function create(object $objectClass, array $param): void
+    public function create(object $objectClass, array $param): mixed
     {
-        $valueString = self::formatParams($param, 'FORMAT_CREATE');
+        try {
+            $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
-        $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
-        $req = $this->_dbConnect->prepare($sql);
-        $boundParam = [];
+            $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
+            // Désectivation ATTR_EMULATE_PREPARES
+            $connect = $this->_dbConnect;
 
-        foreach ($param as $paramName) {
-            if (property_exists($objectClass, $paramName)) {
-                $boundParam[$paramName] = $objectClass->$paramName;
-            } else {
-                echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+            $connect->beginTransaction();
+
+            $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            $req = $connect->prepare($sql);
+            $boundParam = [];
+
+            // Debug::view($sql);
+
+            foreach ($param as $paramName) {
+                if (property_exists($objectClass, $paramName)) {
+                    $boundParam[$paramName] = $objectClass->$paramName;
+                } else {
+                    echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
+                }
             }
+            $req->execute($boundParam);
+
+            $lastID = $connect->lastInsertId();
+            $connect->commit();
+
+            return ['lastObject' => $objectClass, 'lastID' => $lastID];
+        } catch (\PDOException $e) {
+            // En cas d'erreur, annuler la transaction
+            $connect->rollback();
+            return 'PDOException : ' . $e->getMessage();
         }
-        $req->execute($boundParam);
     }
 
     /**
@@ -446,7 +465,10 @@ class CrudManager extends BddManager implements PaginatePerPage
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch()['adress'];
 
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id WHERE users_id = :client_id AND o.basket != 1';
+        $sql = 'SELECT * FROM orders o 
+        JOIN productsorders po ON o.id = po.orders_id
+        JOIN products p ON p.id = po.products_id
+        WHERE users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
@@ -468,24 +490,76 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getbyidbasket($clientId)
     {
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1';
+        $sql = 'SELECT p.id , i.url_image , p.name , p.price , o.* ,i.id FROM orders o 
+                JOIN productsorders po ON o.id = po.orders_id 
+                JOIN products p ON p.id = po.products_id 
+                JOIN productsimages pi ON p.id = pi.products_id
+                JOIN images i ON i.id = pi.images_id
+                WHERE o.users_id = :client_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
+    }
 
-        $orders = [];
-        while ($row = $stmt->fetch()) {
-            $orders[] = [
-                'client_id' => $clientId,
-                'id_product' => $row['id_product'],
-                'images' => $row['images'],
-                'product_name' => $row['name'],
-                'price' => $row['price'],
-                'status' => $row['status'],
-            ];
+    public function CreateOrder($clientId, $productId)
+    {
+        $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "expedier", NOW(), NOW(), :client_id)';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId]);
+
+        $orderId = $this->_dbConnect->lastInsertId();
+
+        $sql = 'INSERT INTO productsorders (products_id, orders_id) VALUES (:product_id, :order_id)';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':product_id' => $productId, ':order_id' => $orderId]);
+    }
+
+    public function RemoveFromCart($clientId, $productId)
+    {
+        // First, get the IDs of the orders to delete
+        $sql = 'SELECT o.id FROM orders o
+                JOIN productsorders po ON o.id = po.orders_id 
+                WHERE o.users_id = :client_id AND po.products_id = :product_id AND o.basket = 1';
+        $stmt = $this->_dbConnect->prepare($sql);
+        $stmt->execute([':client_id' => $clientId, ':product_id' => $productId]);
+        $orderIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+
+        if (!empty($orderIds)) {
+            // Delete the corresponding rows from the productsorders table
+            $sql = 'DELETE FROM productsorders WHERE orders_id IN (' . implode(',', $orderIds) . ')';
+            $stmt = $this->_dbConnect->prepare($sql);
+            $stmt->execute();
+
+            // Then, delete the orders
+            $sql = 'DELETE FROM orders WHERE id IN (' . implode(',', $orderIds) . ')';
+            $stmt = $this->_dbConnect->prepare($sql);
+            $stmt->execute();
         }
+    }
 
-        return $orders;
+    /** NOTE - Voir si besoin d'enlever cette méthode
+     * Methode de récupération du panier sous forme d'objet pour Stripe Checkout
+     *
+     * @param string $clientId [id de la requête]
+     *
+     *
+     * @return array
+     */
+    public function GetBasketForStripe($clientId): array
+    {
+        $req = $this->_dbConnect->prepare(
+            'SELECT o.*, p.id, p.name, p.price, i.id, i.url_image FROM orders o 
+            INNER JOIN productsorders po ON o.id = po.orders_id
+            INNER JOIN products p ON po.products_id = p.id 
+            INNER JOIN productsimages pi ON p.id = pi.products_id
+            INNER JOIN images i ON i.id = pi.images_id
+            WHERE o.users_id = :client_id AND o.basket = 1',
+        );
+        $req->execute([':client_id' => $clientId]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
     }
 
     /**
