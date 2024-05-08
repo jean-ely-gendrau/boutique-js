@@ -258,7 +258,14 @@ teaCoffee.request = {
     headersParams = false,
   }) => {
     let bodyParamFormat = "";
-
+    console.log(route,
+      bodyParam,
+      idForm = false,
+      method = "POST",
+      contentType = "application/x-www-form-urlencoded",
+      resType = "json",
+      defineRequest,
+      headersParams = false)
     if (bodyParam) {
       bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
     } else if (idForm) {
@@ -463,7 +470,7 @@ teaCoffee.action = {
     e.preventDefault();
 
     let { idForm, method, postUrl } = e.target.dataset;
-    console.log(idForm, method, postUrl);
+    console.log(e.target.dataset);
     /*
     let objectPost = {};
       route: urlPost,
@@ -472,25 +479,26 @@ teaCoffee.action = {
       contentType: "application/x-www-form-urlencoded",
       resType: "json",
     }
-  
+    */
+
     // POST REQUEST
-    const response = await teaCoffee.request.post(objectPost);
-  
-    // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
-    if (response && response.hasOwnProperty('success')) {
-   teaCoffee.response.success(response)
-    }
-    // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
-    else if (response && response.hasOwnProperty('errors')) {
-      // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
-      Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
-        // 
-        let errorObject = {
-          [keyInput]: errorMessage,
-        }
-        teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
-      });
-  */
+    const response = await teaCoffee.request.post(e.target.dataset);
+    /*
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+      if (response && response.hasOwnProperty('success')) {
+     teaCoffee.response.success(response)
+      }
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+      else if (response && response.hasOwnProperty('errors')) {
+        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+          // 
+          let errorObject = {
+            [keyInput]: errorMessage,
+          }
+          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+        });
+    */
   },
   /** handleViewHtml
     * Gère l'événement de clic de souris pour l'exemple.
@@ -500,7 +508,7 @@ teaCoffee.action = {
   handleViewHtml: async (e) => {
     e.preventDefault();
 
-    let urlPost = e.target?.getAttribute('data-post-url'); // data attribute
+    let urlPost = e.target?.getAttribute('data-route'); // data attribute
     let targetId = e.target?.getAttribute('data-target-id'); // data attribute
     let replace = e.target?.getAttribute('data-replace'); // data attribute
 
@@ -530,7 +538,7 @@ teaCoffee.action = {
   handleSampleConnect: async (e) => {
     e.preventDefault();
 
-    let urlPost = e.target?.getAttribute("data-post-url"); // data attribute
+    let urlPost = e.target?.getAttribute("data-route"); // data attribute
     let idForm = e.target?.getAttribute("data-id-form"); // data attribute
 
     // POST REQUEST

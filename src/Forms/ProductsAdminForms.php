@@ -74,7 +74,7 @@ class ProductsAdminForms
         'anchor' => 'Ajouter produit',
         'attributes' => [
           'data-js' => 'handleSampleConnect,click',
-          'data-post-url' => '/sample-connect-js',
+          'data-route' => '/sample-connect-js',
           'data-id-form' => 'sample-form-connect',
         ]
       ]); // BUTTON SUBMIT

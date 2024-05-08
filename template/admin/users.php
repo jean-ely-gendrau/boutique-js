@@ -110,7 +110,7 @@ echo $newModalUser?->render() ?? "";
                         'class' =>
                         'text-base font-semibold',
                         'data-js' => 'handleViewHtml,click',
-                        'data-post-url' => '/api-html/template/profile/' . $user->id . '',
+                        'data-route' => '/api-html/template/profile/' . $user->id . '',
                         'data-target-id' => 'form-registration',
                       ]); ?>
                       <div class="font-normal text-gray-500"><?= $user->email ?></div>
@@ -157,7 +157,7 @@ echo $newModalUser?->render() ?? "";
                             'class' =>
                             'flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white whitespace-nowrap',
                             'data-js' => 'handleViewHtml,click',
-                            'data-post-url' => '/api-html/template/profile/' . $user->id . '',
+                            'data-route' => '/api-html/template/profile/' . $user->id . '',
                             'data-target-id' => 'form-registration',
                           ]); ?>
                         </li>

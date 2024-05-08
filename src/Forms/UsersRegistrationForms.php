@@ -67,7 +67,7 @@ class UsersRegistrationForms
                 'anchor' => 'Connection',
                 'attributes' => [
                     'data-js' => 'handleSampleConnect,click',
-                    'data-post-url' => '/sample-connect-js',
+                    'data-route' => '/sample-connect-js',
                     'data-id-form' => 'sample-form-connect',
                 ]
             ]) // BUTTON SUBMIT
@@ -195,7 +195,12 @@ class UsersRegistrationForms
                 'bg-gray-50 border border-gray-300 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'value' => 'Nouveau mot de passe',
-                'attributes' => ['data-js' => 'handlePost,click', 'data-post-url' => '/api/generateMPD/' . $modelUser->getId() . '']
+                'attributes' => [
+                    'data-js' => 'handlePost,click',
+                    'data-route' => '/api/generateMPD/' . $modelUser->getId() . '',
+                    'data-method' => 'POST',
+                    'data-token' => base64_encode('ABC55'),
+                ]
             ]); // CHAMP PASSWORD
         } else {
             $formRegister->addField('password', 'password', [
@@ -235,7 +240,7 @@ class UsersRegistrationForms
                 <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
               </svg>
               <span class="truncate hover:text-clip hover:text-balance text-sm font-medium">Supprimer ' . $modelUser->getFull_name() . '</span>',
-                'attributes' => ['data-js' => 'handlePost,click', 'data-post-url' => '/api/delete/' . $modelUser->getId() . '']
+                'attributes' => ['data-js' => 'handlePost,click', 'data-route' => '/api/delete/' . $modelUser->getId() . '']
             ]);
         }
 
