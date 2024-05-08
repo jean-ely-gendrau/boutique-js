@@ -1,3 +1,8 @@
+<?php
+use App\Boutique\Models\SubCategory;
+use App\Boutique\Models\Orders;
+use Motor\Mvc\Manager\CrudManager;
+?>
 </main>
 <!-- END MAIN -->
 
@@ -54,30 +59,32 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs Ventes</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-/*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
-                    <li class="mb-4">
-                            <a href="" class="hover:underline"></a>
+                        /* STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS */
+                        $crudManagerOrder = new CrudManager('orders', Orders::class);
+                        $bestProducts = $crudManagerOrder->TestGetBestThreeProducts();
+                        ?>
+                        <?php foreach ($bestProducts as $product): ?>
+                        <li class="mb-4">
+                            <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
                         </li>
-                        <li>
-                            <a href="" class="hover:underline"></a>
-                        </li>
-                        */
-?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-/*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
+                        /* STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 */
+                        $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
+                        $bestCategory = $crudManagerCategory->TestGetThreeCategory();
+                        ?>
+                        <?php foreach ($bestCategory as $category): ?>
                         <li class="mb-4">
-                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                            <a id="" class="cursor-pointer"><?php if (
+                                $category->id <= 3
+                            ) { ?>Café <?php echo $category->name;} else { ?>Thé <?php echo $category->name;} ?></a>
                         </li>
-                        <li>
-                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
-                        </li>
-                         */
-?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div>

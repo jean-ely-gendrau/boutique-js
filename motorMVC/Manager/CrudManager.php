@@ -562,6 +562,36 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $req->fetchAll();
     }
 
+    /** NOTE - Méthode à modifier pour le footer
+     * Methode de récupération des 3 produits les plus vendu
+     *
+     * @return object|array
+     */
+    public function TestGetBestThreeProducts(): object|array
+    {
+        $req = $this->_dbConnect->prepare(
+            'SELECT o.*, p.* FROM `orders` o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+        );
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    /** NOTE - Méthode à modifier pour le footer
+     * Methode de récupération des 3 sous catégories
+     *
+     * @return object|array
+     */
+    public function TestGetThreeCategory(): object|array
+    {
+        $req = $this->_dbConnect->prepare('SELECT * FROM `sub_category` WHERE id IN (1, 4, 5)');
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
     /**
      * Get the value of model
      */
