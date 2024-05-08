@@ -26,7 +26,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
      *
      * @var string
      */
-  
+
     #[ValidatorData('full_name')]
     private $full_name;
 
@@ -100,7 +100,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $this->birthday = isset($data['birthday']) ? $this->setDateTime($data['birthday']) : '';
 
         $this->adress = $data['adress'] ?? '';
-        $this->role = 'user';
+        $this->role = $data['role'] ?? 'user';
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */

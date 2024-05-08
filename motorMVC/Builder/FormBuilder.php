@@ -115,7 +115,8 @@ class FormBuilder extends AbstractFormBuilder
         $output = '<div class="';
 
         /* Assignation d'un valeur avec la condition Ternaire */
-        $output .= isset($options['class-label-group']) ? $options['class-label-group'] : 'label-group' . '">';
+        $output .= isset($options['class-label-group']) ? $options['class-label-group'] : 'label-group';
+        $output .= '">';
 
         /*******************************
          *         CHAMP LABEL
@@ -154,6 +155,7 @@ class FormBuilder extends AbstractFormBuilder
             case 'date':
             case 'month':
             case 'number':
+            case 'button':
             case 'radio':
             case 'checkbox':
             case 'range':
@@ -227,7 +229,7 @@ class FormBuilder extends AbstractFormBuilder
 
             /* Assignation d'un valeur avec la condition Ternaire */
             $output .= isset($options['options-select-array']) // ISSET options-select
-                ? $this->addSelectedOption($options['options-select-array'], $optionSelectKey, $optionsMulti) // Construction des options de l'élément select
+                ? $this->addSelectedOption($options['options-select-array'], $optionSelectKey, $optionsMulti, $isSelectedOption) // Construction des options de l'élément select
                 : '<option>aucune option disponible</option>'; // Fin de la balise Select
 
             $output .= '</select>';

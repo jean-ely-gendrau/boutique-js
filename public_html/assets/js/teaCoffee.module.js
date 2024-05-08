@@ -383,7 +383,8 @@ teaCoffee.html = {
     //  console.log(teaCoffee.sys.elems[0]);
     if (replace && selected) {
       let elementHtml = new DOMParser().parseFromString(jsonElement, "text/html");
-      selected.replaceWith(elementHtml.documentElement);
+
+      selected.replaceWith(elementHtml.documentElement.querySelector('body').firstChild);
     }
   },
 };

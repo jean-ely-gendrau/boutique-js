@@ -85,8 +85,8 @@ class AdminPanel
 
                 $newModalUser = new ModalBuilder();
                 $newModalUser->setIdModal('modal-form-users');
-                $newModalUser->addHeader('modal-add-users-adm', '<h2>Ajout de nouveaux produits</h2>')
-                    ->addBody('body-modal-add-users-adm', '<div id="replace-form-user"></div>');
+                $newModalUser->addHeader('modal-add-users-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Ajout de nouveaux utilisateurs</h2>')
+                    ->addBody('body-modal-add-users-adm', '<div id="form-registration"></div>');
 
                 $buttonModalUser =   $newModalUser->renderOpenButton('
                     <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -98,8 +98,9 @@ class AdminPanel
                     'flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800',
                     'data-js' => 'handleViewHtml,click',
                     'data-post-url' => '/api-html/form/users',
-                    'data-target-id' => 'replace-form-user',
+                    'data-target-id' => 'form-registration',
                 ]);
+
                 $render->addParams([
                     'newModalUser' => $newModalUser,
                     'buttonModalUser' => $buttonModalUser
@@ -132,7 +133,7 @@ class AdminPanel
                 //var_dump($render->getParams('uri'));
                 $newModalProduct = new ModalBuilder();
                 $newModalProduct->setIdModal('modal-form-product');
-                $newModalProduct->addHeader('modal-add-product-adm', '<h2>Ajout de nouveaux produits</h2>')
+                $newModalProduct->addHeader('modal-add-product-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Ajout de nouveaux produits</h2>')
                     ->addBody('body-modal-add-product-adm', '<div></div>');
 
                 $buttonModalProduct =   $newModalProduct->renderOpenButton('

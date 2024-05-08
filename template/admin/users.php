@@ -8,7 +8,7 @@ echo $newModalUser?->render() ?? "";
         <div class="flex items-center flex-1 space-x-4">
           <h5>
             <span class="text-gray-500">Utilisateurs Total:</span>
-            <span class="dark:text-white">123456</span>
+            <span class="dark:text-white"><?= $paginatePerPage['total_result'] ?></span>
           </h5>
         </div>
         <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -142,10 +142,20 @@ echo $newModalUser?->render() ?? "";
                     </button>
 
                     <!-- user action menu -->
-                    <div id="dropdownDotsHorizontal-<?= $idKey ?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                    <div id="dropdownDotsHorizontal-<?= $idKey ?>" class="z-10 hidden border border-gray-400 bg-gray-100 divide-y  divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 dark:border-gray-300">
                       <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton-<?= $idKey ?>">
                         <li>
-                          <a data-js="handleViewHtml,click" data-post-uri="/api-html/template/profile/<?= $user->id ?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profil</a>
+                          <?= $newModalUser->renderOpenButton('
+                <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                </svg> Profil', [
+                            'type' => 'button',
+                            'class' =>
+                            'flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white whitespace-nowrap',
+                            'data-js' => 'handleViewHtml,click',
+                            'data-post-url' => '/api-html/template/profile/' . $user->id . '',
+                            'data-target-id' => 'form-registration',
+                          ]); ?>
                         </li>
                         <li>
                           <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Commandes</a>

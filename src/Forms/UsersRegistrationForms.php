@@ -100,6 +100,7 @@ class UsersRegistrationForms
         $validatorJS = new ValidatorJS();
 
         $modelUser = new Users($data); // Instance d'un models de class User
+
         $errors = [];
         // ReflectionValidator::validate($modelUser)
         // Cette méthode statice de la class ReflectionValidator
@@ -126,42 +127,66 @@ class UsersRegistrationForms
 
         $formRegister
             ->setIdForm('form-registration') // ID FORM
-            ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
+            ->setClassForm('space-y-2 md:space-y-4 flex flex-wrap') // CSS FORM <img class="w-20 h-20 rounded" src="/docs/images/people/profile-picture-5.jpg" alt="Large avatar">
+            ->addField('image', 'avatar', [
+                'label-false' => 1,
+                'class' =>
+                'w-20 h-20 rounded',
+                'class-label-group' => 'flex w-20 m-auto',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'attributes' => ['src' => '/assets/images/tea-coffee.png'],
+                'error-message-class' => 'text-red-600 text-sm',
+                'error-message' => $errors['avatar'] ?? false,
+            ]) // CHAMP FULL_NAME
+            ->addField('file', 'add-avatar', [
+                'label-false' => 'Ajouter un avatar',
+                'class-label-group' => 'w-auto m-auto',
+                'class' =>
+                'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'attributes' => ['value' => 'modifier l\'avatar'],
+            ])
             ->addField('text', 'full_name', [
                 'text-label' => 'Votre nom et prénom',
+                'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre nom complet',
                 'required' => 1,
-                'attributes' => ['value' => $modelUser->full_name ?? '', 'autocomplete' => 'section-blue shipping family-name'],
+                'attributes' => ['value' => $modelUser->getFull_name() ?? '', 'autocomplete' => 'section-blue shipping family-name'],
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['full_name'] ?? false,
             ]) // CHAMP FULL_NAME
             ->addField('email', 'email', [
                 'text-label' => 'Votre Email',
+                'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
                 'required' => 1,
-                'attributes' => ['value' => $modelUser->email ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['email'] ?? false,
-            ]) // CHAMP EMAIL
-            ->addField('password', 'password', [
-                'text-label' => 'Mot de passe',
-                'class' =>
-                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-                'placeholder' => 'Enter votre mot de pass',
-                'required' => 1,
-                'attributes' => ['autocomplete' => 'new-password'],
-                'error-message-class' => 'text-red-600 text-sm',
-                'error-message' => $errors['password'] ?? false,
-            ]) // CHAMP PASSWORD
+            ]); // CHAMP EMAIL
+
+
+        $formRegister->addField('password', 'password', [
+            'text-label' => 'Mot de passe',
+            'class-label-group' => 'flex flex-col w-full',
+            'class' =>
+            'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+            'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+            'placeholder' => 'Enter votre mot de pass',
+            'required' => 1,
+            'attributes' => ['autocomplete' => 'new-password'],
+            'error-message-class' => 'text-red-600 text-sm',
+            'error-message' => $errors['password'] ?? false,
+        ]) // CHAMP PASSWORD
             ->addField('password', 'passwordCompare', [
                 'text-label' => 'Confirmation de mot de passe',
+                'class-label-group' => 'flex flex-col w-full',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -169,26 +194,45 @@ class UsersRegistrationForms
                 'required' => 1,
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['passwordCompare'] ?? false,
-            ]) // CHAMP PASSWORD COMPARE
-            ->addElementAction('submit', 'validation-user', 'validation-user', [
+            ]); // CHAMP PASSWORD COMPARE
+
+
+        /**
+         * Paramètrage du boutton du fomulaire Inscription/Modification
+         */
+        $nameButton = $data['update-user'] ?? 'validation-user';
+        $anchorButton = isset($data['update-user']) ? 'Modification' : 'Inscription';
+        $formRegister->setClassActionGroup('flex flex-wrap w-full justify-between')
+            ->addElementAction('submit', $nameButton, $nameButton, [
                 'class' =>
-                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-                'anchor' => 'Inscription',
-            ]) // BUTTON SUBMIT
-            ->addElementAction('link', 'buttonA', 'isRegistred', [
-                'class' => 'text-gray-900 text-sm dark:text-white',
-                'anchor' => 'Vous avez déjà un compte ?',
-                'attributes' => ['title' => 'connection', 'href' => '/form-test-connect'],
-            ]); // LINK ADDITIONAL
+                'flex w-1/2 md:w-48 items-center justify-center p-3 truncate hover:text-clip text-sm font-medium text-gray-700 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-500 hover:underline',
+                'anchor' => $anchorButton,
+            ]);
+        /**
+         * Paramètrage du boutton du fomulaire Supprimer
+         * Visible seulement si on souhaite modifier un profile
+         */
+        if (isset($data['update-user'])) {
+            $formRegister->addElementAction('submit', 'delete-user', 'delete-user', [
+                'class' =>
+                'flex w-1/2 md:w-48 items-center justify-center p-3 text-red-600 dark:text-red-500 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:underline',
+                'anchor' => '<svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
+              </svg>
+              <span class="truncate hover:text-clip hover:text-balance text-sm font-medium">Supprimer ' . $modelUser->getFull_name() . '</span>',
+            ]);
+        }
 
         // VERIFICATION DE SECURITER 
         //if ($sessionManager->give('role') === 'admin') {
         $roleOfUsers =  ['user', 'admin'];
         $formRegister->addField('select', 'role', [
             'text-label' => 'Rôle utilisateur',
+            'class-label-group' => 'flex flex-col w-full',
             'class' =>
             'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
             'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+            'options-selected' =>  $modelUser->getRole(),
             'options-select-array' => $roleOfUsers,
         ]); // CHAMP MAIL
         // }

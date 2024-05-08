@@ -4,6 +4,8 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Users;
+use Motor\Mvc\Manager\CrudManager;
 
 /**
  */
@@ -39,22 +41,62 @@ class HtmlToJsonController
   public function FormAdmin(...$arguments)
   {
 
-    switch ($arguments['tableName']) {
+    switch ($arguments['tableName'] ?? '') {
         /*******
        * User
        */
       case 'users':
-        $returnJson = ['htmlElement' => UsersRegistrationForms::AdminAddUser()];
+        $bufferOut = ['htmlElement' => UsersRegistrationForms::AdminAddUser(...$arguments ?? [])];
         break;
 
         /*******
          * Product
          */
       case 'products':
-        $returnJson = ['htmlElement' => ProductsAdminForms::ProductsForm()];
+        $bufferOut = ['htmlElement' => ProductsAdminForms::ProductsForm()];
         break;
+
+      default:
+        $bufferOut = 'La list est vide';
     }
 
-    return $this->returnJson(200, $returnJson);
+    return isset($arguments['jsonFalse']) ? $bufferOut : $this->returnJson(200, $bufferOut);
+  }
+
+  /**
+   * Méthode Template retourne un template du dossier template
+   * 
+   * [!>Warning] IMPLEMENTER JWT
+   *
+   * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
+   * @return void
+   */
+  public function Template(...$arguments)
+  {
+
+    switch ($arguments['pageTemplate']) {
+        /*******
+       * User
+       */
+      case 'profile':
+        $crudManager = new CrudManager('users', Users::class);
+        $select = $crudManager->getById($arguments['idUser']);
+
+        $array['params'] = json_decode(json_encode($select), true);
+        $array['params']['jsonFalse'] = true;
+        $array['params']['tableName'] = 'users';
+        $array['params']['update-user'] = true; // Paramètre pour la mise à jours (utilisé par la __CLASS__ UsersRegistrationForms::AdminAddUser )
+        $bufferOut = call_user_func_array([$this, 'FormAdmin'], $array['params']);
+        break;
+
+        /*******
+         * Product
+         */
+        //  case 'products':
+        //   $returnJson = ['htmlElement' => ProductsAdminForms::ProductsForm()];
+        //  break;
+    }
+
+    return $this->returnJson(200, $bufferOut);
   }
 }
