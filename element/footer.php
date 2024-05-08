@@ -19,7 +19,7 @@ use Motor\Mvc\Manager\CrudManager;
                 <div class="flex content-col justify-between mt-5">
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
-                            <a href="#">
+                            <a href="/information/livraison">
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
                         </a>
                         </div>
@@ -28,7 +28,7 @@ use Motor\Mvc\Manager\CrudManager;
                 <!-- Paiement -->
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
-                            <a href="#">
+                            <a href="/information/paiement">
                             <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
                         </a>
                         </div>
