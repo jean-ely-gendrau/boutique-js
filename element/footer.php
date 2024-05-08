@@ -16,7 +16,7 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs Ventes</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
+/*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
                     <li class="mb-4">
                             <a href="" class="hover:underline"></a>
                         </li>
@@ -24,14 +24,14 @@
                             <a href="" class="hover:underline"></a>
                         </li>
                         */
-                        ?>
+?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
+/*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
                         <li class="mb-4">
                             <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
                         </li>
@@ -39,19 +39,19 @@
                             <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
                         </li>
                          */
-                        ?>
+?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <li class="mb-4">
-                            <!--<a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>-->
-                            <p><a href="/assets/pdf/CGU.pdf" class="mr-2" target="_blank" class="hover:underline">Condition d'utilisation</a> </p>
+                            <a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>
+                            <!-- <p><a href="/assets/pdf/CGU.pdf" class="mr-2" target="_blank" class="hover:underline">Condition d'utilisation</a> </p> -->
                         </li>
                         <li>
-                            <!--<a href="/condition/cgv" class="hover:underline">Condition de vente</a>-->
-                            <p><a href="/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" target="_blank" class="hover:underline">Condition de vente</a></p>
+                            <a href="/condition/cgv" class="hover:underline">Condition de vente</a>
+                            <!-- <p><a href="/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" target="_blank" class="hover:underline">Condition de vente</a></p> -->
                         </li>
                     </ul>
                 </div>

@@ -2,6 +2,9 @@
     <div class="flex flex-col mx-auto text-center md:max-[55rem]">
         <div class="bg-white mx-auto rounded-lg shadow dark:border md:w-[55rem] md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <button class="py-3 px-5 flex ml-auto text-sm font-medium text-white rounded-lg bg-gray-400 sm:w-fit hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                <a href="/assets/pdf/CGU.pdf" target="_blank">Télécharger</a>
+                </button>
 
                 <h1 class="text-3xl my-4 text-gray-700 dark:text-gray-200">Condition générales d'utilisation <span class="text-green-600">Tea'</span><span class="text-amber-700">Coffee</span></h1>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">En vigueur au 03/04/2024</p>

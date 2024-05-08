@@ -1323,6 +1323,18 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.ml-8 {
+  margin-left: 2rem;
+}
+
 .block {
   display: block;
 }
