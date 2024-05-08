@@ -5,11 +5,35 @@
 <footer class="bg-white dark:rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 dark:mx-2">
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
-            <div class="mb-6 md:mb-0">
+            <div class="mb-6 md:mb-auto">
                 <a href="http://<?= $serverName ?>" class="flex items-center">
                     <img src="http://<?= $serverName ?>/assets/images/tea-coffee.png" class="h-8 me-3" alt="TeaCoffee Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TeaCoffee</span>
                 </a>
+                <div class="flex content-col justify-between mt-5">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer mr-2.5">
+                        <a href="#">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="" class="">
+                        </a>
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer mr-2.5">
+                        <a href="#">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="" class="">
+                        </a>
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer mr-2.5">
+                        <a href="#">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="" class="">
+                        </a>
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer mr-2.5">
+                        <a href="#">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="" class="">
+                        </a>
+                    </div>
+                    
+                    
+                </div>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
@@ -47,11 +71,9 @@
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <li class="mb-4">
                             <a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>
-                            <!-- <p><a href="/assets/pdf/CGU.pdf" class="mr-2" target="_blank" class="hover:underline">Condition d'utilisation</a> </p> -->
                         </li>
                         <li>
                             <a href="/condition/cgv" class="hover:underline">Condition de vente</a>
-                            <!-- <p><a href="/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" target="_blank" class="hover:underline">Condition de vente</a></p> -->
                         </li>
                     </ul>
                 </div>
