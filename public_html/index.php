@@ -126,7 +126,19 @@ $router->map('GET', '/condition/cgu', 'condition/cgu', 'cgu');
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+$router->map('GET', '/test-render', 'StripeController#TestGetArgument', 'test-render-index');
+
+// Route à supprimer
+$router->map('GET', '/basket', 'StripeController#Index', 'basket');
+
+// Route renvoyant sur l'API Stripe checkout
+$router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
+
+// // Route si le paiment est abandonné
+$router->map('GET', '/stripe/cancel', 'stripe/cancel', 'cancel');
+
+// // Route si le paiement est confirmé
+$router->map('GET', '/stripe/success', 'stripe/success', 'success');
 
 /*
  Routeur: $_GET->/sample-modal-viewer
