@@ -538,7 +538,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
     }
 
-    /**
+    /** NOTE - Voir si besoin d'enlever cette méthode
      * Methode de récupération du panier sous forme d'objet pour Stripe Checkout
      *
      * @param string $clientId [id de la requête]

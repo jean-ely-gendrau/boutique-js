@@ -9,7 +9,7 @@ class StripePayment
     {
     }
 
-    public function StartPayment($panier)
+    public function StartPayment($basket)
     {
         // TODO Voir où enregistrer la clé d'API
         require_once '../config/config.php';
@@ -18,22 +18,33 @@ class StripePayment
 
         $YOUR_DOMAIN = 'http://boutique-js.test/';
 
-        // Ici voir quel id pour la commande à utiliser [pour le test j'utilise l'id product]
-        // $panierId = $panier->id;
-
+        // Initialiser un tableau pour suivre le nombre d'occurrences de chaque produit
         $line_items = [];
 
-        foreach ($panier as $produit) {
-            $line_items[] = [
-                'quantity' => 1, // Vous pouvez modifier la quantité si nécessaire
-                'price_data' => [
-                    'currency' => 'EUR',
-                    'product_data' => [
-                        'name' => $produit->name,
+        foreach ($basket as $product) {
+            $found = false;
+            // Passage de la variable $item en reference avec l'opérateur &
+            foreach ($line_items as &$item) {
+                // Si une valeur du tableau $line_items correspond alors on modifie la valeur quantity de + 1
+                if ($item['price_data']['product_data']['name'] === $product->name) {
+                    $item['quantity'] += 1;
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                // Si aucune correspondance alors on ajoute la valeur directement
+                $line_items[] = [
+                    'quantity' => 1,
+                    'price_data' => [
+                        'currency' => 'EUR',
+                        'product_data' => [
+                            'name' => $product->name,
+                        ],
+                        'unit_amount' => $product->price * 100,
                     ],
-                    'unit_amount' => $produit->price * 100, // Assurez-vous que le prix est en centimes
-                ],
-            ];
+                ];
+            }
         }
 
         $session = Session::create([
