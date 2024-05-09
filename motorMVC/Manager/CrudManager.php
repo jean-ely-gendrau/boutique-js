@@ -602,13 +602,16 @@ class CrudManager extends BddManager implements PaginatePerPage
      * Method getColumnParam
      *
      * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
-     * exemple : array(12) { ["Field"]=> string(2) "id" [0]=> string(2) "id" ["Type"]=> string(3) "int" [1]=> string(3) "int" ["Null"]=> string(2) "NO" [2]=> string(2) "NO" ["Key"]=> string(3) "PRI" [3]=> string(3) "PRI" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(14) "auto_increment" [5]=> string(14) "auto_increment" }
+     * exemple : array(12) { ["Field"]=> string(6) "status" [0]=> string(6) "status" ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')" [1]=> string(46) "enum('en attente','expedier','livrer','echec')" ["Null"]=> string(3) "YES" [2]=> string(3) "YES" ["Key"]=> string(0) "" [3]=> string(0) "" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(0) "" [5]=> string(0) "" }
+     * -> ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')
+     * 
+     * @param string $column [nom de la collonne à récuperer]
      * @return bool|array
      */
-    public function getColumnParam(): bool|array
+    public function getColumnParam(string $column): bool|array
     {
         $sql = "SHOW COLUMNS 
-              FROM {$this->_tableName}";
+              FROM {$this->_tableName} WHERE field = :column";
 
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
@@ -617,7 +620,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $req = $connect->prepare($sql);
 
         // Exécute
-        $req->execute();
+        $req->execute(['column' => $column]);
         return $req->fetch();
     }
 }
