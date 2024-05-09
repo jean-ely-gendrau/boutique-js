@@ -19,6 +19,15 @@
     margin-top: 1.5rem;
 }
 
+.bg-info {
+    background-image: url('../images/bgInfo.png');
+    background-repeat: space;
+    background-size: contain;
+    background-attachment: fixed;
+    background-position: center;
+    margin-top: 1.5rem;
+}
+
 /* DEBUG BAR CSS */
 .debug-min {
     max-height: 60px;
