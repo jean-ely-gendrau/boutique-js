@@ -86,7 +86,7 @@ Export
                   </div>
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3">
-                  <span class="sr-only">Image</span>
+                  <span class="sr-only">Avatar</span>
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3">
                   Client
@@ -119,20 +119,20 @@ Export
                       <label for="checkbox-table-search-<?= $order->id_orders ?>" class="sr-only">checkbox</label>
                     </div>
                   </td>
-                  <td class="p-4">
-                    <?php if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . '../../assets/images/' . $order->url_image)) : ?>
-                      <img src="http://<?= $serverName ?>/assets/images/<?= $order->url_image ?>" alt="<?= $order->name ?>" class="w-12 sm:w-16 md:w-32 max-w-full max-h-full">
-                    <?php else : ?>
-                      <img src="http://<?= $serverName ?>/assets/images/tea-coffee.png" alt="Tea Coffee logo" class="w-12 sm:w-16 md:w-32 max-w-full max-h-full">
-                    <?php endif; ?>
+                  <td scope="row" class="flex items-center px-3 md:px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    <?= $user->avatars ? '<img class="w-10 h-10 hidden md:visible rounded-full" src="' . $user->avatars . '" alt="' . $user->full_name . '">' : '<p class="justify-center items-center rounded-full border hidden md:flex border-gray-300 bg-blue-500 text-sm h-10 w-10">' . ucfirst($user->full_name[0]) . '</p>'; ?>
+                    <div class="ps-3">
+                      <?php echo $newModalUser->renderOpenButton("{$user->full_name}", [
+                        'type' => 'a',
+                        'data-js' => 'handleViewHtml,click',
+                        'data-route' => '/api-html/form/orders',
+                        'data-target-id' => 'body-modal-add-order-adm',
+                      ]) ?>
+                    </div>
+                    <div class="text-xs md:text-sm truncate w-32 hover:text-clip md:w-full md:text-wrap font-normal text-gray-500"><?= $user->email ?></div>
                   </td>
                   <td class="px-3 md:px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                    <?= $newModalOrder->renderOpenButton($order->name, [
-                      'type' => 'a',
-                      'data-js' => 'handleViewHtml,click',
-                      'data-route' => '/api-html/form/orders',
-                      'data-target-id' => 'body-modal-add-order-adm',
-                    ]); ?>
+                    <?= $user->email                      ?>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell">
                     <div class="flex items-center">

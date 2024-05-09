@@ -23,17 +23,17 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
 
     protected int $offsetNext;
     /**
-   * Method __construct CrudApi
-   *
-   * @param string $tableName [nom de la table]
-   * @param string $objectClass [La class representant les données de la requête]
+     * Method __construct CrudApi
+     *
+     * @param string $tableName [nom de la table]
+     * @param string $objectClass [La class representant les données de la requête]
 
-   * @param int $limit [nombre de résultat à séléctionner]
-   * @param int $offset [1 er résultat à séléctionner]
-   * @param ?object $configDatabase [configuration de la  base de données]
-   *
-   * @return void
-   */
+     * @param int $limit [nombre de résultat à séléctionner]
+     * @param int $offset [1 er résultat à séléctionner]
+     * @param ?object $configDatabase [configuration de la  base de données]
+     *
+     * @return void
+     */
     public function __construct(string $tableName, string $objectClass, int $limit = 5, int $page = 1, ?object $configDatabase = null)
     {
         // Params BDD
@@ -202,5 +202,29 @@ class CrudApi extends BddManager implements ResponseJson, PaginatePerPage, Pagin
         $this->limit = $limit;
 
         return $this;
+    }
+
+    /************************************************* Méthode additionnel */
+    /**
+     * Method getColumnParam
+     *
+     * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
+     * exemple : array(12) { ["Field"]=> string(2) "id" [0]=> string(2) "id" ["Type"]=> string(3) "int" [1]=> string(3) "int" ["Null"]=> string(2) "NO" [2]=> string(2) "NO" ["Key"]=> string(3) "PRI" [3]=> string(3) "PRI" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(14) "auto_increment" [5]=> string(14) "auto_increment" }
+     * @return bool|array
+     */
+    public function getColumnParam(): bool|array
+    {
+        $sql = "SHOW COLUMNS 
+              FROM {$this->_tableName}";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+
+        // Prépare
+        $req = $connect->prepare($sql);
+
+        // Exécute
+        $req->execute();
+        return $req->fetch();
     }
 }

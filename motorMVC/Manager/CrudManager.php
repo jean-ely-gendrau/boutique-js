@@ -596,4 +596,28 @@ class CrudManager extends BddManager implements PaginatePerPage
 
         return $this;
     }
+
+    /************************************************* Méthode additionnel */
+    /**
+     * Method getColumnParam
+     *
+     * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
+     * exemple : array(12) { ["Field"]=> string(2) "id" [0]=> string(2) "id" ["Type"]=> string(3) "int" [1]=> string(3) "int" ["Null"]=> string(2) "NO" [2]=> string(2) "NO" ["Key"]=> string(3) "PRI" [3]=> string(3) "PRI" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(14) "auto_increment" [5]=> string(14) "auto_increment" }
+     * @return bool|array
+     */
+    public function getColumnParam(): bool|array
+    {
+        $sql = "SHOW COLUMNS 
+              FROM {$this->_tableName}";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+
+        // Prépare
+        $req = $connect->prepare($sql);
+
+        // Exécute
+        $req->execute();
+        return $req->fetch();
+    }
 }
