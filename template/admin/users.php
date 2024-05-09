@@ -75,19 +75,19 @@ echo $newModalUser?->render() ?? "";
                     <label for="checkbox-all-search" class="sr-only">checkbox</label>
                   </div>
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-3 md:px-6 py-3">
                   Membre
                 </th>
-                <th scope="col" class="px-6 py-3 hidden md:table-cell">
+                <th scope="col" class="px-3 md:px-6 py-3 hidden md:table-cell">
                   âge
                 </th>
-                <th scope="col" class="px-6 py-3 hidden md:table-cell">
+                <th scope="col" class="px-3 md:px-6 py-3 hidden md:table-cell">
                   rôle
                 </th>
-                <th scope="col" class="px-6 py-3 hidden lg:table-cell">
+                <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
                   Inscrit le
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-3 md:px-6 py-3">
                   Action
                 </th>
               </tr>
@@ -102,7 +102,7 @@ echo $newModalUser?->render() ?? "";
                       <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                     </div>
                   </td>
-                  <td scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                  <td scope="row" class="flex items-center px-3 md:px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <?= $user->avatars ? '<img class="w-10 h-10 hidden md:visible rounded-full" src="' . $user->avatars . '" alt="' . $user->full_name . '">' : '<p class="justify-center items-center rounded-full border hidden md:flex border-gray-300 bg-blue-500 text-sm h-10 w-10">' . ucfirst($user->full_name[0]) . '</p>'; ?>
                     <div class="ps-3">
                       <?= $newModalUser->renderOpenButton($user->full_name, [
@@ -113,13 +113,13 @@ echo $newModalUser?->render() ?? "";
                         'data-route' => '/api-html/template/profile/' . $user->id . '',
                         'data-target-id' => 'form-registration',
                       ]); ?>
-                      <div class="text-xs md:text-sm truncate w-20 hover:text-pre font-normal text-gray-500"><?= $user->email ?></div>
+                      <div class="text-xs md:text-sm truncate w-32 hover:text-clip md:w-auto md:text-wrap font-normal text-gray-500"><?= $user->email ?></div>
                     </div>
                   </td>
-                  <td class="px-6 py-4 hidden md:table-cell">
+                  <td class="px-3 md:px-6 py-4 hidden md:table-cell">
                     <?= $user->getAge() ?> ans
                   </td>
-                  <td class="px-6 py-4 hidden md:table-cell">
+                  <td class="px-3 md:px-6 py-4 hidden md:table-cell">
                     <div class="flex items-center">
                       <!-- SVG/ROLE -->
                       <?php if ($user->role === 'user') : ?>
@@ -171,10 +171,10 @@ echo $newModalUser?->render() ?? "";
                       <?php endif; ?>
                     </div>
                   </td>
-                  <td class="px-6 py-4 hidden lg:table-cell">
+                  <td class="px-3 md:px-6 py-4 hidden lg:table-cell">
                     <?= $user->created_at ?>
                   </td>
-                  <td class="px-6 py-4">
+                  <td class="px-3 md:px-6 py-4">
                     <button id="dropdownMenuIconHorizontalButton-<?= $idKey ?>" data-dropdown-toggle="dropdownDotsHorizontal-<?= $idKey ?>" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
                       <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                         <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />

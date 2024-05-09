@@ -3,7 +3,7 @@
   <div class="grid max-w-screen-xl px-0 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-1 md:grid-cols-3 md:px-2">
     <ul aria-labelledby="mega-menu-full-dropdown-button">
       <li>
-        <a href="#" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+        <a href="/panel-admin/users" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
           <div class="font-semibold">Utilisateurs</div>
           <span class="text-sm text-gray-500 dark:text-gray-400">Voir et agir sur la listes des utilisateurs ainsi que les détails des comptes</span>
         </a>
@@ -11,7 +11,7 @@
     </ul>
     <ul>
       <li>
-        <a href="#" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+        <a href="/panel-admin/products" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
           <div class="font-semibold">Produits</div>
           <span class="text-sm text-gray-500 dark:text-gray-400">Voir et agir sur la listes des produits ainsi que les détails des stocks</span>
         </a>
@@ -19,7 +19,7 @@
     </ul>
     <ul>
       <li>
-        <a href="#" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+        <a href="/panel-admin/orders" class="block p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
           <div class="font-semibold">Commandes</div>
           <span class="text-sm text-gray-500 dark:text-gray-400">Voir et agir sur la listes des commandes ainsi que les détails des stocks</span>
         </a>
