@@ -241,6 +241,7 @@ class UsersRegistrationForms
                     'data-js' => 'handlePost,click',
                     'data-route' => '/api/update-user/' . $modelUser->getId() . '',
                     'data-method' => 'POST',
+                    'data-action' => 'POST',
                     //'data-token' => base64_encode('ABC55'),
                 ]
             ]);
