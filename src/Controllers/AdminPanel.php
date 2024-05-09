@@ -11,6 +11,7 @@ use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\EntityManager\UsersEntity;
 use App\Boutique\EntityManager\ProductsEntity;
 use App\Boutique\Forms\ProductsAdminForms;
+use App\Boutique\Forms\SelectBoxForms;
 use Motor\Mvc\Builder\ModalBuilder;
 
 /**
@@ -172,6 +173,7 @@ class AdminPanel
 
                 $selectAllPaginate = $ordersApi->getAllPaginate();
 
+                $render->addParams(['getEnumStatus' => explode(',', str_replace(['enum', '(', ')', "'"], '', $ordersApi->getColumnParam('status')['Type'])), 'selectBoxStatus' => SelectBoxForms::class]);
                 if (isset($argumentsCall['id'])) {
                     $replaceURI = $render->getParams('uri');
                     $render->addParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));

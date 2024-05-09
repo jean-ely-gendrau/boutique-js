@@ -86,19 +86,10 @@ Export
                   </div>
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3">
-                  <span class="sr-only">Avatar</span>
-                </th>
-                <th scope="col" class="px-3 md:px-6 py-3">
                   Client
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
                   Panier/Status
-                </th>
-                <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
-                  Nombres d'article
-                </th>
-                <th scope="col" class="px-3 md:px-6 py-3 hidden md:table-cell">
-                  Total TTC
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
                   Crée le
@@ -120,41 +111,47 @@ Export
                     </div>
                   </td>
                   <td scope="row" class="flex items-center px-3 md:px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <?= $user->avatars ? '<img class="w-10 h-10 hidden md:visible rounded-full" src="' . $user->avatars . '" alt="' . $user->full_name . '">' : '<p class="justify-center items-center rounded-full border hidden md:flex border-gray-300 bg-blue-500 text-sm h-10 w-10">' . ucfirst($user->full_name[0]) . '</p>'; ?>
+                    <?= $order->avatars ? '<img class="w-10 h-10 hidden md:visible rounded-full" src="' . $order->avatars . '" alt="' . $order->full_name . '">' : '<p class="justify-center items-center rounded-full border hidden md:flex border-gray-300 bg-blue-500 text-sm h-10 w-10">' . ucfirst($order->full_name[0]) . '</p>'; ?>
                     <div class="ps-3">
-                      <?php echo $newModalUser->renderOpenButton("{$user->full_name}", [
+                      <?php echo $newModalOrder->renderOpenButton("{$order->full_name}", [
                         'type' => 'a',
                         'data-js' => 'handleViewHtml,click',
                         'data-route' => '/api-html/form/orders',
                         'data-target-id' => 'body-modal-add-order-adm',
                       ]) ?>
                     </div>
-                    <div class="text-xs md:text-sm truncate w-32 hover:text-clip md:w-full md:text-wrap font-normal text-gray-500"><?= $user->email ?></div>
-                  </td>
-                  <td class="px-3 md:px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                    <?= $user->email                      ?>
+                    <div class="text-xs md:text-sm truncate w-32 hover:text-clip md:w-full md:text-wrap font-normal text-gray-500"><?= $order->email ?></div>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell">
-                    <div class="flex items-center">
-                      <button class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                        <span class="sr-only">Boutton de diminution de la quantité</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                    <div class="flex items-center space-x-3">
+                      <?php
+                      /** @var \App\Boutique\Forms\SelectBoxForms $selectBoxStatus  */
+                      if ($order->basket === 1) : ?>
+                        <svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <defs>
+                              <style>
+                                .cls-1 {
+                                  fill: none;
+                                  stroke-miterlimit: 10;
+                                  stroke-width: 1.71px;
+                                }
+                              </style>
+                            </defs>
+                            <g id="cart">
+                              <circle class="cls-1" cx="10.07" cy="20.59" r="1.91"></circle>
+                              <circle class="cls-1" cx="18.66" cy="20.59" r="1.91"></circle>
+                              <path class="cls-1" d="M.52,1.5H3.18a2.87,2.87,0,0,1,2.74,2L9.11,13.91H8.64A2.39,2.39,0,0,0,6.25,16.3h0a2.39,2.39,0,0,0,2.39,2.38h10"></path>
+                              <polyline class="cls-1" points="7.21 5.32 22.48 5.32 22.48 7.23 20.57 13.91 9.11 13.91"></polyline>
+                            </g>
+                          </g>
                         </svg>
-                      </button>
-                      <div>
-                        <input type="number" id="first_order" class="bg-gray-50 w-16 text-center border <?= $order->quantity > 10 ? 'border-green-300' : 'border-red-300' ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 <?= $order->quantity > 10 ? 'dark:border-green-600' : 'dark:border-red-700' ?> dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="<?= $order->quantity ?>" required />
-                      </div>
-                      <button class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                        <span class="sr-only">Boutton d'augmentation de la quantité</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                        </svg>
-                      </button>
+                      <?php endif;
+                      echo $selectBoxStatus::selectStatusOrders($order, $getEnumStatus);
+                      ?>
                     </div>
-                  </td>
-                  <td class="px-3 md:px-6 py-4 hidden md:table-cell font-semibold text-gray-900 dark:text-white">
-                    <?= $order->price ?>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell font-semibold text-gray-900 dark:text-white">
                     <?= $order->created_at ?>
@@ -179,19 +176,13 @@ Export
                             'data-target-id' => 'body-modal-add-order-adm',
                           ]); ?>
                         </li>
-                        <li>
-                          <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Commandes</a>
-                        </li>
-                        <li>
-                          <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promotions</a>
-                        </li>
                       </ul>
                       <div class="py-2">
                         <a href="#" class="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline">
                           <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                             <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
                           </svg>
-                          Supprimer le produit
+                          Supprimer la commande
                         </a>
                       </div>
                     </div>

@@ -65,7 +65,7 @@ class OrdersEntity extends CrudApi
     $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
     $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
 
-    var_dump($this->getColumnParam('status'));
+    // var_dump($this->getColumnParam('status'));
     // self::paginatePerItem();
     //var_dump($this->limit, $this->offset);
 
