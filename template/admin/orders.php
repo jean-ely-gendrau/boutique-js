@@ -89,6 +89,9 @@ Export
                   Client
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
+                  Panier/Status
+                </th>
+                <th scope="col" class="px-3 md:px-6 py-3 hidden lg:table-cell">
                   Nombres d'article
                 </th>
                 <th scope="col" class="px-3 md:px-6 py-3 hidden md:table-cell">

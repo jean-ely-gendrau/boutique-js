@@ -199,6 +199,7 @@ class AdminPanel
                     'newModalOrder' => $newModalOrder,
                     'buttonModalOrder' => $buttonModalOrder
                 ]);
+                var_dump($selectAllPaginate);
                 $render->addParams('categoryName', 'commandes');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
 
