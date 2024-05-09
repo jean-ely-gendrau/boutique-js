@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Boutique\Models;
+
 class UsersHasProducts
 {
     /**

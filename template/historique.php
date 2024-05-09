@@ -1,5 +1,5 @@
 <?php
-
+/*
 use App\Boutique\Controllers\HistoriqueController;
 
 $clientId = 1; // replace 1 with the actual client ID
@@ -8,6 +8,8 @@ $clientId = 1; // replace 1 with the actual client ID
 
 $historiqueController = new HistoriqueController();
 $orders = $historiqueController->Historique($clientId); // replace $clientId with the actual client ID
+
+*/
 ?>
 
 

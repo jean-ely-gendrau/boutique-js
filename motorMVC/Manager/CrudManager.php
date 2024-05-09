@@ -478,7 +478,10 @@ class CrudManager extends BddManager implements PaginatePerPage
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch()['adress'];
 
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id WHERE users_id = :client_id AND o.basket != 1';
+        $sql = 'SELECT * FROM orders o 
+        JOIN productsorders po ON o.id = po.orders_id
+        JOIN products p ON p.id = po.products_id
+        WHERE users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
@@ -518,6 +521,60 @@ class CrudManager extends BddManager implements PaginatePerPage
         }
 
         return $orders;
+    }
+
+    /** NOTE - Voir si besoin d'enlever cette méthode
+     * Methode de récupération du panier sous forme d'objet pour Stripe Checkout
+     *
+     * @param string $clientId [id de la requête]
+     *
+     *
+     * @return array
+     */
+    public function GetBasketForStripe($clientId): array
+    {
+        $req = $this->_dbConnect->prepare(
+            'SELECT o.*, p.id, p.name, p.price, i.id, i.url_image FROM orders o 
+            INNER JOIN productsorders po ON o.id = po.orders_id
+            INNER JOIN products p ON po.products_id = p.id 
+            INNER JOIN productsimages pi ON p.id = pi.products_id
+            INNER JOIN images i ON i.id = pi.images_id
+            WHERE o.users_id = :client_id AND o.basket = 1',
+        );
+        $req->execute([':client_id' => $clientId]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    /** NOTE - Méthode à modifier pour le footer
+     * Methode de récupération des 3 produits les plus vendu
+     *
+     * @return object|array
+     */
+    public function TestGetBestThreeProducts(): object|array
+    {
+        $req = $this->_dbConnect->prepare(
+            'SELECT o.*, p.* FROM `orders` o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+        );
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    /** NOTE - Méthode à modifier pour le footer
+     * Methode de récupération des 3 sous catégories
+     *
+     * @return object|array
+     */
+    public function TestGetThreeCategory(): object|array
+    {
+        $req = $this->_dbConnect->prepare('SELECT * FROM `sub_category` WHERE id IN (1, 4, 5)');
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
     }
 
     /**

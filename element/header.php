@@ -10,6 +10,7 @@
   <title>Teacoffe</title>
   <title>
     <?= $seoConfig->seoTitlePage
+<<<<<<< HEAD
     /* TITRE */
     ?>
   </title>
@@ -42,6 +43,40 @@
                                 /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
                                 ?>" />
   <?php ?>
+=======
+/* TITRE */
+?>
+  </title>
+  <meta name="description" content="<?= $seoConfig->seoDescriptionPage
+/* DESCRIPTION */
+?>" />
+  <link rel="canonical" href="/" />
+  <!-- META SEO OG  -->
+  <meta property="og:image" content="<?= $seoConfig->seoUrlImage
+/* Url de l'image de partage */
+?>" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="<?= $seoConfig->seoAltImage
+/* Text Alt de l'image de partage */
+?>" />
+  <meta property="og:type" content="<?= $seoConfig->seoType
+/* Type de contenue */
+?>" />
+  <meta property="og:url" content="<?= $_SERVER['SERVER_NAME']
+/* Url  de la page courante */
+?>" />
+  <meta property="og:title" content="<?= $seoConfig->seoOgTitlePage ?? $seoConfig->seoTitlePage
+/* TITRE de partage, peu être légerement différent du titre */
+?>" />
+  <meta property="og:description" content="<?= $seoConfig->seoOgDescriptionPage ?? $seoConfig->seoDescriptionPage
+/* DESCRIPTION de partage, peu être légerement différent de la déscription */
+?>" />
+  <meta name="robots" content="<?= $seoConfig->seoRobotIndex
+/* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
+?>" />
+  <?php  ?>
+>>>>>>> main
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
 
@@ -63,14 +98,14 @@
           <?php
           $result = $rendering->give('isConnected') ? true : false;
           if ($result) {
-            echo '<button type="button"
+              echo '<button type="button"
             class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
             data-dropdown-placement="bottom">
             <span class="sr-only">Ouvrir le menu utilisateur</span>
             <p class="text-white p-1 w-8 h-8 flex items-center justify-center rounded-full font-bold">' .
-              $rendering->give('full_name')[0] .
-              '</p>
+                  $rendering->give('full_name')[0] .
+                  '</p>
           </button>
           <!-- Dropdown menu -->
           <div
@@ -78,11 +113,11 @@
             id="user-dropdown">
             <div class="px-4 py-3">
               <span class="block text-sm text-gray-900 dark:text-white">' .
-              $rendering->give('full_name') .
-              '</span>
+                  $rendering->give('full_name') .
+                  '</span>
               <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">' .
-              $rendering->give('email') .
-              '</span>
+                  $rendering->give('email') .
+                  '</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -101,7 +136,13 @@
             </ul>
           </div>';
           } else {
+<<<<<<< HEAD
             echo '<svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z"></path> </g></svg>
+=======
+              echo '<img class="rounded-full h-5 w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 2xl:h-8 2xl:w-8 mx-2" src="http://' .
+                  $serverName .
+                  '/assets/images/icon/userIcon.svg" alt="connexion-inscription utilisateur" class="icon" />
+>>>>>>> main
               <div class="flex flex-nowrap md:space-x-1">
                 <a href="/inscription" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Inscription</a>
                 <a href="/connexion" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connexion</a>

@@ -40,6 +40,10 @@ class HistoriqueController
 
     public function Historique(...$arguments)
     {
+
+        /** @var \Motor\Mvc\Utils\Render */
+        $render = $arguments['render'];
+
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
@@ -50,6 +54,8 @@ class HistoriqueController
         $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client
-        return $orders;
+
+        $render->addParams('orders', $orders);
+        return  $render->render('historique', $arguments);
     }
 }
