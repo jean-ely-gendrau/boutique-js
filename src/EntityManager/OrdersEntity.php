@@ -37,4 +37,39 @@ class OrdersEntity extends CrudApi
   public function __set(string $property, mixed $value)
   {
   }
+
+  /********************************************** Méthode de L'API */
+
+  /**
+   * Method getAll Products NATURAL JOIN CATEGORY SUB CAT
+   *
+   * @params array $select [les collones à séléctionner | si null toutes les collones seront extraite]
+   * @return string|array
+   */
+  public function getAllPaginate(?array $select = null, bool $returnJson = false): string|array
+  {
+    //     GROUP BY ord.id_product
+    $selectItem = is_null($select) ? '*' : join(', ', $select);
+
+    $sql = "SELECT order.*  
+            FROM {$this->getTableName()} as order 
+            JOIN productsorders as prod_order ON order.id = prod_order.orders_id 
+            LEFT JOIN products as prod ON prod.id = prod_order.products_id 
+            LIMIT :limit OFFSET :offset";
+
+    // Désectivation ATTR_EMULATE_PREPARES
+    $connect = $this->_dbConnect;
+    $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+    //Prépare
+    $req = $connect->prepare($sql);
+    $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
+    $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+
+    //var_dump($req->fetchAll());
+    // self::paginatePerItem();
+    //var_dump($this->limit, $this->offset);
+
+    return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
+  }
 }
