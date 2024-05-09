@@ -85,7 +85,7 @@ class AdminPanel
 
                 $newModalUser = new ModalBuilder();
                 $newModalUser->setIdModal('modal-form-users');
-                $newModalUser->addHeader('modal-add-users-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Ajout de nouveaux utilisateurs</h2>')
+                $newModalUser->addHeader('modal-add-users-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Formulaire utilisateurs</h2>')
                     ->addBody('body-modal-add-users-adm', '<div id="form-registration"></div>');
 
                 $buttonModalUser =   $newModalUser->renderOpenButton('
@@ -133,7 +133,7 @@ class AdminPanel
                 //var_dump($render->getParams('uri'));
                 $newModalProduct = new ModalBuilder();
                 $newModalProduct->setIdModal('modal-form-product');
-                $newModalProduct->addHeader('modal-add-product-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Ajout de nouveaux produits</h2>')
+                $newModalProduct->addHeader('modal-add-product-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Formulaire produits</h2>')
                     ->addBody('body-modal-add-product-adm', '<div></div>');
 
                 $buttonModalProduct =   $newModalProduct->renderOpenButton('

@@ -170,6 +170,16 @@ class UsersRegistrationForms
                 'error-message-class' => 'text-red-600 text-sm',
                 'error-message' => $errors['email'] ?? false,
             ]) // CHAMP EMAIL
+            ->addField('date', 'birthday', [
+                'text-label' => 'Date de naissance',
+                'class-label-group' => 'flex flex-col w-full',
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'value' => $modelUser->getBirthday() ?? '',
+                'error-message-class' => 'text-red-600 text-sm',
+                'error-message' => $errors['birthday'] ?? false,
+            ]) // CHAMP BIRTHDAY
             ->addField('textarea', 'adress', [
                 'text-label' => 'Adresse Client',
                 'class-label-group' => 'flex flex-col w-full',
@@ -199,7 +209,7 @@ class UsersRegistrationForms
                     'data-js' => 'handlePost,click',
                     'data-route' => '/api/generateMPD/' . $modelUser->getId() . '',
                     'data-method' => 'POST',
-                    'data-token' => base64_encode('ABC55'),
+                    //'data-token' => base64_encode('ABC55'),
                 ]
             ]); // CHAMP PASSWORD
         } else {
@@ -223,10 +233,16 @@ class UsersRegistrationForms
         $nameButton = $data['update-user'] ?? 'validation-user';
         $anchorButton = isset($data['update-user']) ? 'Modification' : 'Inscription';
         $formRegister->setClassActionGroup('flex flex-wrap w-full justify-between')
-            ->addElementAction('submit', $nameButton, $nameButton, [
+            ->addElementAction('button', $nameButton, $nameButton, [
                 'class' =>
                 'flex w-1/2 md:w-48 items-center justify-center p-3 truncate hover:text-clip text-sm font-medium text-gray-700 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-500 hover:underline',
                 'anchor' => $anchorButton,
+                'attributes' => [
+                    'data-js' => 'handlePost,click',
+                    'data-route' => '/api/update-user/' . $modelUser->getId() . '',
+                    'data-method' => 'POST',
+                    //'data-token' => base64_encode('ABC55'),
+                ]
             ]);
         /**
          * Paramètrage du boutton du fomulaire Supprimer
