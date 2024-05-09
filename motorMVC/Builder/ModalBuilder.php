@@ -213,17 +213,17 @@ class ModalBuilder extends AbstractModalBuilder
         ],
     ) {
 
-        $output = '<button ';
-        $output .= 'data-modal-target="' . $this->idModal . '" ';
-        $output .= 'data-modal-toggle="' . $this->idModal . '" ';
+        $output = '<' . $option['type'] ?? 'button';
+        $output .= ' data-modal-target="' . $this->idModal . '"';
+        $output .= ' data-modal-toggle="' . $this->idModal . '"';
 
         // Ajout des attributs du tableau d'options
         foreach ($option as $keyOption => $valueOption) {
             $output .= ' ' . $keyOption . '="' . $valueOption . '" ';
         }
 
-        $output .= '">' . $anchor;
-        $output .= '</button>';
+        $output .= '>' . $anchor;
+        $output .= '</' . $option['type'] ?? 'button' . '>';
 
         return $output;
     }
