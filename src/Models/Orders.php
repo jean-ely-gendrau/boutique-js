@@ -48,6 +48,23 @@ class Orders implements JsonSerializable
      */
     private $users_id;
 
+    /************************************************* Other Properties */
+
+    /**
+     * full_name
+     *
+     * @var string
+     */
+    private $full_name;
+
+    /**
+     * email
+     *
+     * @var string
+     */
+    private $email;
+    /* ----------------------------------- CONSTRUCTOR ------------------------------ */
+
     function __construct(?array $data = null)
     {
         $this->id_order = $data['id_order'] ?? '';
@@ -235,6 +252,56 @@ class Orders implements JsonSerializable
     public function setUsers_id(int $users_id)
     {
         $this->users_id = $users_id;
+
+        return $this;
+    }
+
+    /************************************************* Other SETTER/GETTER  *************************************/
+
+    /**
+     * Get email
+     *
+     * @return  string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set email
+     *
+     * @param  string  $email  email
+     *
+     * @return  self
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get full_name
+     *
+     * @return  string
+     */
+    public function getFull_name()
+    {
+        return $this->full_name;
+    }
+
+    /**
+     * Set full_name
+     *
+     * @param  string  $full_name  full_name
+     *
+     * @return  self
+     */
+    public function setFull_name(string $full_name)
+    {
+        $this->full_name = $full_name;
 
         return $this;
     }

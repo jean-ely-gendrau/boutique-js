@@ -51,11 +51,9 @@ class OrdersEntity extends CrudApi
     //     GROUP BY ord.id_product
     $selectItem = is_null($select) ? '*' : join(', ', $select);
 
-    $sql = "SELECT ord.* 
+    $sql = "SELECT ord.*, u.*  
             FROM {$this->getTableName()} as ord 
-            LEFT JOIN productsorders as prod_order ON ord.id = prod_order.orders_id 
             LEFT JOIN users as u ON u.id = ord.users_id 
-            LEFT JOIN products as prod ON prod.id = prod_order.products_id 
             LIMIT :limit OFFSET :offset";
 
     // Désectivation ATTR_EMULATE_PREPARES
