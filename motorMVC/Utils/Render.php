@@ -50,6 +50,9 @@ class Render extends SessionManager
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
 
+        // Inclusion du menu admin
+        require_once __DIR__ . '/../../element/admin/menu.php';
+
         // Inclusion du template
         require_once __DIR__ . "/../../template/admin/{$template}.php";
 
