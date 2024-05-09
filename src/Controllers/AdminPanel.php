@@ -80,7 +80,7 @@ class AdminPanel
                 $selectAllPaginate = $usersApi->getAllPaginate();
                 if (isset($argumentsCall['id'])) {
                     $replaceURI = $render->getParams('uri');
-                    $render->setParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
+                    $render->addParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
                 }
 
                 $newModalUser = new ModalBuilder();
@@ -127,7 +127,7 @@ class AdminPanel
 
                 if (isset($argumentsCall['id'])) {
                     $replaceURI = $render->getParams('uri');
-                    $render->setParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
+                    $render->addParams('uri', str_replace("/{$argumentsCall['id']}", '', $replaceURI));
                 }
                 //var_dump($selectAllPaginate);
                 //var_dump($render->getParams('uri'));
