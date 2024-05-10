@@ -25,4 +25,19 @@ class StripeController
         $payment = new StripePayment();
         $payment->StartPayment($panier);
     }
+
+    public function Success(...$arguments)
+    {
+        $IdclientCrudManager = new CrudManager('users', Users::class);
+        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+
+        $crudManagerOrder = new CrudManager('orders', Orders::class);
+        $commande = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+
+        $arguments['render']->addParams('commande', $commande);
+
+        $content = $arguments['render']->render('stripe/success', $arguments);
+
+        return $content;
+    }
 }

@@ -1559,6 +1559,10 @@ input:checked + .toggle-bg {
   width: 100%;
 }
 
+.w-6\/12 {
+  width: 50%;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -3100,6 +3104,10 @@ input:checked + .toggle-bg {
 
   .md\:mt-4 {
     margin-top: 1rem;
+  }
+
+  .md\:mb-0 {
+    margin-bottom: 0px;
   }
 
   .md\:flex {
