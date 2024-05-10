@@ -2,13 +2,40 @@
 
 namespace App\Boutique\Models\Special;
 
-use App\Boutique\Models\Orders;
-
 class BestProduct
 {
   protected $productId;
 
   protected $productName;
+
+  public function __construct()
+  {
+  }
+
+  /* ----------------------------------- METHOD MAGIC ------------------------------ */
+
+  /**
+   * Get magic __get
+   *
+   * @return mixed
+   */
+  public function __get($name)
+  {
+    if (property_exists($this, $name)) {
+      return $this->$name;
+    }
+  }
+
+  /**
+   * Set magic __set
+   *
+   * @param string $property La propriétée
+   * @param mixed $value La valeur de la propriétée
+   * @return self
+   */
+  public function __set(string $property, mixed $value)
+  {
+  }
 
   /**
    * Get the value of productId

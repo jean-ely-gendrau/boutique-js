@@ -22,7 +22,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/livraison">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Livraison</p>
@@ -31,7 +31,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/paiement">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Paiement</p>
@@ -40,7 +40,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/contact">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Contact</p>
@@ -49,7 +49,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/boutique">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Boutique</p>
@@ -72,11 +72,13 @@ use Motor\Mvc\Manager\CrudManager;
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                <?php /* Ce code est commenté la requête prend trop de ressource
+                STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /* STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 */
+                        
                         $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
                         $bestCategory = $crudManagerCategory->TestGetThreeCategory();
                         ?>
@@ -91,6 +93,8 @@ use Motor\Mvc\Manager\CrudManager;
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                */
+                ?>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
