@@ -114,7 +114,7 @@ class Render extends SessionManager
      */
     public function addSession(array $params): void
     {
-        $this->addParams($params);
+        $this->add($params);
     }
 
     /**
