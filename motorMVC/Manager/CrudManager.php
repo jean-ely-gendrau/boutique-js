@@ -487,19 +487,23 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getByIdOrder($clientId)
     {
+        /*
         $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id = :client_id');
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
-        $adresse = $adresse->fetch()['adress'];
+        $adresse = $adresse->fetch();
+*/
 
-        $sql = 'SELECT * FROM orders o 
+        $sql = 'SELECT u.adress, o.*, p.* FROM orders o 
         JOIN productsorders po ON o.id = po.orders_id
         JOIN products p ON p.id = po.products_id
-        WHERE users_id = :client_id AND o.basket != 1';
+        join users u ON u.id = o.users_id 
+        WHERE o.users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute([':client_id' => $clientId]);
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $stmt->execute(['client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_OBJ);
 
+        /*
         $orders = [];
 
         while ($row = $stmt->fetch()) {
@@ -511,13 +515,18 @@ class CrudManager extends BddManager implements PaginatePerPage
                 'status' => $row['status'],
             ];
         }
-
-        return $orders;
+*/
+        return $stmt->fetchAll();
     }
 
     public function getbyidbasket($clientId)
     {
-        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1';
+        $sql = 'SELECT * FROM orders o 
+        JOIN productsorders po ON o.id = po.orders_id
+        JOIN products p ON p.id = po.products_id
+        WHERE o.users_id = :client_id 
+        AND o.basket = 1';
+
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
@@ -569,7 +578,9 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function TestGetBestThreeProducts(): object|array
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' . $this->_tableName . ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+            'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' .
+                $this->_tableName .
+                ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -618,7 +629,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
      * exemple : array(12) { ["Field"]=> string(6) "status" [0]=> string(6) "status" ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')" [1]=> string(46) "enum('en attente','expedier','livrer','echec')" ["Null"]=> string(3) "YES" [2]=> string(3) "YES" ["Key"]=> string(0) "" [3]=> string(0) "" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(0) "" [5]=> string(0) "" }
      * -> ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')
-     * 
+     *
      * @param string $column [nom de la collonne à récuperer]
      * @return bool|array
      */
