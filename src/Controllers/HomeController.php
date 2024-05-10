@@ -52,6 +52,10 @@ class HomeController
         // Instance de la classe Slide
         $horizontalSlide = new Slider();
 
+        // Pagination , séléction de la page 1 et affichage de 10 produit max
+        // Le but de cet action est de limiter le nombre de résultat des prochaine reqûete pour soulager l'affichage
+        $crudManager->paginatePerPage(1, 10);
+
         // Création d'un slider importent l'ensemble des produits
         $products = $crudManager->getAllProduct();
         // var_dump($crudManager->getAllProduct());

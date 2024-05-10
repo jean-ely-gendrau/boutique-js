@@ -161,14 +161,21 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function getAllProduct(): array
     {
-        $req = $this->_dbConnect->prepare(
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        $req = $connect->prepare(
             "SELECT p.*, i.url_image
             FROM {$this->_tableName} p
             INNER JOIN ProductsImages pi ON p.id = pi.products_id
             INNER JOIN images i ON pi.images_id = i.id
-            WHERE p.id = pi.images_id",
+            WHERE p.id = pi.images_id 
+            LIMIT :limit OFFSET :offset",
         );
-        $req->execute();
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -184,12 +191,19 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function getAllByCategoryId(string $category_id): array
     {
-        $req = $this->_dbConnect->prepare(
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        $req = $connect->prepare(
             "SELECT p.*, pi.products_id, i.url_image FROM {$this->_tableName} AS p 
             INNER JOIN ProductsImages pi ON p.id = pi.products_id 
-            INNER JOIN images i ON pi.images_id = i.id WHERE p.category_id = {$category_id}",
+            INNER JOIN images i ON pi.images_id = i.id WHERE p.category_id = {$category_id} 
+            LIMIT :limit OFFSET :offset",
         );
-        $req->execute();
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -555,7 +569,7 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function TestGetBestThreeProducts(): object|array
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT o.*, p.* FROM `orders` o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+            'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' . $this->_tableName . ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -570,10 +584,10 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function TestGetThreeCategory(): object|array
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM `sub_category` WHERE id IN (1, 4, 5)');
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id IN (1, 4, 5)');
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
-
+        var_dump($req->fetchAll());
         return $req->fetchAll();
     }
 

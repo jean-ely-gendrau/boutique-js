@@ -1,7 +1,7 @@
 <?php
 
-use App\Boutique\Models\SubCategory;
-use App\Boutique\Models\Orders;
+//use App\Boutique\Models\SubCategory;
+use App\Boutique\Models\Special\BestProduct;
 use Motor\Mvc\Manager\CrudManager;
 ?>
 </main>
@@ -21,7 +21,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/livraison">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Livraison</p>
@@ -30,7 +30,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/paiement">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Paiement</p>
@@ -39,7 +39,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/contact">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Contact</p>
@@ -48,7 +48,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/boutique">
-                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
+                                <img src="http://<?= $serverName ?>/assets/images/icon/icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
                             </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Boutique</p>
@@ -61,35 +61,39 @@ use Motor\Mvc\Manager\CrudManager;
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
                         /* STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS */
-                        $crudManagerOrder = new CrudManager('orders', Orders::class);
+                        $crudManagerOrder = new CrudManager('orders', BestProduct::class);
                         $bestProducts = $crudManagerOrder->TestGetBestThreeProducts();
                         ?>
                         <?php foreach ($bestProducts as $product) : ?>
                             <li class="mb-4">
-                                <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
+                                <a id="<?= $product->productId ?>" class="article-name cursor-pointer"><?= $product->productName ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                <?php /* Ce code est commenté la requête prend trop de ressource
+                STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /* STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 */
+                        
                         $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
                         $bestCategory = $crudManagerCategory->TestGetThreeCategory();
                         ?>
                         <?php foreach ($bestCategory as $category) : ?>
                             <li class="mb-4">
-                                <?php if ($category->id <= 3) { ?>
+                                <?php if ($category->id <= 3) : ?>
                                     <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
-                                <?php } else { ?>
+                                <?php else : ?>
                                     <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
-                                <?php } ?>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                */
+                ?>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
@@ -139,21 +143,21 @@ use Motor\Mvc\Manager\CrudManager;
 <!-- END FOOTER -->
 
 <!-- ADD JS -->
-<script>
+<script defer>
     function onSubmit(token) {
         document.getElementById("verif").submit();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script defer src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script defer src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
-<script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/search.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/filters.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
+<script defer type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/search.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/produit.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
+<script defer src="https://js.stripe.com/v3/"></script>
 </body>
 
 </html>
