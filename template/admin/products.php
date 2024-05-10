@@ -124,7 +124,7 @@ Export
                     <?= $newModalProduct->renderOpenButton($product->name, [
                       'type' => 'a',
                       'data-js' => 'handleViewHtml,click',
-                      'data-route' => '/api-html/form/products',
+                      'data-route' => '/api-html/template/products/' . $product->id . '',
                       'data-target-id' => 'body-modal-add-product-adm',
                     ]); ?>
                   </td>
@@ -169,7 +169,7 @@ Export
                             'class' =>
                             'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white',
                             'data-js' => 'handleViewHtml,click',
-                            'data-route' => '/api-html/form/products',
+                            'data-route' => '/api-html/template/products/' . $product->id . '',
                             'data-target-id' => 'body-modal-add-product-adm',
                           ]); ?>
                         </li>

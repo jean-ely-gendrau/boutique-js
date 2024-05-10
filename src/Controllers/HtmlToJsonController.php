@@ -4,6 +4,7 @@ namespace App\Boutique\Controllers;
 
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
@@ -40,7 +41,6 @@ class HtmlToJsonController
    */
   public function FormAdmin(...$arguments)
   {
-
     switch ($arguments['tableName'] ?? '') {
         /*******
        * User
@@ -53,7 +53,7 @@ class HtmlToJsonController
          * Product
          */
       case 'products':
-        $bufferOut = ['htmlElement' => ProductsAdminForms::ProductsForm()];
+        $bufferOut = ['htmlElement' => ProductsAdminForms::ProductsForm(...$arguments ?? [])];
         break;
 
       default:
@@ -80,7 +80,7 @@ class HtmlToJsonController
        */
       case 'profile':
         $crudManager = new CrudManager('users', Users::class);
-        $select = $crudManager->getById($arguments['idUser']);
+        $select = $crudManager->getById($arguments['idGet']);
 
         $array['params'] = json_decode(json_encode($select), true);
         $array['params']['jsonFalse'] = true;
@@ -90,11 +90,18 @@ class HtmlToJsonController
         break;
 
         /*******
-         * Product
+         * Products
          */
-        //  case 'products':
-        //   $returnJson = ['htmlElement' => ProductsAdminForms::ProductsForm()];
-        //  break;
+      case 'products':
+        $crudManager = new CrudManager('products', ProductsModels::class);
+        $select = $crudManager->getById($arguments['idGet']);
+
+        $array['params'] = json_decode(json_encode($select), true);
+        $array['params']['jsonFalse'] = true;
+        $array['params']['tableName'] = 'products';
+        $array['params']['update-product'] = true; // Paramètre pour la mise à jours (utilisé par la __CLASS__ UsersRegistrationForms::AdminAddUser )
+        $bufferOut = call_user_func_array([$this, 'FormAdmin'], $array['params']);
+        break;
     }
 
     return $this->returnJson(200, $bufferOut);

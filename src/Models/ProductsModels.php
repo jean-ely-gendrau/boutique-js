@@ -94,9 +94,16 @@ class ProductsModels implements JsonSerializable
      */
     private $subCatName;
 
-    public function __construct()
+    public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
+
+        // Hydrate les propriété existante de la class avec les données passée en arguments
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
