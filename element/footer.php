@@ -1,6 +1,6 @@
 <?php
 
-use App\Boutique\Models\SubCategory;
+//use App\Boutique\Models\SubCategory;
 use App\Boutique\Models\Special\BestProduct;
 use Motor\Mvc\Manager\CrudManager;
 ?>
