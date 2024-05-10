@@ -81,11 +81,11 @@ use Motor\Mvc\Manager\CrudManager;
                         ?>
                         <?php foreach ($bestCategory as $category) : ?>
                             <li class="mb-4">
-                                <?php if ($category->id <= 3) { ?>
+                                <?php if ($category->id <= 3) : ?>
                                     <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
-                                <?php } else { ?>
+                                <?php else : ?>
                                     <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
-                                <?php } ?>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -139,21 +139,21 @@ use Motor\Mvc\Manager\CrudManager;
 <!-- END FOOTER -->
 
 <!-- ADD JS -->
-<script>
+<script defer>
     function onSubmit(token) {
         document.getElementById("verif").submit();
     }
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script defer src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script defer src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
-<script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/search.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/produit.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/filters.js"></script>
-<script src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
+<script defer type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/search.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/produit.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
+<script defer src="https://js.stripe.com/v3/"></script>
 </body>
 
 </html>
