@@ -104,10 +104,16 @@ $router->map('GET|POST', '/panel-admin/[a:tableName]', 'AdminPanel#Index', 'admi
 $router->map('GET|POST', '/panel-admin/[a:tableName]/[i:id]', 'AdminPanel#Index', 'admin-panel-select-page');
 
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
+
+// Route filter controller
 $router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
-$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'testJS');
-$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS1');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'testJS2');
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'querySubCat');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'queryFilter');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
+
+// Route wishlist
+$router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
+$router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
@@ -217,20 +223,20 @@ if (is_array($match)) :
   $params = $match['params'];
 
   /* Cas de Figure Du contrôlleur et de la méthod à appeler
-     * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
-     * Le controller TestRender
-     * la méthod Index
-     *
-     *                      Modification apporté
-     *
-     * Ov va tester la $match['target'] variable avec str_contains
-     *
-     * Si la chaîne contient un # alors nous sommes dans le cas de figure
-     * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
-     *
-     * - Traiter les données avant de les rendre au client
-     * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
-     */
+   * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+   * Le controller TestRender
+   * la méthod Index
+   *
+   *                      Modification apporté
+   *
+   * Ov va tester la $match['target'] variable avec str_contains
+   *
+   * Si la chaîne contient un # alors nous sommes dans le cas de figure
+   * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
+   *
+   * - Traiter les données avant de les rendre au client
+   * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
+   */
   if (str_contains($match['target'], '#')) :
     // On assign les valeurs du tableau à
     // $contoller pour $match['target'][0]
@@ -245,12 +251,12 @@ if (is_array($match)) :
     $controller = class_exists($controller) ? new $controller() : false;
 
     /*
-         * Récupération des valeurs transmises par $_POST
-         * On parcourt le tableau $_POST et on assigne chaque valeur
-         * $match['params']['post']['key';
-         * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
-         * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
-         */
+     * Récupération des valeurs transmises par $_POST
+     * On parcourt le tableau $_POST et on assigne chaque valeur
+     * $match['params']['post']['key';
+     * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
+     * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
+     */
     if (isset($_POST)) {
       foreach ($_POST as $key => $value) {
         $match['params'][$key] = htmlspecialchars(trim($value));
@@ -260,9 +266,9 @@ if (is_array($match)) :
     }
 
     /* Ajoute l'Uri dans les params à transmettre à la class Controller
-            // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
+        // Ajoute le nom de domaine dans les params à transmettre à la class Controller(Pour le lien des images par exemple)
 
-            */
+        */
     $match['params']['render'] = $rendering;
 
     // Test De la Debug BAR : Debug::view($match);
@@ -273,45 +279,45 @@ if (is_array($match)) :
     // https://www.php.net/manual/en/function.is-callable.php
     if (is_callable([$controller, $method])) :
       /*
-                   * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
-                   * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
-                   * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
-                   * 
-                   * exemple simple de la doc
-                     $func = function($arg1, $arg2) {
-                          return $arg1 * $arg2;
-                      };
+             * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
+             * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
+             * en deuxième paramètre on lui passe un tableau d'argument que nous récupérons dans la méthode que l'ont à déclarer dans $method
+             * 
+             * exemple simple de la doc
+               $func = function($arg1, $arg2) {
+                    return $arg1 * $arg2;
+                };
 
-                      var_dump(call_user_func_array($func, array(2, 4)));
-                      $arg1 = 2
-                      $arg2 = 4
-                      Ici il charge la function $func et il passe un tableau avec deux variable
+          var_dump(call_user_func_array($func, array(2, 4)));
+          $arg1 = 2
+          $arg2 = 4
+          Ici il charge la function $func et il passe un tableau avec deux variable
 
-                      Cela permet de charger dynamique des function ou des méthodes définit dans les class.
-                   * https://www.php.net/manual/en/function.call-user-func-array.php
-                   */
+          Cela permet de charger dynamique des function ou des méthodes définit dans les class.
+       * https://www.php.net/manual/en/function.call-user-func-array.php
+       */
 
       echo call_user_func_array([$controller, $method], $match['params']);
     else :
       goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
     endif;
   /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
-         *
-         * On appel la méthode defaultRender prenant en paramétre
-         * le nom de la page ($match['target']) et la variable $serverName
-         *
-         * Enfin on affiche le resultat de la méthode
-         */
+     *
+     * On appel la méthode defaultRender prenant en paramétre
+     * le nom de la page ($match['target']) et la variable $serverName
+     *
+     * Enfin on affiche le resultat de la méthode
+     */
   else :
     $rendering->addParams('params', $match['params']);
     echo $rendering->defaultRender($match['target']);
   endif;
 /*Si la page demandé est inexistante, nouvelle instance de Render
-     *
-     * On passe en paramétre de la méthode la page '404'
-     *
-     * Enfin On affiche le résultat de la méthode
-     */
+   *
+   * On passe en paramétre de la méthode la page '404'
+   *
+   * Enfin On affiche le résultat de la méthode
+   */
 // GOTO ERROR
 else :
   error:

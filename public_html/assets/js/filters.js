@@ -8,18 +8,18 @@ let buttonValue;
 const buttonClear = document.getElementById('clear');
 
 if (buttonClear !== null) {
-buttonClear.addEventListener('click', function () {
-  buttonValue = null;
-  messageResearch.innerText = '';
-  selectSubCat.selectedIndex = 0;
-  filterPrice();
-});
+  buttonClear.addEventListener('click', function () {
+    buttonValue = null;
+    messageResearch.innerText = '';
+    selectSubCat.selectedIndex = 0;
+    filterPrice();
+  });
 }
 
 if (selectSubCat !== null) {
-document.addEventListener("DOMContentLoaded", function () {
-  selectSubCat.selectedIndex = 0;
-})
+  document.addEventListener("DOMContentLoaded", function () {
+    selectSubCat.selectedIndex = 0;
+  })
 }
 
 const currentPageUrl = window.location.origin;
@@ -100,22 +100,21 @@ function filterPrice(filter = null, subCat = null) {
         productName.innerText = product.name;
         productCard.appendChild(productName);
 
-        // Create div for the favorite icon
+        /// Create div for the favorite icon
         const favoriteDiv = document.createElement('div');
-        favoriteDiv.classList.add('bg-gray-200', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'cursor-pointer', 'absolute', 'top-4', 'right-4');
+        favoriteDiv.setAttribute('id', product.id); // Add product id as id attribute
+        favoriteDiv.classList.add('favorites', 'bg-gray-200', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'cursor-pointer', 'absolute', 'top-4', 'right-4');
 
         // Create SVG element
         const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svgIcon.setAttribute('id', product.id);
-        svgIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-        svgIcon.setAttribute('width', '18px');
-        svgIcon.classList.add('favorites', 'fill-gray-800', 'inline-block');
-        svgIcon.setAttribute('viewBox', '0 0 64 64');
+        svgIcon.setAttribute('class', 'fill-gray-800 inline-block');
+        svgIcon.setAttribute('width', '22px');
+        svgIcon.setAttribute('viewBox', '0 0 192 192');
 
         // Create path element for the SVG icon
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', 'M45.5 4A18.53 18.53 0 0 0 32 9.86 18.5 18.5 0 0 0 0 22.5C0 40.92 29.71 59 31 59.71a2 2 0 0 0 2.06 0C34.29 59 64 40.92 64 22.5A18.52 18.52 0 0 0 45.5 4ZM32 55.64C26.83 52.34 4 36.92 4 22.5a14.5 14.5 0 0 1 26.36-8.33 2 2 0 0 0 3.27 0A14.5 14.5 0 0 1 60 22.5c0 14.41-22.83 29.83-28 33.14Z');
-        path.setAttribute('data-original', '#000000');
+        path.setAttribute('d', 'M60.732 29.7C41.107 29.7 22 39.7 22 67.41c0 27.29 45.274 67.29 74 94.89 28.744-27.6 74-67.6 74-94.89 0-27.71-19.092-37.71-38.695-37.71C116 29.7 104.325 41.575 96 54.066 87.638 41.516 76 29.7 60.732 29.7z');
+        path.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
 
         // Append path to the SVG
         svgIcon.appendChild(path);
@@ -125,6 +124,8 @@ function filterPrice(filter = null, subCat = null) {
 
         // Append favorite div to the product card
         productCard.appendChild(favoriteDiv);
+
+
 
         const priceContainer = document.createElement('div');
         priceContainer.classList.add('flex', 'justify-center');
@@ -167,18 +168,18 @@ filterButtons.forEach(button => {
   });
 });
 
-if (selectSubCat!== null) {
-selectSubCat.addEventListener('change', function () {
-  if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
-    filterPrice();
-  } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) {
+if (selectSubCat !== null) {
+  selectSubCat.addEventListener('change', function () {
+    if (buttonValue === undefined && selectSubCat.value === 'subCatDefault') {
+      filterPrice();
+    } else if (selectSubCat.value === 'subCatDefault' && buttonValue !== undefined) {
 
-    filterPrice(buttonValue, null);
-  }
-  else if (buttonValue === undefined) {
-    filterPrice(null, selectSubCat.value);
-  } else {
-    filterPrice(buttonValue, selectSubCat.value);
-  }
-});
+      filterPrice(buttonValue, null);
+    }
+    else if (buttonValue === undefined) {
+      filterPrice(null, selectSubCat.value);
+    } else {
+      filterPrice(buttonValue, selectSubCat.value);
+    }
+  });
 }
