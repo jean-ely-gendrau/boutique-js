@@ -43,13 +43,13 @@ function checkVerify(event) {
             return response.json();
         }).then(result => {
             if (result === 'Suppre done') {
-                console.log('eliminado');
+                console.log('Supprimer des favoris');
                 pathClicked.setAttribute('style' ,'clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
             } else if (result === 'Ajoute fav') {
-                console.log('Añadido');
+                console.log('Ajoute des favoris');
                 pathClicked.setAttribute('style' ,'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
             } else {
-                console.log('error')
+                console.log('Connectez-vous')
             }
         }).catch(error => {
             console.error('There was a problem with the fetch operation:', error);
