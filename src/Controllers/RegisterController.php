@@ -147,6 +147,10 @@ class RegisterController
                 // var_dump($verifPassword->verify($user->password, $arguments['password']));
                 // var_dump($verifPassword->hash($arguments['password']));
                 if ($verifPassword->verify($user->password, $arguments['password'])) {
+                    // echo "Si";
+                    // var_dump($user->email);
+                    // var_dump($user->full_name);
+                    // var_dump($user->role);
                     // $sessionManager = new SessionManager();
                     // $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
                     $arguments['render']->addSession([
