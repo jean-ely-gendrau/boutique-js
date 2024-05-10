@@ -487,19 +487,23 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getByIdOrder($clientId)
     {
+        /*
         $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id = :client_id');
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch();
+*/
 
-        $sql = 'SELECT * FROM orders o 
+        $sql = 'SELECT u.adress, o.*, p.* FROM orders o 
         JOIN productsorders po ON o.id = po.orders_id
         JOIN products p ON p.id = po.products_id
+        join users u ON u.id = o.users_id 
         WHERE o.users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute(['client_id' => 6]);
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $stmt->execute(['client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_OBJ);
 
+        /*
         $orders = [];
 
         while ($row = $stmt->fetch()) {
@@ -511,8 +515,8 @@ class CrudManager extends BddManager implements PaginatePerPage
                 'status' => $row['status'],
             ];
         }
-
-        return $orders;
+*/
+        return $stmt->fetchAll();
     }
 
     public function getbyidbasket($clientId)
