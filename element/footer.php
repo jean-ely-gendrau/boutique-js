@@ -67,7 +67,7 @@ use Motor\Mvc\Manager\CrudManager;
                         ?>
                         <?php foreach ($bestProducts as $product) : ?>
                             <li class="mb-4">
-                                <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
+                                <a id="<?= $product->productId ?>" class="article-name cursor-pointer"><?= $product->productName ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>
