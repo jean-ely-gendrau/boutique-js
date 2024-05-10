@@ -58,7 +58,7 @@ class Render extends SessionManager
         $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
-        extract(array_merge($arguments[0], $this->params));
+        extract(array_merge($arguments[0] ?? [], $this->params));
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
@@ -66,8 +66,14 @@ class Render extends SessionManager
         // Inclusion du menu admin
         require_once __DIR__ . '/../../element/admin/menu.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/admin/{$template}.php";
+        // EXEPTION PROVISOIR pour la fixBubRender#72
+        // Une branch exception et une issue doivent être créées à cet effet
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
 
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
@@ -104,8 +110,14 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/{$template}.php";
+        // EXEPTION PROVISOIR pour la fixBubRender#72
+        // Une branch exception et une issue doivent être créées à cet effet
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
 
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
@@ -193,9 +205,14 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/{$template}.php";
-
+        // EXEPTION PROVISOIR pour la fixBubRender#72
+        // Une branch exception et une issue doivent être créées à cet effet
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
 
