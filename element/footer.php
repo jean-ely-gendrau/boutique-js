@@ -1,3 +1,8 @@
+<?php
+use App\Boutique\Models\SubCategory;
+use App\Boutique\Models\Orders;
+use Motor\Mvc\Manager\CrudManager;
+?>
 </main>
 <!-- END MAIN -->
 
@@ -5,53 +10,93 @@
 <footer class="bg-white dark:rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 dark:mx-2">
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
-            <div class="mb-6 md:mb-0">
+            <div class="mb-6 md:mb-auto">
                 <a href="http://<?= $serverName ?>" class="flex items-center">
                     <img src="http://<?= $serverName ?>/assets/images/tea-coffee.png" class="h-8 me-3" alt="TeaCoffee Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TeaCoffee</span>
                 </a>
+                <!-- Livraison -->
+                <div class="flex content-col justify-between mt-5">
+                    <div class="mx-2">
+                        <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
+                            <a href="/information/livraison">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
+                        </a>
+                        </div>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Livraison</p>
+                    </div>
+                <!-- Paiement -->
+                    <div class="mx-2">
+                        <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
+                            <a href="/information/paiement">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
+                        </a>
+                        </div>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Paiement</p>
+                    </div>
+                    <!-- Contact -->
+                    <div class="mx-2">
+                        <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
+                            <a href="/contact">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
+                        </a>
+                        </div>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Contact</p>
+                    </div>
+                    <!-- Boutique -->
+                    <div class="mx-2">
+                        <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
+                            <a href="/information/boutique">
+                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
+                        </a>
+                        </div>
+                        <p class="text-xs text-center text-gray-700 dark:text-gray-200">Boutique</p>
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs Ventes</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /*   STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS
-                    <li class="mb-4">
-                            <a href="" class="hover:underline"></a>
-                        </li>
-                        <li>
-                            <a href="" class="hover:underline"></a>
-                        </li>
-                        */
+                        /* STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS */
+                        $crudManagerOrder = new CrudManager('orders', Orders::class);
+                        $bestProducts = $crudManagerOrder->TestGetBestThreeProducts();
                         ?>
+                        <?php foreach ($bestProducts as $product): ?>
+                        <li class="mb-4">
+                            <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
-                        /*    STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT  1 catégorie et 3 sous-catégories
-                        <li class="mb-4">
-                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
-                        </li>
-                        <li>
-                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
-                        </li>
-                         */
+                        /* STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 */
+                        $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
+                        $bestCategory = $crudManagerCategory->TestGetThreeCategory();
                         ?>
+                        <?php foreach ($bestCategory as $category): ?>
+                        <li class="mb-4">
+                            <?php if ($category->id <= 3) { ?>
+                            <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
+                        <?php } else { ?>
+                            <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
+                            <?php } ?>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <li class="mb-4">
-                            <!--<a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>-->
-                            <p><a href="/assets/pdf/CGU.pdf" class="mr-2" target="_blank" class="hover:underline">Condition d'utilisation</a> </p>
+                            <a href="/condition/cgu" class="hover:underline">Condition d'utilisation</a>
                         </li>
                         <li>
-                            <!--<a href="/condition/cgv" class="hover:underline">Condition de vente</a>-->
-                            <p><a href="/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" target="_blank" class="hover:underline">Condition de vente</a></p>
+                            <a href="/condition/cgv" class="hover:underline">Condition de vente</a>
                         </li>
                     </ul>
                 </div>
@@ -80,7 +125,7 @@
                     </svg>
                     <span class="sr-only">Twitter page</span>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                <a href="https://github.com/jean-ely-gendrau/boutique-js" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z" clip-rule="evenodd" />
                     </svg>
@@ -108,6 +153,7 @@
 <script src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/filters.js"></script>
 <script src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 </body>
 
 </html>

@@ -24,6 +24,13 @@ class ProfilController
 
     public function Profil(...$arguments)
     {
+
+        if (!isset($_SESSION['email'])) {
+            // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+            header('Location: /inscription');
+            exit();
+        }
+
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
 

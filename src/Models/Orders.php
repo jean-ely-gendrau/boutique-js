@@ -40,6 +40,24 @@ class Orders implements JsonSerializable
      * @var string
      */
     private $updated_at;
+    /**
+     * name
+     *
+     * @var string
+     */
+    private $name;
+    /**
+     * price
+     *
+     * @var float
+     */
+    private $price;
+    /**
+     * id
+     *
+     * @var string
+     */
+    private $url_image;
 
     /**
      * users_id
