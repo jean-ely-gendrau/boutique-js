@@ -43,13 +43,13 @@ function checkVerify(event) {
             return response.json();
         }).then(result => {
             if (result === 'Suppre done') {
-                console.log('Supprimer des favoris');
+                console.log('Ajouté aux favoris');
                 pathClicked.setAttribute('style' ,'clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
             } else if (result === 'Ajoute fav') {
-                console.log('Ajoute des favoris');
+                messageFav('Ajoute aux favoris')
                 pathClicked.setAttribute('style' ,'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
-            } else {
-                console.log('Connectez-vous')
+            } else if (result === 'Connect to use'){
+                messageFav('Connectez-vous pour ajouter à vos favoris !');
             }
         }).catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -76,19 +76,15 @@ function addToFavorite(event) {
         });
     }
 }
-// document.addEventListener('DOMContentLoaded', function () {
-//     const headers = new Headers();
-//     headers.append('Content-Type', 'application/json');
-//     fetch('/jsConnected', {
-//         headers: headers
-//     }).then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     }).then(connected => {
-//         isConnectedJS = connected;
-//     }).catch(error => {
-//         console.error('There was a problem with the fetch operation:', error);
-//     });
-// });
+
+function messageFav(text) {
+    const message = document.createElement('div');
+    message.textContent = text;
+    message.classList.add('fixed', 'bottom-0', 'right-0', 'p-4', 'bg-gray-300', 'text-black', 'rounded-lg');
+
+    document.body.appendChild(message);
+
+    setTimeout(function() {
+        message.remove();
+    }, 3000); 
+}
