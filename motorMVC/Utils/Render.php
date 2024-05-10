@@ -129,6 +129,7 @@ class Render extends SessionManager
         return $content;
     }
 
+
     /**
      * La fonction addParams ajoute une paire clé/valeur au tableau params.
      *
