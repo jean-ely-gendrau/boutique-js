@@ -2,6 +2,7 @@
 
 use App\Boutique\Models\SubCategory;
 use App\Boutique\Models\Orders;
+use App\Boutique\Models\Special\BestProduct;
 use Motor\Mvc\Manager\CrudManager;
 ?>
 </main>
@@ -61,7 +62,7 @@ use Motor\Mvc\Manager\CrudManager;
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
                         /* STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS */
-                        $crudManagerOrder = new CrudManager('orders', Orders::class);
+                        $crudManagerOrder = new CrudManager('orders', BestProduct::class);
                         $bestProducts = $crudManagerOrder->TestGetBestThreeProducts();
                         ?>
                         <?php foreach ($bestProducts as $product) : ?>

@@ -569,7 +569,7 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function TestGetBestThreeProducts(): object|array
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT o.*, p.* FROM `orders` o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+            'SELECT o.*, p.* FROM ' . $this->_tableName . ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
