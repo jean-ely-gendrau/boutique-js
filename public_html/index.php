@@ -142,7 +142,7 @@ $router->map('GET', '/test-render', 'StripeController#TestGetArgument', 'test-re
 $router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
 
 // // Route si le paiment est abandonné
-$router->map('GET', '/stripe/cancel', 'stripe/cancel', 'cancel');
+$router->map('GET', '/stripe/cancel', 'StripeController#Cancel', 'cancel');
 
 // // Route si le paiement est confirmé
 $router->map('GET', '/stripe/success', 'StripeController#Success', 'success');

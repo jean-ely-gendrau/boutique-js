@@ -1523,6 +1523,10 @@ input:checked + .toggle-bg {
   width: 1.5rem;
 }
 
+.w-6\/12 {
+  width: 50%;
+}
+
 .w-60 {
   width: 15rem;
 }
@@ -1557,10 +1561,6 @@ input:checked + .toggle-bg {
 
 .w-full {
   width: 100%;
-}
-
-.w-6\/12 {
-  width: 50%;
 }
 
 .max-w-2xl {
@@ -3104,10 +3104,6 @@ input:checked + .toggle-bg {
 
   .md\:mt-4 {
     margin-top: 1rem;
-  }
-
-  .md\:mb-0 {
-    margin-bottom: 0px;
   }
 
   .md\:flex {
