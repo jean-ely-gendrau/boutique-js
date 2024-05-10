@@ -83,16 +83,21 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 
-/****************************
- * Route API-HTML To JSON
+
+/****
+ * BLOC CONDITION PROVISOIR POUR VOIR POUR LE PANEL ADMIN
  */
-$router->map('GET|POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
-$router->map('GET|POST', '/api-html/template/[a:pageTemplate]/[i:idGet]', 'HtmlToJsonController#Template', 'api-html-tojson-template');
-/****************************
- * Route Administration
- */
-$router->map('GET', '/panel-admin', 'AdminPanel#IndexPanel', 'admin-panel-index');
-/*
+if ($rendering->give('role') === 'admin') {
+  /****************************
+   * Route API-HTML To JSON
+   */
+  $router->map('GET|POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
+  $router->map('GET|POST', '/api-html/template/[a:pageTemplate]/[i:idGet]', 'HtmlToJsonController#Template', 'api-html-tojson-template');
+  /****************************
+   * Route Administration
+   */
+  $router->map('GET', '/panel-admin', 'AdminPanel#IndexPanel', 'admin-panel-index');
+  /*
 $router->map('GET', '/panel-admin/users', 'AdminPanel#IndexUsers', 'admin-panel-users');
 $router->map('GET', '/panel-admin/products', 'AdminPanel#IndexProducts', 'admin-panel-products');
 $router->map('GET', '/panel-admin/orders', 'AdminPanel#IndexOrders', 'admin-panel-orders');
@@ -100,8 +105,9 @@ $router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-
 $router->map('GET', '/panel-admin/test', 'AdminPanel#IndexTest', 'admin-panel-test');
 */
 
-$router->map('GET|POST', '/panel-admin/[a:tableName]', 'AdminPanel#Index', 'admin-panel-select');
-$router->map('GET|POST', '/panel-admin/[a:tableName]/[i:id]', 'AdminPanel#Index', 'admin-panel-select-page');
+  $router->map('GET|POST', '/panel-admin/[a:tableName]', 'AdminPanel#Index', 'admin-panel-select');
+  $router->map('GET|POST', '/panel-admin/[a:tableName]/[i:id]', 'AdminPanel#Index', 'admin-panel-select-page');
+}
 
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 
