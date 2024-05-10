@@ -1,4 +1,5 @@
 <?php
+
 use App\Boutique\Models\SubCategory;
 use App\Boutique\Models\Orders;
 use Motor\Mvc\Manager\CrudManager;
@@ -20,17 +21,17 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/livraison">
-                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
-                        </a>
+                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_delivery_gray.png" alt="Icon de livraison" title="Condition de livraison" class="">
+                            </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Livraison</p>
                     </div>
-                <!-- Paiement -->
+                    <!-- Paiement -->
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/paiement">
-                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
-                        </a>
+                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_creditcard_gray.png" alt="Icon de carte de crédit" title="Paiement sécuriser" class="">
+                            </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Paiement</p>
                     </div>
@@ -38,8 +39,8 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/contact">
-                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
-                        </a>
+                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_contact_gray.png" alt="Icon de contact" title="Nous contacter" class="">
+                            </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Contact</p>
                     </div>
@@ -47,8 +48,8 @@ use Motor\Mvc\Manager\CrudManager;
                     <div class="mx-2">
                         <div class="mx-auto w-12 h-12 bg-gray-200 rounded-full p-2 hover:border hover:border-sky-500 cursor-pointer">
                             <a href="/information/boutique">
-                            <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
-                        </a>
+                                <img src="http://<?= $serverName ?>/assets//images//icon//icons_store_gray.png" alt="Icon de boutique" title="Notre boutique" class="">
+                            </a>
                         </div>
                         <p class="text-xs text-center text-gray-700 dark:text-gray-200">Boutique</p>
                     </div>
@@ -63,10 +64,10 @@ use Motor\Mvc\Manager\CrudManager;
                         $crudManagerOrder = new CrudManager('orders', Orders::class);
                         $bestProducts = $crudManagerOrder->TestGetBestThreeProducts();
                         ?>
-                        <?php foreach ($bestProducts as $product): ?>
-                        <li class="mb-4">
-                            <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
-                        </li>
+                        <?php foreach ($bestProducts as $product) : ?>
+                            <li class="mb-4">
+                                <a id="<?= $product->id ?>" class="article-name cursor-pointer"><?= $product->name ?></a>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -78,14 +79,14 @@ use Motor\Mvc\Manager\CrudManager;
                         $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
                         $bestCategory = $crudManagerCategory->TestGetThreeCategory();
                         ?>
-                        <?php foreach ($bestCategory as $category): ?>
-                        <li class="mb-4">
-                            <?php if ($category->id <= 3) { ?>
-                            <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
-                        <?php } else { ?>
-                            <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
-                            <?php } ?>
-                        </li>
+                        <?php foreach ($bestCategory as $category) : ?>
+                            <li class="mb-4">
+                                <?php if ($category->id <= 3) { ?>
+                                    <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
+                                <?php } else { ?>
+                                    <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
+                                <?php } ?>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -136,7 +137,6 @@ use Motor\Mvc\Manager\CrudManager;
     </div>
 </footer>
 <!-- END FOOTER -->
-
 
 <!-- ADD JS -->
 <script>

@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Controllers\Modal;
 
+use Motor\Mvc\Components\Debug;
 use Motor\Mvc\Builder\ModalBuilder;
 use App\Boutique\Forms\UsersRegistrationForms as Users_Forms;
 
@@ -24,7 +25,7 @@ class ModalController
     $newModal = new ModalBuilder(Users_Forms::ConnectForm());
     // $newModal->setIdModal('modal-connect-form');
 
-    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->renderOpenButton('Connect')];
+    return (object) ['modal' => $newModal->render(), 'buttonOpen' => $newModal->renderOpenButton('Connect')];
   }
 
   /**
@@ -45,7 +46,7 @@ class ModalController
       ->addFooter('modal-content-footer', 'Achat immédiat', [], 'footer');
 
 
-    return (object) ['modal' => $newModal, 'buttonOpen' => $newModal->renderOpenButton('Achat immédiat')];
+    return (object) ['modal' => $newModal->render(), 'buttonOpen' => $newModal->renderOpenButton('Achat immédiat')];
   }
 
   /**
