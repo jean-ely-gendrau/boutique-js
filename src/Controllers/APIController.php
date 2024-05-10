@@ -70,8 +70,11 @@ class ApiController
         echo json_encode($GetusersAll);
     }
 
-    public function getProductsById($id)
+    public function getProductsById(...$arguments)
     {
+
+        $id = $arguments["id"];
+
         $GetproductsById = $this->products->getById($id, 'id_product');
 
         $this->logToFile($GetproductsById, 'Product');
@@ -101,8 +104,10 @@ class ApiController
         error_log($logMessage, 3, $logFile);
     }
 
-    public function getCategoryById($id)
+    public function getCategoryById(...$arguments)
     {
+        $id = $arguments["id"];
+
         $GetcategoryById = $this->category->getById($id, 'id_category');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -128,8 +133,10 @@ class ApiController
         echo json_encode($GetcategoryById);
     }
 
-    public function getOrderById($id)
+    public function getOrderById(...$arguments)
     {
+        $id = $arguments["id"];
+
         $GetorderById = $this->orders->getById($id, 'id_order');
 
         $logFile = '../../config/logs/logfile.txt';
@@ -155,8 +162,10 @@ class ApiController
         echo json_encode($GetorderById);
     }
 
-    public function getUserById($id)
+    public function getUserById(...$arguments)
     {
+        $id = $arguments["id"];
+
         $GetuserById = $this->users->getById($id, 'id_user');
 
         $logFile = '../../config/logs/logfile.txt';
