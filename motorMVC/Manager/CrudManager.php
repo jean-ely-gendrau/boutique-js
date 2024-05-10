@@ -261,35 +261,48 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function create(object $objectClass, array $param): mixed
     {
         try {
+            // Formatage des paramètres pour la requête SQL
             $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
+            // Construction de la requête SQL
             $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
             // Désectivation ATTR_EMULATE_PREPARES
             $connect = $this->_dbConnect;
 
+            // Début de la transaction
             $connect->beginTransaction();
 
+            // Désactivation de l'émulation des préparations
             $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            // Préparation de la requête SQL
             $req = $connect->prepare($sql);
+            // Tableau pour les paramètres liés
             $boundParam = [];
 
             // Debug::view($sql);
 
+            // Liaison des paramètres de l'objet avec les valeurs
             foreach ($param as $paramName) {
                 if (property_exists($objectClass, $paramName)) {
                     $boundParam[$paramName] = $objectClass->$paramName;
                 } else {
+                    // Affichage d'une erreur si une propriété est manquante dans l'objet
                     echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
                 }
             }
+            // Exécution de la requête avec les paramètres liés
             $req->execute($boundParam);
 
+            // Récupération de l'ID du dernier enregistrement inséré
             $lastID = $connect->lastInsertId();
+
+            // Validation de la transaction
             $connect->commit();
 
+            // Retourne un tableau contenant l'objet créé et son ID
             return ['lastObject' => $objectClass, 'lastID' => $lastID];
         } catch (\PDOException $e) {
-            // En cas d'erreur, annuler la transaction
+            // En cas d'erreur, annulation de la transaction et retourne un message d'erreur
             $connect->rollback();
             return 'PDOException : ' . $e->getMessage();
         }
@@ -490,52 +503,24 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getbyidbasket($clientId)
     {
-        $sql = 'SELECT p.id , i.url_image , p.name , p.price , o.* ,i.id FROM orders o 
-                JOIN productsorders po ON o.id = po.orders_id 
-                JOIN products p ON p.id = po.products_id 
-                JOIN productsimages pi ON p.id = pi.products_id
-                JOIN images i ON i.id = pi.images_id
-                WHERE o.users_id = :client_id AND o.basket = 1';
+        $sql = 'SELECT * FROM orders o JOIN products p ON o.id_product = p.id_product WHERE id_user = :client_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        return $stmt->fetchAll();
-    }
 
-    public function CreateOrder($clientId, $productId)
-    {
-        $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "expedier", NOW(), NOW(), :client_id)';
-        $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute([':client_id' => $clientId]);
-
-        $orderId = $this->_dbConnect->lastInsertId();
-
-        $sql = 'INSERT INTO productsorders (products_id, orders_id) VALUES (:product_id, :order_id)';
-        $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute([':product_id' => $productId, ':order_id' => $orderId]);
-    }
-
-    public function RemoveFromCart($clientId, $productId)
-    {
-        // First, get the IDs of the orders to delete
-        $sql = 'SELECT o.id FROM orders o
-                JOIN productsorders po ON o.id = po.orders_id 
-                WHERE o.users_id = :client_id AND po.products_id = :product_id AND o.basket = 1';
-        $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute([':client_id' => $clientId, ':product_id' => $productId]);
-        $orderIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-
-        if (!empty($orderIds)) {
-            // Delete the corresponding rows from the productsorders table
-            $sql = 'DELETE FROM productsorders WHERE orders_id IN (' . implode(',', $orderIds) . ')';
-            $stmt = $this->_dbConnect->prepare($sql);
-            $stmt->execute();
-
-            // Then, delete the orders
-            $sql = 'DELETE FROM orders WHERE id IN (' . implode(',', $orderIds) . ')';
-            $stmt = $this->_dbConnect->prepare($sql);
-            $stmt->execute();
+        $orders = [];
+        while ($row = $stmt->fetch()) {
+            $orders[] = [
+                'client_id' => $clientId,
+                'id_product' => $row['id_product'],
+                'images' => $row['images'],
+                'product_name' => $row['name'],
+                'price' => $row['price'],
+                'status' => $row['status'],
+            ];
         }
+
+        return $orders;
     }
 
     /** NOTE - Voir si besoin d'enlever cette méthode
@@ -610,5 +595,32 @@ class CrudManager extends BddManager implements PaginatePerPage
         $this->model = $model;
 
         return $this;
+    }
+
+    /************************************************* Méthode additionnel */
+    /**
+     * Method getColumnParam
+     *
+     * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
+     * exemple : array(12) { ["Field"]=> string(6) "status" [0]=> string(6) "status" ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')" [1]=> string(46) "enum('en attente','expedier','livrer','echec')" ["Null"]=> string(3) "YES" [2]=> string(3) "YES" ["Key"]=> string(0) "" [3]=> string(0) "" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(0) "" [5]=> string(0) "" }
+     * -> ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')
+     * 
+     * @param string $column [nom de la collonne à récuperer]
+     * @return bool|array
+     */
+    public function getColumnParam(string $column): bool|array
+    {
+        $sql = "SHOW COLUMNS 
+              FROM {$this->_tableName} WHERE field = :column";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+
+        // Prépare
+        $req = $connect->prepare($sql);
+
+        // Exécute
+        $req->execute(['column' => $column]);
+        return $req->fetch();
     }
 }

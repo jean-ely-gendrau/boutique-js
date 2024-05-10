@@ -4,7 +4,7 @@ module.exports = {
   content: [
     "./src/**/*.{php,html,js}",
     "./template/**/*.{php,html,js}",
-    "./motormvc/**/*.{php}",
+    "./motorMVC/**/*.php",
     "./element/**/*.{php,html,js}",
     "./node_modules/flowbite/**/*.js",
   ],
@@ -28,5 +28,5 @@ module.exports = {
         },
         { values: theme("textShadow") }
       );
-    }),require("flowbite/plugin")],
+    }), require("flowbite/plugin")],
 };
