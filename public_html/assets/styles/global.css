@@ -2341,6 +2341,10 @@ input:checked + .toggle-bg {
   fill: #1F2937;
 }
 
+.fill-red-600 {
+  fill: #E02424;
+}
+
 .stroke-black {
   stroke: #000000;
 }
@@ -2351,6 +2355,10 @@ input:checked + .toggle-bg {
 
 .stroke-yellow-400 {
   stroke: #E3A008;
+}
+
+.stroke-red-600 {
+  stroke: #E02424;
 }
 
 .stroke-1 {
@@ -3290,12 +3298,20 @@ input:checked + .toggle-bg {
   fill: #ffffff;
 }
 
+.dark\:fill-red-300:is(.dark *) {
+  fill: #F8B4B4;
+}
+
 .dark\:stroke-gray-900:is(.dark *) {
   stroke: #111827;
 }
 
 .dark\:stroke-white:is(.dark *) {
   stroke: #ffffff;
+}
+
+.dark\:stroke-red-300:is(.dark *) {
+  stroke: #F8B4B4;
 }
 
 .dark\:text-blue-500:is(.dark *) {

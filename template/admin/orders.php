@@ -79,7 +79,7 @@ Export
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" class="py-3">
+                <th scope="col" class="px-3 md:px-6 py-3">
                   <div class="flex items-center">
                     <input id="checkbox-all" type="checkbox" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="checkbox-all" class="sr-only">checkbox</label>
@@ -115,8 +115,9 @@ Export
                     <div class="ps-3">
                       <?php echo $newModalOrder->renderOpenButton("{$order->full_name}", [
                         'type' => 'a',
-                        'data-js' => 'handleViewHtml,click',
-                        'data-route' => '/api-html/form/orders',
+                        'data-js' => 'handleFetch,click',
+                        'data-route' => '/api/orders/' . $order->id,
+                        'data-method' => 'GET',
                         'data-target-id' => 'body-modal-add-order-adm',
                       ]) ?>
                     </div>
@@ -126,31 +127,15 @@ Export
                     <div class="flex items-center space-x-3">
                       <?php
                       /** @var \App\Boutique\Forms\SelectBoxForms $selectBoxStatus  */
-                      if ($order->basket === 1) : ?>
-                        <svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                          <g id="SVGRepo_iconCarrier">
-                            <defs>
-                              <style>
-                                .cls-1 {
-                                  fill: none;
-                                  stroke-miterlimit: 10;
-                                  stroke-width: 1.71px;
-                                }
-                              </style>
-                            </defs>
-                            <g id="cart">
-                              <circle class="cls-1" cx="10.07" cy="20.59" r="1.91"></circle>
-                              <circle class="cls-1" cx="18.66" cy="20.59" r="1.91"></circle>
-                              <path class="cls-1" d="M.52,1.5H3.18a2.87,2.87,0,0,1,2.74,2L9.11,13.91H8.64A2.39,2.39,0,0,0,6.25,16.3h0a2.39,2.39,0,0,0,2.39,2.38h10"></path>
-                              <polyline class="cls-1" points="7.21 5.32 22.48 5.32 22.48 7.23 20.57 13.91 9.11 13.91"></polyline>
-                            </g>
-                          </g>
-                        </svg>
-                      <?php endif;
+                      /** @var \App\Boutique\Enum\BasketStatus $basketStatus  */
+                      $statusFormat = str_replace(' ', '_', ucwords($order->status));
+                      $icon =  $basketStatus::fromName($statusFormat);
+                      echo $icon->value;
                       echo $selectBoxStatus::selectStatusOrders($order, $getEnumStatus);
                       ?>
+
+
+
                     </div>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell font-semibold text-gray-900 dark:text-white">

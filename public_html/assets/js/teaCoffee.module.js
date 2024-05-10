@@ -260,12 +260,12 @@ teaCoffee.request = {
     let bodyParamFormat = "";
     console.log(route,
       bodyParam,
-      idForm = false,
-      method = "POST",
-      contentType = "application/x-www-form-urlencoded",
-      resType = "json",
+      idForm,
+      method,
+      contentType,
+      resType,
       defineRequest,
-      headersParams = false)
+      headersParams)
     if (bodyParam) {
       bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
     } else if (idForm) {
@@ -483,6 +483,45 @@ teaCoffee.action = {
 
     // POST REQUEST
     const response = await teaCoffee.request.post(e.target.dataset);
+    /*
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+      if (response && response.hasOwnProperty('success')) {
+     teaCoffee.response.success(response)
+      }
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+      else if (response && response.hasOwnProperty('errors')) {
+        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+          // 
+          let errorObject = {
+            [keyInput]: errorMessage,
+          }
+          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+        });
+    */
+  },
+  /**
+   * Gère l'événement de clic de souris pour l'exemple.
+   * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+   * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+   */
+  handleFetch: async (e) => {
+    e.preventDefault();
+
+    let { idForm, method, postUrl } = e.target.dataset;
+    console.log(e.target.dataset);
+    /*
+    let objectPost = {};
+      route: urlPost,
+      idForm: idForm,
+      method ? method: method,
+      contentType: "application/x-www-form-urlencoded",
+      resType: "json",
+    }
+    */
+
+    // POST REQUEST
+    const response = await teaCoffee.request.fetch(e.target.dataset);
     /*
       // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
       if (response && response.hasOwnProperty('success')) {
