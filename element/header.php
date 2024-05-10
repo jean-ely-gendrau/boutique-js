@@ -92,8 +92,17 @@
               <li>
                 <a href="/panier"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Commande</a>
-              </li>
-              <li>
+              </li>';
+            /**
+             * Condition si Admin
+             */
+            if ($rendering->give('role') === 'admin') {
+              echo '<li>
+                <a href="/panel-admin"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Administration,</a>
+              </li>';
+            }
+            echo '<li>
                 <a href="/deconnexion"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
                   out</a>

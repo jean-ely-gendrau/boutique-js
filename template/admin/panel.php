@@ -1,11 +1,7 @@
-<section>
-  <div id="main" class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+<section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
+  <div class="px-4 mx-auto max-w-screen-2xl lg:px-12">
+    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Statistique générale</h2>
 
-    <div class="bg-gray-800 pt-3">
-      <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-        <h1 class="font-bold pl-2">Analytics</h1>
-      </div>
-    </div>
 
     <div class="flex flex-wrap">
       <?php foreach ($panelAdmin as $panelArray) : ?>
