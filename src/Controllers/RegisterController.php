@@ -180,6 +180,7 @@ class RegisterController
     /******************************************************** SAMPLE CONNECT JS START */
     public function ConnectJS(...$arguments): void
     {
+
         $modelUser = new Users($arguments); // Instance d'un models de class User
 
         /**
@@ -209,7 +210,7 @@ class RegisterController
              *Effectuer les changements et essayer plusieurs solutions.
              *Effectuer les tests appropriés et valider l'issue.
              */
-            $arrayIntersecKeyCompare = ['email' => '', 'password' => ''];
+            $arrayIntersecKeyCompare = ['password' => ''];
             $errors = array_intersect_key($errorsIntercept, $arrayIntersecKeyCompare);
 
             // réponse JSON 200 avec le corps suivant : {'errors' : $errors}
@@ -222,20 +223,26 @@ class RegisterController
             if (!$errors) {
                 /* CONNECT USER */
                 $crudManager = new CrudManager('users', Users::class);  // Instance of PasswordHashManager - table users, models Users
-                $user = $crudManager->getByEmail($arguments['email']); // Appel de la méthode getByEmail(email)
+                $user = $crudManager->getByEmail($modelUser->getEmail()); // Appel de la méthode getByEmail(email)
+
+                // réponse JSON 200 avec le corps suivant : {'errors' : ['email' => 'Une erreur avec votre email viens de ce produire.']}
+                if (!$user) {
+                    // ERROR
+                    $this->responseJson(200, ['errors' => ['email' => 'Une erreur avec votre email viens de ce produire.']]);
+                }
 
                 $verifPassword = new PasswordHashManager(); // Instance of PasswordHashManager
 
                 // Vérification du mot de passe.
-                if ($verifPassword->verify($user->password, $arguments['password'])) {
+                if ($verifPassword->verify($user->getPassword(), $arguments['password'])) {
                     // Incorporation des paramètres de l'utilisateur dans la session.
                     $arguments['render']->addSession([
-                        'email' => $user->email,
+                        'email' => $user->getEmail(),
                         'isConnected' => true,
-                        'full_name' => $user->full_name,
-                        'role' => $user->role,
+                        'full_name' => $user->getFull_name(),
+                        'role' => $user->getRole(),
                     ]);
-
+                    //  var_dump($arguments);
                     // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
                     $this->responseJson(200, ['isConnected' => true]);
                 }
@@ -249,9 +256,9 @@ class RegisterController
      * @param int $code [code la respo,se http]
      * @param mixed $response [donnée du corp de la requête à encodée en JSON]
      *
-     * @return string
+     * @return void
      */
-    public function responseJson(int $code, mixed $response): string
+    public function responseJson(int $code, mixed $response): void
     {
         header('Content-type: application/json; charset=utf-8');
         http_response_code($code);
