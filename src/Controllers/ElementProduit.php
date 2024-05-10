@@ -44,14 +44,8 @@ class ElementProduit extends BddManager
         // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
         $detail = $crudManager->getOneProduct($arguments['product_id']);
 
-        // Nouvelle classe Components Details
-        $view = new Details();
-
-        // Appel de la méthode DetailsProduct renvoyant un composant html avec les données du produit sélectionné
-        $productView = $view->DetailsProduct($detail);
-
-        // Passage dans render des paramètres 'detail' => $productView
-        $arguments['render']->addParams('detail', $productView);
+        // Passage dans render des paramètres 'detail' => $detail
+        $arguments['render']->addParams('detail', $detail);
 
         // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
         $content = $arguments['render']->render('details-produit', $arguments);
