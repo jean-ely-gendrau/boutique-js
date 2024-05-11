@@ -2,8 +2,10 @@
 
 namespace Motor\Mvc\Utils;
 
+use Motor\Mvc\Enum\ExceptionEnum;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Components\FileImportJson;
+use Motor\Mvc\Exceptions\MotorMvcException;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
@@ -58,7 +60,7 @@ class Render extends SessionManager
         $this->addParams('seoConfig', $this->seoConfig->{$template} ?? $this->seoConfig->Default);
 
         // Fusionne les arguments avec les paramètres et les extrait dans des variables utilisables dans le template
-        extract(array_merge($arguments[0], $this->params));
+        extract(array_merge($arguments[0] ?? [], $this->params));
 
         // Inclusion du header
         require_once __DIR__ . '/../../element/header.php';
@@ -66,8 +68,13 @@ class Render extends SessionManager
         // Inclusion du menu admin
         require_once __DIR__ . '/../../element/admin/menu.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/admin/{$template}.php";
+        // ENH EXEPTION MotorMvcException
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
 
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
@@ -104,8 +111,13 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/{$template}.php";
+        // ENH EXEPTION MotorMvcException
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
 
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
@@ -116,6 +128,7 @@ class Render extends SessionManager
         // Retourne le contenu
         return $content;
     }
+
 
     /**
      * La fonction addParams ajoute une paire clé/valeur au tableau params.
@@ -193,9 +206,13 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // Inclusion du template
-        require_once __DIR__ . "/../../template/{$template}.php";
-
+        // ENH EXEPTION MotorMvcException
+        if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
+        } else {
+            // Inclusion du template
+            require_once __DIR__ . "/../../template/{$template}.php";
+        }
         // Inclusion du footer
         require_once __DIR__ . '/../../element/footer.php';
 

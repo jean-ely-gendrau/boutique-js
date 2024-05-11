@@ -333,7 +333,7 @@ try {
    *
    * Enfin On affiche le résultat de la méthode
    */
-  $rendering->addParams('exception', $mvcExecption);
+  $rendering->addParams('mvcExecption', $mvcExecption);
   echo $rendering->defaultRender('404');
 }
    // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
