@@ -326,16 +326,21 @@ try {
       echo $rendering->defaultRender($match['target']);
     endif;
   endif;
-} catch (MotorMvcException $mvcExecption) {
+} catch (MotorMvcException $mvcException) {
   /*Si la page demandé est inexistante, nouvelle instance de Render
    *
    * On passe en paramétre de la méthode la page '404'
    *
    * Enfin On affiche le résultat de la méthode
    */
-  $rendering->addParams('mvcExecption', $mvcExecption);
+  $rendering->addParams('mvcException', $mvcException);
   echo $rendering->defaultRender('404');
 }
+
+
+
+
+
    // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
 // GOTO ERROR
 /*
