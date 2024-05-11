@@ -3,7 +3,7 @@
     <div class="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
       <p class="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider dark:text-gray-300 text-gray-900">Ooops</p>
       <p class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider dark:text-gray-300 mt-2 text-gray-700">404</p>
-      <p class="text-lg md:text-xl lg:text-2xl text-gray-600 my-12 dark:text-gray-100">Désolé, la page que vous recherchez est introuvable.</p>
+      <p class="text-lg md:text-xl lg:text-2xl text-gray-600 my-12 dark:text-gray-100"><?= $mvcException->getMessage() ?? 'Désolé, la page que vous recherchez est introuvable.' ?></p>
       <a href="/" class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 dark:text-gray-200 px-4 py-2 rounded transition duration-150" title="Aller à la page Accueil de TeaCoffee">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
@@ -31,7 +31,7 @@
           <pattern id="pattern0_0_1" patternContentUnits="objectBoundingBox" width="1" height="1">
             <use xlink:href="#image0_0_1" transform="matrix(0.000271895 0 0 0.000244141 -0.0568401 0)" />
           </pattern>
-          <image id="image0_0_1" width="4096" height="4096" xlink:href="http://<?= $serverName?>/assets/images/404coffee.png" />
+          <image id="image0_0_1" width="4096" height="4096" xlink:href="http://<?= $serverName ?>/assets/images/404coffee.png" />
         </defs>
       </svg>
     </div>
