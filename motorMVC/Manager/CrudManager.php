@@ -485,7 +485,6 @@ class CrudManager extends BddManager implements PaginatePerPage
         endswitch;
     }
 
-    /** NOTE - Valide */
     public function getByIdOrder($clientId)
     {
         /*
@@ -588,8 +587,8 @@ class CrudManager extends BddManager implements PaginatePerPage
             INNER JOIN images i ON i.id = pi.images_id
             WHERE o.users_id = :client_id AND o.basket = 1',
         );
-        $req->execute([':client_id' => $clientId]);
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+        $req->execute(['client_id' => $clientId]);
+        $req->setFetchMode(\PDO::FETCH_OBJ);
 
         return $req->fetchAll();
     }
