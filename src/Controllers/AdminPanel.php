@@ -209,7 +209,7 @@ class AdminPanel
                 break;
         }
         // Rendre le template
-        $content = $render->renderAdmin($argumentsCall['tableName'], $argumentsCall);
+        $content = $render->renderAdmin("admin/{$argumentsCall['tableName']}", $argumentsCall);
 
         return $content;
     }
@@ -286,7 +286,7 @@ class AdminPanel
         /** @var \App\Boutique\Utils\Render $render */
         $render->addParams('panelAdmin', $panelAdmin);
         // Rendre le template
-        $content = $render->renderAdmin('panel', $arguments);
+        $content = $render->renderAdmin('admin/panel', $arguments);
         return $content;
     }
 
@@ -325,7 +325,7 @@ class AdminPanel
         $render->addParams('selectAllPaginate', $selectAllPaginate);
 
         // Rendre le template
-        $content = $render->renderAdmin('users', $arguments);
+        $content = $render->renderAdmin('admin/users', $arguments);
         return $content;
     }
 
@@ -354,7 +354,7 @@ class AdminPanel
         $render->addParams('selectAllPaginate', $selectAllPaginate);
         $render->addParams('paginatePerPage', $productsApi->paginatePerPage(1, 10));
         // Rendre le template
-        $content = $render->renderAdmin('products', $arguments);
+        $content = $render->renderAdmin('admin/products', $arguments);
         return $content;
     }
 
@@ -374,7 +374,7 @@ class AdminPanel
         $render = $arguments['render'];
 
         // Rendre le template
-        $content = $render->renderAdmin('orders', $arguments);
+        $content = $render->renderAdmin('admin/orders', $arguments);
         return $content;
     }
 
@@ -394,31 +394,7 @@ class AdminPanel
         $render = $arguments['render'];
 
         // Rendre le template
-        $content = $render->renderAdmin('category', $arguments);
-        return $content;
-    }
-
-    /**
-     * Méthode IndexTest
-     *
-     * Affichage du tableau de bord Administrateur Des Categories et sous categories
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void
-     */
-    public function IndexTest(...$arguments)
-    {
-        $usersSelect = $this->categoryInit->getAll();
-
-        /** @var \App\Boutique\Utils\Render $render */
-        $render = $arguments['render'];
-
-        $crudManager = new CrudManager('users', Users::class);
-        $result = $crudManager->getAll();
-
-        echo '<pre>', var_dump($result), '</pre>';
-        // Rendre le template
-        $content = $render->renderAdmin('test', $arguments);
+        $content = $render->renderAdmin('admin/category', $arguments);
         return $content;
     }
 }
