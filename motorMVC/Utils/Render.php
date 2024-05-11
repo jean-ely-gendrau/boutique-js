@@ -2,8 +2,10 @@
 
 namespace Motor\Mvc\Utils;
 
+use Motor\Mvc\Enum\ExceptionEnum;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Components\FileImportJson;
+use Motor\Mvc\Exceptions\MotorMvcException;
 
 /**
  * La classe Render est utilisée pour afficher les templates avec les paramètres ajoutés
@@ -66,10 +68,9 @@ class Render extends SessionManager
         // Inclusion du menu admin
         require_once __DIR__ . '/../../element/admin/menu.php';
 
-        // EXEPTION PROVISOIR pour la fixBubRender#72
-        // Une branch exception et une issue doivent être créées à cet effet
+        // ENH EXEPTION MotorMvcException
         if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
-            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
         } else {
             // Inclusion du template
             require_once __DIR__ . "/../../template/{$template}.php";
@@ -110,10 +111,9 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // EXEPTION PROVISOIR pour la fixBubRender#72
-        // Une branch exception et une issue doivent être créées à cet effet
+        // ENH EXEPTION MotorMvcException
         if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
-            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
         } else {
             // Inclusion du template
             require_once __DIR__ . "/../../template/{$template}.php";
@@ -206,10 +206,9 @@ class Render extends SessionManager
         // Inclusion de la barre de recherche
         require_once __DIR__ . '/../../element/search.php';
 
-        // EXEPTION PROVISOIR pour la fixBubRender#72
-        // Une branch exception et une issue doivent être créées à cet effet
+        // ENH EXEPTION MotorMvcException
         if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . "../../template/{$template}.php")) {
-            throw new \Exception("Ooops le template que vous demandez est introuvable.");
+            throw new MotorMvcException(ExceptionEnum::TemplateNotFound);
         } else {
             // Inclusion du template
             require_once __DIR__ . "/../../template/{$template}.php";
