@@ -24,15 +24,17 @@ class TestRender
      * @param array ...$arguments Les arguments transmis à la méthode.
      * @return void
      */
-    public function Index(...$arguments)
+    public function TestRender(...$arguments)
     {
         /*
-         * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
+         * Utilisation de la méthode RenderHome afin de renvoyer l'ensemble des sélections de la page accueil
          */
-        //!SECTION
+
+        // Instance de Carousel
         $carousel = new Carousel();
 
-        //passage methode'../../element/itemCarousel.php'], ['/assets//images//banière//HomeCoffee.jpg'
+        // Passage des elements php dans la clé element, le chemin relatif des images dans la clé image
+        // dans la méthode appelé RenderCarousel
         $RenderCarousel = $carousel->RenderCarousel([
             'element' => ['../../element/bannerCarousel.php'],
             'image' => [
@@ -42,7 +44,7 @@ class TestRender
             ],
         ]);
 
-        //
+        // Envoie de la variable $RenderCarousel déclaré dans la méthode addParams
         $arguments['render']->addParams('carousel', $RenderCarousel);
 
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
@@ -52,19 +54,10 @@ class TestRender
         $horizontalSlide = new Slider();
 
         // Création d'un slider importent l'ensemble des produits
-        $products = $crudManager->getAll();
-        $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
-        $arguments['render']->addParams('product', $allProducts);
-
-        // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-        $productsCoffee = $crudManager->getAllById('0', 'id_category');
-        $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
-        $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
-
-        // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-        $productsTea = $crudManager->getAllById('1', 'id_category');
-        $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
-        $arguments['render']->addParams('productsTea', $allProductsTea);
+        $products = $crudManager->getAllProduct();
+        // var_dump($crudManager->getAllProduct());
+        // $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
+        $arguments['render']->addParams('products', $products);
 
         // Initialisation de la variable $content avec l'ensemble des arguments passé par la méthode addParams dans la clé `render`
         $content = $arguments['render']->render('test-render', $arguments);
