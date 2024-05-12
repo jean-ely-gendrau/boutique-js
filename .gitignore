@@ -1,4 +1,4 @@
-/node-express/node_modules/
+/node-service/node_modules/
 /backend-php/vendor/
 /backend-php/node_modules/
 /backend-php/package-lock.json
