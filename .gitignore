@@ -1,8 +1,9 @@
-/vendor/
-/node_modules/
-package-lock.json
-composer.lock
+/node-service/node_modules/
+/backend-php/vendor/
+/backend-php/node_modules/
+/backend-php/package-lock.json
+/backend-php/composer.lock
 .gitigniore
-/public_html/assets/js/flowbite.min.js
-/public_html/assets/styles/global.css
-config/config.php
+/backend-php/public_html/assets/js/flowbite.min.js
+/backend-php/public_html/assets/styles/global.css
+/backend-phpconfig/config.php

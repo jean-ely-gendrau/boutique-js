@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 02, 2024 at 01:20 AM
+-- Generation Time: May 11, 2024 at 01:55 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.14
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `avatars` (
   `id` int NOT NULL,
   `url_avatar` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -40,9 +40,9 @@ CREATE TABLE `avatars` (
 
 CREATE TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category`
@@ -62,7 +62,7 @@ CREATE TABLE `charac` (
   `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `charac`
@@ -112,7 +112,7 @@ CREATE TABLE `comments` (
   `comment` text,
   `users_id` int NOT NULL,
   `products_id` int UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `comments`
@@ -223,16 +223,6 @@ INSERT INTO `comments` (`id`, `comment`, `users_id`, `products_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `favoris`
---
-
-CREATE TABLE `favoris` (
-  `id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `images`
 --
 
@@ -240,7 +230,7 @@ CREATE TABLE `images` (
   `id` int NOT NULL,
   `image_main` tinyint DEFAULT NULL,
   `url_image` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `images`
@@ -340,11 +330,11 @@ INSERT INTO `images` (`id`, `image_main`, `url_image`) VALUES
 CREATE TABLE `orders` (
   `id` int NOT NULL,
   `basket` tinyint(1) DEFAULT NULL,
-  `status` enum('en attente','expedier','livrer','echec') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `status` enum('en attente','expedier','livrer','echec') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `users_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='		';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='		';
 
 --
 -- Dumping data for table `orders`
@@ -352,33 +342,33 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id`, `basket`, `status`, `created_at`, `updated_at`, `users_id`) VALUES
 (1, 1, 'en attente', '2024-04-27 09:30:00', '2024-04-27 09:30:00', 3),
-(2, 1, 'expedier', '2024-04-27 10:15:00', '2024-04-27 10:15:00', 4),
-(3, 1, 'livrer', '2024-04-27 10:45:00', '2024-04-27 10:45:00', 5),
-(4, 1, 'echec', '2024-04-27 11:20:00', '2024-04-27 11:20:00', 6),
+(2, 0, 'expedier', '2024-04-27 10:15:00', '2024-05-10 22:20:58', 4),
+(3, 0, 'livrer', '2024-04-27 10:45:00', '2024-05-10 22:20:58', 5),
+(4, 0, 'echec', '2024-04-27 11:20:00', '2024-05-10 22:20:58', 6),
 (5, 1, 'en attente', '2024-04-27 11:45:00', '2024-04-27 11:45:00', 7),
-(6, 1, 'expedier', '2024-04-27 12:10:00', '2024-04-27 12:10:00', 8),
-(7, 1, 'livrer', '2024-04-27 12:35:00', '2024-04-27 12:35:00', 9),
-(8, 1, 'echec', '2024-04-27 13:00:00', '2024-04-27 13:00:00', 10),
+(6, 0, 'expedier', '2024-04-27 12:10:00', '2024-05-10 22:20:58', 8),
+(7, 0, 'livrer', '2024-04-27 12:35:00', '2024-05-10 22:20:58', 9),
+(8, 0, 'echec', '2024-04-27 13:00:00', '2024-05-10 22:20:58', 10),
 (9, 1, 'en attente', '2024-04-27 13:25:00', '2024-04-27 13:25:00', 11),
-(10, 1, 'expedier', '2024-04-27 13:50:00', '2024-04-27 13:50:00', 12),
-(11, 1, 'livrer', '2024-04-27 14:15:00', '2024-04-27 14:15:00', 13),
-(12, 1, 'echec', '2024-04-27 14:40:00', '2024-04-27 14:40:00', 14),
+(10, 0, 'expedier', '2024-04-27 13:50:00', '2024-05-10 22:20:58', 12),
+(11, 0, 'livrer', '2024-04-27 14:15:00', '2024-05-10 22:20:58', 13),
+(12, 0, 'echec', '2024-04-27 14:40:00', '2024-05-10 22:20:58', 14),
 (13, 1, 'en attente', '2024-04-27 15:05:00', '2024-04-27 15:05:00', 15),
-(14, 1, 'expedier', '2024-04-27 15:30:00', '2024-04-27 15:30:00', 16),
-(15, 1, 'livrer', '2024-04-27 15:55:00', '2024-04-27 15:55:00', 17),
-(16, 1, 'echec', '2024-04-27 16:20:00', '2024-04-27 16:20:00', 18),
+(14, 0, 'expedier', '2024-04-27 15:30:00', '2024-05-10 22:20:58', 16),
+(15, 0, 'livrer', '2024-04-27 15:55:00', '2024-05-10 22:20:58', 17),
+(16, 0, 'echec', '2024-04-27 16:20:00', '2024-05-10 22:20:58', 18),
 (17, 1, 'en attente', '2024-04-27 16:45:00', '2024-04-27 16:45:00', 19),
 (18, 1, 'en attente', '2024-04-27 17:00:00', '2024-04-27 17:00:00', 20),
-(19, 1, 'expedier', '2024-04-27 17:15:00', '2024-04-27 17:15:00', 21),
-(20, 1, 'livrer', '2024-04-27 17:30:00', '2024-04-27 17:30:00', 22),
-(21, 1, 'echec', '2024-04-27 17:45:00', '2024-04-27 17:45:00', 23),
+(19, 0, 'expedier', '2024-04-27 17:15:00', '2024-05-10 22:20:58', 21),
+(20, 0, 'livrer', '2024-04-27 17:30:00', '2024-05-10 22:20:58', 22),
+(21, 0, 'echec', '2024-04-27 17:45:00', '2024-05-10 22:20:58', 23),
 (22, 1, 'en attente', '2024-04-27 18:00:00', '2024-04-27 18:00:00', 24),
-(23, 1, 'expedier', '2024-04-27 18:15:00', '2024-04-27 18:15:00', 25),
-(24, 1, 'livrer', '2024-04-27 18:30:00', '2024-04-27 18:30:00', 26),
-(25, 1, 'echec', '2024-04-27 18:45:00', '2024-04-27 18:45:00', 27),
+(23, 0, 'expedier', '2024-04-27 18:15:00', '2024-05-10 22:20:58', 25),
+(24, 0, 'livrer', '2024-04-27 18:30:00', '2024-05-10 22:20:58', 26),
+(25, 0, 'echec', '2024-04-27 18:45:00', '2024-05-10 22:20:58', 27),
 (26, 1, 'en attente', '2024-04-27 19:00:00', '2024-04-27 19:00:00', 28),
-(27, 1, 'expedier', '2024-04-27 19:15:00', '2024-04-27 19:15:00', 29),
-(28, 1, 'livrer', '2024-04-27 19:30:00', '2024-04-27 19:30:00', 30);
+(27, 0, 'expedier', '2024-04-27 19:15:00', '2024-05-10 22:20:58', 29),
+(28, 0, 'livrer', '2024-04-27 19:30:00', '2024-05-10 22:20:58', 30);
 
 -- --------------------------------------------------------
 
@@ -388,15 +378,15 @@ INSERT INTO `orders` (`id`, `basket`, `status`, `created_at`, `updated_at`, `use
 
 CREATE TABLE `products` (
   `id` int UNSIGNED NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `price` float DEFAULT NULL,
   `quantity` int DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `category_id` int NOT NULL,
   `sub_category_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
@@ -664,7 +654,7 @@ CREATE TABLE `productscharac` (
   `value` varchar(255) DEFAULT NULL,
   `charac_id` int NOT NULL,
   `products_id` int UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -675,7 +665,7 @@ CREATE TABLE `productscharac` (
 CREATE TABLE `productsimages` (
   `products_id` int UNSIGNED NOT NULL,
   `images_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `productsimages`
@@ -775,7 +765,7 @@ INSERT INTO `productsimages` (`products_id`, `images_id`) VALUES
 CREATE TABLE `productsorders` (
   `orders_id` int NOT NULL,
   `products_id` int UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `productsorders`
@@ -819,7 +809,7 @@ CREATE TABLE `ratings` (
   `rating` int DEFAULT NULL,
   `products_id` int UNSIGNED NOT NULL,
   `users_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ratings`
@@ -1338,10 +1328,10 @@ INSERT INTO `ratings` (`id`, `rating`, `products_id`, `users_id`) VALUES
 
 CREATE TABLE `sub_category` (
   `id` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `category_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sub_category`
@@ -1363,26 +1353,26 @@ INSERT INTO `sub_category` (`id`, `name`, `description`, `category_id`) VALUES
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `full_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `full_name` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `birthday` date DEFAULT NULL,
-  `adress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `role` enum('user','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `adress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role` enum('user','admin') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `birthday`, `adress`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Jean-Ely', 'jean-ely.gendrau@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$UZCmdQV9THsp8u+uvoG9Qg$T1XlwzOqRG0IiFhr9oJ2cwHnV/85rwMiDJ79lDzeNZM', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
-(2, 'Esteban', 'esteban.bare@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$+Jn+7+E8QVPXtjjDbayc+Q$PJzqNcLdZoXeONCAOLHa2bUajjy+FzEHIDCYjBSUuvk', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
-(3, 'Alexandre', 'alexandre.detroy@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$t8a3QI+gFb5wE+Jng1cMug$NNfHRT2M74J28pJAdgW8PH1OLnpdi7unf3oS8tt7Lww', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
-(4, 'Jean-Philippe', 'jean-philippe.douzou@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$PWAshzK17rAxKmgX00FqPg$QqWKoS6l9Bd3KGzbOTf7XE0Wq/iTnlA1s6Qcgyq/Ss0', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
-(5, 'Angel', 'angel.putz@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$bdVEKv32GBhNUU4HPTAPIg$HrMDkBr8TDWnHqlizQAIpfZfBgbjZBjAkiE3W1hXJeI', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
+(1, 'Jean-Ely', 'jean-ely.gendau@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$qm60Qf7PnwiKVr6/rrG8QQ$J20T1VHEXxCzc8GoaDlYiTM8I5QhIK9EgjCUhnmwt7E', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-10 16:47:43'),
+(2, 'Esteban', 'esteban.bare@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$qm60Qf7PnwiKVr6/rrG8QQ$J20T1VHEXxCzc8GoaDlYiTM8I5QhIK9EgjCUhnmwt7E', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-10 16:48:45'),
+(3, 'Alexandre', 'alexandre.detroy@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$qm60Qf7PnwiKVr6/rrG8QQ$J20T1VHEXxCzc8GoaDlYiTM8I5QhIK9EgjCUhnmwt7E', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-10 16:48:45'),
+(4, 'Jean-Philippe', 'jean-philippe.douzou@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$qm60Qf7PnwiKVr6/rrG8QQ$J20T1VHEXxCzc8GoaDlYiTM8I5QhIK9EgjCUhnmwt7E', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-10 16:48:45'),
+(5, 'Angel', 'angel.putz@laplateforme.io', '$argon2id$v=19$m=65536,t=2,p=1$qm60Qf7PnwiKVr6/rrG8QQ$J20T1VHEXxCzc8GoaDlYiTM8I5QhIK9EgjCUhnmwt7E', '1990-04-15', '83000 Toulon', 'admin', '2024-05-02 02:43:41', '2024-05-10 16:48:45'),
 (6, 'Ronnie Bartosinski', 'rbartosinski0@meetup.com', '$argon2id$v=19$m=65536,t=2,p=1$Y/dyR6x5AjX+SdRy/jBC/Q$ZXgtwiUUgo8Hc2vXkiWo1qjK1lRpqi+jhSyUuvhz5mM', '1978-09-08', '14690 Rapilly - 14', 'user', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
 (7, 'Teddie Moakes', 'tmoakes1@europa.eu', '$argon2id$v=19$m=65536,t=2,p=1$yKT9jAub9IFyGcfHGSkOAA$/JyFQ7pr1L8mzdNVBY5m+0id6ucBknqE2CTjWX2IJjc', '1991-04-07', '41100 Pezou - 41', 'user', '2024-05-02 02:43:41', '2024-05-02 02:43:41'),
 (8, 'Calvin MacQuaker', 'cmacquaker2@marketwatch.com', '$argon2id$v=19$m=65536,t=2,p=1$Mb2jroTHYHZzPy1OLqDThw$W0cvUPciUqj+72J04HnVI+GNbdqSwKQJXSfTYfc+KvU', '1965-05-09', '71500 Branges - 71', 'user', '2024-05-02 02:43:42', '2024-05-02 02:43:42'),
@@ -1583,7 +1573,8 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `birthday`, `adress
 (203, 'Dionis Gibbens', 'dgibbens5h@dailymotion.com', '$argon2id$v=19$m=65536,t=2,p=1$N91XWE/U5MoI2G80WR7rTw$gbwJlRCvSLqUdsw+7IOsoUIGzj5oNxpM+eQ1g/r/0J0', '1997-04-23', '37160 Civray-sur-Esves - 37', 'user', '2024-05-02 02:44:04', '2024-05-02 02:44:04'),
 (204, 'Bary Brehat', 'bbrehat5i@mozilla.org', '$argon2id$v=19$m=65536,t=2,p=1$88Ev3qQgQ3+gdIARD53l9A$HMZkKXxwxrvOt0NuliI5n6KAR/pWycn08wbJWTffOxQ', '1970-03-01', '30120 Bez-et-Esparon - 30', 'user', '2024-05-02 02:44:04', '2024-05-02 02:44:04');
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `birthday`, `adress`, `role`, `created_at`, `updated_at`) VALUES
-(205, 'Hannah Lord', 'hlord5j@hatena.ne.jp', '$argon2id$v=19$m=65536,t=2,p=1$WpM14STz5JaEUOWmyDnozQ$S3WRVA+mZmicoHD9uNAR7vx/XBFVmJj4m2M4xjLPNWk', '1972-11-18', '87190 Droux - 87', 'user', '2024-05-02 02:44:04', '2024-05-02 02:44:04');
+(205, 'Hannah Lord', 'hlord5j@hatena.ne.jp', '$argon2id$v=19$m=65536,t=2,p=1$WpM14STz5JaEUOWmyDnozQ$S3WRVA+mZmicoHD9uNAR7vx/XBFVmJj4m2M4xjLPNWk', '1972-11-18', '87190 Droux - 87', 'user', '2024-05-02 02:44:04', '2024-05-02 02:44:04'),
+(206, 'testutilisateurs', 'testutilisateurs@gmail.fr', '$argon2id$v=19$m=65536,t=2,p=1$ASsa7bf6bxUu4pXMPK8eOQ$4qAR62OPdLmSJDymveoKE2CPKTOwtB/UQ4j1x8AV8so', NULL, NULL, 'user', '2024-05-06 11:58:09', '2024-05-06 11:58:09');
 
 -- --------------------------------------------------------
 
@@ -1594,7 +1585,25 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `birthday`, `adress
 CREATE TABLE `usersavatars` (
   `users_id` int NOT NULL,
   `avatars_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_has_products`
+--
+
+CREATE TABLE `users_has_products` (
+  `users_id` int NOT NULL,
+  `products_id` int UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_has_products`
+--
+
+INSERT INTO `users_has_products` (`users_id`, `products_id`) VALUES
+(1, 2);
 
 --
 -- Indexes for dumped tables
@@ -1625,12 +1634,6 @@ ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_comments_users1_idx` (`users_id`),
   ADD KEY `fk_comments_products1_idx` (`products_id`);
-
---
--- Indexes for table `favoris`
---
-ALTER TABLE `favoris`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `images`
@@ -1706,6 +1709,13 @@ ALTER TABLE `usersavatars`
   ADD KEY `fk_UsersAvatars_avatars1_idx` (`avatars_id`);
 
 --
+-- Indexes for table `users_has_products`
+--
+ALTER TABLE `users_has_products`
+  ADD PRIMARY KEY (`users_id`,`products_id`),
+  ADD KEY `fk_users_has_products_products1` (`products_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1755,7 +1765,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=515;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=504;
 
 --
 -- AUTO_INCREMENT for table `sub_category`
@@ -1767,7 +1777,7 @@ ALTER TABLE `sub_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- Constraints for dumped tables
@@ -1833,6 +1843,13 @@ ALTER TABLE `sub_category`
 ALTER TABLE `usersavatars`
   ADD CONSTRAINT `fk_UsersAvatars_avatars1` FOREIGN KEY (`avatars_id`) REFERENCES `avatars` (`id`),
   ADD CONSTRAINT `fk_UsersAvatars_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `users_has_products`
+--
+ALTER TABLE `users_has_products`
+  ADD CONSTRAINT `fk_users_has_products_products1` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_users_has_products_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
