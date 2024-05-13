@@ -57,12 +57,17 @@ class TestRender
         $arguments['render']->addParams('product', $allProducts);
 
         // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-        $productsCoffee = $crudManager->getAllById('0', 'id_category');
+
+
+        $categoryidCafe = ["category_id" => 1];
+        $productsCoffee = $crudManager->getAll($categoryidCafe);
         $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
         $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
 
         // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-        $productsTea = $crudManager->getAllById('1', 'id_category');
+
+        $categoryidThe = ["category_id" => 2];
+        $productsTea = $crudManager->getAll($categoryidThe);
         $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
