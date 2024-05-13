@@ -11,6 +11,7 @@ class MotorMvcException extends \Exception
   {
     match ($case) {
       ExceptionEnum::TemplateNotFound   =>  parent::__construct("Ooops le template que vous demandez est introuvable.", 404),
+      ExceptionEnum::SecretsNotFound   =>  parent::__construct("Ooops le secrets que vous demandez est introuvable.", 404),
     };
   }
 }

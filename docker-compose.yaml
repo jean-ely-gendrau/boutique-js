@@ -6,8 +6,6 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE_FILE: /run/secrets/database_mysql
-      MYSQL_USER_FILE: /run/secrets/user_mysql
-      MYSQL_PASSWORD_FILE: /run/secrets/password_mysql
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/password_root_mysql
       MYSQL_TCP_PORT: 55055
     volumes:
@@ -15,8 +13,7 @@ services:
       - ./docker-data/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     secrets:
       - database_mysql
-      - user_mysql
-      - password_mysql
+      - password_root_mysql
 
   nginx:
     build: ./docker-data/images/nginx/
@@ -41,9 +38,11 @@ services:
       - api_key_stripe
       - database_mysql
       - user_mysql
-      - password_mysql
       - password_root_mysql
       - port_mysql
+      - dsn_mysql
+      - host_mysql
+      - charset_mysql
     build:
       context: ./backend-php
       dockerfile: Dockerfile
@@ -61,13 +60,10 @@ services:
     restart: always
     environment:
       PMA_HOST: db
-      PMA_PASSWORD_FILE: /run/secrets/password_mysql
-      PMA_ROOT_PASSWORD_FILE: /run/secrets/password_mysql
-      PMA_USER_FILE: /run/secrets/user_mysql
+      PMA_ROOT_PASSWORD_FILE: /run/secrets/password_root_mysql
+      PMA_PORT: 55055
     secrets:
-      - password_mysql
       - password_root_mysql
-      - user_mysql
     links:
       - db:db
 
@@ -89,12 +85,16 @@ secrets:
     file: ./docker-data/secrets/database_mysql.txt
   password_root_mysql:
     file: ./docker-data/secrets/password_root_mysql.txt
-  password_mysql:
-    file: ./docker-data/secrets/password_mysql.txt
   user_mysql:
     file: ./docker-data/secrets/user_mysql.txt
   port_mysql:
     file: ./docker-data/secrets/port_mysql.txt
+  dsn_mysql:
+    file: ./docker-data/secrets/dsn_mysql.txt
+  host_mysql:
+    file: ./docker-data/secrets/host_mysql.txt
+  charset_mysql:
+    file: ./docker-data/secrets/charset_mysql.txt
 
 volumes:
   db_data:
