@@ -18,7 +18,7 @@ class BddManager
             $key_variable = array('bdd', 'host', 'username', 'password', 'port', 'dsn', 'charset');
             $bdd = DockerSecrets::getSecrets(SecretsEnum::Name_BDD);
             $host = DockerSecrets::getSecrets(SecretsEnum::Host_BDD);
-            $username = DockerSecrets::getSecrets(SecretsEnum::User_BDD);
+            $username = 'root';
             $password = DockerSecrets::getSecrets(SecretsEnum::Password_Root_BDD);
             $port = DockerSecrets::getSecrets(SecretsEnum::Port_BDD);
             $dsn = DockerSecrets::getSecrets(SecretsEnum::Dsn_BDD);
