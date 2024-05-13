@@ -14,7 +14,7 @@ $algorithm    = new Sha256();
 $signingKey   = InMemory::plainText(random_bytes(32));
 
 $token = $tokenBuilder
-    ->issuedBy('http://example.com')
+    ->issuedBy($_SESSION["email"])
     ->withClaim('uid', 1)
     ->withHeader('foo', 'bar')
     ->getToken($algorithm, $signingKey);
