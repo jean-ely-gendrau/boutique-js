@@ -14,7 +14,8 @@ $orders = $historiqueController->Historique($clientId); // replace $clientId wit
 
 <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-2 h-full">
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-2 h-full">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-gray-500 dark:text-gray-400 text-lg md:text-xl lg:text-2xl">Historique d'achat</h1>
 
@@ -36,9 +37,11 @@ $orders = $historiqueController->Historique($clientId); // replace $clientId wit
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($orders as $order) : ?>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            foreach ($orders as $order): ?>
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <?= $order->name ?>
                                     </th>
                                     <td class="px-6 py-4"><?= $order->adress ?></td>

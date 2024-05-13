@@ -672,7 +672,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $req->fetch();
     }
 
-    public function getAllProductFav($idUser): array
+    public function getAllProductFav(int $idUser): array
     {
         $req = $this->_dbConnect->prepare(
             "SELECT 
@@ -686,7 +686,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         FROM 
         {$this->_tableName} p
         INNER JOIN 
-            ProductsImages pi ON p.id = pi.products_id
+            productsimages pi ON p.id = pi.products_id
         INNER JOIN 
             images i ON pi.images_id = i.id;
         ",
@@ -729,4 +729,21 @@ class CrudManager extends BddManager implements PaginatePerPage
         return $req->fetchAll();
     }
 
+    public function getFavoritesOfUser(int $idUser): array
+    {
+        $req = $this->_dbConnect->prepare(
+            "SELECT p.*, i.url_image, uhp.users_id
+            FROM {$this->_tableName} p
+            INNER JOIN ProductsImages pi ON p.id = pi.products_id
+            INNER JOIN images i ON pi.images_id = i.id
+            INNER JOIN users_has_products uhp ON p.id = uhp.products_id
+            WHERE uhp.users_id = $idUser;
+        ",
+        );
+
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
 }
