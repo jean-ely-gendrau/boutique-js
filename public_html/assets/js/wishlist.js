@@ -69,7 +69,6 @@ function addToFavorite(event) {
             return response.json();
         }).then(result => {
             console.log(result);
-            // After adding to favorites, handle messages
             if (result === 'Suppre done') {
                 messageFav('Supprimé des favoris');
             } else if (result === 'Ajoute fav') {
@@ -83,17 +82,17 @@ function addToFavorite(event) {
     }
 }
 
-let messageContainer; 
-let messageTimeout; 
+let messageDiv; 
+let messageTimer; 
 
 function messageFav(text) {
-    if (messageContainer) {
-        messageContainer.remove(); 
-        clearTimeout(messageTimeout);
+    if (messageDiv) {
+        messageDiv.remove(); 
+        clearTimeout(messageTimer);
     }
 
-    messageContainer = document.createElement('div');
-    messageContainer.classList.add('fixed', 'bottom-0', 'right-0');
+    messageDiv = document.createElement('div');
+    messageDiv.classList.add('fixed', 'bottom-0', 'right-0');
 
     const message = document.createElement('div');
     message.textContent = text;
@@ -103,17 +102,15 @@ function messageFav(text) {
     message.style.marginBottom = '2rem';
     message.style.marginRight = '2rem';
 
-    messageContainer.appendChild(message);
-    document.body.appendChild(messageContainer);
+    messageDiv.appendChild(message);
+    document.body.appendChild(messageDiv);
 
-    messageTimeout = setTimeout(function () {
-        messageContainer.remove();
-        messageContainer = null;
-        messageTimeout = null;
+    messageTimer = setTimeout(function () {
+        messageDiv.remove();
+        messageDiv = null;
+        messageTimer = null;
     }, 2000);
 }
 
 body.addEventListener('click', checkVerify);
 body.addEventListener('click', addToFavorite);
-
-

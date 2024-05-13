@@ -611,4 +611,28 @@ class CrudManager extends BddManager implements PaginatePerPage
 
         return $this;
     }
+    public function getAllProductFav($idUser): array
+    {
+        $req = $this->_dbConnect->prepare(
+            "SELECT 
+            p.*, 
+            i.url_image,
+            (SELECT 1
+             FROM users_has_products uhp 
+             WHERE uhp.products_id = p.id
+             AND uhp.users_id = $idUser
+             LIMIT 1) AS user_has_product
+        FROM 
+        {$this->_tableName} p
+        INNER JOIN 
+            ProductsImages pi ON p.id = pi.products_id
+        INNER JOIN 
+            images i ON pi.images_id = i.id;
+        ",
+        );
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
 }

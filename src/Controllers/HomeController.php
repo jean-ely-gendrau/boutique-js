@@ -49,10 +49,18 @@ class HomeController
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
         $crudManager = new CrudManager('products', ProductsModels::class);
 
+        // CrudManager user
+        $crudManagerUser = new CrudManager('users', ProductsModels::class);
+
         // Instance de la classe Slide
         $horizontalSlide = new Slider();
 
         // Création d'un slider importent l'ensemble des produits
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsFav = $crudManager->getAllProductFav($user->id);
+            var_dump($productsFav);
+        }
         $products = $crudManager->getAllProduct();
         // var_dump($crudManager->getAllProduct());
         $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()

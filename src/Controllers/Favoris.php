@@ -111,6 +111,5 @@ class Favoris extends CrudManager
         $checkVerify->execute();
         $result = $checkVerify->fetchAll(PDO::FETCH_ASSOC);
         return $result[0]["product_count"];
-
     }
 }
