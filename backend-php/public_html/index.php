@@ -2,7 +2,10 @@
 
 use Motor\Mvc\Utils\Render;
 use Motor\Mvc\Components\Debug;
+use Motor\Mvc\Enum\ExceptionEnum;
+use App\Boutique\Enum\ClientExceptionEnum;
 use Motor\Mvc\Exceptions\MotorMvcException;
+use App\Boutique\Exceptions\ClientExceptions;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -79,7 +82,7 @@ $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 //$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
-$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
+$router->map('GET', '/inscription', 'RegisterControllers#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
@@ -309,10 +312,7 @@ try {
 
         echo call_user_func_array([$controller, $method], $match['params']);
       else :
-      /* EXCEPTION ICI */
-
-      // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
-      //   goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
+        throw new MotorMvcException(ExceptionEnum::ControllerNotFound);
       endif;
     /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
      *
@@ -325,8 +325,12 @@ try {
       $rendering->addParams('params', $match['params']);
       echo $rendering->defaultRender($match['target']);
     endif;
+  else :
+    throw new ClientExceptions(ClientExceptionEnum::NotFound404); // THROW EXCEPTION
   endif;
-} catch (MotorMvcException $mvcException) {
+}
+// BLOC CATH POUR LES ERREUR DU MVC , ERREUR DE CODAGE ET AUTRE...
+catch (MotorMvcException $mvcException) {
   /*Si la page demandé est inexistante, nouvelle instance de Render
    *
    * On passe en paramétre de la méthode la page '404'
@@ -336,17 +340,14 @@ try {
   $rendering->addParams('mvcException', $mvcException);
   echo $rendering->defaultRender('404');
 }
-
-
-
-
-
-   // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
-// GOTO ERROR
-/*
-else :
-  error:
+// BLOC CATH POUR LES ERREUR DU CLIENT , ERREUR DE NAVIGUATION.
+catch (ClientExceptions $clientException) {
+  /*Si la page demandé est inexistante, nouvelle instance de Render
+   *
+   * On passe en paramétre de la méthode la page '404'
+   *
+   * Enfin On affiche le résultat de la méthode
+   */
+  $rendering->addParams('clientException', $clientException);
   echo $rendering->defaultRender('404');
-/* APPEL ICI DE LA CLASS RENDER */
-// require_once __DIR__ . '/../template/404.php';
-//endif;
+}

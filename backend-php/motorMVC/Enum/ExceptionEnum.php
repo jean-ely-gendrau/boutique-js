@@ -6,4 +6,5 @@ enum ExceptionEnum
 {
   case TemplateNotFound;
   case SecretsNotFound;
+  case ControllerNotFound;
 }
