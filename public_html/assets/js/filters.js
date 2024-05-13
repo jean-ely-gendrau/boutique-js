@@ -5,6 +5,7 @@ const buttonBestSeller = document.getElementById('bestSeller');
 const buttonBestRated = document.getElementById('bestRated');
 const filterButtons = document.querySelectorAll('.filters');
 let buttonValue;
+let inFav;
 const buttonClear = document.getElementById('clear');
 
 if (buttonClear !== null) {
@@ -76,7 +77,7 @@ function filterPrice(filter = null, subCat = null) {
       return response.json();
     })
     .then(products => {
-      // console.log(products);
+      console.log(products);
       if (products.length <= 0) {
         messageResearch.innerText = 'Aucun résultat';
       } else if (filterSelected !== null) {
@@ -102,7 +103,12 @@ function filterPrice(filter = null, subCat = null) {
 
         const favoriteDiv = document.createElement('div');
         favoriteDiv.setAttribute('id', product.id);
-        favoriteDiv.classList.add('favorites', 'bg-gray-200', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'cursor-pointer', 'absolute', 'top-4', 'right-4');
+        if (product.user_has_product !== null) {
+          inFav = 'inFav'
+        } else {
+          inFav = null
+        }
+        favoriteDiv.classList.add(`${inFav}`, 'favorites', 'bg-gray-200', 'w-10', 'h-10', 'flex', 'items-center', 'justify-center', 'rounded-full', 'cursor-pointer', 'absolute', 'top-4', 'right-4');
 
         const svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svgIcon.setAttribute('class', 'fill-gray-800 inline-block');
@@ -111,7 +117,11 @@ function filterPrice(filter = null, subCat = null) {
 
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', 'M60.732 29.7C41.107 29.7 22 39.7 22 67.41c0 27.29 45.274 67.29 74 94.89 28.744-27.6 74-67.6 74-94.89 0-27.71-19.092-37.71-38.695-37.71C116 29.7 104.325 41.575 96 54.066 87.638 41.516 76 29.7 60.732 29.7z');
-        path.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
+        if (inFav === 'inFav') {
+          path.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
+        } else {
+          path.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
+        }
 
         svgIcon.appendChild(path);
 
@@ -143,6 +153,7 @@ function filterPrice(filter = null, subCat = null) {
         resultat.appendChild(productCard);
       });
       handleArticleClick();
+      // favProductsCheck();
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);

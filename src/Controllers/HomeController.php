@@ -58,21 +58,31 @@ class HomeController
         // Création d'un slider importent l'ensemble des produits
         if (isset($_SESSION['isConnected'])) {
             $user = $crudManagerUser->getByEmail($_SESSION['email']);
-            $productsFav = $crudManager->getAllProductFav($user->id);
-            var_dump($productsFav);
+            $products = $crudManager->getAllProductFav($user->id);
+        } else {
+            $products = $crudManager->getAllProduct();
         }
-        $products = $crudManager->getAllProduct();
         // var_dump($crudManager->getAllProduct());
         $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
         $arguments['render']->addParams('product', $allProducts);
 
         // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-        $productsCoffee = $crudManager->getAllByCategoryId('2');
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsCoffee = $crudManager->getAllByCategoryIdFav('1', $user->id);
+        } else {
+            $productsCoffee = $crudManager->getAllByCategoryId('1');
+        }
         $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
         $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
 
         // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-        $productsTea = $crudManager->getAllByCategoryId('1');
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsTea = $crudManager->getAllByCategoryIdFav('2', $user->id);
+        } else {
+            $productsTea = $crudManager->getAllByCategoryId('2');
+        }
         $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 

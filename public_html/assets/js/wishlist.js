@@ -1,29 +1,14 @@
 const body = document.body;
 const favProducts = document.querySelectorAll('.favorites');
 
-
+// function favProductsCheck() {
 favProducts.forEach(element => {
-    let idFav = parseInt(element.id);
-    // console.log(idFav);
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    fetch(`/favoris/${idFav}`, {
-        headers: headers
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    }).then(result => {
-        if (result === true) {
-            // console.log(element);
-            let aaaa = element.querySelector('path');
-            aaaa.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1')
-        }
-    }).catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    if (element.classList.contains('inFav')) {
+        let change = element.querySelector('path');
+        change.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
+    }
 });
+// }
 
 function checkVerify(event) {
     const isFavoriteClicked = event.target.closest('.favorites');
@@ -114,3 +99,4 @@ function messageFav(text) {
 
 body.addEventListener('click', checkVerify);
 body.addEventListener('click', addToFavorite);
+// document.addEventListener('DOMContentLoaded', favProductsCheck);
