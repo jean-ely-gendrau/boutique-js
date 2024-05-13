@@ -16,11 +16,11 @@ $signingKey   = InMemory::plainText(random_bytes(32));
 $now   = new DateTimeImmutable();
 $token = $tokenBuilder
     // Configure l'éméteur (iss claim)
-    ->issuedBy('http://example.com')
+    ->issuedBy($_SESSION["email"])
     // Configures le destinataire (aud claim)
-    ->permittedFor('http://example.org')
+    ->permittedFor("boutique-js.test/api/")
     // Configures le sujet (sub claim)
-    ->relatedTo('component1')
+    ->relatedTo('getCategoryById')
     // Configures l'id du token (jti claim)
     ->identifiedBy('4f1g23a12aa')
     // Configures le moment de l'émission du token (iat claim)
