@@ -5,6 +5,8 @@ services:
     image: mariadb:10.6
     restart: always
     environment:
+      MYSQL_USER_FILE: /run/secrets/user_mysql
+      MYSQL_PASSWORD_FILE: /run/secrets/password_mysql
       MYSQL_DATABASE_FILE: /run/secrets/database_mysql
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/password_root_mysql
       MYSQL_TCP_PORT: 55055
@@ -12,6 +14,8 @@ services:
       - db_data:/var/lib/mysql
       - ./docker-data/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     secrets:
+      - password_mysql
+      - user_mysql
       - database_mysql
       - password_root_mysql
 
@@ -39,6 +43,7 @@ services:
       - database_mysql
       - user_mysql
       - password_root_mysql
+      - password_mysql
       - port_mysql
       - dsn_mysql
       - host_mysql
@@ -83,6 +88,8 @@ secrets:
     file: ./docker-data/secrets/api_key_stripe.txt
   database_mysql:
     file: ./docker-data/secrets/database_mysql.txt
+  password_mysql:
+    file: ./docker-data/secrets/password_mysql.txt
   password_root_mysql:
     file: ./docker-data/secrets/password_root_mysql.txt
   user_mysql:
