@@ -15,8 +15,14 @@ class ProductsV2Controller
     /** @var \Motor\Mvc\Utils\Render $render */
     $render = $arguments['render'];
 
+    // Requête SQL
     $productEntity = new ProductsEntity();
-    $productEntity->getAllProductPaginate();
-    var_dump($productEntity);
+    $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']);
+
+    // Ajout de paramètre au template
+    $render->addParams('productAllSelect', $productAllSelect);
+
+    // Affichage
+    return $render->render('products', $arguments);
   }
 }

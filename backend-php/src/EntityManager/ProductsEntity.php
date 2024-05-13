@@ -85,17 +85,18 @@ class ProductsEntity extends CrudApi
      * @params array $select [les collones à séléctionner | si null toutes les collones seront extraite]
      * @return string|array
      */
-    public function getAllProductPaginate(?array $select = null, bool $returnJson = false): string|array
+    public function getAllProductPaginate(int $categoryID, ?array $select = null, bool $returnJson = false): string|array
     {
         //     GROUP BY ord.id_product
         $selectItem = is_null($select) ? '*' : join(', ', $select);
 
-        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName, ord.id 
+        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName
             FROM {$this->getTableName()} as prod 
             LEFT JOIN category as c ON prod.category_id = c.id 
             LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
             LEFT JOIN productsimages pi ON prod.id = pi.products_id 
             LEFT JOIN images i ON pi.images_id = i.id 
+            WHERE prod.category_id = :category_id
             LIMIT :limit OFFSET :offset";
 
         // Désectivation ATTR_EMULATE_PREPARES
@@ -104,7 +105,7 @@ class ProductsEntity extends CrudApi
 
         //Prépare
         $req = $connect->prepare($sql);
-        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset, 'category_id' => $categoryID]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
 
         //var_dump($req->fetchAll());
