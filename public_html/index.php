@@ -78,6 +78,16 @@ $router->map('GET', '/historique', 'HistoriqueController#Historique', 'historiqu
 $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 //$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
+
+
+
+
+$router->map('GET', '/tokenBuilder1', 'TokenBuilder1', 'tokenBuilder1');
+$router->map('GET', '/tokenBuilder2', 'TokenBuilder2', 'tokenBuilder2');
+$router->map('GET', '/tokenValidator', 'TokenValidator', 'tokenValidator');
+$router->map('GET', '/tokenAnalyse', 'TokenAnalyse', 'tokenAnalyse');
+
+
 // Inscription/Connexion route
 $router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
