@@ -24,8 +24,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="p-4">
                         <?php $images = $productItem['url_image']; ?>
-                        <img src="http://<?= $serverName ?>/assets/images/<?= $images ?>"
-                            class="w-16 md:w-32 max-w-full max-h-full">
+                        <img src="http://<?= $serverName ?>/assets/images/<?= $images ?>" class="w-16 md:w-32 max-w-full max-h-full">
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                         <?= $productItem['name'] ?>
@@ -33,9 +32,7 @@
                     <td class="px-6 py-4">
                         <div class="flex items-center">
                             <div>
-                                <input type="number" id="Quantiter" min="1"
-                                    class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    value="1" required />
+                                <input type="number" id="Quantiter" min="1" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="1" required />
                             </div>
                         </div>
                     </td>

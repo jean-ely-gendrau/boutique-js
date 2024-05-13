@@ -121,7 +121,6 @@ $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPri
 // Route wishlist
 $router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
 $router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
-$router->map('get', '/wishlist', 'Favoris#ShowFavorites', 'userWishlist');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
@@ -230,25 +229,25 @@ $match = $router->match();
 try {
 
   // Si la route est bien enregistré avec $router->map alors on execute la condition
-  if (is_array($match)):
+  if (is_array($match)) :
     $params = $match['params'];
 
     /* Cas de Figure Du contrôlleur et de la méthod à appeler
-     * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
-     * Le controller TestRender
-     * la méthod Index
-     *
-     *                      Modification apporté
-     *
-     * Ov va tester la $match['target'] variable avec str_contains
-     *
-     * Si la chaîne contient un # alors nous sommes dans le cas de figure
-     * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
-     *
-     * - Traiter les données avant de les rendre au client
-     * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
-     */
-    if (str_contains($match['target'], '#')):
+   * Exemple : $router->map('GET', '/test-render', 'TestRender#Index', 'test-render-index');
+   * Le controller TestRender
+   * la méthod Index
+   *
+   *                      Modification apporté
+   *
+   * Ov va tester la $match['target'] variable avec str_contains
+   *
+   * Si la chaîne contient un # alors nous sommes dans le cas de figure
+   * ou l'on souhaite faire appel à une class dite Contrôler (car elle va piloter l'exécution de notre code)
+   *
+   * - Traiter les données avant de les rendre au client
+   * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
+   */
+    if (str_contains($match['target'], '#')) :
       // On assign les valeurs du tableau à
       // $contoller pour $match['target'][0]
       // $method    pour $match['target'][1]
@@ -262,12 +261,12 @@ try {
       $controller = class_exists($controller) ? new $controller() : false;
 
       /*
-       * Récupération des valeurs transmises par $_POST
-       * On parcourt le tableau $_POST et on assigne chaque valeur
-       * $match['params']['post']['key';
-       * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
-       * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
-       */
+     * Récupération des valeurs transmises par $_POST
+     * On parcourt le tableau $_POST et on assigne chaque valeur
+     * $match['params']['post']['key';
+     * Sur chaque valeur on applique un peu de sécuriser en effacer les caractères vides en début et fin de chaîne trim()
+     * ensuite on convertit les caractères spéciaux en code html pour s'assurer qu'aucun code malveillant et transmis par l'utilisateur
+     */
       if (isset($_POST)) {
         foreach ($_POST as $key => $value) {
           $match['params'][$key] = htmlspecialchars(trim($value));
@@ -288,7 +287,7 @@ try {
       // $match['params']['serverName'] = $serverName;
       // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
       // https://www.php.net/manual/en/function.is-callable.php
-      if (is_callable([$controller, $method])):
+      if (is_callable([$controller, $method])) :
         /*
              * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
              * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
@@ -309,20 +308,20 @@ try {
        */
 
         echo call_user_func_array([$controller, $method], $match['params']);
-      else:
-        /* EXCEPTION ICI */
+      else :
+      /* EXCEPTION ICI */
 
-        // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
-        //   goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
+      // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
+      //   goto error; // Si le controlleur est false ou que la méthode n'est pas de type callable exécution de : goto error  (goto peut être utilisé pour continuer l'exécution du script à un autre point du programme)
       endif;
-      /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
-       *
-       * On appel la méthode defaultRender prenant en paramétre
-       * le nom de la page ($match['target']) et la variable $serverName
-       *
-       * Enfin on affiche le resultat de la méthode
-       */
-    else:
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+     *
+     * On appel la méthode defaultRender prenant en paramétre
+     * le nom de la page ($match['target']) et la variable $serverName
+     *
+     * Enfin on affiche le resultat de la méthode
+     */
+    else :
       $rendering->addParams('params', $match['params']);
       echo $rendering->defaultRender($match['target']);
     endif;
@@ -342,7 +341,7 @@ try {
 
 
 
-// COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
+   // COMMENTS CE CODE SERA A NETTOYER DANS LA VERSION FINAL
 // GOTO ERROR
 /*
 else :

@@ -112,24 +112,4 @@ class Favoris extends CrudManager
         $result = $checkVerify->fetchAll(PDO::FETCH_ASSOC);
         return $result[0]["product_count"];
     }
-
-    public function ShowFavorites(...$arguments)
-    {
-        if (!isset($_SESSION['email'])) {
-            // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
-            header('Location: /inscription');
-            exit();
-        }
-
-        $render = $arguments['render'];
-        $IdclientCrudManager = new CrudManager('users', ProductsModels::class);
-        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id;
-
-        $favoris = new CrudManager('products', ProductsModels::class);
-        $produitFavoris = $favoris->getFavoritesOfUser($id);
-
-        $render->addParams('produitFavoris', $produitFavoris);
-        return $render->render('wishlist', $arguments);
-    }
 }
