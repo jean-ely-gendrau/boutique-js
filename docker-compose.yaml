@@ -5,14 +5,18 @@ services:
     image: mariadb:10.6
     restart: always
     environment:
-      MYSQL_DATABASE: /run/secrets/databaseMYSL
-      MYSQL_USER: /run/secrets/userMYSQL
-      MYSQL_PASSWORD: /run/secrets/passwordMYSQL
-      MYSQL_ROOT_PASSWORD: /run/secrets/passwordRootMYSQL
-    container_name: data_center_mysql
+      MYSQL_DATABASE_FILE: /run/secrets/database_mysql
+      MYSQL_USER_FILE: /run/secrets/user_mysql
+      MYSQL_PASSWORD_FILE: /run/secrets/password_mysql
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/password_root_mysql
+      MYSQL_TCP_PORT: 55055
     volumes:
       - db_data:/var/lib/mysql
       - ./docker-data/dump/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    secrets:
+      - database_mysql
+      - user_mysql
+      - password_mysql
 
   nginx:
     build: ./docker-data/images/nginx/
@@ -31,8 +35,15 @@ services:
   php:
     depends_on:
       - db
-    hostname: boutique-js.dok
+    hostname: teacoffee.dock
     restart: always
+    secrets:
+      - api_key_stripe
+      - database_mysql
+      - user_mysql
+      - password_mysql
+      - password_root_mysql
+      - port_mysql
     build:
       context: ./backend-php
       dockerfile: Dockerfile
@@ -50,22 +61,41 @@ services:
     restart: always
     environment:
       PMA_HOST: db
-      PMA_PASSWORD: /run/secrets/passwordMYSQL
-      PMA_USER: /run/secrets/userMYSQL
-      PMA_PORTS: /run/secrets/portPMA1|/run/secrets/portPMA2
+      PMA_PASSWORD_FILE: /run/secrets/password_mysql
+      PMA_ROOT_PASSWORD_FILE: /run/secrets/password_mysql
+      PMA_USER_FILE: /run/secrets/user_mysql
+    secrets:
+      - password_mysql
+      - password_root_mysql
+      - user_mysql
     links:
       - db:db
 
   node:
-    hostname: api.boutique-js.dok
+    hostname: teacoffee.dock
     restart: always
+    secrets:
+      - api_key_stripe
     build:
-      context: ./nodeexpress
+      context: ./node-service
       dockerfile: Dockerfile
     volumes:
-      - ./nodeexpress:/www
+      - ./node-service:/www
+
+secrets:
+  api_key_stripe:
+    file: ./docker-data/secrets/api_key_stripe.txt
+  database_mysql:
+    file: ./docker-data/secrets/database_mysql.txt
+  password_root_mysql:
+    file: ./docker-data/secrets/password_root_mysql.txt
+  password_mysql:
+    file: ./docker-data/secrets/password_mysql.txt
+  user_mysql:
+    file: ./docker-data/secrets/user_mysql.txt
+  port_mysql:
+    file: ./docker-data/secrets/port_mysql.txt
 
 volumes:
   db_data:
-    name: data_center_db_data
   nginx_conf:
