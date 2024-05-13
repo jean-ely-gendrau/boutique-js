@@ -258,7 +258,14 @@ teaCoffee.request = {
     headersParams = false,
   }) => {
     let bodyParamFormat = "";
-
+    console.log(route,
+      bodyParam,
+      idForm,
+      method,
+      contentType,
+      resType,
+      defineRequest,
+      headersParams)
     if (bodyParam) {
       bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
     } else if (idForm) {
@@ -368,7 +375,34 @@ teaCoffee.html = {
       }
     }
   },
+  /**
+   * viewHtml Insérer/Remplace un élément HTML à la page
+ * @param {Object} options - Les options de la vue html.
+ * @returns {Object} - Retourne l'objet this pour permettre le chaînage des méthodes.
+ */
+  viewHtml: (options) => {
+    let { replace = true, id, jsonElement } = options;
+    let selected = null;
+    // console.log(replace, id, jsonElement);
+    teaCoffee.sys.getById(id);
+    selected = teaCoffee.sys.elems[0]; // Assignation de valeur à une variable
+    teaCoffee.sys.elems.pop()
+    //  console.log(teaCoffee.sys.elems[0]);
+    if (replace && selected) {
+      let elementHtml = new DOMParser().parseFromString(jsonElement, "text/html");
+
+      selected.replaceWith(elementHtml.documentElement.querySelector('body').firstChild);
+    }
+  },
 };
+
+teaCoffee.response = {
+  success: function (callback, message) {
+    console.log(callback, message)
+  }, errors: function (callback, message) {
+    console.error(callback, message)
+  }
+}
 
 teaCoffee.action = {
   handelScrollX: (e) => {
@@ -427,6 +461,113 @@ teaCoffee.action = {
     }
     teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, reponse);
   },
+  /**
+   * Gère l'événement de clic de souris pour l'exemple.
+   * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+   * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+   */
+  handlePost: async (e) => {
+    e.preventDefault();
+
+    let { idForm, method, postUrl } = e.target.dataset;
+    console.log(e.target.dataset);
+    /*
+    let objectPost = {};
+      route: urlPost,
+      idForm: idForm,
+      method ? method: method,
+      contentType: "application/x-www-form-urlencoded",
+      resType: "json",
+    }
+    */
+
+    // POST REQUEST
+    const response = await teaCoffee.request.post(e.target.dataset);
+    /*
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+      if (response && response.hasOwnProperty('success')) {
+     teaCoffee.response.success(response)
+      }
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+      else if (response && response.hasOwnProperty('errors')) {
+        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+          // 
+          let errorObject = {
+            [keyInput]: errorMessage,
+          }
+          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+        });
+    */
+  },
+  /**
+   * Gère l'événement de clic de souris pour l'exemple.
+   * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+   * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+   */
+  handleFetch: async (e) => {
+    e.preventDefault();
+
+    let { idForm, method, postUrl } = e.target.dataset;
+    console.log(e.target.dataset);
+    /*
+    let objectPost = {};
+      route: urlPost,
+      idForm: idForm,
+      method ? method: method,
+      contentType: "application/x-www-form-urlencoded",
+      resType: "json",
+    }
+    */
+
+    // POST REQUEST
+    const response = await teaCoffee.request.fetch(e.target.dataset);
+    /*
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+      if (response && response.hasOwnProperty('success')) {
+     teaCoffee.response.success(response)
+      }
+      // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+      else if (response && response.hasOwnProperty('errors')) {
+        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
+        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
+          // 
+          let errorObject = {
+            [keyInput]: errorMessage,
+          }
+          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
+        });
+    */
+  },
+  /** handleViewHtml
+    * Gère l'événement de clic de souris pour l'exemple.
+    * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+    * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+    */
+  handleViewHtml: async (e) => {
+    e.preventDefault();
+
+    let urlPost = e.target?.getAttribute('data-route'); // data attribute
+    let targetId = e.target?.getAttribute('data-target-id'); // data attribute
+    let replace = e.target?.getAttribute('data-replace'); // data attribute
+
+    // POST REQUEST
+    const response = await teaCoffee.request.post({
+      route: urlPost,
+      bodyParam: { 'view-html': true, 'target-id': targetId, 'replace': replace },
+      contentType: 'application/x-www-form-urlencoded',
+      resType: 'json',
+    });
+
+    // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
+    if (response && response.hasOwnProperty('htmlElement')) {
+      teaCoffee.html.viewHtml({
+        'id': targetId, 'jsonElement': response.htmlElement
+      })
+    }
+    // Rechergement du loader JS
+    teaCoffee.sys.loadLazyJS();
+  },
   /***************************************************** SAMPLE METHODE */
   /**
    * Gère l'événement de clic de souris pour l'exemple.
@@ -436,7 +577,7 @@ teaCoffee.action = {
   handleSampleConnect: async (e) => {
     e.preventDefault();
 
-    let urlPost = e.target?.getAttribute("data-post-url"); // data attribute
+    let urlPost = e.target?.getAttribute("data-route"); // data attribute
     let idForm = e.target?.getAttribute("data-id-form"); // data attribute
 
     // POST REQUEST

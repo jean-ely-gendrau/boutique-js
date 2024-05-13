@@ -53,10 +53,10 @@ class HistoriqueController
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id_user;
+
 
         $order = new CrudManager('orders', 'Historique');
-        $clientId = $id; // Get the client's id from the arguments
+        $clientId = $Idclient->id; // Get the client's id from the arguments
         $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client
