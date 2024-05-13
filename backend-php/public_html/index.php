@@ -31,8 +31,8 @@ $router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
 // ---------------------------------
 
 // page de tout les produits café et thé
-$router->map('GET', '/produit/[a:categoryName]', 'ProductsV2Controller#Product', 'product-controller');
-$router->map('POST', '/produit/[a:categoryName]', 'ProductsV2Controller#Product', 'product-controller-post');
+$router->map('GET|POST', '/produit/[a:categoryName]', 'ProductsV2Controller#Product', 'product-controller');
+$router->map('GET|POST', '/produit/[a:categoryName]/[i:page]', 'ProductsV2Controller#Product', 'product-controller-pagination');
 
 /* ANCIENNE ROUTE PRODUCT
 $router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit');
