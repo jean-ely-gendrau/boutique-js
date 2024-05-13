@@ -17,10 +17,16 @@ class ProductsV2Controller
 
     // Requête SQL
     $productEntity = new ProductsEntity();
+
+    $pagination = $productEntity->paginatePerPage(1, 8);
+
     $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']);
 
-    // Ajout de paramètre au template
-    $render->addParams('productAllSelect', $productAllSelect);
+    // Ajout des paramètres au template HTML
+    $render->addParams([
+      'productAllSelect' => $productAllSelect,
+      'pagination ' => $pagination
+    ]);
 
     // Affichage
     return $render->render('products', $arguments);
