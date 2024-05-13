@@ -161,14 +161,21 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function getAllProduct(): array
     {
-        $req = $this->_dbConnect->prepare(
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        $req = $connect->prepare(
             "SELECT p.*, i.url_image
             FROM {$this->_tableName} p
             INNER JOIN ProductsImages pi ON p.id = pi.products_id
             INNER JOIN images i ON pi.images_id = i.id
-            WHERE p.id = pi.images_id",
+            WHERE p.id = pi.images_id 
+            LIMIT :limit OFFSET :offset",
         );
-        $req->execute();
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -184,12 +191,19 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function getAllByCategoryId(string $category_id): array
     {
-        $req = $this->_dbConnect->prepare(
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        $req = $connect->prepare(
             "SELECT p.*, pi.products_id, i.url_image FROM {$this->_tableName} AS p 
             INNER JOIN ProductsImages pi ON p.id = pi.products_id 
-            INNER JOIN images i ON pi.images_id = i.id WHERE p.category_id = {$category_id}",
+            INNER JOIN images i ON pi.images_id = i.id WHERE p.category_id = {$category_id} 
+            LIMIT :limit OFFSET :offset",
         );
-        $req->execute();
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
@@ -261,35 +275,48 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function create(object $objectClass, array $param): mixed
     {
         try {
+            // Formatage des paramètres pour la requête SQL
             $valueString = self::formatParams($param, 'FORMAT_CREATE');
 
+            // Construction de la requête SQL
             $sql = 'INSERT INTO ' . $this->_tableName . '(' . implode(', ', $param) . ') VALUES(' . $valueString . ')';
             // Désectivation ATTR_EMULATE_PREPARES
             $connect = $this->_dbConnect;
 
+            // Début de la transaction
             $connect->beginTransaction();
 
+            // Désactivation de l'émulation des préparations
             $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+            // Préparation de la requête SQL
             $req = $connect->prepare($sql);
+            // Tableau pour les paramètres liés
             $boundParam = [];
 
             // Debug::view($sql);
 
+            // Liaison des paramètres de l'objet avec les valeurs
             foreach ($param as $paramName) {
                 if (property_exists($objectClass, $paramName)) {
                     $boundParam[$paramName] = $objectClass->$paramName;
                 } else {
+                    // Affichage d'une erreur si une propriété est manquante dans l'objet
                     echo "Une erreur est survenu lors de la création, veuillez verifier $paramName : $this->_objectClass";
                 }
             }
+            // Exécution de la requête avec les paramètres liés
             $req->execute($boundParam);
 
+            // Récupération de l'ID du dernier enregistrement inséré
             $lastID = $connect->lastInsertId();
+
+            // Validation de la transaction
             $connect->commit();
 
+            // Retourne un tableau contenant l'objet créé et son ID
             return ['lastObject' => $objectClass, 'lastID' => $lastID];
         } catch (\PDOException $e) {
-            // En cas d'erreur, annuler la transaction
+            // En cas d'erreur, annulation de la transaction et retourne un message d'erreur
             $connect->rollback();
             return 'PDOException : ' . $e->getMessage();
         }
@@ -460,19 +487,23 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getByIdOrder($clientId)
     {
+        /*
         $adresse = $this->_dbConnect->prepare('SELECT adress FROM users WHERE id = :client_id');
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
-        $adresse = $adresse->fetch()['adress'];
+        $adresse = $adresse->fetch();
+*/
 
-        $sql = 'SELECT * FROM orders o 
+        $sql = 'SELECT u.adress, o.*, p.* FROM orders o 
         JOIN productsorders po ON o.id = po.orders_id
         JOIN products p ON p.id = po.products_id
-        WHERE users_id = :client_id AND o.basket != 1';
+        join users u ON u.id = o.users_id 
+        WHERE o.users_id = :client_id AND o.basket != 1';
         $stmt = $this->_dbConnect->prepare($sql);
-        $stmt->execute([':client_id' => $clientId]);
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+        $stmt->execute(['client_id' => $clientId]);
+        $stmt->setFetchMode(\PDO::FETCH_OBJ);
 
+        /*
         $orders = [];
 
         while ($row = $stmt->fetch()) {
@@ -484,8 +515,8 @@ class CrudManager extends BddManager implements PaginatePerPage
                 'status' => $row['status'],
             ];
         }
-
-        return $orders;
+*/
+        return $stmt->fetchAll();
     }
 
     public function getbyidbasket($clientId)
@@ -556,8 +587,8 @@ class CrudManager extends BddManager implements PaginatePerPage
             INNER JOIN images i ON i.id = pi.images_id
             WHERE o.users_id = :client_id AND o.basket = 1',
         );
-        $req->execute([':client_id' => $clientId]);
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+        $req->execute(['client_id' => $clientId]);
+        $req->setFetchMode(\PDO::FETCH_OBJ);
 
         return $req->fetchAll();
     }
@@ -570,7 +601,9 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function TestGetBestThreeProducts(): object|array
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT o.*, p.* FROM `orders` o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+            'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' .
+            $this->_tableName .
+            ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -585,10 +618,10 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function TestGetThreeCategory(): object|array
     {
-        $req = $this->_dbConnect->prepare('SELECT * FROM `sub_category` WHERE id IN (1, 4, 5)');
+        $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id IN (1, 4, 5)');
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
-
+        var_dump($req->fetchAll());
         return $req->fetchAll();
     }
 
@@ -611,28 +644,31 @@ class CrudManager extends BddManager implements PaginatePerPage
 
         return $this;
     }
-    public function getAllProductFav($idUser): array
-    {
-        $req = $this->_dbConnect->prepare(
-            "SELECT 
-            p.*, 
-            i.url_image,
-            (SELECT 1
-             FROM users_has_products uhp 
-             WHERE uhp.products_id = p.id
-             AND uhp.users_id = $idUser
-             LIMIT 1) AS user_has_product
-        FROM 
-        {$this->_tableName} p
-        INNER JOIN 
-            ProductsImages pi ON p.id = pi.products_id
-        INNER JOIN 
-            images i ON pi.images_id = i.id;
-        ",
-        );
-        $req->execute();
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
-        return $req->fetchAll();
+    /************************************************* Méthode additionnel */
+    /**
+     * Method getColumnParam
+     *
+     * Avec cette méthode on récupérer les paramétre des colonnes de la base de données.
+     * exemple : array(12) { ["Field"]=> string(6) "status" [0]=> string(6) "status" ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')" [1]=> string(46) "enum('en attente','expedier','livrer','echec')" ["Null"]=> string(3) "YES" [2]=> string(3) "YES" ["Key"]=> string(0) "" [3]=> string(0) "" ["Default"]=> NULL [4]=> NULL ["Extra"]=> string(0) "" [5]=> string(0) "" }
+     * -> ["Type"]=> string(46) "enum('en attente','expedier','livrer','echec')
+     *
+     * @param string $column [nom de la collonne à récuperer]
+     * @return bool|array
+     */
+    public function getColumnParam(string $column): bool|array
+    {
+        $sql = "SHOW COLUMNS 
+              FROM {$this->_tableName} WHERE field = :column";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+
+        // Prépare
+        $req = $connect->prepare($sql);
+
+        // Exécute
+        $req->execute(['column' => $column]);
+        return $req->fetch();
     }
 }
