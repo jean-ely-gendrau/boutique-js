@@ -78,4 +78,39 @@ class ProductsEntity extends CrudApi
 
         return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
     }
+
+    /**
+     * Method getAllProductPaginate Products
+     *
+     * @params array $select [les collones à séléctionner | si null toutes les collones seront extraite]
+     * @return string|array
+     */
+    public function getAllProductPaginate(?array $select = null, bool $returnJson = false): string|array
+    {
+        //     GROUP BY ord.id_product
+        $selectItem = is_null($select) ? '*' : join(', ', $select);
+
+        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName, ord.id 
+            FROM {$this->getTableName()} as prod 
+            LEFT JOIN category as c ON prod.category_id = c.id 
+            LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
+            LEFT JOIN productsimages pi ON prod.id = pi.products_id 
+            LEFT JOIN images i ON pi.images_id = i.id 
+            LIMIT :limit OFFSET :offset";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        //Prépare
+        $req = $connect->prepare($sql);
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+
+        //var_dump($req->fetchAll());
+        // self::paginatePerItem();
+        //var_dump($this->limit, $this->offset);
+
+        return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
+    }
 }
