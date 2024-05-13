@@ -115,7 +115,8 @@ class FormBuilder extends AbstractFormBuilder
         $output = '<div class="';
 
         /* Assignation d'un valeur avec la condition Ternaire */
-        $output .= isset($options['class-label-group']) ? $options['class-label-group'] : 'label-group' . '">';
+        $output .= isset($options['class-label-group']) ? $options['class-label-group'] : 'label-group';
+        $output .= '">';
 
         /*******************************
          *         CHAMP LABEL
@@ -154,6 +155,7 @@ class FormBuilder extends AbstractFormBuilder
             case 'date':
             case 'month':
             case 'number':
+            case 'button':
             case 'radio':
             case 'checkbox':
             case 'range':
@@ -175,6 +177,11 @@ class FormBuilder extends AbstractFormBuilder
         // Si il y à un placeholder
         if (isset($options['placeholder'])) {
             $output .= ' placeholder="' . $options['placeholder'] . '"';
+        }
+
+        // Si il y à un value par défaut
+        if (isset($options['value'])) {
+            $output .= ' value="' . $options['value'] . '"';
         }
 
         // Si l'input est requit pour la validation
@@ -207,10 +214,10 @@ class FormBuilder extends AbstractFormBuilder
         if ($type === 'textarea') {
             $output .= '>';
 
-            /* Assignation d'un valeur avec la condition Ternaire */
-            $output .= isset($options['value-area']) // ISSET value-area
-                ? $options['value-area'] // Si une $options['value-area'] a été passée en argument
-                : '' . '</textarea>'; // Fin de la balise Textarea
+            /* Assignation d'un valeur avec l'opérateur coalescing ref: https://www.php.net/manual/en/migration70.new-features.php */
+            $output .= $options['value-area'] ?? '';
+
+            $output .= '</textarea>'; // Fin de la balise Textarea
         }
         // SELECT
         elseif ($type === 'select') {
@@ -227,7 +234,7 @@ class FormBuilder extends AbstractFormBuilder
 
             /* Assignation d'un valeur avec la condition Ternaire */
             $output .= isset($options['options-select-array']) // ISSET options-select
-                ? $this->addSelectedOption($options['options-select-array'], $optionSelectKey, $optionsMulti) // Construction des options de l'élément select
+                ? $this->addSelectedOption($options['options-select-array'], $optionSelectKey, $optionsMulti, $isSelectedOption) // Construction des options de l'élément select
                 : '<option>aucune option disponible</option>'; // Fin de la balise Select
 
             $output .= '</select>';

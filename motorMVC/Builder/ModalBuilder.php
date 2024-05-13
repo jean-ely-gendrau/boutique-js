@@ -69,7 +69,7 @@ class ModalBuilder extends AbstractModalBuilder
             '" tabindex="-1" class="fixed top-0 bottom-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">';
         $output .= '<div class="relative w-full max-w-lg max-h-full">';
         $output .= '<!-- Modal content -->';
-        $output .= '<div class="relative bg-white rounded-lg shadow dark:bg-gray-700">';
+        $output .= '<div class="relative bg-white rounded-lg shadow dark:bg-gray-700 mb-5 min-h-[425px] md:min-h-[525px] lg:max-h-screen overflow-y-auto">';
         /**************************************
          *  Ajouts des élémént du header
          */
@@ -213,17 +213,17 @@ class ModalBuilder extends AbstractModalBuilder
         ],
     ) {
 
-        $output = '<button ';
-        $output .= 'data-modal-target="' . $this->idModal . '" ';
-        $output .= 'data-modal-toggle="' . $this->idModal . '" ';
+        $output = '<' . $option['type'] ?? 'button';
+        $output .= ' data-modal-target="' . $this->idModal . '" ';
+        $output .= ' data-modal-toggle="' . $this->idModal . '" ';
 
         // Ajout des attributs du tableau d'options
         foreach ($option as $keyOption => $valueOption) {
             $output .= ' ' . $keyOption . '="' . $valueOption . '" ';
         }
 
-        $output .= '">' . $anchor;
-        $output .= '</button>';
+        $output .= '>' . $anchor;
+        $output .= '</' . $option['type'] ?? 'button' . '>';
 
         return $output;
     }

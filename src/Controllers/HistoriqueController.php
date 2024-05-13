@@ -41,16 +41,22 @@ class HistoriqueController
     public function Historique(...$arguments)
     {
 
+        if (!isset($_SESSION['email'])) {
+            // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+            header('Location: /inscription');
+            exit();
+        }
+
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
 
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id_user;
+
 
         $order = new CrudManager('orders', 'Historique');
-        $clientId = $id; // Get the client's id from the arguments
+        $clientId = $Idclient->id; // Get the client's id from the arguments
         $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
 
         // Now $orders should contain all orders made by the client
