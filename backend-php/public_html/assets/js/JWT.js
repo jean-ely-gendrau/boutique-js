@@ -1,16 +1,27 @@
 jwt.sign({
-  data: 'foobar'
-}, 'secret', 
-{ expiresIn: '1h' }
-, {audience: $_SESSION["email"]}
+        data: 'foobar'
+    },
+    'secret', 
+    { 
+        expiresIn: '1h' ,
+        issuer: APIController,
+        audience: user ,
+        jwtid : 1,
+        subject:getProduct,
+    }
 );
 
-
-
-
-jwt.verify(token, 'shhhhh', function(err, decoded) {
-  console.log(decoded.foo) // bar
-});
+jwt.verify(
+    'foobar', 
+    "secret", 
+    {
+        issuer: APIController,
+        jwtid: 1,
+        audience: user,
+    }, 
+function(err, decoded) {
+    console.log(decoded.foo) // bar
+  });
 
 var decoded = jwt.decode(token, {complete: true});
 console.log(decoded.header);
