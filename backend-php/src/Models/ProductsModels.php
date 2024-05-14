@@ -94,6 +94,13 @@ class ProductsModels implements JsonSerializable
      */
     private $subCatName;
 
+    /**
+     * user_has_product
+     *
+     * @var string
+     */
+    private $user_has_product;
+
     public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
@@ -395,6 +402,30 @@ class ProductsModels implements JsonSerializable
     public function setSub_category_id(int $sub_category_id)
     {
         $this->sub_category_id = $sub_category_id;
+
+        return $this;
+    }
+
+    /**
+     * Get user_has_product
+     *
+     * @return  string
+     */
+    public function getUser_has_product()
+    {
+        return $this->user_has_product;
+    }
+
+    /**
+     * Set user_has_product
+     *
+     * @param  string  $user_has_product  user_has_product
+     *
+     * @return  self
+     */
+    public function setUser_has_product(string $user_has_product)
+    {
+        $this->user_has_product = $user_has_product;
 
         return $this;
     }

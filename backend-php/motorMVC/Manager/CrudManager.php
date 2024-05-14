@@ -602,8 +602,8 @@ class CrudManager extends BddManager implements PaginatePerPage
     {
         $req = $this->_dbConnect->prepare(
             'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' .
-                $this->_tableName .
-                ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+            $this->_tableName .
+            ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -670,5 +670,80 @@ class CrudManager extends BddManager implements PaginatePerPage
         // Exécute
         $req->execute(['column' => $column]);
         return $req->fetch();
+    }
+
+    public function getAllProductFav(int $idUser): array
+    {
+        $req = $this->_dbConnect->prepare(
+            "SELECT 
+            p.*, 
+            i.url_image,
+            (SELECT 1
+             FROM users_has_products uhp 
+             WHERE uhp.products_id = p.id
+             AND uhp.users_id = $idUser
+             LIMIT 1) AS user_has_product
+        FROM 
+        {$this->_tableName} p
+        INNER JOIN 
+        productsimages pi ON p.id = pi.products_id
+        INNER JOIN 
+            images i ON pi.images_id = i.id;
+        ",
+        );
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    public function getAllByCategoryIdFav(string $category_id, int $user_id): array
+    {
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        $sql = "SELECT p.*, i.url_image, 
+            (SELECT 1 
+             FROM users_has_products uhp 
+             WHERE uhp.products_id = p.id 
+             AND uhp.users_id = :user_id 
+             LIMIT 1) AS user_has_product 
+            FROM {$this->_tableName} AS p 
+            INNER JOIN productsimages pi ON p.id = pi.products_id 
+            INNER JOIN images i ON pi.images_id = i.id 
+            WHERE p.category_id = :category_id 
+            LIMIT :limit OFFSET :offset";
+
+        $req = $connect->prepare($sql);
+        $req->bindParam(':category_id', $category_id, \PDO::PARAM_INT);
+        $req->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
+        $req->bindParam(':limit', $this->limit, \PDO::PARAM_INT);
+        $req->bindParam(':offset', $this->offset, \PDO::PARAM_INT);
+
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
+    }
+
+    public function getFavoritesOfUser(int $idUser): array
+    {
+        $req = $this->_dbConnect->prepare(
+            "SELECT p.*, i.url_image, uhp.users_id
+            FROM {$this->_tableName} p
+            INNER JOIN productsimages pi ON p.id = pi.products_id
+            INNER JOIN images i ON pi.images_id = i.id
+            INNER JOIN users_has_products uhp ON p.id = uhp.products_id
+            WHERE uhp.users_id = $idUser;
+        ",
+        );
+
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+
+        return $req->fetchAll();
     }
 }

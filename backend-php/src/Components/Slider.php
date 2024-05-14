@@ -61,8 +61,13 @@ class Slider
             <div id='menu' class='relative flex justify-center'>
                 <ul id='{$id}' class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
         foreach ($products as $productItem):
+            if ($productItem->user_has_product != null) {
+                $inFav = "inFav ";
+            } else {
+                $inFav = null;
+            }
             $slider .= "  <div class='bg-gray-100 w-60 h-80 inline-block relative text-center m-2.5 rounded-xl shadow-[3px_3px_9px_0px_rgba(0,0,0,0.6)]'>
-                            <div id='{$productItem->id}' class='favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4'>
+                            <div id='{$productItem->id}' class='{$inFav}favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4'>
                                 <svg class='fill-gray-800 inline-block' width='22px' viewBox='0 0 192 192' xmlns='http://www.w3.org/2000/svg' xml:space='preserve' fill='none'>
                             <g id='SVGRepo_bgCarrier' stroke-width='0'></g>
                             <g id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'></g>
