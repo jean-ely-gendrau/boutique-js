@@ -1,23 +1,28 @@
-# Bienvenu boutique-js
+# Bienvenu sur la boutique TeaCoffee
 
 ## Structure des dossiers du projet
 ``` terminal
-boutique-js
-├── config
-├── element
-├── public_html
-│   └── assets
-│       ├── images
-│       ├── js
-│       └── styles
-├── src
-│   ├── Components
-│   ├── Controllers
-│   ├── Interfaces
-│   ├── Manager
-│   └── Models
-├── styles_import
-├── template
+.
+├── backend-php
+│ ├── config
+│ ├── element
+│ ├── motorMVC
+│ ├── public_html
+│ ├── src
+│ ├── styles_import
+│ ├── template
+│ ├── templateMail
+│ └── vendor
+├── docker-data
+│ ├── dump
+│ ├── images
+│ ├── nginx_conf
+│ └── php_conf
+└── node-service
+├── components
+├── images
+├── router
+└── templates
 ```
 
 
@@ -35,17 +40,12 @@ boutique-js
 
 
 2. Démarrer le projet dans votre IDE (VSCODE)
+   
+ - Rendez-vous à la section du [WIKI docker](https://github.com/jean-ely-gendrau/boutique-js/wiki/Docker)
+   pour bien commencer. 🚀
 
-Depuis le terminal 
 
-``` terminal
-cd boutique-js
-
-composer install
-npm install
-npm start
-```
-
+### Aide
 
 > [!TIP]
 > npm start
