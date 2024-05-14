@@ -160,10 +160,10 @@ class ProductsEntity extends CrudApi
     public function getSubCategoryByCategoryId(int $categoryID): array
     {
 
-        $sql = "SELECT c.id as idCat, c.name as catName, c.description as catDescription ,sub.id as subCatId, sub.name as subCatName, sub.description as subCatDescription , sub.category_id
+        $sql = "SELECT c.id as idCat, c.name as nameCat, c.description as descriptionCat ,sub.id as idSubCat, sub.name as nameSubCat, sub.description as descriptionSubCat , sub.category_id
             FROM {$this->getTableName()} as c 
             LEFT JOIN sub_category as sub ON c.id = sub.category_id  
-            WHERE prod.category_id = :category_id";
+            WHERE c.id = :category_id";
 
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
@@ -185,14 +185,14 @@ class ProductsEntity extends CrudApi
      * Retourne false si aucun résultat n'as été trouvé
      * 
      * @param int $categoryID [int de la catégorie produit]
-     * @return false|array
+     * @return false|Category
      */
-    public function getCategoryById(int $categoryID): false|array
+    public function getCategoryById(int $categoryID): false|Category
     {
 
         $sql = "SELECT c.id, c.name, c.description 
-            FROM {$this->getTableName()} as c  
-            WHERE prod.category_id = :category_id";
+            FROM category as c  
+            WHERE c.id = :category_id";
 
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
@@ -212,14 +212,13 @@ class ProductsEntity extends CrudApi
      *
      * Retourn un tableau de résultat de toutes les catégories 
      * 
-     * @return false|array
+     * @return array
      */
     public function getAllCategory(): array
     {
 
         $sql = "SELECT c.id, c.name, c.description 
-            FROM {$this->getTableName()} as c  
-            WHERE prod.category_id = :category_id";
+            FROM category as c";
 
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
@@ -231,6 +230,6 @@ class ProductsEntity extends CrudApi
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, Category::class);
 
 
-        return $req->fetch();
+        return $req->fetchAll();
     }
 }

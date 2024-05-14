@@ -24,7 +24,8 @@ class ProductsV2Controller
     $pagination = $productEntity->paginatePerPage(!isset($arguments['page']) ? 1 : $arguments['page'], 9);
 
     $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']);
-
+    $getSubCategory =  $productEntity->getSubCategoryById(1);
+    var_dump($getSubCategory);
     $buttonNavigation = ButtonControlForms::buttonPaginationProduct($pagination, $arguments, $render->getParams('serverName'));
 
     // Ajout des paramètres au template HTML
