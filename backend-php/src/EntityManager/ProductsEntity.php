@@ -114,4 +114,32 @@ class ProductsEntity extends CrudApi
 
         return $returnJson ? self::Json($req->fetchAll()) : $req->fetchAll();
     }
+
+
+    /**
+     * Method getSubCategoryById 
+     *
+     * @param int $categoryID [int de la sous catégorie produit]
+     * @return array
+     */
+    public function getSubCategoryById(int $categoryID): array
+    {
+
+        $sql = "SELECT c.id, c.name as catName, sub.name as subCatName 
+            FROM {$this->getTableName()} as c 
+            LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
+            WHERE prod.category_id = :category_id";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        //Prépare
+        $req = $connect->prepare($sql);
+        $req->execute(['category_id' => $categoryID]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+
+
+        return $req->fetchAll();
+    }
 }

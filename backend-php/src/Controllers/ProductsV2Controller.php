@@ -2,6 +2,9 @@
 
 namespace App\Boutique\Controllers;
 
+use Motor\Mvc\Builder\FormBuilder;
+use App\Boutique\Forms\ButtonControlForms;
+use App\Boutique\Forms\ButtonControllForms;
 use App\Boutique\EntityManager\ProductsEntity;
 
 class ProductsV2Controller
@@ -18,14 +21,17 @@ class ProductsV2Controller
     // Requête SQL
     $productEntity = new ProductsEntity();
 
-    $pagination = $productEntity->paginatePerPage(1, 9);
+    $pagination = $productEntity->paginatePerPage(!isset($arguments['page']) ? 1 : $arguments['page'], 9);
 
     $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']);
+
+    $buttonNavigation = ButtonControlForms::buttonPaginationProduct($pagination, $arguments, $render->getParams('serverName'));
 
     // Ajout des paramètres au template HTML
     $render->addParams([
       'productAllSelect' => $productAllSelect,
-      'pagination' => $pagination
+      'pagination' => $pagination,
+      'buttonNavigation' => $buttonNavigation
     ]);
 
     // Affichage

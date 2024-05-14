@@ -2,7 +2,7 @@
   <div class="p-4 mx-auto lg:max-w-6xl max-w-xl md:max-w-full">
     <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Tous nos produits <?= $categoryName  ?></h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div id="resultat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <?php foreach ($productAllSelect ?? [] as $product) : ?>
 
@@ -32,19 +32,26 @@
       <?php $productAllSelect ?? 'Aucun produit ne trouvé dans cette catégorie'; ?>
 
     </div>
+    <div class="mx-auto flex max-w-6xl">
+      <form method="post" class="flex items-center">
+        <label class="mb-2 text-sm font-medium text-gray-900 dark:text-white" for="counterSubCat"><?= $type . $pageURL ?>:</label>
+        <select name="counterSubCat" id="counterSubCat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option value="subCatDefault">---</option>
+          <?php foreach ($NameSubCat as $subCatName) : ?>
+            <option value="<?= $subCatName['id'] ?>"><?= $subCatName['name'] ?></option>
+          <?php endforeach; ?>
+        </select>
+        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="expensive" value="expensive">Plus cher</button>
+        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="cheaper" value="cheaper">Moins cher</button>
+        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="bestSeller" value="bestSeller">Top des ventes</button>
+        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="bestRated" value="bestRated">Mieux noté</button>
+        <button type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900" id="clear">Clear</button>
+      </form>
+    </div>
+    <p id="paramsResarch"></p>
 
-
-
-    <div class="flex m-auto justify-center">
-      <!-- Previous Button -->
-      <a href="<?= $pagination['page_last'] ? "http://{$serverName}/produit/{$categoryName}/{$pagination['page_last']}" : '#' ?>" <?= $pagination['page_last'] ? '' : 'disabled' ?> class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-        Précédant
-      </a>
-
-      <!-- Next Button -->
-      <a href="<?= $pagination['page_next'] ? "http://{$serverName}/produit/{$categoryName}/{$pagination['page_next']}" : '#' ?>" <?= $pagination['page_next'] ? '' : 'disabled' ?> class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-        Suivant
-      </a>
+    <div class="flex justify-evenly">
+      <?= $buttonNavigation->render() ?>
     </div>
 
   </div>
