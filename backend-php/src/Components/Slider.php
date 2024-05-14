@@ -26,7 +26,8 @@ class Slider
      */
     public static function buttonScrollX(string $idElement)
     {
-        return "<div id='nav' class='absolute top-0 w-[1152px]'>
+        /*
+         <div id='nav' class='absolute top-0 w-[80%] lg:w-[1152px]'>
                     <button data-js='handelScrollX,click' data-direction-scroll='l' data-scroll-x='{$idElement}' id='font' class='absolute -left-12 inline-block text-black my-40 cursor-pointer rounded-full text-6xl font-semibold w-12 h-12 text-center p-0 bg-white/30 dark:bg-gray-800/30 hover:bg-gray-400/30 active:bg-gray-600/30 focus:outline-none'>
                         <
                     </button>
@@ -34,7 +35,15 @@ class Slider
                         >     
                     </button>
                 </div>
-            </div>";
+            </div>
+        */
+        return "
+                      <button  data-js='handelScrollX,click' data-direction-scroll='l' data-scroll-x='{$idElement}' id='font' type='button' class='-left-8 absolute top-0 start-0 z-30 justify-center w-12 h-12 my-40 cursor-pointer text-black rounded-full text-6xl font-semibold text-gray-700 dark:text-gray-200 bg-gray-400/30 text-center p-0 active:bg-gray-600/30 focus:outline-none items-stretch'>
+                        <
+                      </button>
+                      <button data-js='handelScrollX,click' data-direction-scroll='r' data-scroll-x='{$idElement}' id='font' type='button' class='-right-8 absolute top-0 end-0 z-30 justify-center w-12 h-12 my-40 cursor-pointer text-black rounded-full text-6xl font-semibold text-gray-700 dark:text-gray-200 bg-gray-400/30 text-center p-0 active:bg-gray-600/30 focus:outline-none items-stretch'>
+                        >
+                      </button>";
     }
 
     /**
@@ -58,8 +67,8 @@ class Slider
     public function generateProductList(array $products, string $id)
     {
         $slider = "
-            <div id='menu' class='relative flex justify-center'>
-                <ul id='{$id}' class='block list-none p-0 whitespace-nowrap overflow-hidden max-w-6xl px-[20px]'>";
+            <div id='menu' class='relative flex mx-auto'>
+                <ul id='{$id}' class='ml-[5%] mr-[5%] md:ml-[3%] md:mr-[3%] lg:ml-[3%] lg:mr-[3%] block list-none p-0 whitespace-nowrap lg:overflow-x-hidden overflow-x-auto max-w-md md:max-w-6xl lg:max-w-6xl'>";
         foreach ($products as $productItem):
             if ($productItem->user_has_product != null) {
                 $inFav = "inFav ";

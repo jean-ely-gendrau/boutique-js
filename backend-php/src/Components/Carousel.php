@@ -55,10 +55,10 @@ class Carousel
         $carousel .= '<!-- Slider controls  group-focus:ring-4 group-focus:ring-gray-300 dark:group-focus:ring-gray-800/70 group-focus:outline-none -->
                       <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer" data-carousel-prev>
                         <span
-                          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
+                          class="inline-flex items-center justify-center w-16 h-16 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
                         >
                           <svg
-                            class="w-8 h-8 text-black dark:text-gray-800 rtl:rotate-180"
+                            class="w-8 h-8 text-black dark:text-gray-200 rtl:rotate-180"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -77,10 +77,10 @@ class Carousel
                       </button>
                       <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
                         <span
-                          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/30 dark:bg-gray-800/30 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
+                          class="inline-flex items-center justify-center w-16 h-16 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-400/30 active:bg-gray-800/30 focus:outline-none focus:ring"
                         >
                           <svg
-                            class="w-8 h-8 text-black dark:text-gray-800 rtl:rotate-180"
+                            class="w-8 h-8 text-black dark:text-gray-200 rtl:rotate-180"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
