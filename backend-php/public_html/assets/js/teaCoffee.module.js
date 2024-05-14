@@ -568,6 +568,15 @@ teaCoffee.action = {
     // Rechergement du loader JS
     teaCoffee.sys.loadLazyJS();
   },
+  /**
+  * Gère l'événement de clic de souris.
+  * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+  */
+  handleClick: (e) => {
+    e.preventDefault();
+    var linkUrl = e.target.getAttribute("data-link");
+    window.location.assign(linkUrl);
+  },
   /***************************************************** SAMPLE METHODE */
   /**
    * Gère l'événement de clic de souris pour l'exemple.
