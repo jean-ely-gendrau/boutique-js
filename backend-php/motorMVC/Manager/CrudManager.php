@@ -712,7 +712,7 @@ class CrudManager extends BddManager implements PaginatePerPage
              AND uhp.users_id = :user_id 
              LIMIT 1) AS user_has_product 
             FROM {$this->_tableName} AS p 
-            INNER JOIN ProductsImages pi ON p.id = pi.products_id 
+            INNER JOIN productsimages pi ON p.id = pi.products_id 
             INNER JOIN images i ON pi.images_id = i.id 
             WHERE p.category_id = :category_id 
             LIMIT :limit OFFSET :offset";
@@ -734,7 +734,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $req = $this->_dbConnect->prepare(
             "SELECT p.*, i.url_image, uhp.users_id
             FROM {$this->_tableName} p
-            INNER JOIN ProductsImages pi ON p.id = pi.products_id
+            INNER JOIN productsimages pi ON p.id = pi.products_id
             INNER JOIN images i ON pi.images_id = i.id
             INNER JOIN users_has_products uhp ON p.id = uhp.products_id
             WHERE uhp.users_id = $idUser;
