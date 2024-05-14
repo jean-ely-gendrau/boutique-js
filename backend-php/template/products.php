@@ -13,11 +13,11 @@
             </svg>
           </div>
           <div class="w-2/3 h-[220px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
-            <img src="https://readymadeui.com/images/coffee1.webp" alt="Product 1" class="h-full w-full object-contain" />
+            <img src="<?= $product?->image_main ?? "http://{$serverName}/assets/images/tea-coffee.png" ?>" alt="image <?= $product->name ?>" class="h-full w-full object-contain" />
           </div>
           <div class="text-center mt-4">
             <h3 class="text-lg font-extrabold text-gray-800"><?= $product->name ?></h3>
-            <h4 class="text-2xl text-gray-800 font-bold mt-4"><?= $product->price ?> <span class="text-gray-400 ml-2 font-medium"><?= $product?->pound ?></span>
+            <h4 class="text-2xl text-gray-800 font-bold mt-4"><?= $product->price ?> € <span class="text-gray-400 ml-2 font-medium"><?= $product?->pound ?></span>
             </h4>
             <button data-js="handelPost,click" data-route="http://<?= $serverName ?>/addtobasket/<?= $product->id ?>" type="button" class="w-full flex items-center justify-center gap-3 mt-6 px-4 py-2.5 bg-transparent hover:bg-gray-200 text-base text-[#333] border-2 font-semibold border-[#333] rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
@@ -32,23 +32,12 @@
       <?php $productAllSelect ?? 'Aucun produit ne trouvé dans cette catégorie'; ?>
 
     </div>
-    <div class="mx-auto flex max-w-6xl">
-      <form method="post" class="flex items-center">
-        <label class="mb-2 text-sm font-medium text-gray-900 dark:text-white" for="counterSubCat"><?= $type . $pageURL ?>:</label>
-        <select name="counterSubCat" id="counterSubCat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="subCatDefault">---</option>
-          <?php foreach ($NameSubCat as $subCatName) : ?>
-            <option value="<?= $subCatName['id'] ?>"><?= $subCatName['name'] ?></option>
-          <?php endforeach; ?>
-        </select>
-        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="expensive" value="expensive">Plus cher</button>
-        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="cheaper" value="cheaper">Moins cher</button>
-        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="bestSeller" value="bestSeller">Top des ventes</button>
-        <button type="button" class="filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" id="bestRated" value="bestRated">Mieux noté</button>
-        <button type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900" id="clear">Clear</button>
-      </form>
-    </div>
+
     <p id="paramsResarch"></p>
+
+    <div class="mx-auto flex max-w-6xl">
+      <?= $buttonFilter->render() ?>
+    </div>
 
     <div class="flex justify-evenly">
       <?= $buttonNavigation->render() ?>

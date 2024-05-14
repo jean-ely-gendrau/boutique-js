@@ -18,21 +18,30 @@ class ProductsV2Controller
     /** @var \Motor\Mvc\Utils\Render $render */
     $render = $arguments['render'];
 
-    // Requête SQL
+    // PRODUCTS ENTITY
     $productEntity = new ProductsEntity();
 
-    $pagination = $productEntity->paginatePerPage(!isset($arguments['page']) ? 1 : $arguments['page'], 9);
+    $pagination = $productEntity->paginatePerPage(!isset($arguments['page']) ? 1 : $arguments['page'], 9); // START PAGINATION
 
-    $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']);
-    $getSubCategory =  $productEntity->getSubCategoryById(1);
-    var_dump($getSubCategory);
+    $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']); // GET ALL PRODUCT WITH PAGINATION
+    $getSubCategory =  $productEntity->getSubCategoryByCategoryId($arguments['categoryName']); // GET SUB CATEGORY
+
+    /***
+     * Button Filter
+     */
+    $buttonFilter = ButtonControlForms::buttonFilterProduct($getSubCategory);
+
+    /***
+     * Button Pagination
+     */
     $buttonNavigation = ButtonControlForms::buttonPaginationProduct($pagination, $arguments, $render->getParams('serverName'));
 
     // Ajout des paramètres au template HTML
     $render->addParams([
       'productAllSelect' => $productAllSelect,
       'pagination' => $pagination,
-      'buttonNavigation' => $buttonNavigation
+      'buttonNavigation' => $buttonNavigation,
+      'buttonFilter' => $buttonFilter
     ]);
 
     // Affichage
