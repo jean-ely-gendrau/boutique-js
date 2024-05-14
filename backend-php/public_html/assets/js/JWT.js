@@ -19,8 +19,8 @@ jwt.verify(
         jwtid: 1,
         audience: user,
     }, 
-function(err, decoded) {
-    console.log(decoded.foo) // bar
-  });
+    function(err, decoded) {
+        console.log(decoded.foo) // bar
+    });
 
-  var decoded = jwt.decode(token);
+var decoded = jwt.decode('foobar');
