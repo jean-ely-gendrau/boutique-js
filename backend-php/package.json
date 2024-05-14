@@ -6,7 +6,8 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "flowbite": "^2.3.0"
+    "flowbite": "^2.3.0",
+    "jsonwebtoken": "^9.0.2"
   },
   "scripts": {
     "start": "cp ./node_modules/flowbite/dist/flowbite.min.js ./public_html/assets/js & npx tailwindcss -i ./styles_import/styles.css -o ./public_html/assets/styles/global.css --watch"
