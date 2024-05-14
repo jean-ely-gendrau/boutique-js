@@ -1160,6 +1160,14 @@ input:checked + .toggle-bg {
   top: 1rem;
 }
 
+.-left-8 {
+  left: -2rem;
+}
+
+.-right-8 {
+  right: -2rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -1392,6 +1400,26 @@ input:checked + .toggle-bg {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.ml-\[3\%\] {
+  margin-left: 3%;
+}
+
+.ml-\[6\%\] {
+  margin-left: 6%;
+}
+
+.ml-\[10\%\] {
+  margin-left: 10%;
+}
+
+.ml-\[5\%\] {
+  margin-left: 5%;
+}
+
+.mr-\[5\%\] {
+  margin-right: 5%;
 }
 
 .block {
@@ -1680,6 +1708,10 @@ input:checked + .toggle-bg {
 
 .w-6\/12 {
   width: 50%;
+}
+
+.w-\[70\%\] {
+  width: 70%;
 }
 
 .max-w-2xl {
@@ -2333,6 +2365,10 @@ input:checked + .toggle-bg {
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+
+.bg-gray-400\/30 {
+  background-color: rgb(156 163 175 / 0.3);
 }
 
 .bg-gradient-to-b {
@@ -3694,6 +3730,14 @@ input:checked + .toggle-bg {
     margin-top: 1rem;
   }
 
+  .md\:ml-\[3\%\] {
+    margin-left: 3%;
+  }
+
+  .md\:mr-\[3\%\] {
+    margin-right: 3%;
+  }
+
   .md\:inline-block {
     display: inline-block;
   }
@@ -3810,6 +3854,10 @@ input:checked + .toggle-bg {
     max-width: 28rem;
   }
 
+  .md\:max-w-6xl {
+    max-width: 72rem;
+  }
+
   .md\:flex-none {
     flex: none;
   }
@@ -3880,6 +3928,18 @@ input:checked + .toggle-bg {
     --tw-space-y-reverse: 0;
     margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+  }
+
+  .md\:overflow-hidden {
+    overflow: hidden;
+  }
+
+  .md\:overflow-x-auto {
+    overflow-x: auto;
+  }
+
+  .md\:overflow-x-hidden {
+    overflow-x: hidden;
   }
 
   .md\:text-wrap {
@@ -4056,6 +4116,14 @@ input:checked + .toggle-bg {
     margin-bottom: 4rem;
   }
 
+  .lg\:ml-\[3\%\] {
+    margin-left: 3%;
+  }
+
+  .lg\:mr-\[3\%\] {
+    margin-right: 3%;
+  }
+
   .lg\:table-cell {
     display: table-cell;
   }
@@ -4146,6 +4214,14 @@ input:checked + .toggle-bg {
     --tw-space-y-reverse: 0;
     margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
+  }
+
+  .lg\:overflow-hidden {
+    overflow: hidden;
+  }
+
+  .lg\:overflow-x-hidden {
+    overflow-x: hidden;
   }
 
   .lg\:px-12 {
