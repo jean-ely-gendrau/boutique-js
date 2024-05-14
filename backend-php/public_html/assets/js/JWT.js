@@ -11,4 +11,4 @@ jwt.verify(token, 'shhhhh', function(err, decoded) {
 
 var decoded = jwt.decode(token, {complete: true});
 console.log(decoded.header);
-console.log(decoded.payload)
+console.log(decoded.payload);
