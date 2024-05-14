@@ -49,26 +49,40 @@ class HomeController
         // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
         $crudManager = new CrudManager('products', ProductsModels::class);
 
+        // CrudManager user
+        $crudManagerUser = new CrudManager('users', ProductsModels::class);
+
         // Instance de la classe Slide
         $horizontalSlide = new Slider();
 
-        // Pagination , séléction de la page 1 et affichage de 10 produit max
-        // Le but de cet action est de limiter le nombre de résultat des prochaine reqûete pour soulager l'affichage
-        $crudManager->paginatePerPage(1, 10);
-
-        // Création d'un slider importent l'ensemble des produits.
-        $products = $crudManager->getAllProduct();
+        // Création d'un slider importent l'ensemble des produits
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $products = $crudManager->getAllProductFav($user->id);
+        } else {
+            $products = $crudManager->getAllProduct();
+        }
         // var_dump($crudManager->getAllProduct());
         $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
         $arguments['render']->addParams('product', $allProducts);
 
         // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-        $productsCoffee = $crudManager->getAllByCategoryId('2');
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsCoffee = $crudManager->getAllByCategoryIdFav('1', $user->id);
+        } else {
+            $productsCoffee = $crudManager->getAllByCategoryId('1');
+        }
         $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
         $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
 
         // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-        $productsTea = $crudManager->getAllByCategoryId('1');
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsTea = $crudManager->getAllByCategoryIdFav('2', $user->id);
+        } else {
+            $productsTea = $crudManager->getAllByCategoryId('2');
+        }
         $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
