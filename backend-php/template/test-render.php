@@ -4,7 +4,7 @@
 <div class="lg:max-w-6xl max-w-xl md:max-w-full mx-auto">
   <div class="md:max-w-[85rem]">
     <ul class="flex whitespace-nowrap flex flex-column overflow-hidden gap-6">
-      <?php foreach ($products as $item): ?>
+      <?php foreach ($products as $item): ?> 
       <!--         ml-14 md:ml-14 
  -->
       <div
@@ -69,8 +69,7 @@
         </div>
       </div>
       <?php endforeach; ?>
-    </ul>
-    <button
+      <button
       type="button"
       class="absolute top-0 start-0 z-30 flex items-center justify-center h-full cursor-pointer"
       data-carousel-prev
@@ -122,5 +121,7 @@
         <span class="sr-only">Next</span>
       </span>
     </button>
+    </ul>
   </div>
 </div>
+<!-- margin-left: -76px; -->
