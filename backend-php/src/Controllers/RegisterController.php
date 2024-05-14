@@ -60,7 +60,7 @@ class RegisterController
      */
     public function Register(...$arguments)
     {
-        echo '<pre>';
+
         $paramSQL = [];
         foreach ($arguments as $key => $value) {
             if ($key === 'fullName') {
@@ -99,13 +99,12 @@ class RegisterController
             if ($crudManager->getByEmail($paramSQL['email']) !== false) {
                 echo 'Compte deja enregistre avec ce mail';
             } else {
-                echo 'create';
+                // echo 'create';
                 $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
                 header('location:/connexion');
             }
         }
         // $this->addParams('exemple', $exemple);
-        echo '</pre>';
         $content = $arguments['render']->render('inscription', $arguments);
         // $content = $this->render('inscription', $arguments);
         return $content;
@@ -136,7 +135,6 @@ class RegisterController
      */
     public function Connect(...$arguments)
     {
-        echo '<pre>';
         $crudManager = new CrudManager('users', Users::class);
         $user = $crudManager->getByEmail($arguments['email']);
         // var_dump($user->password);
@@ -175,7 +173,6 @@ class RegisterController
         }
 
         // $this->addParams('exemple', $exemple);
-        echo '</pre>';
         $content = $arguments['render']->render('connexion', $arguments);
         // $content = $this->render('connexion', $arguments);
         return $content;

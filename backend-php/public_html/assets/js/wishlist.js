@@ -1,29 +1,14 @@
 const body = document.body;
 const favProducts = document.querySelectorAll('.favorites');
 
-
+// function favProductsCheck() {
 favProducts.forEach(element => {
-    let idFav = parseInt(element.id);
-    // console.log(idFav);
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    fetch(`/favoris/${idFav}`, {
-        headers: headers
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    }).then(result => {
-        if (result === true) {
-            // console.log(element);
-            let aaaa = element.querySelector('path');
-            aaaa.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1')
-        }
-    }).catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+    if (element.classList.contains('inFav')) {
+        let change = element.querySelector('path');
+        change.setAttribute('style', 'clip-rule:evenodd;display:inline;fill:rgb(235, 55, 55);stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1');
+    }
 });
+// }
 
 function checkVerify(event) {
     const isFavoriteClicked = event.target.closest('.favorites');
@@ -69,7 +54,6 @@ function addToFavorite(event) {
             return response.json();
         }).then(result => {
             console.log(result);
-            // After adding to favorites, handle messages
             if (result === 'Suppre done') {
                 messageFav('Supprimé des favoris');
             } else if (result === 'Ajoute fav') {
@@ -83,17 +67,17 @@ function addToFavorite(event) {
     }
 }
 
-let messageContainer; 
-let messageTimeout; 
+let messageDiv; 
+let messageTimer; 
 
 function messageFav(text) {
-    if (messageContainer) {
-        messageContainer.remove(); 
-        clearTimeout(messageTimeout);
+    if (messageDiv) {
+        messageDiv.remove(); 
+        clearTimeout(messageTimer);
     }
 
-    messageContainer = document.createElement('div');
-    messageContainer.classList.add('fixed', 'bottom-0', 'right-0');
+    messageDiv = document.createElement('div');
+    messageDiv.classList.add('fixed', 'bottom-0', 'right-0');
 
     const message = document.createElement('div');
     message.textContent = text;
@@ -103,17 +87,16 @@ function messageFav(text) {
     message.style.marginBottom = '2rem';
     message.style.marginRight = '2rem';
 
-    messageContainer.appendChild(message);
-    document.body.appendChild(messageContainer);
+    messageDiv.appendChild(message);
+    document.body.appendChild(messageDiv);
 
-    messageTimeout = setTimeout(function () {
-        messageContainer.remove();
-        messageContainer = null;
-        messageTimeout = null;
+    messageTimer = setTimeout(function () {
+        messageDiv.remove();
+        messageDiv = null;
+        messageTimer = null;
     }, 2000);
 }
 
 body.addEventListener('click', checkVerify);
 body.addEventListener('click', addToFavorite);
-
-
+// document.addEventListener('DOMContentLoaded', favProductsCheck);
