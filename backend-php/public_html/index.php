@@ -82,7 +82,7 @@ $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 //$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
-$router->map('GET', '/inscription', 'RegisterControllers#View', 'inscriptionForm');
+$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
