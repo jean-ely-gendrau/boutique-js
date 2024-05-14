@@ -214,6 +214,33 @@ teaCoffee.format = {
   },
 };
 
+teaCoffee.validate = {
+  /**
+   * validateValue
+   * Verifier des valeurs d'input
+   *
+   * @param {Object} options - Les options de la requête.
+   * @param {string} [options.switchCase] - L'action du switch à effectuer
+   * @param {MouseEvent|KeyboardEvent} event - L'événement de clic de souris | clavier déclenché.
+   * @returns {object|bool} - Une objet json ou un booléan si tout c'est bien passée.
+   */
+  validateValue: ({ switchCase, event }) => {
+    let boolValidate;
+    switch (switchCase) {
+      case 'number_min_max':
+        if (event.target.dataset.min && event.target.dataset.max && event.target.value && event.target.name) {
+          let minParse = parseInt(event.target.dataset.min);
+          let maxParse = parseInt(event.target.dataset.max);
+          let valueInput = parseInt(event.target.value);
+          boolValidate = (!isNaN(valueInput) && valueInput >= minParse && valueInput <= maxParse)
+
+          teaCoffee.html.addAndCleanErrorHtmlColorInput({ keyInput: event.target.name, boolValidate: boolValidate });
+        }
+    }
+
+    return boolValidate;
+  },
+}
 teaCoffee.request = {
   /**
    *
@@ -373,6 +400,24 @@ teaCoffee.html = {
       if (elementWarn) {
         elementWarn.remove(); // On le retire.
       }
+    }
+  },
+  /**
+   * @param {Object} options - Les options de la requête.
+   * @param {string} [options.keyInput] - L'attribut name de l'input en cours de validation
+   * @param {bool} [options.boolValidate] - true si valie | false si la donnée n'as pas été validé
+   */
+  addAndCleanErrorHtmlColorInput: function (options) {
+    const { keyInput, boolValidate } = options;
+    const elementError = document.getElementById(keyInput); // Séléction de l'élément ou il y à une erreur
+
+    // Vérifier si objectMessage
+    if (boolValidate !== true && elementError) {
+      elementError.classList.add("red-border");
+    }
+
+    if (boolValidate && elementError && elementError.classList.contains('red-border')) {
+      elementError.classList.remove("red-border");
     }
   },
   /**
@@ -567,6 +612,29 @@ teaCoffee.action = {
     }
     // Rechergement du loader JS
     teaCoffee.sys.loadLazyJS();
+  },
+  /**
+  * Gère l'événement de clic de souris.
+  * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+  */
+  handleClick: (e) => {
+    e.preventDefault();
+    let linkUrl = e.target.getAttribute("data-link");
+    let action = e.target.getAttribute("data-action");
+    console.log(action);
+    if (action) {
+      switch (action) {
+        case 'redirectByValue':
+          let validateNumber = teaCoffee.validate.validateValue({ switchCase: 'number_min_max', event: e })
+          console.log(validateNumber);
+          linkUrl = linkUrl.replace('{{id}}', e.target.value);
+          exit();
+          window.location.assign(linkUrl);
+          break;
+        default:
+          window.location.assign(linkUrl);
+      }
+    }
   },
   /***************************************************** SAMPLE METHODE */
   /**
