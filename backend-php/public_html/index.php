@@ -31,9 +31,13 @@ $router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
 // ---------------------------------
 
 // page de tout les produits café et thé
+$router->map('GET|POST', '/produit/[a:categoryName]', 'ProductsV2Controller#Product', 'product-controller');
+$router->map('GET|POST', '/produit/[a:categoryName]/[i:page]', 'ProductsV2Controller#Product', 'product-controller-pagination');
+
+/* ANCIENNE ROUTE PRODUCT
 $router->map('GET', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit');
 $router->map('POST', '/produit/[a:categoryName]', 'ProductController#Produit', 'produit-post');
-
+*/
 // page detail du produit sélectionné
 // $router->map('GET', '/detail/[a:id_product]', 'ElementProduit#produitElement', 'detail');
 
@@ -87,7 +91,6 @@ $router->map('POST', '/inscription', 'RegisterController#Register', 'inscription
 $router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
 $router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 
-
 /****
  * BLOC CONDITION PROVISOIR POUR VOIR POUR LE PANEL ADMIN
  */
@@ -101,13 +104,6 @@ if ($rendering->give('role') === 'admin') {
    * Route Administration
    */
   $router->map('GET', '/panel-admin', 'AdminPanel#IndexPanel', 'admin-panel-index');
-  /*
-$router->map('GET', '/panel-admin/users', 'AdminPanel#IndexUsers', 'admin-panel-users');
-$router->map('GET', '/panel-admin/products', 'AdminPanel#IndexProducts', 'admin-panel-products');
-$router->map('GET', '/panel-admin/orders', 'AdminPanel#IndexOrders', 'admin-panel-orders');
-$router->map('GET', '/panel-admin/category', 'AdminPanel#IndexCategory', 'admin-panel-category');
-$router->map('GET', '/panel-admin/test', 'AdminPanel#IndexTest', 'admin-panel-test');
-*/
 
   $router->map('GET|POST', '/panel-admin/[a:tableName]', 'AdminPanel#Index', 'admin-panel-select');
   $router->map('GET|POST', '/panel-admin/[a:tableName]/[i:id]', 'AdminPanel#Index', 'admin-panel-select-page');
