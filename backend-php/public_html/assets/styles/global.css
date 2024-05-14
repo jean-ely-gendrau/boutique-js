@@ -1670,6 +1670,18 @@ input:checked + .toggle-bg {
   width: 100%;
 }
 
+.w-\[80\%\] {
+  width: 80%;
+}
+
+.w-9\/12 {
+  width: 75%;
+}
+
+.w-6\/12 {
+  width: 50%;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -2921,6 +2933,7 @@ input:checked + .toggle-bg {
   background-attachment: fixed;
   background-position: center;
   margin-top: 1.5rem;
+  width: 100%;
 }
 
 /* DEBUG BAR CSS */
@@ -3777,6 +3790,10 @@ input:checked + .toggle-bg {
     width: 100%;
   }
 
+  .md\:w-9\/12 {
+    width: 75%;
+  }
+
   .md\:max-w-\[85rem\] {
     max-width: 85rem;
   }
@@ -3787,6 +3804,10 @@ input:checked + .toggle-bg {
 
   .md\:max-w-xl {
     max-width: 36rem;
+  }
+
+  .md\:max-w-md {
+    max-width: 28rem;
   }
 
   .md\:flex-none {
@@ -4073,6 +4094,10 @@ input:checked + .toggle-bg {
 
   .lg\:w-\[60rem\] {
     width: 60rem;
+  }
+
+  .lg\:w-\[1152px\] {
+    width: 1152px;
   }
 
   .lg\:max-w-6xl {

@@ -153,4 +153,4 @@
   </header>
 
   <!-- START MAIN -->
-  <main id="content-main" class="flex flex-col mx-2 space-y-4 md:mx-auto md:gap-y-3 lg:gap-y-4  min-h-main w-full">
+  <main id="content-main" class="flex flex-col mx-2 space-y-4 mx-auto md:mx-auto md:gap-y-3 lg:gap-y-4 min-h-main w-full">
