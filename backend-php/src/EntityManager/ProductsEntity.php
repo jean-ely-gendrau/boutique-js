@@ -3,7 +3,10 @@
 namespace App\Boutique\EntityManager;
 
 use Motor\Mvc\Manager\CrudApi;
+use App\Boutique\Models\Category;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Models\Special\CategorySubCat;
+use App\Boutique\Models\SubCategory;
 
 class ProductsEntity extends CrudApi
 {
@@ -118,16 +121,48 @@ class ProductsEntity extends CrudApi
 
     /**
      * Method getSubCategoryById 
-     *
-     * @param int $categoryID [int de la sous catégorie produit]
+     * 
+     *  Retourne un tableau de résultat d'un sous catégorie en fonction de son ID
+     *  Retourne false si aucun résultat n'as été trouvé.
+     * 
+     * @param int $sub_categoryID [int de la sous catégorie de produit]
      * @return array
      */
-    public function getSubCategoryById(int $categoryID): array
+    public function getSubCategoryById(int $sub_categoryID): array
     {
 
-        $sql = "SELECT c.id, c.name as catName, sub.name as subCatName 
+        $sql = "SELECT sub.*
+            FROM sub_category as sub
+            WHERE sub.id = :sub_categoryID";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        //Prépare
+        $req = $connect->prepare($sql);
+        $req->execute(['sub_categoryID' => $sub_categoryID]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, SubCategory::class);
+
+
+        return $req->fetchAll();
+    }
+
+
+    /**
+     * Method getSubCategoryByCategoryId 
+     *
+     * Retourn un tebleau de toutes les sous catégories d'une catégories en fonction de son ID
+     * 
+     * @param int $categoryID [int de la catégorie produit]
+     * @return array
+     */
+    public function getSubCategoryByCategoryId(int $categoryID): array
+    {
+
+        $sql = "SELECT c.id as idCat, c.name as catName, c.description as catDescription ,sub.id as subCatId, sub.name as subCatName, sub.description as subCatDescription , sub.category_id
             FROM {$this->getTableName()} as c 
-            LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
+            LEFT JOIN sub_category as sub ON c.id = sub.category_id  
             WHERE prod.category_id = :category_id";
 
         // Désectivation ATTR_EMULATE_PREPARES
@@ -137,7 +172,7 @@ class ProductsEntity extends CrudApi
         //Prépare
         $req = $connect->prepare($sql);
         $req->execute(['category_id' => $categoryID]);
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, CategorySubCat::class);
 
 
         return $req->fetchAll();
@@ -146,13 +181,16 @@ class ProductsEntity extends CrudApi
     /**
      * Method getCategoryById 
      *
+     * Retourn un tableau de résultat de la catégorie en fonction de son ID
+     * Retourne false si aucun résultat n'as été trouvé
+     * 
      * @param int $categoryID [int de la catégorie produit]
-     * @return array
+     * @return false|array
      */
-    public function getCategoryById(int $categoryID): array
+    public function getCategoryById(int $categoryID): false|array
     {
 
-        $sql = "SELECT c.id, c.name as catName
+        $sql = "SELECT c.id, c.name, c.description 
             FROM {$this->getTableName()} as c  
             WHERE prod.category_id = :category_id";
 
@@ -163,9 +201,36 @@ class ProductsEntity extends CrudApi
         //Prépare
         $req = $connect->prepare($sql);
         $req->execute(['category_id' => $categoryID]);
-        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, Category::class);
 
 
-        return $req->fetchAll();
+        return $req->fetch();
+    }
+
+    /**
+     * Method getAllCategory
+     *
+     * Retourn un tableau de résultat de toutes les catégories 
+     * 
+     * @return false|array
+     */
+    public function getAllCategory(): array
+    {
+
+        $sql = "SELECT c.id, c.name, c.description 
+            FROM {$this->getTableName()} as c  
+            WHERE prod.category_id = :category_id";
+
+        // Désectivation ATTR_EMULATE_PREPARES
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
+        //Prépare
+        $req = $connect->prepare($sql);
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, Category::class);
+
+
+        return $req->fetch();
     }
 }
