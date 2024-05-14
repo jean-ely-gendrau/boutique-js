@@ -24,50 +24,49 @@ class TestRender
      * @param array ...$arguments Les arguments transmis à la méthode.
      * @return void
      */
-    public function Index(...$arguments)
+    public function TestRender(...$arguments)
     {
         /*
-         * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
+         * Utilisation de la méthode RenderHome afin de renvoyer l'ensemble des sélections de la page accueil
          */
-        //!SECTION
-        $carousel = new Carousel();
 
-        //passage methode'../../element/itemCarousel.php'], ['/assets//images//banière//HomeCoffee.jpg'
-        $RenderCarousel = $carousel->RenderCarousel([
-            'element' => ['../../element/bannerCarousel.php'],
-            'image' => [
-                '/assets//images//banière//HomeCoffee.jpg',
-                '/assets//images//banière//hearderCoffeePage.jpg',
-                '/assets//images//banière//hearderCoffeePage2.jpg',
-            ],
-        ]);
-
-        //
-        $arguments['render']->addParams('carousel', $RenderCarousel);
-
-        // Instance de CrudManager prenant en paramètre la table `products` et la classe `Products`
+        // Instance de Carousel
         $crudManager = new CrudManager('products', ProductsModels::class);
+
+        // CrudManager user
+        $crudManagerUser = new CrudManager('users', ProductsModels::class);
 
         // Instance de la classe Slide
         $horizontalSlide = new Slider();
 
         // Création d'un slider importent l'ensemble des produits
-        $products = $crudManager->getAll();
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $products = $crudManager->getAllProductFav($user->id);
+        } else {
+            $products = $crudManager->getAllProduct();
+        }
+        // var_dump($crudManager->getAllProduct());
         $allProducts = $horizontalSlide->generateProductList($products, 'id-scroll-x-1'); // Appel de la méthode generateProductList()
         $arguments['render']->addParams('product', $allProducts);
 
         // Création d'un slider importent l'ensemble des produits Café (id_category = 0)
-
-
-        $categoryidCafe = ["category_id" => 1];
-        $productsCoffee = $crudManager->getAll($categoryidCafe);
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsCoffee = $crudManager->getAllByCategoryIdFav('1', $user->id);
+        } else {
+            $productsCoffee = $crudManager->getAllByCategoryId('1');
+        }
         $allProductsCoffee = $horizontalSlide->generateProductList($productsCoffee, 'id-scroll-x-2');
         $arguments['render']->addParams('productsCoffee', $allProductsCoffee);
 
         // Création d'un slider importent l'ensemble des produits Thé (id_category = 1)
-
-        $categoryidThe = ["category_id" => 2];
-        $productsTea = $crudManager->getAll($categoryidThe);
+        if (isset($_SESSION['isConnected'])) {
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $productsTea = $crudManager->getAllByCategoryIdFav('2', $user->id);
+        } else {
+            $productsTea = $crudManager->getAllByCategoryId('2');
+        }
         $allProductsTea = $horizontalSlide->generateProductList($productsTea, 'id-scroll-x-3');
         $arguments['render']->addParams('productsTea', $allProductsTea);
 
@@ -76,6 +75,7 @@ class TestRender
 
         return $content;
     }
+    
 
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
