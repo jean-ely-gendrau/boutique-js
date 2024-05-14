@@ -1,6 +1,9 @@
 jwt.sign({
   data: 'foobar'
-}, 'secret', { expiresIn: '1h' });
+}, 'secret', 
+{ expiresIn: '1h' }
+, {audience: $_SESSION["email"]}
+);
 
 
 
