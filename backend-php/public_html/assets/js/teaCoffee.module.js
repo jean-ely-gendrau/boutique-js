@@ -574,7 +574,15 @@ teaCoffee.action = {
   */
   handleClick: (e) => {
     e.preventDefault();
-    var linkUrl = e.target.getAttribute("data-link");
+    let linkUrl = e.target.getAttribute("data-link");
+    let action = e.target.getAttribute("data-action");
+    if (action) {
+      switch (action) {
+        case 'redirectByValue':
+          linkUrl = linkUrl + e.target.value
+          break;
+      }
+    }
     window.location.assign(linkUrl);
   },
   /***************************************************** SAMPLE METHODE */
