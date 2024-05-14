@@ -13,7 +13,7 @@ jwt.sign({
 
 jwt.verify(
     'foobar', 
-    "secret", 
+    'secret', 
     {
         issuer: APIController,
         jwtid: 1,
@@ -23,6 +23,4 @@ function(err, decoded) {
     console.log(decoded.foo) // bar
   });
 
-var decoded = jwt.decode(token, {complete: true});
-console.log(decoded.header);
-console.log(decoded.payload);
+  var decoded = jwt.decode(token);
