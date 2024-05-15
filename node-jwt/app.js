@@ -2,10 +2,15 @@ const express = require ('express');
 
 const jwt = require('jsonwebtoken');
 
-const cookieParser = require('cookie-parser');
+
+const cookieParser = require("cookie-parser");
 
 
 const app = express();
+
+
+
+app.use(cookieParser());
 
 app.listen (3000, () =>{
     console.log("le serveur est lancer depuis le port 3000");
@@ -45,7 +50,8 @@ let data = "email";
 
 app.post("/jwtverify",(request,response) => {
     console.log("jwt verify");
-    const token = request.cookies.token; // Extract the token from the cookie 
+    const token = request.cookies.token; // Extract the token from the cookie
+
     console.log(token);
 
     const key = request.cookies.key; // Extract the key from the cookie
@@ -69,6 +75,3 @@ app.post("/jwtverify",(request,response) => {
           }
     });
 })
-
-
-
