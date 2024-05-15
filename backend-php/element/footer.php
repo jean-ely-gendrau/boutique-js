@@ -157,7 +157,8 @@ use Motor\Mvc\Manager\CrudManager;
 <script defer src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
-<script defer src="http://<?= $serverName ?>/assets/js/JWT.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/JWTsign.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/JWTverify.js"></script>
 <script defer src="https://js.stripe.com/v3/"></script>
 </body>
 
