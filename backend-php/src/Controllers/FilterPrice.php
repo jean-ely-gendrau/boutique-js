@@ -81,7 +81,7 @@ class FilterPrice extends CrudManager
             $sqlRequest .= " ORDER BY p.price DESC";
         }
 
-        $sqlRequest .= " LIMIT 10";
+        $sqlRequest .= " LIMIT 9";
 
         return $sqlRequest;
     }
