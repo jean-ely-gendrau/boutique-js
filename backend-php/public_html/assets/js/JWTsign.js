@@ -4,7 +4,7 @@ const app = express();
 
 app.post('/connexion', (req, res) => {
   // Extract email from request body
-  let data = req.body.email;
+  let data = req.cookies.email;
 
   // Define the secret key
   let key = "secret";
@@ -20,5 +20,6 @@ app.post('/connexion', (req, res) => {
   // Send the token to the cookie
 
   res.cookie('token', token, { httpOnly: true });
+  res.cookie('key', key, { httpOnly: true });
   res.send("Token generated and sent to the cookie");
 });
