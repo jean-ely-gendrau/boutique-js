@@ -125,6 +125,9 @@ $router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPri
 $router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
 $router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
 $router->map('get', '/wishlist', 'Favoris#ShowFavorites', 'userWishlist');
+
+// Route ratings
+$router->map('GET', '/orderverif/[i:idProduct]', 'Ratings#ProductOrdered', 'checkIfOrdered');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
