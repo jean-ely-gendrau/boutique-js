@@ -20,6 +20,11 @@
     width: 100%;
 }
 
+/* CSS JS */
+.red-border {
+    border-color: crimson !important;
+}
+
 /* DEBUG BAR CSS */
 .debug-min {
     max-height: 60px;

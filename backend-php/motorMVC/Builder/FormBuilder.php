@@ -119,6 +119,21 @@ class FormBuilder extends AbstractFormBuilder
         $output .= '">';
 
         /*******************************
+         * INDICATORS
+         */
+        if (isset($options['indicator'])) {
+            // Début de la balise label
+            $output .= '<span';
+
+            $output .= ' class="';
+            $output .= $options['class-indicator'] ?? "bg-blue-200 text-xs font-medium text-blue-800 text-center p-0.5 leading-none rounded-full px-2 dark:bg-blue-900 dark:text-blue-200 absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2";
+            $output .= '"';
+
+            // Fin de la balise label
+            $output .= '>' . $options['indicator'] . '</span>';
+        }
+
+        /*******************************
          *         CHAMP LABEL
          */
         // Si $options['label-false'] existent est qu'elle strictement pas égal à 1 alors on ajoute un label
@@ -252,6 +267,16 @@ class FormBuilder extends AbstractFormBuilder
             $output .= ' class="' . $classErrorMessage . '" ';
 
             $output .= '>' . $options['error-message'] . '</p>';
+        }
+
+        // error-tooltip : Ajout d'une tooltip message error, avec l'id définit dans le  js addAndCleanErrorHtmlToolTip
+        if (isset($options['error-tooltip'])) {
+            $output .= '<div id="tooltip-warn-' . $id . '"';
+
+            $classErrorMessage = $options['class-tooltip'] ?? 'absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white text-wrap max-w-48 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700';
+            $output .= ' class="' . $classErrorMessage . '" ';
+
+            $output .= '>' . $options['error-tooltip'] . '</div>';
         }
 
         $output .= '</div>';
