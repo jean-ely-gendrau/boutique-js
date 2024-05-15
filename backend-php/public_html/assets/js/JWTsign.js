@@ -14,7 +14,6 @@ app.post('/connexion', (req, res) => {
     expiresIn: '1h',
     algorithm: "HS256"
 
-
   });
 
   // Send the token to the cookie
