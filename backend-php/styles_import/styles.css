@@ -45,3 +45,47 @@
 #font {
     font-family: "Ancient_Geek";
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d6d6d6;
+  border-radius: 5px;
+}
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #308636;
+}
+
+
+/* Dark theme scrollbar */
+@media (prefers-color-scheme: dark) {
+    ::-webkit-scrollbar-track {
+    background: #d6d6d6;
+    border-radius: 5px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #863630;
+    }
+
+}
