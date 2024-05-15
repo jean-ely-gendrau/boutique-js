@@ -46,11 +46,11 @@
 </head>
 
 <body class="flex flex-col space-y-5 bg-gray-50 dark:bg-gray-900">
-  <header>
+  <header class="sticky top-0 z-20">
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
-        <div class="flex font-medium md:justify-end items-center md:order-3 space-x-3 rtl:space-x-reverse md:w-72 lg:w-80">
+        <div class="flex font-medium md:justify-end items-center md:order-3 space-x-3 rtl:space-x-reverse md:w-72 lg:w-[22rem]">
           <button type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2" data-js="darkSwitch,click">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -60,6 +60,11 @@
               </g>
             </svg>
           </button>
+          <!-- Insert basket here -->
+          <button type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
+            <img src="http://<?= $serverName ?>/assets/images/icon/cart.svg" alt="">
+          </button>
+          <!--  -->
           <?php
           $result = $rendering->give('isConnected') ? true : false;
           if ($result) {
@@ -110,11 +115,24 @@
             </ul>
           </div>';
           } else {
-            echo '<svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z"></path> </g></svg>
-              <div class="flex flex-nowrap md:space-x-1">
-                <a href="/inscription" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Inscription</a>
-                <a href="/connexion" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Connexion</a>
-              </div>';
+            echo '<svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0">
+                    </g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                    </g>
+                    <g id="SVGRepo_iconCarrier">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z">
+                    </path>
+                    </g>
+                    </svg>
+                  <div class="flex flex-nowrap md:space-x-1">
+                    <a href="/inscription" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                    Inscription
+                    </a>
+                    <a href="/connexion" class="block py-2 px-1 md:px-2 text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                    Connexion
+                    </a>
+                  </div>';
           }
           ?>
 
