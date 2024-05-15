@@ -1,5 +1,6 @@
 const express = require ('express');
 
+
 const jwt = require('jsonwebtoken');
 
 
@@ -7,7 +8,6 @@ const cookieParser = require("cookie-parser");
 
 
 const app = express();
-
 
 
 app.use(cookieParser());
@@ -20,8 +20,7 @@ app.listen (3000, () =>{
 app.get("/hello", (request,response) => {
     console.log("hello");
     response.send("hello");
-}
-)
+});
 
 app.post("/jwtsign", (request,response) => {
   console.log("jwt sign");
