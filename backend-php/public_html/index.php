@@ -173,10 +173,10 @@ $router->map('GET', '/basket', 'StripeController#Index', 'basket');
 $router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
 
 // // Route si le paiment est abandonné
-$router->map('GET', '/stripe/cancel', 'stripe/cancel', 'cancel');
+$router->map('GET', '/stripe/cancel', 'StripeController#Cancel', 'cancel');
 
 // // Route si le paiement est confirmé
-$router->map('GET', '/stripe/success', 'stripe/success', 'success');
+$router->map('GET', '/stripe/success', 'StripeController#Success', 'success');
 
 /*
  Routeur: $_GET->/sample-modal-viewer

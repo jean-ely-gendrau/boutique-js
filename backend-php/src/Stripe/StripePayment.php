@@ -19,7 +19,7 @@ class StripePayment
 
         \Stripe\Stripe::setApiKey($stripeSecretKey);
 
-        $YOUR_DOMAIN = 'http://boutique-js.test/';
+        $YOUR_DOMAIN = 'http://boutique-js.test:8880/';
 
         // Initialiser un tableau pour suivre le nombre d'occurrences de chaque produit
         $line_items = [];

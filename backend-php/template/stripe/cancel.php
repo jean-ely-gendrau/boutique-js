@@ -10,9 +10,11 @@
           
           <p class="text-md md:text-xl text-center text-gray-700 dark:text-gray-200">Si vous avez besoin de plus de temps pour réfléchir ou si vous souhaitez ajouter d'autres articles, n'hésitez pas à regarder notre sélection d'articles.</p></p>
           <!-- Slide de produit recommander -->
-          <?= $products ?>
+          <div class="block mx-auto">
+            <?= $products ?>
 
-          <p class="text-md md:text-xl text-center text-gray-700 dark:text-gray-200">Si vous avez des questions ou des préoccupations, n'hésitez pas à nous <a class="text-gray-700 dark:text-gray-200 underline hover:no-underline" href="/contact">contacter</a>. Notre équipe est là pour vous aider.</p>
+          </div>
+          <p class="mt-12 text-md md:text-xl text-center text-gray-700 dark:text-gray-200">Si vous avez des questions ou des préoccupations, n'hésitez pas à nous <a class="text-gray-700 dark:text-gray-200 underline hover:no-underline" href="/contact">contacter</a>. Notre équipe est là pour vous aider.</p>
         </div>
       </div>
     </div>

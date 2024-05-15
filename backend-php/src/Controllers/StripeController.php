@@ -30,17 +30,19 @@ class StripeController
 
     public function Success(...$arguments)
     {
-        $IdclientCrudManager = new CrudManager('users', Users::class);
-        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+        if (isset($_SESSION['isConnected'])) {
+            $IdclientCrudManager = new CrudManager('users', Users::class);
+            $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
 
-        $crudManagerOrder = new CrudManager('orders', Orders::class);
-        $commande = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+            $crudManagerOrder = new CrudManager('orders', Orders::class);
+            $commande = $crudManagerOrder->GetBasketForStripe($Idclient->id);
 
-        $arguments['render']->addParams('commande', $commande);
+            $arguments['render']->addParams('commande', $commande);
 
-        $content = $arguments['render']->render('stripe/success', $arguments);
+            $content = $arguments['render']->render('stripe/success', $arguments);
 
-        return $content;
+            return $content;
+        }
     }
 
     public function Cancel(...$arguments)
