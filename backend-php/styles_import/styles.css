@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "Ancient_Geek";
-    src: url("../font/geek.ttf") format("truetype");
+    font-family: "Instruction";
+    src: url("../font/Instruction.otf") format("truetype");
 }
 
 /* `.bg-acceuil` est une classe appelé par la balise main de la page d'acceuil,
@@ -43,7 +43,7 @@
  * des boutons ayant l'id 'font' dans Slider.php  
  */
 #font {
-    font-family: "Ancient_Geek";
+    font-family: "Instruction";
 }
 
 /* width */

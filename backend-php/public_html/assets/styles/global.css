@@ -2656,6 +2656,15 @@ input:checked + .toggle-bg {
   line-height: 1rem;
 }
 
+.text-\[2\.75rem\] {
+  font-size: 2.75rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -2916,9 +2925,9 @@ input:checked + .toggle-bg {
 }
 
 @font-face {
-  font-family: "Ancient_Geek";
+  font-family: "Instruction";
 
-  src: url("../font/geek.ttf") format("truetype");
+  src: url("../font/Instruction.otf") format("truetype");
 }
 
 /* `.bg-acceuil` est une classe appelé par la balise main de la page d'acceuil,
@@ -2962,7 +2971,7 @@ input:checked + .toggle-bg {
  */
 
 #font {
-  font-family: "Ancient_Geek";
+  font-family: "Instruction";
 }
 
 /* width */
