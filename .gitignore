@@ -4,7 +4,7 @@
 /backend-php/node_modules/
 /backend-php/package-lock.json
 /backend-php/composer.lock
-.gitigniore
+.gitignore
 /backend-php/public_html/assets/js/flowbite.min.js
 /backend-php/public_html/assets/styles/global.css
 /backend-phpconfig/config.php

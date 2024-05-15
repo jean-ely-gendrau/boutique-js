@@ -17,6 +17,12 @@
     background-attachment: fixed;
     background-position: center;
     margin-top: 1.5rem;
+    width: 100%;
+}
+
+/* CSS JS */
+.red-border {
+    border-color: crimson !important;
 }
 
 /* DEBUG BAR CSS */

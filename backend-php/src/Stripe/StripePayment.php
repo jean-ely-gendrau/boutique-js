@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Boutique\Stripe;
+
+use Motor\Mvc\Components\DockerSecrets;
+use Motor\Mvc\Enum\SecretsEnum;
 use Stripe\Checkout\Session;
 
 class StripePayment
@@ -12,7 +15,7 @@ class StripePayment
     public function StartPayment($basket)
     {
         // TODO Voir où enregistrer la clé d'API
-        require_once '../config/config.php';
+        $stripeSecretKey = DockerSecrets::getSecrets(SecretsEnum::Api_Key_Stripe);
 
         \Stripe\Stripe::setApiKey($stripeSecretKey);
 
