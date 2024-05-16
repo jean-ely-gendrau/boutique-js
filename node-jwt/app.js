@@ -24,8 +24,8 @@ app.get("/hello", (request,response) => {
 
 app.post("/jwtsign", (request,response) => {
   console.log("jwt sign");
- // let data = request.cookies.email;
-let data = "email";
+  let data = request.cookies.email;
+//let data = "email";
   console.log(data);
 
   // Define the secret key
