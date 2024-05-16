@@ -13,13 +13,26 @@ const numberPages = document.getElementById('number_pages');
 const currentPage = document.getElementById('select_pages');
 let pages;
 
+// Save the selected value to localStorage whenever it changes
+selectSubCat.addEventListener('change', function () {
+    localStorage.setItem('selectedSubCat', selectSubCat.value);
+});
 
+// Initialize the selectSubCat value from localStorage on page load
+document.addEventListener("DOMContentLoaded", function () {
+    const storedValue = localStorage.getItem('selectedSubCat');
+    if (storedValue !== null) {
+        selectSubCat.value = storedValue;
+    }
+});
 
 if (selectSubCat !== null) {
-  document.addEventListener("DOMContentLoaded", function () {
-    selectSubCat.selectedIndex = 0;
-  })
+    document.addEventListener("DOMContentLoaded", function () { 
+        console.log(selectSubCat.value);
+    });
 }
+
+// console.log((selectSubCat))
 
 function pagesArray(array, pagesSize) {
   const pages = [];
@@ -38,10 +51,11 @@ const idCat = matchUrl ? parseInt(matchUrl[1]) : null;
 if (buttonClear !== null) {
   buttonClear.addEventListener('click', function () {
     buttonValue = null;
+    localStorage
     messageResearch.innerText = '';
     selectSubCat.selectedIndex = 0;
+    localStorage.removeItem('selectedSubCat');
     window.location.href = `${currentPageUrl}/produit/${idCat}`;
-    filterPrice();
   });
 }
 
@@ -82,7 +96,7 @@ function filterPrice(filter = null, subCat = null) {
     myFetchRequest = `/js-testAll/${idCat}`;
   }
   // console.log(filterSelected);
-  // console.log(myFetchRequest);
+  console.log(myFetchRequest);
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   fetch(myFetchRequest, {
@@ -134,6 +148,11 @@ filterButtons.forEach(button => {
 });
 
 if (selectSubCat !== null) {
+  document.addEventListener('DOMContentLoaded' , function() {
+    if (selectSubCat !== 0) {
+      filterPrice(null, selectSubCat.value)
+    }
+  })
   selectSubCat.addEventListener('change', function () {
     if (buttonValue === undefined && selectSubCat.value === '0') {
       filterPrice();
@@ -151,12 +170,12 @@ if (selectSubCat !== null) {
 
 function showProducts(page) {
   page.forEach(product => {
-    if (product.user_has_product !== null) {
+    console.log(product);
+    let inFav = null;
+    if (product.user_has_product === 1) {
       inFav = 'inFav ';
-    } else {
-      inFav = null;
     }
-
+    console.log(inFav);
     const productCard = document.createElement('div');
     productCard.innerHTML = `
           <div class="bg-gray-100 rounded-2xl p-6 cursor-pointer hover:-translate-y-2 transition-all relative">
@@ -223,5 +242,5 @@ function minusPage() {
   }
 }
 
-plusButton.addEventListener('click' , plusPage);
-lastButton.addEventListener('click' , minusPage);
+plusButton.addEventListener('click', plusPage);
+lastButton.addEventListener('click', minusPage);
