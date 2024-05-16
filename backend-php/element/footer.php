@@ -3,6 +3,7 @@
 //use App\Boutique\Models\SubCategory;
 use App\Boutique\Models\Special\BestProduct;
 use Motor\Mvc\Manager\CrudManager;
+
 ?>
 </main>
 <!-- END MAIN -->
@@ -57,7 +58,8 @@ use Motor\Mvc\Manager\CrudManager;
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs Ventes</h2>
+                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Les 3 meilleurs
+                        Ventes</h2>
                     <ul class="text-gray-500 dark:text-gray-400 font-medium">
                         <?php
                         /* STRUCTURE EN ATTENTE DE CREATION DE METHODE POUR LES 3 MEILLEURS PRODUITS VENDUS */
@@ -72,27 +74,27 @@ use Motor\Mvc\Manager\CrudManager;
                     </ul>
                 </div>
                 <?php /* Ce code est commenté la requête prend trop de ressource
-                STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 
-                <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
-                    <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                        <?php
-                        
-                        $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
-                        $bestCategory = $crudManagerCategory->TestGetThreeCategory();
-                        ?>
-                        <?php foreach ($bestCategory as $category) : ?>
-                            <li class="mb-4">
-                                <?php if ($category->id <= 3) : ?>
-                                    <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
-                                <?php else : ?>
-                                    <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                */
+      STRUCTURE EN ATTENTE DE CRREATION DE LA METHODE POUR AFFICHER DYNAMIQUEMENT 1 catégorie et 3 
+      <div>
+          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Catégories</h2>
+          <ul class="text-gray-500 dark:text-gray-400 font-medium">
+              <?php
+              
+              $crudManagerCategory = new CrudManager('sub_category', SubCategory::class);
+              $bestCategory = $crudManagerCategory->TestGetThreeCategory();
+              ?>
+              <?php foreach ($bestCategory as $category) : ?>
+                  <li class="mb-4">
+                      <?php if ($category->id <= 3) : ?>
+                          <a id="" href="/produit/1" class="cursor-pointer">Café <?= $category->name ?></a>
+                      <?php else : ?>
+                          <a id="" href="/produit/2" class="cursor-pointer">Thé <?= $category->name ?></a>
+                      <?php endif; ?>
+                  </li>
+              <?php endforeach; ?>
+          </ul>
+      </div>
+      */
                 ?>
                 <div>
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Légale</h2>
@@ -157,8 +159,7 @@ use Motor\Mvc\Manager\CrudManager;
 <script defer src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
-<script defer src="http://<?= $serverName ?>/assets/js/JWTsign.js"></script>
-<script defer src="http://<?= $serverName ?>/assets/js/JWTverify.js"></script>
+<script defer src="http://<?= $serverName ?>/assets/js/ratings.js"></script>
 <script defer src="https://js.stripe.com/v3/"></script>
 </body>
 
