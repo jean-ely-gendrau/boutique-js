@@ -4,7 +4,7 @@ namespace App\Boutique\Controllers;
 use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
 
-class FilterPrice extends CrudManager
+class Filters extends CrudManager
 {
     public function __construct()
     {
@@ -80,8 +80,6 @@ class FilterPrice extends CrudManager
         } elseif ($filter === 'desc') {
             $sqlRequest .= " ORDER BY p.price DESC";
         }
-
-        $sqlRequest .= " LIMIT 10";
 
         return $sqlRequest;
     }

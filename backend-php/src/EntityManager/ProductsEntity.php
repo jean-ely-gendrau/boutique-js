@@ -4,9 +4,10 @@ namespace App\Boutique\EntityManager;
 
 use Motor\Mvc\Manager\CrudApi;
 use App\Boutique\Models\Category;
+use Motor\Mvc\Manager\CrudManager;
+use App\Boutique\Models\SubCategory;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Special\CategorySubCat;
-use App\Boutique\Models\SubCategory;
 
 class ProductsEntity extends CrudApi
 {
@@ -93,7 +94,29 @@ class ProductsEntity extends CrudApi
         //     GROUP BY ord.id_product
         $selectItem = is_null($select) ? '*' : join(', ', $select);
 
-        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName
+        // $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName
+        //     FROM {$this->getTableName()} as prod 
+        //     LEFT JOIN category as c ON prod.category_id = c.id 
+        //     LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
+        //     LEFT JOIN productsimages pi ON prod.id = pi.products_id 
+        //     LEFT JOIN images i ON pi.images_id = i.id 
+        //     WHERE prod.category_id = :category_id
+        //     LIMIT :limit OFFSET :offset";
+
+        if (isset($_SESSION['isConnected'])) {
+            $crudManagerUser = new CrudManager('users', ProductsModels::class);
+            $user = $crudManagerUser->getByEmail($_SESSION['email']);
+            $sql = "SELECT prod.*, i.url_image, i.image_main, c.name as catName, sub.name as subCatName, IF(uhp.products_id IS NOT NULL, 1, 0) AS user_has_product
+            FROM {$this->getTableName()} as prod 
+            LEFT JOIN category as c ON prod.category_id = c.id 
+            LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id 
+            LEFT JOIN productsimages pi ON prod.id = pi.products_id 
+            LEFT JOIN images i ON pi.images_id = i.id 
+            LEFT JOIN users_has_products uhp ON prod.id = uhp.products_id AND uhp.users_id = $user->id
+            WHERE prod.category_id = :category_id
+            LIMIT :limit OFFSET :offset";
+        } else {
+            $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName
             FROM {$this->getTableName()} as prod 
             LEFT JOIN category as c ON prod.category_id = c.id 
             LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  
@@ -101,17 +124,20 @@ class ProductsEntity extends CrudApi
             LEFT JOIN images i ON pi.images_id = i.id 
             WHERE prod.category_id = :category_id
             LIMIT :limit OFFSET :offset";
+        }
+
 
         // Désectivation ATTR_EMULATE_PREPARES
         $connect = $this->_dbConnect;
         $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 
         //Prépare
+        // var_dump($sql);
         $req = $connect->prepare($sql);
         $req->execute([':limit' => $this->limit, ':offset' => $this->offset, 'category_id' => $categoryID]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->getObjectClass());
 
-        //var_dump($req->fetchAll());
+        // var_dump($req->fetchAll());
         // self::paginatePerItem();
         //var_dump($this->limit, $this->offset);
 

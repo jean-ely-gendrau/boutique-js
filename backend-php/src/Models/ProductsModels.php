@@ -101,6 +101,13 @@ class ProductsModels implements JsonSerializable
      */
     private $user_has_product;
 
+    /**
+     * ordered
+     *
+     * @var string
+     */
+    private $ordered;
+
     public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
@@ -426,6 +433,30 @@ class ProductsModels implements JsonSerializable
     public function setUser_has_product(string $user_has_product)
     {
         $this->user_has_product = $user_has_product;
+
+        return $this;
+    }
+
+    /**
+     * Get ordered
+     *
+     * @return  string
+     */
+    public function getOrdered()
+    {
+        return $this->ordered;
+    }
+
+    /**
+     * Set ordered
+     *
+     * @param  string  $ordered  ordered
+     *
+     * @return  self
+     */
+    public function setOrdered(string $ordered)
+    {
+        $this->ordered = $ordered;
 
         return $this;
     }
