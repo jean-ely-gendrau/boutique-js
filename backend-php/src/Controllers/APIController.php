@@ -378,9 +378,10 @@ class ApiController extends JWTController
         }
     }
 
-    public function updateProducts($id)
+    public function updateProducts(...$arguments)
     {
         if ($this->accesAPI == true) {
+            $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
             $result = $this->products->update($id, $data, 'id_product');
@@ -411,9 +412,10 @@ class ApiController extends JWTController
         }
     }
 
-    public function updateCategory($id)
+    public function updateCategory(...$arguments)
     {
         if ($this->accesAPI == true) {
+            $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
             $result = $this->category->update($id, $data, 'id_category');
@@ -444,9 +446,10 @@ class ApiController extends JWTController
         }
     }
 
-    public function updateOrders($id)
+    public function updateOrders(...$arguments)
     {
         if ($this->accesAPI == true) {
+            $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
             $result = $this->orders->update($id, $data, 'id_order');
@@ -477,9 +480,10 @@ class ApiController extends JWTController
         }
     }
 
-    public function updateUsers($id)
+    public function updateUsers(...$arguments)
     {
         if ($this->accesAPI == true) {
+            $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
             $result = $this->users->update($id, $data, 'id_user');
