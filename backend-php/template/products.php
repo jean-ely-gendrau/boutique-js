@@ -7,12 +7,17 @@
       <?php foreach ($productAllSelect ?? [] as $product): ?>
         <div class="bg-gray-100 rounded-2xl p-6 cursor-pointer hover:-translate-y-2 transition-all relative">
           <div id="<?= $product->id ?>"
-            class="<?php echo ($product->user_has_product > 0) ? "inFav " : null; ?>favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="fill-gray-800 inline-block" width="22px" viewBox="0 0 192 192">
-              <path
-                d="M60.732 29.7C41.107 29.7 22 39.7 22 67.41c0 27.29 45.274 67.29 74 94.89 28.744-27.6 74-67.6 74-94.89 0-27.71-19.092-37.71-38.695-37.71C116 29.7 104.325 41.575 96 54.066 87.638 41.516 76 29.7 60.732 29.7z"
-                style="clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1">
-              </path>
+            class="<?= $inFav ?>favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
+            <svg class="fill-gray-800 inline-block" width="22px" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg"
+              xml:space="preserve" fill="none">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M60.732 29.7C41.107 29.7 22 39.7 22 67.41c0 27.29 45.274 67.29 74 94.89 28.744-27.6 74-67.6 74-94.89 0-27.71-19.092-37.71-38.695-37.71C116 29.7 104.325 41.575 96 54.066 87.638 41.516 76 29.7 60.732 29.7z"
+                  style="clip-rule:evenodd;display:inline;fill:none;stroke:rgb(235, 55, 55);stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1">
+                </path>
+              </g>
             </svg>
           </div>
           <div id="<?= $product->id ?>"
@@ -26,7 +31,7 @@
             <h4 class="text-2xl text-gray-800 font-bold mt-4"><?= $product->price ?> € <span
                 class="text-gray-400 ml-2 font-medium"><?= $product?->pound ?></span>
             </h4>
-            <button data-js="handelPost,click" data-route="http://<?= $serverName ?>/addtobasket/<?= $product->id ?>"
+            <button data-js="handlePost,click" data-route="http://<?= $serverName ?>/addtobasket/<?= $product->id ?>"
               type="button"
               class="w-full flex items-center justify-center gap-3 mt-6 px-4 py-2.5 bg-transparent hover:bg-gray-200 text-base text-[#333] border-2 font-semibold border-[#333] rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
@@ -42,9 +47,10 @@
 
       <?php $productAllSelect ?? 'Aucun produit ne trouvé dans cette catégorie'; ?>
 
-    </div>
+  </div>
 
-    <p id="paramsResarch"></p>
+  <p id="paramsResarch">
+    </p>
 
     <div class="mx-auto flex max-w-6xl">
       <?= $buttonFilter->render() ?>
@@ -54,5 +60,5 @@
       <?= $buttonNavigation->render() ?>
     </div>
 
-  </div>
+</div>
 </div>
