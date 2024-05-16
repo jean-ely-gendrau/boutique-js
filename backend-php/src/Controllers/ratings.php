@@ -32,4 +32,16 @@ class Ratings extends CrudManager
         }
 
     }
+
+    public function ProductRating(...$arguments)
+    {
+        $idProduct = $arguments['idProduct'];
+        $sql = "SELECT AVG(rating) AS average_rating 
+        FROM ratings 
+        WHERE products_id = $idProduct;";
+        $query = $this->getConnectBdd()->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        echo json_encode($result[0]["average_rating"]);
+    }
 }
