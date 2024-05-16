@@ -13,23 +13,20 @@ const numberPages = document.getElementById('number_pages');
 const currentPage = document.getElementById('select_pages');
 let pages;
 
-// Save the selected value to localStorage whenever it changes
-selectSubCat.addEventListener('change', function () {
-    localStorage.setItem('selectedSubCat', selectSubCat.value);
-});
-
-// Initialize the selectSubCat value from localStorage on page load
-document.addEventListener("DOMContentLoaded", function () {
-    const storedValue = localStorage.getItem('selectedSubCat');
-    if (storedValue !== null) {
-        selectSubCat.value = storedValue;
-    }
-});
-
 if (selectSubCat !== null) {
-    document.addEventListener("DOMContentLoaded", function () { 
-        console.log(selectSubCat.value);
-    });
+  selectSubCat.addEventListener('change', function () {
+    localStorage.setItem('selectedSubCat', selectSubCat.value);
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const storedValueSub = localStorage.getItem('selectedSubCat');
+    const storedValueButton = localStorage.getItem('selectedButton');
+    if (storedValueSub !== null) {
+      selectSubCat.value = storedValueSub;
+    }
+    if (storedValueButton !== null) {
+      buttonValue = storedValueButton;
+    }
+  });
 }
 
 // console.log((selectSubCat))
@@ -47,19 +44,28 @@ const currentPagePath = window.location.pathname;
 const regexUrl = /\/produit\/(\d+)(?:\/(\d+))?/;
 const matchUrl = currentPagePath.match(regexUrl);
 const idCat = matchUrl ? parseInt(matchUrl[1]) : null;
+const parts = currentPagePath.split("/");
+const extracted = "/" + parts[1];
+console.log(extracted);
+
+if (extracted !== '/produit' && extracted !== '/detail') {
+  localStorage.removeItem('selectedSubCat');
+  localStorage.removeItem('selectedButton');
+}
+// console.log(localStorage.getItem('selectedSubCat'));
 
 if (buttonClear !== null) {
   buttonClear.addEventListener('click', function () {
     buttonValue = null;
-    localStorage
     messageResearch.innerText = '';
     selectSubCat.selectedIndex = 0;
     localStorage.removeItem('selectedSubCat');
+    localStorage.removeItem('selectedButton');
     window.location.href = `${currentPageUrl}/produit/${idCat}`;
   });
 }
 
-console.log(currentPagePath);
+// console.log(currentPagePath);
 
 const resultat = document.getElementById('resultat');
 const messageResearch = document.getElementById('paramsResarch');
@@ -96,7 +102,7 @@ function filterPrice(filter = null, subCat = null) {
     myFetchRequest = `/js-testAll/${idCat}`;
   }
   // console.log(filterSelected);
-  console.log(myFetchRequest);
+  // console.log(myFetchRequest);
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   fetch(myFetchRequest, {
@@ -138,7 +144,9 @@ function filterPrice(filter = null, subCat = null) {
 
 filterButtons.forEach(button => {
   button.addEventListener('click', event => {
-    buttonValue = event.target.value
+    buttonValue = event.target.value;
+    localStorage.setItem('selectedButton', event.target.value);
+    // console.log(localStorage.getItem('selectedButton'));
     if (selectSubCat.value === '0') {
       filterPrice(buttonValue, null);
     } else {
@@ -148,11 +156,6 @@ filterButtons.forEach(button => {
 });
 
 if (selectSubCat !== null) {
-  document.addEventListener('DOMContentLoaded' , function() {
-    if (selectSubCat !== 0) {
-      filterPrice(null, selectSubCat.value)
-    }
-  })
   selectSubCat.addEventListener('change', function () {
     if (buttonValue === undefined && selectSubCat.value === '0') {
       filterPrice();
@@ -169,13 +172,14 @@ if (selectSubCat !== null) {
 }
 
 function showProducts(page) {
+  // console.log(page);
   page.forEach(product => {
-    console.log(product);
+    // console.log(product);
     let inFav = null;
     if (product.user_has_product === 1) {
       inFav = 'inFav ';
     }
-    console.log(inFav);
+    // console.log(inFav);
     const productCard = document.createElement('div');
     productCard.innerHTML = `
           <div class="bg-gray-100 rounded-2xl p-6 cursor-pointer hover:-translate-y-2 transition-all relative">
@@ -242,5 +246,17 @@ function minusPage() {
   }
 }
 
-plusButton.addEventListener('click', plusPage);
-lastButton.addEventListener('click', minusPage);
+if (plusButton !== null) {
+  plusButton.addEventListener('click', plusPage);
+  lastButton.addEventListener('click', minusPage);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (selectSubCat.value !== '0' && buttonValue !== undefined) {
+    filterPrice(buttonValue, selectSubCat.value);
+  } else if (selectSubCat.value !== '0') {
+    filterPrice(null, selectSubCat.value);
+  } else if (buttonValue !== undefined) {
+    filterPrice(buttonValue, null);
+  }
+})
