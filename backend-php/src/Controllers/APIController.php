@@ -413,182 +413,215 @@ class ApiController extends JWTController
 
     public function updateCategory($id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->category->update($id, $data, 'id_category');
+            $result = $this->category->update($id, $data, 'id_category');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category with ID $id was updated successfully." : "Failed to update category with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category with ID $id was updated successfully." : "Failed to update category with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function updateOrders($id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->orders->update($id, $data, 'id_order');
+            $result = $this->orders->update($id, $data, 'id_order');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order with ID $id was updated successfully." : "Failed to update order with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order with ID $id was updated successfully." : "Failed to update order with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function updateUsers($id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->users->update($id, $data, 'id_user');
+            $result = $this->users->update($id, $data, 'id_user');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function deleteProducts($id)
+    public function deleteProducts(...$arguments)
     {
-        $result = $this->products->delete($id, 'id_product');
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->products->delete($id, 'id_product');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory(...$arguments)
     {
-        $result = $this->category->delete($id, 'id_category');
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->category->delete($id, 'id_category');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
-    public function deleteOrders($id)
+    public function deleteOrders(...$arguments)
     {
-        $result = $this->orders->delete($id, 'id_order');
+        if ($this->accesAPI == true) {
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $id = $arguments["id"];
+            $result = $this->orders->delete($id, 'id_order');
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
 
-    public function deleteUsers($id)
+    public function deleteUsers(...$arguments)
     {
-        $result = $this->users->delete($id, 'id_user');
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->users->delete($id, 'id_user');
 
-        // Log the deletion
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            // Log the deletion
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 }
