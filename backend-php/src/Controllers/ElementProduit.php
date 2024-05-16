@@ -44,6 +44,8 @@ class ElementProduit extends BddManager
         // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
         $detail = $crudManager->getOneProduct($arguments['product_id']);
 
+        // var_dump($detail);
+
         // Passage dans render des paramètres 'detail' => $detail
         $arguments['render']->addParams('detail', $detail);
 
