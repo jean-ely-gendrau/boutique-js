@@ -60,38 +60,50 @@ class ApiController extends JWTController
 
     public function getOrders(...$arguments)
     {
-        $GetordersAll = $this->orders->getAll();
+        if ($this->accesAPI == true) {
+            $GetordersAll = $this->orders->getAll();
 
-        $this->logToFile($GetordersAll, 'Order');
+            $this->logToFile($GetordersAll, 'Order');
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetordersAll);
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetordersAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getUsers(...$arguments)
     {
-        $GetusersAll = $this->users->getAll();
+        if ($this->accesAPI == true) {
+            $GetusersAll = $this->users->getAll();
 
-        $this->logToFile($GetusersAll, 'User');
+            $this->logToFile($GetusersAll, 'User');
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetusersAll);
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetusersAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getProductsById(...$arguments)
     {
 
-        $id = $arguments["id"];
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $GetproductsById = $this->products->getById($id, 'id_product');
+            $GetproductsById = $this->products->getById($id, 'id_product');
 
-        $this->logToFile($GetproductsById, 'Product');
+            $this->logToFile($GetproductsById, 'Product');
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetproductsById);
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetproductsById);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     private function logToFile($data, $type)
@@ -116,233 +128,287 @@ class ApiController extends JWTController
 
     public function getCategoryById(...$arguments)
     {
-        $id = $arguments["id"];
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $GetcategoryById = $this->category->getById($id, 'id_category');
+            $GetcategoryById = $this->category->getById($id, 'id_category');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetcategoryById ? "Category retrieved successfully." : "Failed to retrieve category.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetcategoryById);
+        } else {
+            header('Location: /connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $GetcategoryById ? "Category retrieved successfully." : "Failed to retrieve category.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetcategoryById);
     }
 
     public function getOrderById(...$arguments)
     {
-        $id = $arguments["id"];
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $GetorderById = $this->orders->getById($id, 'id_order');
+            $GetorderById = $this->orders->getById($id, 'id_order');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetorderById ? "Order retrieved successfully." : "Failed to retrieve order.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetorderById);
+        } else {
+            header('Location: /connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $GetorderById ? "Order retrieved successfully." : "Failed to retrieve order.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetorderById);
     }
 
     public function getUserById(...$arguments)
     {
-        $id = $arguments["id"];
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $GetuserById = $this->users->getById($id, 'id_user');
+            $GetuserById = $this->users->getById($id, 'id_user');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetuserById ? "User retrieved successfully." : "Failed to retrieve user.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetuserById);
         }
-
-        // Now you can use error_log
-        $logMessage = $GetuserById ? "User retrieved successfully." : "Failed to retrieve user.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetuserById);
     }
 
     public function addProducts(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->products->create($this->products, $data);
+            $result = $this->products->create($this->products, $data);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addCategory(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->category->create($this->category, $data);
+            $result = $this->category->create($this->category, $data);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $result = $this->category->create($this->category, $data);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
+            }
+
+            // Now you can use error_log
+            $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addOrders($data)
     {
+        if ($this->accesAPI == true) {
+            $result = $this->orders->create($this->orders, $data);
 
-        $result = $this->orders->create($this->orders, $data);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addUsers(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->users->create($this->users, $data);
+            $result = $this->users->create($this->users, $data);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+            error_log($logMessage . PHP_EOL, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
-        error_log($logMessage . PHP_EOL, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function updateProducts($id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->products->update($id, $data, 'id_product');
+            $result = $this->products->update($id, $data, 'id_product');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function updateCategory($id)
