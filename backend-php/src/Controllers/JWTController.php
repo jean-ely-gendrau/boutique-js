@@ -5,20 +5,23 @@ namespace App\Controllers;
 class JWTController
 {
 
+    public $accesAPI;
+
     public function __construct()
     {
     }
 
-    public function jwt($request, $response)
+    public function jwt(...$arguments)
     {
         $token = $_COOKIE['token'];
 
         $secret = $_COOKIE['secret'];
 
         if (!empty($token) && !empty($secret)) {
-            return $response->withStatus(200)->withJson(['message' => 'Access granted']);
+            return $accesAPI = true;
         } else {
-            return $response->withStatus(401)->withJson(['message' => 'Access denied']);
+            header('Location: /connexion');
+            return $accesAPI = false;
         }
     }
 }

@@ -9,8 +9,9 @@ use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
 use stdClass;
+use App\Controllers\JWTController;
 
-class ApiController
+class ApiController extends JWTController
 {
     private $products;
     private $category;
@@ -23,29 +24,38 @@ class ApiController
         $this->category = new CrudManager('category', Category::class);
         $this->orders = new CrudManager('orders', Orders::class);
         $this->users = new CrudManager('users', Users::class);
+        $this->accesAPI = $this->jwt();
     }
 
     public function GetProductsAll(...$arguments)
     {
-        $GetProductsAll = $this->products->getAllProduct();
+        if ($this->accesAPI == true) {
+            $GetProductsAll = $this->products->getAllProduct();
 
-        $this->logToFile($GetProductsAll, 'Product');
+            $this->logToFile($GetProductsAll, 'Product');
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetProductsAll);
-        exit;
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetProductsAll);
+            exit;
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function GetCategory(...$arguments)
     {
-        $GetGategoryAll = $this->category->getAll();
+        if ($this->accesAPI == true) {
+            $GetGategoryAll = $this->category->getAll();
 
-        $this->logToFile($GetGategoryAll, 'Category');
+            $this->logToFile($GetGategoryAll, 'Category');
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetGategoryAll);
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetGategoryAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getOrders(...$arguments)
