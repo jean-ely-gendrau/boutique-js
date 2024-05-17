@@ -61,9 +61,74 @@
             </svg>
           </button>
           <!-- Insert basket here -->
-          <button type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
+          <!-- Trigger/Open The Modal -->
+          <button id="myBtn" type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
             <img src="http://<?= $serverName ?>/assets/images/icon/cart.svg" alt="">
           </button>
+
+          <!-- The Modal -->
+          <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div data-js='handleFetch' class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Panier</h2>
+              </div>
+              <div class="modal-body">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-center">produit</th>
+                      <th scope="col" class="px-6 py-3 text-center">prix</th>
+                      <th scope="col" class="px-6 py-3 text-center">quantitée</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <div class="cart-items">
+                      </div>
+                      <td scope="col" class="px-6 py-3 text-center">{produit}</td>
+                      <td scope="col" class="px-6 py-3 text-center">{10e}</td>
+                      <td scope="col" class="px-6 py-3 text-center">{3}</td>
+                      <td scope="col" class="px-6 py-3 text-center">{logo supprimer}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"><a href="/stripe/pay">Valider</a></button>
+              </div>
+            </div>
+
+          </div>
+          <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+            </script>
           <!--  -->
           <?php
           $result = $rendering->give('isConnected') ? true : false;
