@@ -9,8 +9,9 @@ use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
 use stdClass;
+use App\Controllers\JWTController;
 
-class ApiController
+class ApiController extends JWTController
 {
     private $products;
     private $category;
@@ -23,69 +24,102 @@ class ApiController
         $this->category = new CrudManager('category', Category::class);
         $this->orders = new CrudManager('orders', Orders::class);
         $this->users = new CrudManager('users', Users::class);
+        $this->accesAPI = $this->jwt();
     }
 
     public function GetProductsAll(...$arguments)
     {
-        $GetProductsAll = $this->products->getAllProduct();
 
-        $this->logToFile($GetProductsAll, 'Product');
+        // cette fonction permet de récupérer tous les produits de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $GetProductsAll = $this->products->getAllProduct();
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetProductsAll);
-        exit;
+            $this->logToFile($GetProductsAll, 'Product');
+
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetProductsAll);
+            exit;
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function GetCategory(...$arguments)
     {
-        $GetGategoryAll = $this->category->getAll();
+        if ($this->accesAPI == true) {
 
-        $this->logToFile($GetGategoryAll, 'Category');
+            // cette fonction permet de récupérer toutes les catégories de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
+            $GetGategoryAll = $this->category->getAll();
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetGategoryAll);
+            $this->logToFile($GetGategoryAll, 'Category');
+
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetGategoryAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getOrders(...$arguments)
     {
-        $GetordersAll = $this->orders->getAll();
+        if ($this->accesAPI == true) {
 
-        $this->logToFile($GetordersAll, 'Order');
+            // cette fonction permet de récupérer toutes les commandes de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
+            $GetordersAll = $this->orders->getAll();
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetordersAll);
+            $this->logToFile($GetordersAll, 'Order');
+
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetordersAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getUsers(...$arguments)
     {
-        $GetusersAll = $this->users->getAll();
+        if ($this->accesAPI == true) {
 
-        $this->logToFile($GetusersAll, 'User');
+            // cette fonction permet de récupérer tous les utilisateurs de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
+            $GetusersAll = $this->users->getAll();
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetusersAll);
+            $this->logToFile($GetusersAll, 'User');
+
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetusersAll);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     public function getProductsById(...$arguments)
     {
 
-        $id = $arguments["id"];
+        // cette fonction permet de recupérer un produit par son id et de l'afficher en format json si l'utilisateur a accès à l'API
 
-        $GetproductsById = $this->products->getById($id, 'id_product');
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $this->logToFile($GetproductsById, 'Product');
+            $GetproductsById = $this->products->getById($id);
 
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($GetproductsById);
+            $this->logToFile($GetproductsById, 'Product');
+
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($GetproductsById);
+        } else {
+            header('Location: /connexion');
+        }
     }
 
     private function logToFile($data, $type)
     {
+
+        // cette fonction permet de créer un fichier log et d'y inscrire les actions effectuées par l'utilisateur
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
             $directory = dirname($logFile);
@@ -106,413 +140,520 @@ class ApiController
 
     public function getCategoryById(...$arguments)
     {
-        $id = $arguments["id"];
 
-        $GetcategoryById = $this->category->getById($id, 'id_category');
+        // cette fonction permet de recupérer une catégorie par son id et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $GetcategoryById = $this->category->getById($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetcategoryById ? "Category retrieved successfully." : "Failed to retrieve category.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetcategoryById);
+        } else {
+            header('Location: /connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $GetcategoryById ? "Category retrieved successfully." : "Failed to retrieve category.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetcategoryById);
     }
 
     public function getOrderById(...$arguments)
     {
-        $id = $arguments["id"];
 
-        $GetorderById = $this->orders->getById($id, 'id_order');
+        // cette fonction permet de recupérer une commande par son id et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $GetorderById = $this->orders->getById($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetorderById ? "Order retrieved successfully." : "Failed to retrieve order.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetorderById);
+        } else {
+            header('Location: /connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $GetorderById ? "Order retrieved successfully." : "Failed to retrieve order.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetorderById);
     }
 
     public function getUserById(...$arguments)
     {
-        $id = $arguments["id"];
 
-        $GetuserById = $this->users->getById($id, 'id_user');
+        // cette fonction permet de recupérer un utilisateur par son id et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $GetuserById = $this->users->getById($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $GetuserById ? "User retrieved successfully." : "Failed to retrieve user.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($GetuserById);
         }
-
-        // Now you can use error_log
-        $logMessage = $GetuserById ? "User retrieved successfully." : "Failed to retrieve user.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($GetuserById);
     }
 
     public function addProducts(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->products->create($this->products, $data);
+        // cette fonction permet d'ajouter un produit à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $productsModel = new ProductsModels($data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $result = $this->products->create($productsModel, $data);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addCategory(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->category->create($this->category, $data);
+        // cette fonction permet d'ajouter une catégorie à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API 
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $categoryModel = new Category($data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $result = $this->category->create($categoryModel, $data);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addOrders($data)
     {
 
-        $result = $this->orders->create($this->orders, $data);
+        // cette fonction permet d'ajouter une commande à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $ordersModel = new Orders($data);
+            $result = $this->orders->create($ordersModel, $data);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order was added successfully." : "Failed to add order.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
     public function addUsers(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->users->create($this->users, $data);
+        // cette fonction permet d'ajouter un utilisateur à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $userModel = new Users($data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $result = $this->users->create($userModel, $data);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+            error_log($logMessage . PHP_EOL, 3, $logFile);
+            http_response_code(201);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
-        error_log($logMessage . PHP_EOL, 3, $logFile);
-        http_response_code(201);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function updateProducts($id)
+    public function updateProducts(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->products->update($id, $data, 'id_product');
+        // cette fonction permet de mettre à jour un produit dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $result = $this->products->update($id, $data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function updateCategory($id)
+    public function updateCategory(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->category->update($id, $data, 'id_category');
+        // cette fonction permet de mettre à jour une catégorie dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $result = $this->category->update($id, $data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category with ID $id was updated successfully." : "Failed to update category with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category with ID $id was updated successfully." : "Failed to update category with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function updateOrders($id)
+    public function updateOrders(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->orders->update($id, $data, 'id_order');
+        // cette fonction permet de mettre à jour une commande dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $result = $this->orders->update($id, $data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order with ID $id was updated successfully." : "Failed to update order with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order with ID $id was updated successfully." : "Failed to update order with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function updateUsers($id)
+    public function updateUsers(...$arguments)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
 
-        $result = $this->users->update($id, $data, 'id_user');
+        // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $data = json_decode(file_get_contents('php://input'), true);
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+            $result = $this->users->update($id, $data);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(200);
+
+            header('Content-Type: application/json');
+
+            echo json_encode($data);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(200);
-
-        header('Content-Type: application/json');
-
-        echo json_encode($data);
     }
 
-    public function deleteProducts($id)
+    public function deleteProducts(...$arguments)
     {
-        $result = $this->products->delete($id, 'id_product');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+        // cette fonction permet de supprimer un produit de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->products->delete($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory(...$arguments)
     {
-        $result = $this->category->delete($id, 'id_category');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+        // cette fonction permet de supprimer une catégorie de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->category->delete($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
-    public function deleteOrders($id)
+    public function deleteOrders(...$arguments)
     {
-        $result = $this->orders->delete($id, 'id_order');
 
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+        // cette fonction permet de supprimer une commande de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            $id = $arguments["id"];
+            $result = $this->orders->delete($id);
+
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 
 
-    public function deleteUsers($id)
+    public function deleteUsers(...$arguments)
     {
-        $result = $this->users->delete($id, 'id_user');
 
-        // Log the deletion
-        $logFile = '../../config/logs/logfile.txt';
-        if (!file_exists($logFile)) {
-            $directory = dirname($logFile);
+        // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        if ($this->accesAPI == true) {
+            $id = $arguments["id"];
+            $result = $this->users->delete($id);
 
-            // Create the directory if it doesn't exist
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
+            // Log the deletion
+            $logFile = '../../config/logs/logfile.txt';
+            if (!file_exists($logFile)) {
+                $directory = dirname($logFile);
+
+                // Create the directory if it doesn't exist
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                // Create the file
+                touch($logFile);
             }
 
-            // Create the file
-            touch($logFile);
+            // Now you can use error_log
+            $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
+            error_log($logMessage, 3, $logFile);
+            http_response_code(204);
+        } else {
+            header('Location:/connexion');
         }
-
-        // Now you can use error_log
-        $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
-        error_log($logMessage, 3, $logFile);
-        http_response_code(204);
     }
 }
