@@ -94,7 +94,7 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
-            $GetproductsById = $this->products->getById($id, 'id_product');
+            $GetproductsById = $this->products->getById($id);
 
             $this->logToFile($GetproductsById, 'Product');
 
@@ -131,7 +131,7 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
-            $GetcategoryById = $this->category->getById($id, 'id_category');
+            $GetcategoryById = $this->category->getById($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -164,7 +164,7 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
-            $GetorderById = $this->orders->getById($id, 'id_order');
+            $GetorderById = $this->orders->getById($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -197,7 +197,7 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
-            $GetuserById = $this->users->getById($id, 'id_user');
+            $GetuserById = $this->users->getById($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -228,7 +228,9 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->products->create($this->products, $data);
+            $productsModel = new ProductsModels($data);
+
+            $result = $this->products->create($productsModel, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -261,32 +263,9 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->category->create($this->category, $data);
+            $categoryModel = new Category($data);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Category was added successfully." : "Failed to add category.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(201);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            $result = $this->category->create($this->category, $data);
+            $result = $this->category->create($categoryModel, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -317,7 +296,12 @@ class ApiController extends JWTController
     public function addOrders($data)
     {
         if ($this->accesAPI == true) {
-            $result = $this->orders->create($this->orders, $data);
+
+
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $ordersModel = new Orders($data);
+            $result = $this->orders->create($ordersModel, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -350,7 +334,9 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->users->create($this->users, $data);
+            $userModel = new Users($data);
+
+            $result = $this->users->create($userModel, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
