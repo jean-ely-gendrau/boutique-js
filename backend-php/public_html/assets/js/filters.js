@@ -46,7 +46,7 @@ const matchUrl = currentPagePath.match(regexUrl);
 const idCat = matchUrl ? parseInt(matchUrl[1]) : null;
 const parts = currentPagePath.split("/");
 const extracted = "/" + parts[1];
-console.log(extracted);
+// console.log(extracted);
 
 if (extracted !== '/produit' && extracted !== '/detail') {
   localStorage.removeItem('selectedSubCat');
@@ -156,6 +156,15 @@ filterButtons.forEach(button => {
 });
 
 if (selectSubCat !== null) {
+  document.addEventListener('DOMContentLoaded', function () {
+    if (selectSubCat.value !== '0' && buttonValue !== undefined) {
+      filterPrice(buttonValue, selectSubCat.value);
+    } else if (selectSubCat.value !== '0') {
+      filterPrice(null, selectSubCat.value);
+    } else if (buttonValue !== undefined) {
+      filterPrice(buttonValue, null);
+    }
+  })
   selectSubCat.addEventListener('change', function () {
     if (buttonValue === undefined && selectSubCat.value === '0') {
       filterPrice();
@@ -251,12 +260,5 @@ if (plusButton !== null) {
   lastButton.addEventListener('click', minusPage);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  if (selectSubCat.value !== '0' && buttonValue !== undefined) {
-    filterPrice(buttonValue, selectSubCat.value);
-  } else if (selectSubCat.value !== '0') {
-    filterPrice(null, selectSubCat.value);
-  } else if (buttonValue !== undefined) {
-    filterPrice(buttonValue, null);
-  }
-})
+
+  
