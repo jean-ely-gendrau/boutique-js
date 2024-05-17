@@ -370,7 +370,7 @@ class ApiController extends JWTController
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->products->update($id, $data, 'id_product');
+            $result = $this->products->update($id, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -404,7 +404,7 @@ class ApiController extends JWTController
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->category->update($id, $data, 'id_category');
+            $result = $this->category->update($id, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -438,7 +438,7 @@ class ApiController extends JWTController
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->orders->update($id, $data, 'id_order');
+            $result = $this->orders->update($id, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -472,7 +472,7 @@ class ApiController extends JWTController
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->users->update($id, $data, 'id_user');
+            $result = $this->users->update($id, $data);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -504,7 +504,7 @@ class ApiController extends JWTController
     {
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
-            $result = $this->products->delete($id, 'id_product');
+            $result = $this->products->delete($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -532,7 +532,7 @@ class ApiController extends JWTController
     {
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
-            $result = $this->category->delete($id, 'id_category');
+            $result = $this->category->delete($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -561,7 +561,7 @@ class ApiController extends JWTController
         if ($this->accesAPI == true) {
 
             $id = $arguments["id"];
-            $result = $this->orders->delete($id, 'id_order');
+            $result = $this->orders->delete($id);
 
             $logFile = '../../config/logs/logfile.txt';
             if (!file_exists($logFile)) {
@@ -590,7 +590,7 @@ class ApiController extends JWTController
     {
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
-            $result = $this->users->delete($id, 'id_user');
+            $result = $this->users->delete($id);
 
             // Log the deletion
             $logFile = '../../config/logs/logfile.txt';
