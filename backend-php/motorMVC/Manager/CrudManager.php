@@ -143,13 +143,7 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getOneProduct(string $id): object
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT p.*, pi.products_id, i.url_image, AVG(r.rating) AS average_rating
-            FROM products AS p 
-            LEFT JOIN productsimages AS pi ON p.id = pi.products_id 
-            LEFT JOIN images AS i ON pi.images_id = i.id 
-            LEFT JOIN ratings AS r ON p.id = r.products_id
-            WHERE p.id = :id
-            GROUP BY p.id;',
+            "SELECT p.id, p.name, p.description, p.price, p.quantity, p.created_at, p.updated_at, p.category_id, p.sub_category_id, MAX(CASE WHEN i.image_main = 1 THEN i.url_image ELSE NULL END) AS main_image, GROUP_CONCAT(DISTINCT CASE WHEN i.image_main != 1 THEN i.url_image END SEPARATOR ', ') AS other_images, AVG(r.rating) AS average_rating FROM products AS p LEFT JOIN productsimages AS pi ON p.id = pi.products_id LEFT JOIN images AS i ON pi.images_id = i.id LEFT JOIN ratings AS r ON p.id = r.products_id WHERE p.id = :id GROUP BY p.id;"
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);

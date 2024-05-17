@@ -2,10 +2,11 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Components\Details;
-use App\Boutique\Models\ProductsModels;
 use Motor\Mvc\Manager\BddManager;
 use Motor\Mvc\Manager\CrudManager;
+use App\Boutique\Components\Details;
+use App\Boutique\Models\DetailsModels;
+use App\Boutique\Models\ProductsModels;
 
 class ElementProduit extends BddManager
 {
@@ -39,17 +40,18 @@ class ElementProduit extends BddManager
         //-------------------------------------------------------------------------------------------------
 
         // Instance de CrudManager, passage de la table 'products' en paramètre
-        $crudManager = new CrudManager('products', ProductsModels::class);
+        $crudManager = new CrudManager('products', DetailsModels::class);
 
         // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
         $detail = $crudManager->getOneProduct($arguments['product_id']);
 
-        // var_dump($detail);
+        var_dump($detail);
 
-        $filename = __DIR__ . "/../../public_html/assets/images/{$detail->url_image}";
+        $filenameMain = __DIR__ . "/../../public_html/assets/images/{$detail->main_image}";
 
-        if (file_exists($filename) == true) {
-            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
+
+        if (file_exists($filenameMain) == true) {
+            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->main_image}";
         } else {
             $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
         }
