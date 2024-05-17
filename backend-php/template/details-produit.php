@@ -4,13 +4,13 @@
       <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
         <!-- // Images du produit -->
         <div class="lg:col-span-3 bg-gray-100 w-full lg:sticky top-0 text-center p-8">
-          <img src="/assets/images/<?= $detail->url_image ?>" alt="Product" class="w-4/5 rounded object-cover" />
+          <img src=<?= $src ?> alt="detail" class="w-4/5 rounded object-cover" />
           <hr class="border-white border-2 my-6" />
           <div class="flex flex-wrap gap-x-12 gap-y-6 justify-center mx-auto">
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product1" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product2" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product3" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product4" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail1" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail2" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail3" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail4" class="w-24 cursor-pointer" />
           </div>
         </div>
         <div class="lg:col-span-2">
