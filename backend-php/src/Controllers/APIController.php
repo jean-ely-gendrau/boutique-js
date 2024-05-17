@@ -29,6 +29,8 @@ class ApiController extends JWTController
 
     public function GetProductsAll(...$arguments)
     {
+
+        // cette fonction permet de récupérer tous les produits de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $GetProductsAll = $this->products->getAllProduct();
 
@@ -46,6 +48,8 @@ class ApiController extends JWTController
     public function GetCategory(...$arguments)
     {
         if ($this->accesAPI == true) {
+
+            // cette fonction permet de récupérer toutes les catégories de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
             $GetGategoryAll = $this->category->getAll();
 
             $this->logToFile($GetGategoryAll, 'Category');
@@ -61,6 +65,8 @@ class ApiController extends JWTController
     public function getOrders(...$arguments)
     {
         if ($this->accesAPI == true) {
+
+            // cette fonction permet de récupérer toutes les commandes de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
             $GetordersAll = $this->orders->getAll();
 
             $this->logToFile($GetordersAll, 'Order');
@@ -76,6 +82,8 @@ class ApiController extends JWTController
     public function getUsers(...$arguments)
     {
         if ($this->accesAPI == true) {
+
+            // cette fonction permet de récupérer tous les utilisateurs de la base de données et de les afficher en format json si l'utilisateur a accès à l'API
             $GetusersAll = $this->users->getAll();
 
             $this->logToFile($GetusersAll, 'User');
@@ -90,6 +98,8 @@ class ApiController extends JWTController
 
     public function getProductsById(...$arguments)
     {
+
+        // cette fonction permet de recupérer un produit par son id et de l'afficher en format json si l'utilisateur a accès à l'API
 
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
@@ -108,6 +118,8 @@ class ApiController extends JWTController
 
     private function logToFile($data, $type)
     {
+
+        // cette fonction permet de créer un fichier log et d'y inscrire les actions effectuées par l'utilisateur
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
             $directory = dirname($logFile);
@@ -128,6 +140,8 @@ class ApiController extends JWTController
 
     public function getCategoryById(...$arguments)
     {
+
+        // cette fonction permet de recupérer une catégorie par son id et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
@@ -161,6 +175,8 @@ class ApiController extends JWTController
 
     public function getOrderById(...$arguments)
     {
+
+        // cette fonction permet de recupérer une commande par son id et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
@@ -194,6 +210,8 @@ class ApiController extends JWTController
 
     public function getUserById(...$arguments)
     {
+
+        // cette fonction permet de recupérer un utilisateur par son id et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
 
@@ -225,6 +243,8 @@ class ApiController extends JWTController
 
     public function addProducts(...$arguments)
     {
+
+        // cette fonction permet d'ajouter un produit à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
@@ -260,6 +280,8 @@ class ApiController extends JWTController
 
     public function addCategory(...$arguments)
     {
+
+        // cette fonction permet d'ajouter une catégorie à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API 
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
@@ -295,6 +317,8 @@ class ApiController extends JWTController
 
     public function addOrders($data)
     {
+
+        // cette fonction permet d'ajouter une commande à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
 
 
@@ -331,6 +355,8 @@ class ApiController extends JWTController
 
     public function addUsers(...$arguments)
     {
+
+        // cette fonction permet d'ajouter un utilisateur à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $data = json_decode(file_get_contents('php://input'), true);
 
@@ -366,6 +392,8 @@ class ApiController extends JWTController
 
     public function updateProducts(...$arguments)
     {
+
+        // cette fonction permet de mettre à jour un produit dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
@@ -400,6 +428,8 @@ class ApiController extends JWTController
 
     public function updateCategory(...$arguments)
     {
+
+        // cette fonction permet de mettre à jour une catégorie dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
@@ -434,6 +464,8 @@ class ApiController extends JWTController
 
     public function updateOrders(...$arguments)
     {
+
+        // cette fonction permet de mettre à jour une commande dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
@@ -468,6 +500,8 @@ class ApiController extends JWTController
 
     public function updateUsers(...$arguments)
     {
+
+        // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $data = json_decode(file_get_contents('php://input'), true);
@@ -502,6 +536,8 @@ class ApiController extends JWTController
 
     public function deleteProducts(...$arguments)
     {
+
+        // cette fonction permet de supprimer un produit de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $result = $this->products->delete($id);
@@ -530,6 +566,8 @@ class ApiController extends JWTController
 
     public function deleteCategory(...$arguments)
     {
+
+        // cette fonction permet de supprimer une catégorie de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $result = $this->category->delete($id);
@@ -558,6 +596,8 @@ class ApiController extends JWTController
 
     public function deleteOrders(...$arguments)
     {
+
+        // cette fonction permet de supprimer une commande de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
 
             $id = $arguments["id"];
@@ -588,6 +628,8 @@ class ApiController extends JWTController
 
     public function deleteUsers(...$arguments)
     {
+
+        // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
             $result = $this->users->delete($id);
