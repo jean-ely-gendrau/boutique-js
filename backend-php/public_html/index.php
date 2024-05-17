@@ -124,6 +124,7 @@ $router->map('get', '/wishlist', 'Favoris#ShowFavorites', 'userWishlist');
 
 // Route ratings
 $router->map('GET', '/orderverif/[i:idProduct]', 'Ratings#ProductOrdered', 'checkIfOrdered');
+$router->map('GET', '/productrating/[i:idProduct]', 'Ratings#ProductRating', 'ratingProduct');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */

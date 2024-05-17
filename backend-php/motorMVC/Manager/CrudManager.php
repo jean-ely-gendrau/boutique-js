@@ -143,10 +143,13 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getOneProduct(string $id): object
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT p.*, pi.products_id, i.url_image FROM products AS p 
-            LEFT JOIN productsimages pi ON p.id = pi.products_id 
-            LEFT JOIN images i ON pi.images_id = i.id 
-            WHERE p.id = :id',
+            'SELECT p.*, pi.products_id, i.url_image, AVG(r.rating) AS average_rating
+            FROM products AS p 
+            LEFT JOIN productsimages AS pi ON p.id = pi.products_id 
+            LEFT JOIN images AS i ON pi.images_id = i.id 
+            LEFT JOIN ratings AS r ON p.id = r.products_id
+            WHERE p.id = :id
+            GROUP BY p.id;',
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -675,6 +678,12 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getAllProductFav(int $idUser): array
     {
+        // Désectivation ATTR_EMULATE_PREPARES
+        // La désactivation permet de passer un booléen à la requête PDO et implémenter la pagination
+        // Cela n'altère pas la sécurité
+        $connect = $this->_dbConnect;
+        $connect->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+
         $req = $this->_dbConnect->prepare(
             "SELECT 
             p.*, 
@@ -689,10 +698,11 @@ class CrudManager extends BddManager implements PaginatePerPage
         INNER JOIN 
         productsimages pi ON p.id = pi.products_id
         INNER JOIN 
-            images i ON pi.images_id = i.id;
+            images i ON pi.images_id = i.id
+            LIMIT :limit OFFSET :offset
         ",
         );
-        $req->execute();
+        $req->execute([':limit' => $this->limit, ':offset' => $this->offset]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
         return $req->fetchAll();
