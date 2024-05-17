@@ -470,7 +470,7 @@ class ApiController extends JWTController
     {
         if ($this->accesAPI == true) {
             $id = $arguments["id"];
-            $data = json_decode(file_get_contents('php://input'), true);
+            $data = htmlspecialchars(trim(json_decode(file_get_contents('php://input'), true)));
 
             $result = $this->users->update($id, $data);
 
