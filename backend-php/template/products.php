@@ -5,6 +5,7 @@
     <div id="resultat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <?php foreach ($productAllSelect ?? [] as $product): ?>
+        <?php $product->user_has_product === 1 ? $inFav = 'inFav ' : $inFav = null; ?>
         <div class="bg-gray-100 rounded-2xl p-6 cursor-pointer hover:-translate-y-2 transition-all relative">
           <div id="<?= $product->id ?>"
             class="<?= $inFav ?>favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
@@ -47,9 +48,9 @@
 
       <?php $productAllSelect ?? 'Aucun produit ne trouvé dans cette catégorie'; ?>
 
-  </div>
+    </div>
 
-  <p id="paramsResarch">
+    <p id="paramsResarch">
     </p>
 
     <div class="mx-auto flex max-w-6xl">
@@ -60,5 +61,5 @@
       <?= $buttonNavigation->render() ?>
     </div>
 
-</div>
+  </div>
 </div>
