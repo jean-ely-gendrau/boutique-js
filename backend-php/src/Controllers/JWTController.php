@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Boutique\Controllers;
 
 class JWTController
 {
