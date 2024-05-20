@@ -13,9 +13,9 @@ class JWTController
 
     public function jwt(...$arguments)
     {
-        $token = $_COOKIE['token'];
+        $token = $_COOKIE['token'] ?? "";
 
-        $secret = $_COOKIE['secret'];
+        $secret = $_COOKIE['secret'] ?? "";
 
         if (!empty($token) && !empty($secret)) {
             return $accesAPI = true;
