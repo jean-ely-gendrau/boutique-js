@@ -143,10 +143,13 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getOneProduct(string $id): object
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT p.*, pi.products_id, i.url_image FROM products AS p 
-            LEFT JOIN productsimages pi ON p.id = pi.products_id 
-            LEFT JOIN images i ON pi.images_id = i.id 
-            WHERE p.id = :id',
+            'SELECT p.*, pi.products_id, i.url_image, AVG(r.rating) AS average_rating
+            FROM products AS p 
+            LEFT JOIN productsimages AS pi ON p.id = pi.products_id 
+            LEFT JOIN images AS i ON pi.images_id = i.id 
+            LEFT JOIN ratings AS r ON p.id = r.products_id
+            WHERE p.id = :id
+            GROUP BY p.id;',
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
@@ -536,7 +539,7 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function CreateOrder($clientId, $productId)
     {
-        $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "expedier", NOW(), NOW(), :client_id)';
+        $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "en_attente", NOW(), NOW(), :client_id)';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
 
@@ -603,8 +606,8 @@ class CrudManager extends BddManager implements PaginatePerPage
     {
         $req = $this->_dbConnect->prepare(
             'SELECT o.id, o.status, p.id as productId, p.name as productName FROM ' .
-            $this->_tableName .
-            ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
+                $this->_tableName .
+                ' o INNER JOIN productsorders po ON o.id = po.orders_id INNER JOIN products p ON po.products_id = p.id WHERE o.status = 3 LIMIT 3',
         );
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);

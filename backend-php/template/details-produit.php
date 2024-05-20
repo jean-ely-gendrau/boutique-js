@@ -4,13 +4,13 @@
       <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
         <!-- // Images du produit -->
         <div class="lg:col-span-3 bg-gray-100 w-full lg:sticky top-0 text-center p-8">
-          <img src="/assets/images/<?= $detail->url_image ?>" alt="Product" class="w-4/5 rounded object-cover" />
+          <img src=<?= $src ?> alt="detail" class="w-4/5 rounded object-cover" />
           <hr class="border-white border-2 my-6" />
           <div class="flex flex-wrap gap-x-12 gap-y-6 justify-center mx-auto">
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product1" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product2" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product3" class="w-24 cursor-pointer" />
-            <img src="/assets/images/<?= $detail->url_image ?>" alt="Product4" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail1" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail2" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail3" class="w-24 cursor-pointer" />
+            <img src=<?= $src ?> alt="detail4" class="w-24 cursor-pointer" />
           </div>
         </div>
         <div class="lg:col-span-2">
@@ -27,24 +27,29 @@
             </p>
           </div>
           <!-- //Notation -->
-          <div class="flex space-x-2 mt-4">
-            <svg class="w-5 fill-gray-800" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div id="<?= $detail->average_rating ?>" class="rating flex space-x-2 mt-4">
+            <svg id="score1" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
-            <svg class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="score2" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
-            <svg class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="score3" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
-            <svg class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="score4" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
-            <svg class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg id="score5" class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
