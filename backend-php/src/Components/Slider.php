@@ -64,7 +64,7 @@ class Slider
             } else {
                 $inFav = null;
             }
-            $slider .= "<div class='my-4 bg-gray-100 w-[20rem] sm:h-[20rem] lg:h-fit inline-block mx-4 rounded-2xl p-6 cursor-pointer lg:hover:-translate-y-2 transition-all relative shadow-[3px_3px_9px_0px_rgba(0,0,0,0.6)]'>
+            $slider .= "<div class='product-container my-4 bg-gray-100 w-[20rem] sm:h-[20rem] lg:h-fit inline-block mx-4 rounded-2xl p-6 cursor-pointer lg:hover:-translate-y-2 transition-all relative shadow-[3px_3px_9px_0px_rgba(0,0,0,0.6)]'>
           <div id='{$productItem->id}' class='{$inFav}favorites bg-gray-200 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4'>
             <svg class='fill-gray-800 inline-block' width='22px' viewBox='0 0 192 192' xmlns='http://www.w3.org/2000/svg' xml:space='preserve' fill='none'>
             <g id='SVGRepo_bgCarrier' stroke-width='0'></g>
@@ -77,17 +77,17 @@ class Slider
             </g>
             </svg>
           </div>
-          <div  id='{$productItem->id}' class='w-2/3 h-[220px] sm:h-[5rem] md:h-[5rem] lg:h-[220px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 article-image'>";
+          <div  id='{$productItem->id}' class='article-image-container w-2/3 h-[220px] sm:h-[5rem] md:h-[5rem] lg:h-[220px] overflow-hidden mx-auto aspect-w-16 aspect-h-8'>";
             
             $filename = __DIR__ . "/../../public_html/assets/images/{$productItem->url_image}";
             
             if (file_exists($filename) == true){
-                $slider .= "<img src='http://{$_SERVER['HTTP_HOST']}/assets/images/{$productItem->url_image}'";
+                $slider .= "<img src='http://{$_SERVER['HTTP_HOST']}/assets/images/{$productItem->url_image}' data-url='http://{$_SERVER['HTTP_HOST']}/assets/images/{$productItem->url_image}'";
             }else{
-                $slider .= "<img src='http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png'";
+                $slider .= "<img src='http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png' data-url='http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png'";
             }
 
-             $slider .= "alt='image {$productItem->name}' class='shop-item-image h-full w-full object-contain' />
+             $slider .= "alt='image {$productItem->name}' class='article-image h-full w-full object-contain' />
           </div>
           <div class='product text-center mt-4' data-price='{$productItem->price}' data-id='{$productItem->id}' data-name='{$productItem->name}'>
             <h3 id='{$productItem->id}' class='article-name text-lg font-extrabold text-gray-800'>{$productItem->name}</h3>

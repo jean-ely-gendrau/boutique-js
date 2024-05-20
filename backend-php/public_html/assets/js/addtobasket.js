@@ -1,7 +1,55 @@
-// Fonction pour ajouter un produit au panier
+// Vérifie si le document est encore en cours de chargement. Si oui, ajoute un écouteur pour lancer la fonction 'ready' une fois le document chargé.
+// Sinon, lance la fonction 'ready' immédiatement.
+if (document.readyState == 'loading') {
+    document.addEventListener('DOMContentLoaded', ready);
+} else {
+    ready();
+}
+
+/**
+ * Fonction ready
+ * Initialise les écouteurs d'événements après le chargement du DOM.
+ */
+function ready() {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sélectionne tous les boutons "Add to Cart" et ajoute un événement 'click' à chacun.
+        const addToCartButtons = document.getElementsByClassName('add-to-cart');
+        Array.from(addToCartButtons).forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productElement = event.target.closest('.product');
+                if (!productElement) {
+                    console.error('Product element not found');
+                    return;
+                }
+                
+                const containerElement = productElement.closest('.product-container');
+                const imageElement = containerElement.querySelector('.article-image');
+                if (imageElement) {
+                    const product = {
+                        id: productElement.getAttribute('data-id'),
+                        name: productElement.getAttribute('data-name'),
+                        price: parseFloat(productElement.getAttribute('data-price')),
+                        image: imageElement.getAttribute('data-url'),
+                    };
+                    addToCart(product);
+                } else {
+                    console.error('Image element not found');
+                }
+            });
+        });
+
+        // Met à jour l'affichage du panier avec les articles stockés.
+        addItemToCart();
+    });
+}
+
+/**
+ * Fonction addToCart
+ * @param {Object} product - L'objet produit à ajouter au panier.
+ * Ajoute un produit au panier et met à jour le stockage local.
+ */
 function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // Vérifie si le produit est déjà dans le panier
     const existingProduct = cart.find(item => item.id === product.id);
     if (existingProduct) {
         existingProduct.quantity += 1;
@@ -10,177 +58,112 @@ function addToCart(product) {
         cart.push(product);
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    // alert(`${product.name} has been added to your cart.`);
-    // addItemToCart(cart)
+    addItemToCart();
 }
 
-// Fonction pour récupérer les produits du panier
+/**
+ * Fonction getCart
+ * @returns {Array} - Retourne le panier depuis le stockage local.
+ * Récupère les produits du panier depuis le stockage local.
+ */
 function getCart() {
     return JSON.parse(localStorage.getItem('cart')) || [];
 }
 
-// Fonction pour supprimer un produit du panier
+/**
+ * Fonction addItemToCart
+ * Met à jour l'affichage du panier avec les articles stockés dans le localStorage.
+ */
+function addItemToCart() {
+    const cartItemsElement = document.getElementsByClassName('cart-items')[0];
+    cartItemsElement.innerHTML = '';
+    const cart = getCart();
+    let cartRowContents = '';
+
+    cart.forEach(element => {
+        cartRowContents += `
+            <div class="cart-item cart-column">
+                <img class="cart-item-image" src="${element.image}" width="100" height="100">
+                <span class="">${element.name}</span>
+            </div>
+            <span class="">${element.price} €</span>
+            <div class="">
+                <input class="cart-quantity-input" type="number" value="${element.quantity}" data-id="${element.id}">
+                <button class="btn btn-danger" type="button" data-id="${element.id}">REMOVE</button>
+            </div>
+        `;
+    });
+
+    cartItemsElement.innerHTML = cartRowContents;
+    // Ajoute des écouteurs d'événements pour les boutons de suppression et les champs de quantité.
+    const removeButtons = document.getElementsByClassName('btn-danger');
+    Array.from(removeButtons).forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = event.target.getAttribute('data-id');
+            removeFromCart(productId);
+        });
+    });
+
+    const quantityInputs = document.getElementsByClassName('cart-quantity-input');
+    Array.from(quantityInputs).forEach(input => {
+        input.addEventListener('change', (event) => {
+            const productId = event.target.getAttribute('data-id');
+            const newQuantity = parseInt(event.target.value);
+            changeQuantity(productId, newQuantity);
+        });
+    });
+}
+
+/**
+ * Fonction removeFromCart
+ * @param {string} productId - L'ID du produit à supprimer.
+ * Supprime un produit du panier et met à jour le stockage local.
+ */
 function removeFromCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(product => product.id !== productId);
     localStorage.setItem('cart', JSON.stringify(cart));
+    addItemToCart();
 }
 
-// Ajout d'événements aux boutons "Add to Cart"
-document.addEventListener('DOMContentLoaded', () => {
-    const addToCartButtons = document.getElementsByClassName('add-to-cart');
-    Array.from(addToCartButtons).forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productElement = event.target.closest('.product');
-            const product = {
-                id: productElement.getAttribute('data-id'),
-                name: productElement.getAttribute('data-name'),
-                price: parseFloat(productElement.getAttribute('data-price')),
-                image: productElement.getAttribute('data-url'),
-            };
-            addToCart(product);
-        });
-    });
-    addItemToCart()
-});
-// console.log(getCart())
-
-function addItemToCart() {
-    // console.log(cart[1]['name'])
-    
-    let cart = getCart()
-    console.log(cart)
-    let cartRow = document.createElement('div')
-    cartRow.classList.add('cart-row')
-    const cartItems = document.getElementsByClassName('cart-items')[0]
-    cartItems.innerHTML = ' '
-    let cartRowContents = ''
-    cart.forEach(element => {
-        console.log(element['name']);  // Vérifiez que vous avez bien les données
-        cartRowContents += `<div class="cart-item cart-column">
-        <img class="cart-item-image" src="${element['image']}" width="100" height="100">
-            <span class="">${element['name']}</span>
-        </div>
-        <span class="">${element['price']}</span>
-
-        <div class="">
-            <input class="cart-quantity-input" type="number" value="1">
-            <button class="btn btn-danger" type="button">REMOVE</button>
-        </div>`})
-    cartRow.innerHTML = cartRowContents
-    cartItems.append(cartRow)
-    // cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeFromCart(id))
-    // cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
+/**
+ * Fonction changeQuantity
+ * @param {string} productId - L'ID du produit à modifier.
+ * @param {number} newQuantity - La nouvelle quantité du produit.
+ * Modifie la quantité d'un produit dans le panier et met à jour le stockage local.
+ */
+function changeQuantity(productId, newQuantity) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const product = cart.find(item => item.id === productId);
+    if (product) {
+        product.quantity = newQuantity > 0 ? newQuantity : 1; // Assurez-vous que la quantité est au moins 1
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    addItemToCart();
 }
 
+// Gestion de la modal
+var modal = document.getElementById("myModal");
 
+// Récupére le bouton de la modal
+var btn = document.getElementById("myBtn");
 
+// Récupére l'élément span qui ferme la modal
+var span = document.getElementsByClassName("close")[0];
 
+// Quand l'utilisateur click sur le button, ouvre la modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
 
+// Quand l'utilisateur click sur (x), ferme la modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
 
-
-
-
-
-// if (document.readyState == 'loading') {
-//     document.addEventListener('DOMContentLoaded', ready)
-// } else {
-//     ready()
-// }
-    
-// function ready() {
-// var removeCartItemButtons = document.getElementsByClassName('btn-danger')
-// for (var i = 0; i < removeCartItemButtons.length; i++) {
-//     var button = removeCartItemButtons[i]
-//     button.addEventListener('click', removeCartItem)
-// }
-
-// var quantityInputs = document.getElementsByClassName('cart-quantity-input')
-// for (var i = 0; i < quantityInputs.length; i++) {
-//     var input = quantityInputs[i]
-//     input.addEventListener('change', quantityChanged)
-// }
-
-// var addToCartButtons = document.getElementsByClassName('shop-item-button')
-// for (var i = 0; i < addToCartButtons.length; i++) {
-//     var button = addToCartButtons[i]
-//     button.addEventListener('click', addToCartClicked)
-// }
-
-// document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
-// }
-
-// function removeCartItem(event) {
-//     var buttonClicked = event.target
-//     buttonClicked.parentElement.parentElement.remove()
-//     updateCartTotal()
-// }
-
-// function quantityChanged(event) {
-//     var input = event.target
-//     if (isNaN(input.value) || input.value <= 0) {
-//         input.value = 1
-//     }
-//     updateCartTotal()
-// }
-
-// function addToCartClicked(event) {
-//     var button = event.target
-//     var shopItem = button.parentElement.parentElement //parent element
-
-//     var product = shopItem.getElementsByClassName('shop-item-title')[0].innerText
-//     var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
-//     var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
-//     addItemToCart(product, price, imageSrc)
-//     updateCartTotal()
-// }
-
-// /**
-//  * Fonctionnalité de modal pour panier
-//  * 
-//  * @param {*} product 
-//  * @param {*} price 
-//  * @param {*} imageSrc 
-//  * @returns 
-//  */
-// function addItemToCart(product, price, imageSrc) {
-//     var cartRow = document.createElement('tr')
-//     cartRow.classList.add('cart-row')
-//     var cartItems = document.getElementsByClassName('cart-items')[0]
-//     var cartItemNames = cartItems.getElementsByClassName('cart-item-title')
-//     for (var i = 0; i < cartItemNames.length; i++) {
-//         // Condition for multiple add product
-//     }
-//     var cartRowContents = `
-//         <td scope="col" class="cart-item px-6 py-3 text-center">
-//             <img src='${imageSrc}' class='cart-item-image' alt='${product}' width="100" height="100">
-//             <p class="cart-item-title">${product}</p>
-//         </td>
-//         <td scope="col" class="cart-price px-6 py-3 text-center">${price}</td>
-//         <td scope="col" class="cart-quantity ">
-//             <input class="cart-quantity-input" type="number" value="1">
-//             <button class="btn-danger" type="button">Supprimer</button>
-//         </td>
-//         `
-//     cartRow.innerHTML = cartRowContents
-//     cartItems.append(cartRow)
-//     cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem)
-//     cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
-// }
-
-// function updateCartTotal() {
-//     var cartItemContainer = document.getElementsByClassName('cart-items')[0]
-//     var cartRows = cartItemContainer.getElementsByClassName('cart-row')
-//     var total = 0
-//     for (var i = 0; i < cartRows.length; i++) {
-//         var cartRow = cartRows[i]
-//         var priceElement = cartRow.getElementsByClassName('cart-price')[0]
-//         console.log(priceElement)
-//         var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
-//         var price = parseFloat(priceElement.innerText.replace(' €', ''))
-//         var quantity = quantityElement.value
-//         total = total + (price * quantity)
-//     }
-//     total = Math.round(total * 100) / 100
-//     document.getElementsByClassName('cart-total-price')[0].innerText = total + ' €' 
-// }
+// Partout où l'utilisateur click en dehors de la modal, ferme la modal
+window.onclick = function(event) {
+    if (event.target == modal) {
+    modal.style.display = "none";
+    }
+}
