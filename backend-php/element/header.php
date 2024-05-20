@@ -73,30 +73,27 @@
             <div class="modal-content">
               <div data-js='handleFetch' class="modal-header">
                 <span class="close">&times;</span>
-                <h2>Panier</h2>
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-center">produit</th>
+                    <th scope="col" class="px-6 py-3 text-center">prix</th>
+                    <th scope="col" class="px-6 py-3 text-center">quantitée</th>
+                  </tr>
+                </thead>
               </div>
               <div class="modal-body">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" class="px-6 py-3 text-center">produit</th>
-                      <th scope="col" class="px-6 py-3 text-center">prix</th>
-                      <th scope="col" class="px-6 py-3 text-center">quantitée</th>
-                    </tr>
-                  </thead>
                   <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <div class="cart-items">
                       </div>
-                      <td scope="col" class="px-6 py-3 text-center">{produit}</td>
-                      <td scope="col" class="px-6 py-3 text-center">{10e}</td>
-                      <td scope="col" class="px-6 py-3 text-center">{3}</td>
-                      <td scope="col" class="px-6 py-3 text-center">{logo supprimer}</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
               <div class="modal-footer">
+                <div class="cart-total">
+                <strong class="cart-total-title">Total</strong>
+                <span class="cart-total-price"></span>
+                </div>
                 <button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"><a href="/stripe/pay">Valider</a></button>
               </div>
             </div>
