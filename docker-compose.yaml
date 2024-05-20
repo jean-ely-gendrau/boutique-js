@@ -29,9 +29,12 @@ services:
       - ./docker-data/php_conf/ini:/usr/local/etc/php/conf.d
     # Port ajouté
     ports:
+      # Port 80 mappé backend-php
       - "8880:80"
-      # Port 81 mappé
+      # Port 81 mappé node-service
       - "8881:81"
+      # Port 82 mappé node-jwt
+      - "8882:82"
 
   php:
     depends_on:
