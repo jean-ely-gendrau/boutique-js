@@ -1,5 +1,9 @@
 const express = require('express');
-
+/*
+* Ajout de la lecture du secrets Docker pour la jwt_key
+*/
+const fs = require("fs");
+const jwt_key = fs.readFileSync('/run/secrets/jwt_key', 'utf8');
 
 const jwt = require('jsonwebtoken');
 
@@ -29,7 +33,7 @@ app.post("/jwtsign", (request, response) => {
   console.log(data);
 
   // Define the secret key
-  let key = "secret";
+  let key = jwt_key;
 
   console.log(key);
 
