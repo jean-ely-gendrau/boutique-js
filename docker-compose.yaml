@@ -83,6 +83,19 @@ services:
     volumes:
       - ./node-service:/www
 
+  node-jwt:
+    hostname: teacoffee.dock
+    restart: always
+    secrets:
+      - jwt_key
+    build:
+      context: ./node-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./node-jwt:/app
+
 secrets:
   api_key_stripe:
     file: ./docker-data/secrets/api_key_stripe.txt
