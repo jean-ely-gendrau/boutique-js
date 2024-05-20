@@ -89,7 +89,7 @@ services:
     secrets:
       - jwt_key
     build:
-      context: ./node-service
+      context: ./node-jwt
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=development
@@ -97,6 +97,8 @@ services:
       - ./node-jwt:/app
 
 secrets:
+  jwt_key:
+    file: ./docker-data/secrets/jwt_key.txt
   api_key_stripe:
     file: ./docker-data/secrets/api_key_stripe.txt
   database_mysql:
