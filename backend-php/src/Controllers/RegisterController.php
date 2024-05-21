@@ -2,7 +2,11 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
+use App\Boutique\Forms\UsersRegistrationForms;
 use App\Boutique\Models\Users;
+use App\Boutique\Models\UsersRegistration;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
 use Motor\Mvc\Components\ReCaptcha;
@@ -15,24 +19,6 @@ use Motor\Mvc\Validators\ReflectionValidator;
  */
 class RegisterController
 {
-    public function __construct()
-    {
-        /* Action du constucteur */
-    }
-
-    /**
-     * Méthode Index qui affiche les variables transmises à la méthode.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void
-     */
-    public function Index(...$arguments)
-    {
-        /*
-         * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
-         */
-        return var_dump($arguments);
-    }
 
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
@@ -60,53 +46,39 @@ class RegisterController
      */
     public function Register(...$arguments)
     {
+        $modelUser = new UsersRegistration($arguments); // Instance d'un model de class User
 
-        $paramSQL = [];
-        foreach ($arguments as $key => $value) {
-            if ($key === 'fullName') {
-                if (preg_match('/^[a-zA-Z-\s]{8,45}$/', $value)) {
-                    $paramSQL['full_name'] = $value;
-                    $namePass = true;
-                } else {
-                    echo 'Veuillez entre un nom et prenom valide minimum 8 characters maximum 45 characters';
-                    $namePass = false;
-                }
-            }
-
-            if ($key === 'email') {
-                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $paramSQL['email'] = $value;
-                    $emailPass = true;
-                } else {
-                    echo 'Veuillez entre un email valide';
-                    $emailPass = false;
-                }
-            }
-            if ($key === 'password') {
-                if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $value)) {
-                    $paramSQL['password'] = $value;
-                    $passwordPass = true;
-                } else {
-                    echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
-                    $passwordPass = false;
-                }
-            }
+        // ReflectionValidator::validate($modelUser)
+        // Cette méthode static de la class Reflection Validator
+        // Permets de valider les données côter backend en utilisant
+        // les attributs introduisent depuis Php 8.*.
+        // Préfixer vos propriétés dans vos class est utilisé le
+        // ValidatorData pour créer vos Regex et restriction sur vos valeurs.
+        if (!empty($_POST)) {
+            $modelUser->setPassword($arguments['password'] ?? '');
+            $errors = ReflectionValidator::validate($modelUser);
         }
-        // var_dump($paramSQL);
-        if ($namePass == true && $emailPass == true && $passwordPass == true) {
-            $model = new Users($paramSQL);
+
+        /** @var \Motor\Mvc\Utils\Render $render */
+        $render = $arguments['render'];
+
+
+        var_dump($errors);
+        if (!isset($errors) && isset($arguments['email'])) {
             $crudManager = new CrudManager('users', Users::class);
-            if ($crudManager->getByEmail($paramSQL['email']) !== false) {
-                echo 'Compte deja enregistre avec ce mail';
+            if ($crudManager->getByEmail($arguments['email']) !== false) {
+                throw new ClientExceptions(ClientExceptionEnum::AccountIsRegistered);
             } else {
-                // echo 'create';
-                $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
+                $crudManager->create($modelUser, ['full_name', 'email', 'password', 'role']);
                 header('location:/connexion');
             }
         }
-        // $this->addParams('exemple', $exemple);
-        $content = $arguments['render']->render('inscription', $arguments);
-        // $content = $this->render('inscription', $arguments);
+
+        // Ajout de la class FormBuilder au tableau de parametre retourner au template
+        $render->addParams('formRegister', UsersRegistrationForms::RegistrationForm($modelUser, $errors ?? null));
+
+        $content = $render->render("register/inscription", $arguments);
+
         return $content;
     }
     /**
@@ -185,13 +157,6 @@ class RegisterController
 
         $modelUser = new Users($arguments); // Instance d'un models de class User
 
-        /**
-          Cette méthode n'est pas présente dans la classe Users du modèle. 
-         * Elle a été créée ici pour tester un cas suite à un bug lié à l'utilisation de ReflectionValidator::validate. 
-         * En effet, la méthode vérifie la regex sur un mot de passe encodé directement dans le constructeur de la classe Users.
-         * 
-          Créer un issues pour ajouter les setter au model User
-         */
         $modelUser->setPassword($arguments['password']);
 
         // ReflectionValidator::validate($modelUser)

@@ -86,32 +86,20 @@ class UsersRegistrationForms
     /**
      * Méthode RegistrationForm
      *
-     * @param array [$postFormData Les arguments du formulaire transmis à la méthode]
+     * @param UsersRegistration $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
      * @param string [$errors Dans le cas où des erreurs surviennent lors de la saisie des champs input]
      *
-     * @return string [Le contenu généré du formulaire]
+     * @return FormBuilder [Le contenu généré du formulaire]
      */
-    public static function RegistrationForm($postFormData, $errors)
+    public static function RegistrationForm(UsersRegistration $modelUser, $errors): FormBuilder
     {
         $formRegister = new FormBuilder();
 
         // ValidatorJS Pour ajouter les règles de validation d'input avec Javascript
         $validatorJS = new ValidatorJS();
 
-        $modelUser = new Users($postFormData); // Instance d'un model de class User
-
-        // ReflectionValidator::validate($modelUser)
-        // Cette méthode static de la class Reflection Validator
-        // Permets de valider les données côter backend en utilisant
-        // les attributs introduisent depuis Php 8.*.
-        // Préfixer vos propriétés dans vos class est utilisé le
-        // ValidatorData pour créer vos Regex et restriction sur vos valeurs.
-        if (!empty($_POST)) {
-            $errors = ReflectionValidator::validate($modelUser);
-        }
-
         // Mappage des règles de validation au champ du formulaire
-        $validatorJS->addRule('full_name', '/^(\w{3,25})$/', "Votre nom et prénom n'est pas conforme");
+        $validatorJS->addRule('full_name', '/^([\w\s-]{3,25})$/', "Votre nom et prénom n'est pas conforme");
         $validatorJS->addRule(
             'password',
             '/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\@\.\-_])[a-zA-Z0-9\%\$\,\;\!\@\.\-_]{6,25}$/',
@@ -132,7 +120,7 @@ class UsersRegistrationForms
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre nom complet',
                 'required' => 1,
-                'attributes' => ['value' => $modelUser->full_name ?? '', 'autocomplete' => 'section-blue shipping family-name'],
+                'attributes' => ['value' => $modelUser->getFull_name() ?? '', 'autocomplete' => 'section-blue shipping family-name'],
                 'error-message' => $errors['full_name'] ?? false,
             ]) // CHAMP FULL_NAME
             ->addField('email', 'email', [
@@ -142,7 +130,7 @@ class UsersRegistrationForms
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
                 'required' => 1,
-                'attributes' => ['value' => $modelUser->email ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
                 'error-message' => $errors['email'] ?? false,
             ]) // CHAMP EMAIL
             ->addField('password', 'password', [
@@ -175,7 +163,7 @@ class UsersRegistrationForms
                 'attributes' => ['title' => 'connection', 'href' => '/connexion'],
             ]); // LINK ADDITIONAL
 
-        return $formRegister->render();
+        return $formRegister; // Return du formulaire , le render ce fais dans le template.
     }
 
     /**
