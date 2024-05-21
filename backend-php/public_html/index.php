@@ -70,7 +70,7 @@ $router->map('DELETE', '/api/Users/[i:id]', 'ApiController#deleteUsers', 'delete
 
 $router->map('GET', '/search', 'ApiController#GetProductsAll', 'search');
 
-$router->map('GET', '/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasket');
+$router->map('POST', '/addtobasket', 'PanierController#AddToBasket', 'addtobasket');
 
 $router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
 
