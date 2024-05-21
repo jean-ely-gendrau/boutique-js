@@ -29,9 +29,12 @@ services:
       - ./docker-data/php_conf/ini:/usr/local/etc/php/conf.d
     # Port ajouté
     ports:
+      # Port 80 mappé backend-php
       - "8880:80"
-      # Port 81 mappé
+      # Port 81 mappé node-service
       - "8881:81"
+      # Port 82 mappé node-jwt
+      - "8882:82"
 
   php:
     depends_on:
@@ -83,7 +86,22 @@ services:
     volumes:
       - ./node-service:/www
 
+  node-jwt:
+    hostname: teacoffee.dock
+    restart: always
+    secrets:
+      - jwt_key
+    build:
+      context: ./node-jwt
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./node-jwt:/app
+
 secrets:
+  jwt_key:
+    file: ./docker-data/secrets/jwt_key.txt
   api_key_stripe:
     file: ./docker-data/secrets/api_key_stripe.txt
   database_mysql:

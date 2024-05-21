@@ -1,5 +1,9 @@
-const express = require ('express');
-
+const express = require('express');
+/*
+* Ajout de la lecture du secrets Docker pour la jwt_key
+*/
+const fs = require("fs");
+const jwt_key = fs.readFileSync('/run/secrets/jwt_key', 'utf8');
 
 const jwt = require('jsonwebtoken');
 
@@ -12,29 +16,29 @@ const app = express();
 
 app.use(cookieParser());
 
-app.listen (3000, () =>{
-    console.log("le serveur est lancer depuis le port 3000");
+app.listen(3555, () => {
+  console.log("le serveur est lancer depuis le port 3555");
 });
 
 
-app.get("/hello", (request,response) => {
-    console.log("hello");
-    response.send("hello");
+app.get("/hello", (request, response) => {
+  console.log("hello");
+  response.send("hello");
 });
 
-app.post("/jwtsign", (request,response) => {
+app.post("/jwtsign", (request, response) => {
   console.log("jwt sign");
   let data = request.cookies.email;
-//let data = "email";
+  //let data = "email";
   console.log(data);
 
   // Define the secret key
-  let key = "secret";
+  let key = jwt_key;
 
   console.log(key);
 
   // Generate the JWT token
-  let token = jwt.sign({ data }, key, { 
+  let token = jwt.sign({ data }, key, {
     expiresIn: '1h',
     algorithm: "HS256"
 
@@ -47,30 +51,30 @@ app.post("/jwtsign", (request,response) => {
   response.send("Token generated and sent to the cookie");
 })
 
-app.post("/jwtverify",(request,response) => {
-    console.log("jwt verify");
-    const token = request.cookies.token; // Extract the token from the cookie
+app.post("/jwtverify", (request, response) => {
+  console.log("jwt verify");
+  const token = request.cookies.token; // Extract the token from the cookie
 
-    console.log(token);
+  console.log(token);
 
-    const key = request.cookies.key; // Extract the key from the cookie
+  const key = request.cookies.key; // Extract the key from the cookie
 
-    console.log(key);
+  console.log(key);
 
-    var decoded = jwt.decode(token); // Decode the token
+  var decoded = jwt.decode(token); // Decode the token
 
-    console.log(decoded);
+  console.log(decoded);
 
 
-    jwt.verify(token , key , { algorithms : "HS256" , expiresIn: '1h' }, function(err, decoded) {
-        if (err) {
-            console.log(err);
-            console.log("c'est pas ok");
-            response.status(401).send("Token verification failed");
-          } else {
-            console.log(decoded);
-            console.log("c'est ok");
-            response.send("Token verification successful");
-          }
-    });
+  jwt.verify(token, key, { algorithms: "HS256", expiresIn: '1h' }, function (err, decoded) {
+    if (err) {
+      console.log(err);
+      console.log("c'est pas ok");
+      response.status(401).send("Token verification failed");
+    } else {
+      console.log(decoded);
+      console.log("c'est ok");
+      response.send("Token verification successful");
+    }
+  });
 })

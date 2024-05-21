@@ -2,14 +2,15 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Models\ProductsModels;
-use App\Boutique\Models\Category;
-use App\Boutique\Models\Orders;
+use stdClass;
 use App\Boutique\Models\Users;
+use App\Boutique\Models\Orders;
+use App\Boutique\Models\Category;
 use Motor\Mvc\Manager\CrudManager;
 
-use stdClass;
-use App\Controllers\JWTController;
+use App\Boutique\Models\ProductsModels;
+use App\Boutique\Controllers\JWTController;
+
 
 class ApiController extends JWTController
 {

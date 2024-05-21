@@ -4,25 +4,59 @@
 ``` terminal
 .
 ├── backend-php
-│ ├── config
-│ ├── element
-│ ├── motorMVC
-│ ├── public_html
-│ ├── src
-│ ├── styles_import
-│ ├── template
-│ ├── templateMail
-│ └── vendor
+│   ├── config
+│   │   └── logs
+│   ├── element
+│   │   └── admin
+│   ├── motorMVC
+│   │   ├── Builder
+│   │   ├── Components
+│   │   ├── Enum
+│   │   ├── Exceptions
+│   │   ├── Interfaces
+│   │   ├── Manager
+│   │   ├── Utils
+│   │   └── Validators
+│   ├── public_html
+│   │   └── assets
+│   ├── src
+│   │   ├── Components
+│   │   ├── Controllers
+│   │   ├── EntityManager
+│   │   ├── Enum
+│   │   ├── Exceptions
+│   │   ├── Forms
+│   │   ├── Models
+│   │   ├── Stripe
+│   │   └── Validators
+│   ├── styles_import
+│   ├── template
+│   │   ├── admin
+│   │   ├── condition
+│   │   ├── formBuilder
+│   │   ├── information
+│   │   ├── modal
+│   │   └── stripe
+│   ├── templateMail
+│   └── vendor
+│       ├── altorouter
+│       ├── bin
+│       ├── composer
+│       └── stripe
 ├── docker-data
-│ ├── dump
-│ ├── images
-│ ├── nginx_conf
-│ └── php_conf
+│   ├── dump
+│   ├── images
+│   │   └── nginx
+│   ├── nginx_conf
+│   ├── php_conf
+│   │   └── ini
+│   └── secrets
+├── node-jwt
 └── node-service
-├── components
-├── images
-├── router
-└── templates
+    ├── components
+    ├── images
+    ├── router
+    └── templates
 ```
 
 
