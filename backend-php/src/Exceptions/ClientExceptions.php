@@ -11,6 +11,7 @@ class ClientExceptions extends \Exception
   {
     match ($case) {
       ClientExceptionEnum::NotFound404   =>  parent::__construct("Ooops la page que vous souhaitez consulter est introuvable.", 404),
+      ClientExceptionEnum::AccountIsRegistered   =>  parent::__construct("Compte deja enregistre avec ce mail.", 401),
     };
   }
 }
