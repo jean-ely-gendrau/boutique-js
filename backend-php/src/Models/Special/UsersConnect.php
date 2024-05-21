@@ -5,7 +5,7 @@ namespace App\Boutique\Models\Special;
 use App\Boutique\Validators\ValidatorData;
 use Motor\Mvc\Manager\PasswordHashManager;
 
-class UsersRegistration extends PasswordHashManager implements \JsonSerializable
+class UsersConnect extends PasswordHashManager implements \JsonSerializable
 {
   protected const EXCLUDE_PROPERTIES = ['password'];
 

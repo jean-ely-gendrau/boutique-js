@@ -6,19 +6,20 @@ use App\Boutique\Models\Users;
 use Motor\Mvc\Builder\FormBuilder;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Validators\ValidatorJS;
-use App\Boutique\Models\Special\UsersRegistration;
+use App\Boutique\Models\Special\UsersConnect;
 use Motor\Mvc\Validators\ReflectionValidator;
+use App\Boutique\Models\Special\UsersRegistration;
 
 class UsersRegistrationForms
 {
     /**
      * Méthode static ConnectForm
      *
-     * @param array [...$arguments Les arguments transmis à la méthode suivant l'appel de call_user_func_array.]
-     *
-     * @return string [Le contenu généré en rendant le template 'test-render' avec les arguments fournis.]
+     * @param UsersConnect $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
+     * @param string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
+     * @return FormBuilder [Le contenu généré du formulaire]
      */
-    public static function ConnectForm(...$arguments)
+    public static function ConnectFormUsersRegistration(UsersConnect $modelUser, $errors = false, $render = false): FormBuilder
     {
         $formBuilderConnect = new FormBuilder();
 
@@ -45,8 +46,8 @@ class UsersRegistrationForms
              * Route de l'exemple : /sample-modal-viewer
              * Route de traitement du formulaire : /sample-connect-js
              */
-            ->setIdForm('sample-form-connect') // ID FORM
-            ->setAction('/form-test-connect') // ACTION -> ROUTE DE TRAITEMENT
+            ->setIdForm('form-connect') // ID FORM
+            ->setAction('/connexion') // ACTION -> ROUTE DE TRAITEMENT
             ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
             ->addField('email', 'email', [
                 'text-label' => 'Email',
@@ -54,9 +55,13 @@ class UsersRegistrationForms
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'error-message' => $errors['email'] ?? false,
             ]) // CHAMP MAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
+                'required' => 1,
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -68,8 +73,8 @@ class UsersRegistrationForms
                 'anchor' => 'Connection',
                 'attributes' => [
                     'data-js' => 'handleSampleConnect,click',
-                    'data-route' => '/sample-connect-js',
-                    'data-id-form' => 'sample-form-connect',
+                    'data-route' => '/connect-js',
+                    'data-id-form' => 'form-connect',
                 ]
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [
@@ -81,14 +86,14 @@ class UsersRegistrationForms
                 ],
             ]); // LINK ADDITIONAL
 
-        return $formBuilderConnect->render();
+        return $formBuilderConnect;
     }
 
     /**
      * Méthode RegistrationForm
      *
      * @param UsersRegistration $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
-     * @param string [$errors Dans le cas où des erreurs surviennent lors de la saisie des champs input]
+     * @param string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
      *
      * @return FormBuilder [Le contenu généré du formulaire]
      */
