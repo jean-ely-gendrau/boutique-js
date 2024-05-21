@@ -67,6 +67,11 @@ function addToFavorite(event) {
     }
 }
 
+function addToBasket(event) {
+    const addToCartButtons = event.target.closest('.add-to-cart');
+    if(addToCartButtons) messageFav('Ajouté au panier');
+}
+
 let messageDiv; 
 let messageTimer; 
 
@@ -97,6 +102,7 @@ function messageFav(text) {
     }, 2000);
 }
 
+body.addEventListener('click', addToBasket);
 body.addEventListener('click', checkVerify);
 body.addEventListener('click', addToFavorite);
 // document.addEventListener('DOMContentLoaded', favProductsCheck);

@@ -1,5 +1,4 @@
 // Vérifie si le document est encore en cours de chargement. Si oui, ajoute un écouteur pour lancer la fonction 'ready' une fois le document chargé.
-// Sinon, lance la fonction 'ready' immédiatement.
 if (document.readyState == 'loading') {
     document.addEventListener('DOMContentLoaded', ready);
 } else {
@@ -21,7 +20,7 @@ function ready() {
                     console.error('Product element not found');
                     return;
                 }
-                
+
                 const containerElement = productElement.closest('.product-container');
                 const imageElement = containerElement.querySelector('.article-image');
                 if (imageElement) {
@@ -29,7 +28,7 @@ function ready() {
                         id: productElement.getAttribute('data-id'),
                         name: productElement.getAttribute('data-name'),
                         price: parseFloat(productElement.getAttribute('data-price')),
-                        image: imageElement.getAttribute('data-url'),
+                        image: imageElement.getAttribute('src'), // Utilise 'src' au lieu de 'data-url'
                     };
                     addToCart(product);
                 } else {
@@ -49,7 +48,7 @@ function ready() {
  * Ajoute un produit au panier et met à jour le stockage local.
  */
 function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = getCart();
     const existingProduct = cart.find(item => item.id === product.id);
     if (existingProduct) {
         existingProduct.quantity += 1;
@@ -57,8 +56,18 @@ function addToCart(product) {
         product.quantity = 1;
         cart.push(product);
     }
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveCart(cart);
     addItemToCart();
+}
+
+/**
+ * Fonction saveCart
+ * @param {Array} cart - Le panier à sauvegarder.
+ * Sauvegarde le panier dans le localStorage et dans un cookie.
+ */
+function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.cookie = `cart=${JSON.stringify(cart)}; path=/;`;
 }
 
 /**
@@ -120,9 +129,9 @@ function addItemToCart() {
  * Supprime un produit du panier et met à jour le stockage local.
  */
 function removeFromCart(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = getCart();
     cart = cart.filter(product => product.id !== productId);
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveCart(cart);
     addItemToCart();
 }
 
@@ -133,37 +142,37 @@ function removeFromCart(productId) {
  * Modifie la quantité d'un produit dans le panier et met à jour le stockage local.
  */
 function changeQuantity(productId, newQuantity) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = getCart();
     const product = cart.find(item => item.id === productId);
     if (product) {
         product.quantity = newQuantity > 0 ? newQuantity : 1; // Assurez-vous que la quantité est au moins 1
     }
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveCart(cart);
     addItemToCart();
 }
 
 // Gestion de la modal
 var modal = document.getElementById("myModal");
 
-// Récupére le bouton de la modal
+// Récupère le bouton de la modal
 var btn = document.getElementById("myBtn");
 
-// Récupére l'élément span qui ferme la modal
+// Récupère l'élément span qui ferme la modal
 var span = document.getElementsByClassName("close")[0];
 
-// Quand l'utilisateur click sur le button, ouvre la modal
+// Quand l'utilisateur clique sur le bouton, ouvre la modal
 btn.onclick = function() {
     modal.style.display = "block";
 }
 
-// Quand l'utilisateur click sur (x), ferme la modal
+// Quand l'utilisateur clique sur (x), ferme la modal
 span.onclick = function() {
     modal.style.display = "none";
 }
 
-// Partout où l'utilisateur click en dehors de la modal, ferme la modal
+// Partout où l'utilisateur clique en dehors de la modal, ferme la modal
 window.onclick = function(event) {
     if (event.target == modal) {
-    modal.style.display = "none";
+        modal.style.display = "none";
     }
 }

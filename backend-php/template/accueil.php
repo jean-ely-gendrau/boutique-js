@@ -1,3 +1,22 @@
+<?php
+// Vérifie si le cookie 'cart' existe
+if(isset($_COOKIE['cart'])) {
+    // Récupère les données du cookie et les décode en tableau associatif
+    $cart = json_decode($_COOKIE['cart'], true);
+    // var_dump($cart[0]['name']);
+    // var_dump($cart[0]['price']);
+    // var_dump($cart[0]['quantity']);
+    foreach($cart as $key => $value){
+                            for($i=0; $i < $value['quantity']; $i++){
+                                // $crudManagerOrder->CreateOrder($user->id, $value['id']);
+                                var_dump($value['name']);
+
+                            }
+                        }
+                        
+    
+  }
+?>
 <section class="bg-acceuil">
   <div style="backdrop-filter: blur(1px)">
 
