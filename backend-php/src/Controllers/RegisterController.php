@@ -6,7 +6,7 @@ use App\Boutique\Enum\ClientExceptionEnum;
 use App\Boutique\Exceptions\ClientExceptions;
 use App\Boutique\Forms\UsersRegistrationForms;
 use App\Boutique\Models\Users;
-use App\Boutique\Models\UsersRegistration;
+use App\Boutique\Models\Special\UsersRegistration;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
 use Motor\Mvc\Components\ReCaptcha;
@@ -29,12 +29,13 @@ class RegisterController
      */
     public function View(...$arguments)
     {
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('inscription', $arguments);
+        /** @var \Motor\Mvc\Utils\Render $render */
+        $render = $arguments['render'];
+
         if ($arguments['render']->has('isConnected') == true) {
-            return header('location:/');
+            return header('location:/profile');
         } else {
-            return $arguments['render']->render('inscription', $arguments);
+            return $arguments['render']->render('register/connexion', $arguments);
         }
     }
     /**
@@ -46,58 +47,39 @@ class RegisterController
      */
     public function Register(...$arguments)
     {
-        $modelUser = new UsersRegistration($arguments); // Instance d'un model de class User
-
-        // ReflectionValidator::validate($modelUser)
-        // Cette méthode static de la class Reflection Validator
-        // Permets de valider les données côter backend en utilisant
-        // les attributs introduisent depuis Php 8.*.
-        // Préfixer vos propriétés dans vos class est utilisé le
-        // ValidatorData pour créer vos Regex et restriction sur vos valeurs.
-        if (!empty($_POST)) {
-            $modelUser->setPassword($arguments['password'] ?? '');
-            $errors = ReflectionValidator::validate($modelUser);
-        }
-
         /** @var \Motor\Mvc\Utils\Render $render */
         $render = $arguments['render'];
 
-
-        var_dump($errors);
-        if (!isset($errors) && isset($arguments['email'])) {
-            $crudManager = new CrudManager('users', Users::class);
-            if ($crudManager->getByEmail($arguments['email']) !== false) {
-                throw new ClientExceptions(ClientExceptionEnum::AccountIsRegistered);
-            } else {
-                $crudManager->create($modelUser, ['full_name', 'email', 'password', 'role']);
-                header('location:/connexion');
-            }
+        if ($arguments['render']->has('isConnected') == true) {
+            header('location:/');
         }
 
+        $modelUser = new UsersRegistration($arguments); // Instance d'un model de class User
+
+        if (!empty($_POST)) {
+            $modelUser->setPassword($arguments['password'] ?? '');
+            $errors = ReflectionValidator::validate($modelUser); // VALIDATION DATA
+
+            if (!$errors && isset($arguments['email'])) {
+
+                $crudManager = new CrudManager('users', UsersRegistration::class); // CRUD
+
+                if ($crudManager->getByEmail($arguments['email']) !== false) {
+                    throw new ClientExceptions(ClientExceptionEnum::AccountIsRegistered); // EXCEPTION
+                } else {
+                    $crudManager->create($modelUser, ['full_name', 'email', 'password', 'role']); // INSERT
+                    header('location:/connexion'); // REDIRECT
+                }
+            }
+        }
         // Ajout de la class FormBuilder au tableau de parametre retourner au template
         $render->addParams('formRegister', UsersRegistrationForms::RegistrationForm($modelUser, $errors ?? null));
 
-        $content = $render->render("register/inscription", $arguments);
+        $content = $render->render("register/inscription", $arguments); // RENDER HTML
 
         return $content;
     }
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function ViewConnect(...$arguments)
-    {
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('connexion', $arguments);
-        if ($arguments['render']->has('isConnected') == true) {
-            return header('location:/');
-        } else {
-            return $arguments['render']->render('connexion', $arguments);
-        }
-    }
+
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.

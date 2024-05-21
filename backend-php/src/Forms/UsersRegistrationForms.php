@@ -6,6 +6,7 @@ use App\Boutique\Models\Users;
 use Motor\Mvc\Builder\FormBuilder;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Validators\ValidatorJS;
+use App\Boutique\Models\Special\UsersRegistration;
 use Motor\Mvc\Validators\ReflectionValidator;
 
 class UsersRegistrationForms

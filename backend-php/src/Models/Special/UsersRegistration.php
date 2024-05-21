@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Boutique\Models;
+namespace App\Boutique\Models\Special;
 
 use DateTime;
 
@@ -10,6 +10,13 @@ use Motor\Mvc\Manager\PasswordHashManager;
 class UsersRegistration extends PasswordHashManager implements \JsonSerializable
 {
   protected const EXCLUDE_PROPERTIES = ['password'];
+
+  /**
+   * id
+   *
+   * @var int
+   */
+  private $id;
 
   /**
    * full_name
@@ -81,7 +88,6 @@ class UsersRegistration extends PasswordHashManager implements \JsonSerializable
   public function __construct(?array $data = null)
   {
     $this->full_name = $data['full_name'] ?? '';
-    $this->id = $data['id'] ?? '';
     $this->email = $data['email'] ?? '';
 
     $this->password = $data['password'] ?? '';
