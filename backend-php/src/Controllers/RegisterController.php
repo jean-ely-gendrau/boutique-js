@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers;
 use App\Boutique\Enum\ClientExceptionEnum;
 use App\Boutique\Exceptions\ClientExceptions;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Special\UsersConnect;
 use App\Boutique\Models\Special\UsersRegistration;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
@@ -66,6 +67,7 @@ class RegisterController
             header('location:/profile');
         }
 
+        $modelUser = new UsersConnect($arguments); // Instance d'un models de class User
 
         // ReflectionValidator::validate($modelUser)
         // Cette méthode static de la class ReflectionValidator
@@ -74,7 +76,6 @@ class RegisterController
         // Préfixer vos propriéte dans vos class est utilisé le
         // validatorData pour créer vos Regex et réstriction sur vos valeurs.
         if (!empty($_POST)) {
-            $modelUser = new UsersRegistration($arguments); // Instance d'un models de class User
 
             $modelUser->setPassword($arguments['password'] ?? "");
 
@@ -127,6 +128,9 @@ class RegisterController
                 }
             }
         } else {
+            // Ajout de la class FormBuilder au tableau de parametre retourner au template
+            $render->addParams('formConnect', UsersRegistrationForms::ConnectFormUsersRegistration($modelUser, $errors ?? null));
+
             return $render->render("register/connexion", $arguments);
         }
     }
