@@ -42,11 +42,11 @@ class ApiController extends JWTController
             echo json_encode($GetProductsAll);
             exit;
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
-    public function GetCategory(...$arguments)
+    public function GetCategoryAll(...$arguments)
     {
         if ($this->accesAPI == true) {
 
@@ -59,11 +59,11 @@ class ApiController extends JWTController
             header('Content-Type: application/json');
             echo json_encode($GetGategoryAll);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
-    public function getOrders(...$arguments)
+    public function GetOrdersAll(...$arguments)
     {
         if ($this->accesAPI == true) {
 
@@ -76,7 +76,7 @@ class ApiController extends JWTController
             header('Content-Type: application/json');
             echo json_encode($GetordersAll);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
@@ -93,7 +93,7 @@ class ApiController extends JWTController
             header('Content-Type: application/json');
             echo json_encode($GetusersAll);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
@@ -113,7 +113,7 @@ class ApiController extends JWTController
             header('Content-Type: application/json');
             echo json_encode($GetproductsById);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
@@ -170,7 +170,7 @@ class ApiController extends JWTController
 
             echo json_encode($GetcategoryById);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
@@ -205,7 +205,7 @@ class ApiController extends JWTController
 
             echo json_encode($GetorderById);
         } else {
-            header('Location: /connexion');
+            header('Location: /404');
         }
     }
 
@@ -239,6 +239,8 @@ class ApiController extends JWTController
             header('Content-Type: application/json');
 
             echo json_encode($GetuserById);
+        } else {
+            header('Location: /404');
         }
     }
 
@@ -275,7 +277,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -312,7 +314,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -350,7 +352,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -387,7 +389,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -423,7 +425,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -459,7 +461,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -495,7 +497,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -531,7 +533,7 @@ class ApiController extends JWTController
 
             echo json_encode($data);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -561,7 +563,7 @@ class ApiController extends JWTController
             error_log($logMessage, 3, $logFile);
             http_response_code(204);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -591,7 +593,7 @@ class ApiController extends JWTController
             error_log($logMessage, 3, $logFile);
             http_response_code(204);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -622,7 +624,7 @@ class ApiController extends JWTController
             error_log($logMessage, 3, $logFile);
             http_response_code(204);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 
@@ -654,7 +656,7 @@ class ApiController extends JWTController
             error_log($logMessage, 3, $logFile);
             http_response_code(204);
         } else {
-            header('Location:/connexion');
+            header('Location:/404');
         }
     }
 }
