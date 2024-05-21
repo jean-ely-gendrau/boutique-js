@@ -89,7 +89,6 @@ $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 //$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
 $router->map('GET|POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET|POST', '/connexion', 'RegisterController#ConnectJS', 'connexionForm');
-//$router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
 
 /****
  * BLOC CONDITION PROVISOIR POUR VOIR POUR LE PANEL ADMIN

@@ -5,7 +5,6 @@ namespace App\Boutique\Controllers;
 use App\Boutique\Enum\ClientExceptionEnum;
 use App\Boutique\Exceptions\ClientExceptions;
 use App\Boutique\Forms\UsersRegistrationForms;
-use App\Boutique\Models\Users;
 use App\Boutique\Models\Special\UsersRegistration;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
@@ -13,31 +12,8 @@ use Motor\Mvc\Components\ReCaptcha;
 use Motor\Mvc\Manager\PasswordHashManager;
 use Motor\Mvc\Validators\ReflectionValidator;
 
-/**
- * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
- * renvoyer une vue (View) avec les données de l'exemple.
- */
 class RegisterController
 {
-
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function View(...$arguments)
-    {
-        /** @var \Motor\Mvc\Utils\Render $render */
-        $render = $arguments['render'];
-
-        if ($arguments['render']->has('isConnected') == true) {
-            return header('location:/profile');
-        } else {
-            return $arguments['render']->render('register/connexion', $arguments);
-        }
-    }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
@@ -80,66 +56,16 @@ class RegisterController
         return $content;
     }
 
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function Connect(...$arguments)
+    /******************************************************** SAMPLE CONNECT JS START */
+    public function ConnectJS(...$arguments)
     {
-        $crudManager = new CrudManager('users', Users::class);
-        $user = $crudManager->getByEmail($arguments['email']);
-        // var_dump($user->password);
-        if ($crudManager->getByEmail($arguments['email']) !== false) {
-            // var_dump($arguments['password']);
-            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $arguments['password'])) {
-                $verifPassword = new PasswordHashManager();
-                // var_dump($verifPassword->verify($user->password, $arguments['password']));
-                // var_dump($verifPassword->hash($arguments['password']));
-                if ($verifPassword->verify($user->password, $arguments['password'])) {
-                    // echo "Si";
-                    // var_dump($user->email);
-                    // var_dump($user->full_name);
-                    // var_dump($user->role);
-                    // $sessionManager = new SessionManager();
-                    // $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
-                    setcookie('email', $user->email, time() + 3600, '/');
-                    $arguments['render']->addSession([
-                        'email' => $user->email,
-                        'isConnected' => true,
-                        'full_name' => $user->full_name,
-                        'role' => $user->role,
-                    ]);
-                    // var_dump($_SESSION['email']);
-                    // var_dump($_SESSION['isConnected']);
-                    // var_dump($_SESSION['full_name']);
-                    // var_dump($_SESSION['role']);
-                    header('location:/');
-                } else {
-                    echo 'Mot de passe incorrect';
-                }
-            } else {
-                echo 'Not preg match';
-            }
-        } else {
-            echo 'Email non existant';
+        /** @var \Motor\Mvc\Utils\Render $render */
+        $render = $arguments['render'];
+
+        if ($render->has('isConnected') == true) {
+            header('location:/profile');
         }
 
-        // $this->addParams('exemple', $exemple);
-        $content = $arguments['render']->render('connexion', $arguments);
-        // $content = $this->render('connexion', $arguments);
-        return $content;
-    }
-
-    /******************************************************** SAMPLE CONNECT JS START */
-    public function ConnectJS(...$arguments): void
-    {
-
-        $modelUser = new Users($arguments); // Instance d'un models de class User
-
-        $modelUser->setPassword($arguments['password']);
 
         // ReflectionValidator::validate($modelUser)
         // Cette méthode static de la class ReflectionValidator
@@ -148,6 +74,10 @@ class RegisterController
         // Préfixer vos propriéte dans vos class est utilisé le
         // validatorData pour créer vos Regex et réstriction sur vos valeurs.
         if (!empty($_POST)) {
+            $modelUser = new UsersRegistration($arguments); // Instance d'un models de class User
+
+            $modelUser->setPassword($arguments['password'] ?? "");
+
             $errorsIntercept = ReflectionValidator::validate($modelUser);
 
             /**
@@ -171,7 +101,7 @@ class RegisterController
             // Pas d'erreur
             if (!$errors) {
                 /* CONNECT USER */
-                $crudManager = new CrudManager('users', Users::class);  // Instance of PasswordHashManager - table users, models Users
+                $crudManager = new CrudManager('users', UsersRegistration::class);  // Instance of PasswordHashManager - table users, models Users
                 $user = $crudManager->getByEmail($modelUser->getEmail()); // Appel de la méthode getByEmail(email)
 
                 // réponse JSON 200 avec le corps suivant : {'errors' : ['email' => 'Une erreur avec votre email viens de ce produire.']}
@@ -196,6 +126,8 @@ class RegisterController
                     $this->responseJson(200, ['isConnected' => true]);
                 }
             }
+        } else {
+            return $render->render("register/connexion", $arguments);
         }
     }
 
