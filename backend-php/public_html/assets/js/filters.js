@@ -12,14 +12,37 @@ const lastButton = document.getElementById('last_button');
 const numberPages = document.getElementById('number_pages');
 const currentPage = document.getElementById('select_pages');
 let pages;
+let currentIdCat;
+const currentPageUrl = window.location.origin;
+const currentPagePath = window.location.pathname;
+const regexUrl = /\/produit\/(\d+)(?:\/(\d+))?/;
+const matchUrl = currentPagePath.match(regexUrl);
+const idCat = matchUrl ? parseInt(matchUrl[1]) : null;
+console.log(idCat);
+
+const parts = currentPagePath.split("/");
+const extracted = "/" + parts[1];
+// console.log(extracted);
 
 if (selectSubCat !== null) {
   selectSubCat.addEventListener('change', function () {
     localStorage.setItem('selectedSubCat', selectSubCat.value);
   });
   document.addEventListener("DOMContentLoaded", function () {
+    const storedIdCat = localStorage.getItem('idCat');
     const storedValueSub = localStorage.getItem('selectedSubCat');
     const storedValueButton = localStorage.getItem('selectedButton');
+    if (storedIdCat == null) {
+      const storedIdCat = localStorage.setItem('idCat', idCat);
+    } else /* if (storedIdCat == ) */ {
+      buttonValue = null;
+      messageResearch.innerText = '';
+      selectSubCat.selectedIndex = 0;
+      localStorage.removeItem('selectedSubCat');
+      localStorage.removeItem('selectedButton');
+      localStorage.removeItem('idCat');
+      window.location.href = `${currentPageUrl}/produit/${idCat}`;
+    }
     if (storedValueSub !== null) {
       selectSubCat.value = storedValueSub;
     }
@@ -39,14 +62,7 @@ function pagesArray(array, pagesSize) {
   return pages;
 }
 
-const currentPageUrl = window.location.origin;
-const currentPagePath = window.location.pathname;
-const regexUrl = /\/produit\/(\d+)(?:\/(\d+))?/;
-const matchUrl = currentPagePath.match(regexUrl);
-const idCat = matchUrl ? parseInt(matchUrl[1]) : null;
-const parts = currentPagePath.split("/");
-const extracted = "/" + parts[1];
-// console.log(extracted);
+
 
 if (extracted !== '/produit' && extracted !== '/detail') {
   localStorage.removeItem('selectedSubCat');
@@ -259,6 +275,3 @@ if (plusButton !== null) {
   plusButton.addEventListener('click', plusPage);
   lastButton.addEventListener('click', minusPage);
 }
-
-
-  
