@@ -271,6 +271,9 @@ function minusPage() {
   }
 }
 
+
+
+
 if (plusButton !== null) {
   plusButton.addEventListener('click', plusPage);
   lastButton.addEventListener('click', minusPage);
