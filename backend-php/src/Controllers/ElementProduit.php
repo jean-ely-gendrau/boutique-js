@@ -44,8 +44,19 @@ class ElementProduit extends BddManager
         // Appel de la méthode getOneProduct prenant l'id du produit en paramètre
         $detail = $crudManager->getOneProduct($arguments['product_id']);
 
+        // var_dump($detail);
+
+        $filename = __DIR__ . "/../../public_html/assets/images/{$detail->url_image}";
+
+        if (file_exists($filename) == true) {
+            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
+        } else {
+            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
+        }
+
         // Passage dans render des paramètres 'detail' => $detail
         $arguments['render']->addParams('detail', $detail);
+        $arguments['render']->addParams('src', $src);
 
         // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
         $content = $arguments['render']->render('details-produit', $arguments);

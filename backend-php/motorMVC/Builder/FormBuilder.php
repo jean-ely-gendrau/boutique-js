@@ -393,6 +393,7 @@ class FormBuilder extends AbstractFormBuilder
                  * Multidimentionnel avec sélection de clé [obligatoire]
                  *
                  */
+
                 if (
                     $optionsMulti && // Si Vrai
                     is_array($option) && // Si c'est un array AND
@@ -400,14 +401,15 @@ class FormBuilder extends AbstractFormBuilder
                     !array_is_list($option) && // que ce n'est pas un array option list AND
                     !empty($option) // que l'array option n'est pas vide
                 ) {
-                    /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected = $isSelectedOption && $isSelectedOption === $optionSelectKey['keyValue'] ? 'selected' : '';
 
-                    return '<option ' .
-                        $optionSelected .
-                        ' value="' .
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected = isset($isSelectedOption) && $isSelectedOption == (string) $option[$optionSelectKey['keyValue']] ? 'selected="selected"' : '';
+
+                    return '<option value="' .
                         $option[$optionSelectKey['keyValue']] .
-                        '">' .
+                        '" ' .
+                        $optionSelected .
+                        '>' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
                 }
@@ -423,14 +425,15 @@ class FormBuilder extends AbstractFormBuilder
                     !array_is_list($option) && // que ce n'est pas un array option list AND
                     !empty($option) // que l'array option n'est pas vide
                 ) {
-                    /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected = $isSelectedOption && $isSelectedOption === $optionSelectKey['keyValue'] ? 'selected' : '';
 
-                    return '<option ' .
-                        $optionSelected .
-                        ' value="' .
+                    /* Assignation d'un valeur avec la condition Ternaire */
+                    $optionSelected = isset($isSelectedOption) && $isSelectedOption == (string) $option[$optionSelectKey['keyValue']] ? 'selected="selected"' : '';
+
+                    return '<option value="' .
                         $option[$optionSelectKey['keyValue']] .
-                        '">' .
+                        '" ' .
+                        $optionSelected .
+                        '>' .
                         $option[$optionSelectKey['keyText']] .
                         '</option>';
                 }
@@ -449,13 +452,13 @@ class FormBuilder extends AbstractFormBuilder
                     !empty($option) // que l'array option n'est pas vide
                 ) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected = $isSelectedOption && $isSelectedOption === array_keys($option) ? 'selected' : '';
+                    $optionSelected = isset($isSelectedOption) && in_array($isSelectedOption, array_keys($option)) ? 'selected="selected"' : '';
 
-                    return '<option ' .
-                        $optionSelected .
-                        ' value="' .
+                    return '<option value="' .
                         array_keys($option) . // On définit la value avec la clé de l'index de l'array
-                        '">' .
+                        '" ' .
+                        $optionSelected .
+                        '>' .
                         array_values($option) . // On définit le text avec la valeur de l'array
                         '</option>';
                 }
@@ -466,9 +469,9 @@ class FormBuilder extends AbstractFormBuilder
                  */
                 elseif (!empty($option) && !is_array($option)) {
                     /* Assignation d'un valeur avec la condition Ternaire */
-                    $optionSelected = $isSelectedOption && $isSelectedOption === $option ? 'selected' : '';
+                    $optionSelected = isset($isSelectedOption) && $isSelectedOption == $option ? 'selected="selected"' : '';
 
-                    return '<option ' . $optionSelected . ' value="' . $option . '">' . $option . '</option>';
+                    return '<option value="' . $option . '" ' . $optionSelected . '>' . $option . '</option>';
                 }
                 /**************************************************************
                  *

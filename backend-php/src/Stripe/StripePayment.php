@@ -14,6 +14,9 @@ class StripePayment
 
     public function StartPayment($basket)
     {
+        
+        setcookie('stripe', true, time() + 3600, '/');
+
         // TODO Voir où enregistrer la clé d'API
         $stripeSecretKey = DockerSecrets::getSecrets(SecretsEnum::Api_Key_Stripe);
 

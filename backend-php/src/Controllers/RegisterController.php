@@ -151,6 +151,7 @@ class RegisterController
                     // var_dump($user->role);
                     // $sessionManager = new SessionManager();
                     // $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
+                    setcookie('email', $user->email, time() + 3600, '/');
                     $arguments['render']->addSession([
                         'email' => $user->email,
                         'isConnected' => true,

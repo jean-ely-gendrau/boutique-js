@@ -6,6 +6,7 @@ use Motor\Mvc\Builder\FormBuilder;
 use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Forms\ButtonControllForms;
 use App\Boutique\EntityManager\ProductsEntity;
+use App\Boutique\Models\Special\CategorySubCat;
 
 class ProductsV2Controller
 {
@@ -26,10 +27,14 @@ class ProductsV2Controller
     $productAllSelect = $productEntity->getAllProductPaginate($arguments['categoryName']); // GET ALL PRODUCT WITH PAGINATION
     $getSubCategory =  $productEntity->getSubCategoryByCategoryId($arguments['categoryName']); // GET SUB CATEGORY
 
+    $newSubCat = new CategorySubCat();
+    $newSubCat->setIdSubCat(0);
+    $newSubCat->setNameSubCat('---');
+    array_push($getSubCategory, $newSubCat);
     /***
      * Button Filter
      */
-    $buttonFilter = ButtonControlForms::buttonFilterProduct($getSubCategory);
+    $buttonFilter = ButtonControlForms::buttonFilterProduct(array_reverse($getSubCategory));
 
     /***
      * Button Pagination

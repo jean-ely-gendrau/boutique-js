@@ -101,6 +101,20 @@ class ProductsModels implements JsonSerializable
      */
     private $user_has_product;
 
+    /**
+     * ordered
+     *
+     * @var string
+     */
+    private $ordered;
+
+    /**
+     * average_rating
+     *
+     * @var string
+     */
+    private $average_rating;
+
     public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
@@ -426,6 +440,54 @@ class ProductsModels implements JsonSerializable
     public function setUser_has_product(string $user_has_product)
     {
         $this->user_has_product = $user_has_product;
+
+        return $this;
+    }
+
+    /**
+     * Get ordered
+     *
+     * @return  string
+     */
+    public function getOrdered()
+    {
+        return $this->ordered;
+    }
+
+    /**
+     * Set ordered
+     *
+     * @param  string  $ordered  ordered
+     *
+     * @return  self
+     */
+    public function setOrdered(string $ordered)
+    {
+        $this->ordered = $ordered;
+
+        return $this;
+    }
+
+    /**
+     * Get average_rating
+     *
+     * @return  string
+     */
+    public function getAverage_rating()
+    {
+        return $this->average_rating;
+    }
+
+    /**
+     * Set average_rating
+     *
+     * @param  string  $average_rating  average_rating
+     *
+     * @return  self
+     */
+    public function setAverage_rating(string $average_rating)
+    {
+        $this->average_rating = $average_rating;
 
         return $this;
     }

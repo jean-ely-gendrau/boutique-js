@@ -1,3 +1,4 @@
+/node-jwt/node_modules/
 /node-service/node_modules/
 /backend-php/vendor/
 /docker-data/secrets

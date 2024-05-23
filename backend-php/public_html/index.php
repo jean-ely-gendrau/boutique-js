@@ -112,19 +112,23 @@ if ($rendering->give('role') === 'admin') {
 $router->map('GET', '/deconnexion', 'RegisterController#Deconnect', 'deconnexion');
 
 // Route filter controller
-$router->map('GET', '/js-testAll/[a:idCat]', 'FilterPrice#produitElement', 'queryAll');
-$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'FilterPrice#produitElement', 'querySubCat');
-$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'FilterPrice#produitElement', 'queryFilter');
-$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'FilterPrice#produitElement', 'queryBoth');
+$router->map('GET', '/js-testAll/[a:idCat]', 'Filters#produitElement', 'queryAll');
+$router->map('GET', '/js-testSub/[a:idCat]/[a:idSubCat]', 'Filters#produitElement', 'querySubCat');
+$router->map('GET', '/js-testFilter/[a:idCat]/[a:filter]', 'Filters#produitElement', 'queryFilter');
+$router->map('GET', '/js-testBoth/[a:idCat]/[a:idSubCat]/[a:filter]', 'Filters#produitElement', 'queryBoth');
 
 // Route wishlist
 $router->map('GET', '/favoris/[i:product]', 'Favoris#VerifyFavorite', 'testIsConnected');
 $router->map('GET', '/addFavoris/[i:product]', 'Favoris#ToggleFavorite', 'addFavorite');
 $router->map('get', '/wishlist', 'Favoris#ShowFavorites', 'userWishlist');
+
+// Route ratings
+$router->map('GET', '/orderverif/[i:idProduct]', 'Ratings#ProductOrdered', 'checkIfOrdered');
+$router->map('GET', '/productrating/[i:idProduct]', 'Ratings#ProductRating', 'ratingProduct');
 /**
  * Route d'exemple pour l'utilisation de la méthode post JS de teaCoffee Module
  */
-$router->map('GET', '/sample-to-favorites', 'FilterPrice#produitElement', 'sample-add-to-favorites');
+$router->map('GET', '/sample-to-favorites', 'Filters#produitElement', 'sample-add-to-favorites');
 $router->map('POST', '/sample-connect-js', 'RegisterController#ConnectJS', 'sample-connect-js');
 /**********
  * FormBuilder Routes Pour les testes
