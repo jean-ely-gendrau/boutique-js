@@ -173,10 +173,10 @@ class RegisterController
                             for($i=0; $i < $value['quantity']; $i++){
                                 // var_dump($value['name']);
                                 $crudManagerOrder->CreateOrder($user->id, $value['id']);
-
                             }
                         }
-                        
+                        unset($_COOKIE['cart']); 
+                        setcookie('cart', '', -1, '/'); 
                     }
                     
 

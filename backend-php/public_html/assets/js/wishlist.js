@@ -67,6 +67,7 @@ function addToFavorite(event) {
     }
 }
 
+// Utilisation de la fonction messageFav afin d'afficher la validation du produit sélectionné par le client
 function addToBasket(event) {
     const addToCartButtons = event.target.closest('.add-to-cart');
     if(addToCartButtons) messageFav('Ajouté au panier');
