@@ -1628,6 +1628,10 @@ input:checked + .toggle-bg {
   width: 1.5rem;
 }
 
+.w-6\/12 {
+  width: 50%;
+}
+
 .w-64 {
   width: 16rem;
 }
