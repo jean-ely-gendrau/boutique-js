@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Models\Orders;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
@@ -158,6 +159,28 @@ class RegisterController
                         'full_name' => $user->full_name,
                         'role' => $user->role,
                     ]);
+                    /**NOTE - Voir si gestion correcte cookie
+                     * Ajout des cookies enregistré par l'utilisateur non connecté
+                     */
+                    if(isset($_COOKIE['cart'])) {
+                        // Récupère les données du cookie et les décode en tableau associatif
+                        $cart = json_decode($_COOKIE['cart'], true);
+                        // var_dump($cart[0]['name']);
+                        // var_dump($cart[0]['price']);
+                        // var_dump($cart[0]['quantity']);
+                        $crudManagerOrder = new CrudManager('Orders', Orders::class);
+                        foreach($cart as $key => $value){
+                            for($i=0; $i < $value['quantity']; $i++){
+                                // var_dump($value['name']);
+                                $crudManagerOrder->CreateOrder($user->id, $value['id']);
+                            }
+                        }
+                        unset($_COOKIE['cart']); 
+                        setcookie('cart', '', -1, '/'); 
+                    }
+                    
+
+
                     // var_dump($_SESSION['email']);
                     // var_dump($_SESSION['isConnected']);
                     // var_dump($_SESSION['full_name']);
@@ -174,6 +197,8 @@ class RegisterController
         }
 
         // $this->addParams('exemple', $exemple);
+
+
         $content = $arguments['render']->render('connexion', $arguments);
         // $content = $this->render('connexion', $arguments);
         return $content;

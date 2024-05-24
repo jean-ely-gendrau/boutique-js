@@ -65,33 +65,37 @@ class PanierController
 
     public function AddToBasket(...$arguments)
     {
-
         if (!isset($_SESSION['email'])) {
             // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
             header('Location: /inscription');
             exit();
         }
-
+        
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
-
+        
         $IdclientCrudManager = new CrudManager('users', Users::class);
-
+        
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
         $id = $Idclient->id;
-
+        
         $idproduct = $arguments["product_id"] ?? null; // Get the product's id
-
-
+        
+        
         $panier = new CrudManager('orders', Orders::class);
-
+        
         $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
-
-
+        
+        
         $render->addParams('addtobasket', $panier);
-        return  $render->render('addtobasket', $arguments);
+        
+        header("Content-type: application/json;charset=utf-8");
+        http_response_code(200);
+        echo json_encode(["success" => "ok"]);
+        exit();
+        // return  $render->render('addtobasket', $arguments);
     }
-
+    
     public function RemoveFromCart(...$arguments)
     {
         /** @var \Motor\Mvc\Utils\Render */
