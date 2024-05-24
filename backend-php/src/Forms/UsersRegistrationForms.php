@@ -16,10 +16,12 @@ class UsersRegistrationForms
      * Méthode static ConnectForm
      *
      * @param UsersConnect $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
-     * @param string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
-     * @return FormBuilder [Le contenu généré du formulaire]
+     * @param bool|string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
+     * @param bool $render [Par défaut **(false)** le render ce fait au moment de l'appel de la méthode dans le template, si vous deviez le rendre au moment du rendu de la méthode passée l'argument à **(true)**]
+     * 
+     * @return FormBuilder|string [Le contenu généré du formulaire]
      */
-    public static function ConnectFormUsersRegistration(UsersConnect $modelUser, $errors = false, $render = false): FormBuilder
+    public static function ConnectFormUsersRegistration(UsersConnect $modelUser, $errors = false, $render = false): FormBuilder|string
     {
         $formBuilderConnect = new FormBuilder();
 
@@ -67,26 +69,26 @@ class UsersRegistrationForms
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
             ]) // CHAMP PASSWORD
-            ->addElementAction('button', 'buttonA', 'buttonA', [
+            ->addElementAction('button', 'connect-button-user', 'connect-button-user', [
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'anchor' => 'Connection',
                 'attributes' => [
                     'data-js' => 'handleSampleConnect,click',
-                    'data-route' => '/connect-js',
+                    'data-route' => '/connexion',
                     'data-id-form' => 'form-connect',
                 ]
             ]) // BUTTON SUBMIT
-            ->addElementAction('link', 'buttonA', 'isRegistred', [
+            ->addElementAction('link', 'isRegistred', 'isRegistred', [
                 'class' => 'text-gray-900 text-sm dark:text-white',
                 'anchor' => 'pas encore inscrit ?',
                 'attributes' => [
-                    'title' => 'connection',
-                    'href' => 'form-test-inscription'
+                    'title' => 'inscription sur TeaCoffee',
+                    'href' => 'inscription'
                 ],
             ]); // LINK ADDITIONAL
 
-        return $formBuilderConnect;
+        return $render === false ? $formBuilderConnect : $formBuilderConnect->render();
     }
 
     /**
@@ -175,6 +177,12 @@ class UsersRegistrationForms
     /**
      * Méthode static AdminAddUser
      *
+     * Cette méthode permet l'affichage d'un fomulaire pour
+     * 
+     *  - l'ajout/modification/suppréssion d'utilisateur à partir de l'espace d'administration
+     *  - Possibilité de changer de mots de passe à implémenter
+     *  - Possibilité de changer le rôle des utilisateur
+     * 
      * @param array [...$data Les données du formualaire user $_POST]
      *
      * @return string [Un chaîne de caractère de l'élement formulaire]
@@ -191,14 +199,9 @@ class UsersRegistrationForms
         $modelUser = new Users($data); // Instance d'un models de class User
 
         $errors = [];
-        // ReflectionValidator::validate($modelUser)
-        // Cette méthode statice de la class ReflectionValidator
-        // Permet de valider les données côter backend en utilisant
-        // les attributs introduit depuis php 8.*.
-        // Préfixer vos propriéte dans vos class est utilisé le
-        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+
         if (!empty($_POST) && isset($_POST['validation-user'])) {
-            $errors = ReflectionValidator::validate($modelUser);
+            $errors = ReflectionValidator::validate($modelUser); // VALIDATOR
             //DEBUG var_dump($errors);
         }
 
