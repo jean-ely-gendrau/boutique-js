@@ -48,7 +48,7 @@ class PanierController
             header('Location: /inscription');
             exit();
         }
-
+        var_dump($arguments);
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
         $IdclientCrudManager = new CrudManager('users', Users::class);
