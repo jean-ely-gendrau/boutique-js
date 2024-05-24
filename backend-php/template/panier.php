@@ -41,7 +41,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <!-- <a href="removefromcart/<?//= $productItem['id'} ?>" -->
-                         <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['id']?>'}" href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                         <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['products_id']?>'}" href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

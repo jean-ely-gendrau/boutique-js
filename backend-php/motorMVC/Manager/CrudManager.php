@@ -525,11 +525,11 @@ class CrudManager extends BddManager implements PaginatePerPage
 
     public function getbyidbasket($clientId)
     {
-        $sql = 'SELECT p.id , i.url_image , p.name , p.price , o.* ,i.id FROM orders o 
+        $sql = 'SELECT p.id AS products_id , i.url_image , p.name , p.price , o.id AS orders_id, i.id AS images_id FROM orders o
                 JOIN productsorders po ON o.id = po.orders_id 
                 JOIN products p ON p.id = po.products_id 
-                JOIN productsimages pi ON p.id = pi.products_id
-                JOIN images i ON i.id = pi.images_id
+                LEFT JOIN productsimages pi ON p.id = pi.products_id
+                LEFT JOIN images i ON i.id = pi.images_id
                 WHERE o.users_id = :client_id AND o.basket = 1';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
@@ -560,9 +560,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId, ':product_id' => $productId]);
         $orderIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-        var_dump($orderIds);
 
-        //FIXME - Problème de suppresion des données correspondant au thé
         if (!empty($orderIds)) {
             // Delete the corresponding rows from the productsorders table
             $sql = 'DELETE FROM productsorders WHERE orders_id IN (' . implode(',', $orderIds) . ')';
