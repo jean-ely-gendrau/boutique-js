@@ -24,7 +24,7 @@
           <div id="<?= $product->id ?>"
             class="article-image-container w-2/3 h-[220px] overflow-hidden mx-auto aspect-w-16 aspect-h-8 article-image">
             <img src="<?= $product?->image_main ?? "http://{$serverName}/assets/images/tea-coffee.png" ?>"
-              alt="image <?= $product->name ?>" class="article-image h-full w-full object-contain" data-url="<?= "http://{$serverName}/assets/images/{$product->url_image}" ?? "http://{$serverName}/assets/images/tea-coffee.png" ?>" />
+              alt="image <?= $product->name ?>" class="article-image h-full w-full object-contain" data-url="<?= $product?->image_main ?? "http://{$serverName}/assets/images/tea-coffee.png" ?>" />
           </div>
           <div class="product text-center mt-4" data-price='<?= $product->price ?>' data-id='<?= $product->id ?>' data-name='<?= $product->name ?>'>
             <h3 id="<?= $product->id ?>" class="article-name text-lg font-extrabold text-gray-800"><?= $product->name ?>
