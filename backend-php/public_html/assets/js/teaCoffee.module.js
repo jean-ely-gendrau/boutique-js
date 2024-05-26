@@ -294,7 +294,7 @@ teaCoffee.request = {
       defineRequest,
       headersParams)
     if (bodyParam) {
-      bodyParamFormat = teaCoffee.format.bodyParam(bodyParam);
+      bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam); 
     } else if (idForm) {
 
       bodyParamFormat = teaCoffee.format.formParam(
@@ -304,7 +304,7 @@ teaCoffee.request = {
 
     let defaultRequest = defineRequest
       ? defineRequest
-      : `http://${window.location.hostname}${route}`;
+      : `http://${window.location.hostname}:8880${route}`;
 
     const res = await fetch(defaultRequest, {
       method: method,
@@ -528,12 +528,13 @@ teaCoffee.action = {
 
     // POST REQUEST
     const response = await teaCoffee.request.post(e.target.dataset);
-    /*
+   
       // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
       if (response && response.hasOwnProperty('success')) {
-     teaCoffee.response.success(response)
+          teaCoffee.response.success(response)
+          // console.log(teaCoffee.response.success(response))
       }
-      // Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
+       /*// Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
       else if (response && response.hasOwnProperty('errors')) {
         // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
         Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {

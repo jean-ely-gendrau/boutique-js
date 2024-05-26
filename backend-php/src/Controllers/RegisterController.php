@@ -13,6 +13,7 @@ use App\Boutique\Exceptions\ClientExceptions;
 use App\Boutique\Models\Special\UsersConnect;
 use Motor\Mvc\Validators\ReflectionValidator;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Orders;
 use App\Boutique\Models\Special\UsersRegistration;
 
 class RegisterController
@@ -151,6 +152,27 @@ class RegisterController
                     if (property_exists($responseJWT, 'access_token')) {
                         setcookie('token', $responseJWT->access_token);
                     }
+
+                    /**NOTE - Voir si gestion correcte cookie
+                     * Ajout des cookies enregistré par l'utilisateur non connecté
+                     */
+                    if (isset($_COOKIE['cart'])) {
+                        // Récupère les données du cookie et les décode en tableau associatif
+                        $cart = json_decode($_COOKIE['cart'], true);
+                        // var_dump($cart[0]['name']);
+                        // var_dump($cart[0]['price']);
+                        // var_dump($cart[0]['quantity']);
+                        $crudManagerOrder = new CrudManager('Orders', Orders::class);
+                        foreach ($cart as $key => $value) {
+                            for ($i = 0; $i < $value['quantity']; $i++) {
+                                // var_dump($value['name']);
+                                $crudManagerOrder->CreateOrder($user->id, $value['id']);
+                            }
+                        }
+                        unset($_COOKIE['cart']);
+                        setcookie('cart', '', -1, '/');
+                    }
+
                     //DEBUG var_dump($arguments);
                     // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
                     $this->responseJson(200, ['isConnected' => true]);
