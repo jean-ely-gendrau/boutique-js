@@ -2,56 +2,22 @@
 
 namespace App\Boutique\Controllers;
 
-use App\Boutique\Models\Orders;
-use App\Boutique\Models\Users;
+use Motor\Mvc\Enum\ApiUrlEnum;
 use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Manager\MailManager;
 use Motor\Mvc\Components\ReCaptcha;
+use App\Boutique\Enum\ClientExceptionEnum;
 use Motor\Mvc\Manager\PasswordHashManager;
+use Motor\Mvc\Components\GruzzelRequest;
+use App\Boutique\Exceptions\ClientExceptions;
+use App\Boutique\Models\Special\UsersConnect;
 use Motor\Mvc\Validators\ReflectionValidator;
+use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Orders;
+use App\Boutique\Models\Special\UsersRegistration;
 
-/**
- * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
- * renvoyer une vue (View) avec les données de l'exemple.
- */
 class RegisterController
 {
-    public function __construct()
-    {
-        /* Action du constucteur */
-    }
-
-    /**
-     * Méthode Index qui affiche les variables transmises à la méthode.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void
-     */
-    public function Index(...$arguments)
-    {
-        /*
-         * Utilisation de la méthode Index dans notre exemple avec l'affichage des variables transmises à la méthode
-         */
-        return var_dump($arguments);
-    }
-
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function View(...$arguments)
-    {
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('inscription', $arguments);
-        if ($arguments['render']->has('isConnected') == true) {
-            return header('location:/');
-        } else {
-            return $arguments['render']->render('inscription', $arguments);
-        }
-    }
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
      * renvoie une vue template nommée 'test-render', et retourne le contenu.
@@ -61,172 +27,82 @@ class RegisterController
      */
     public function Register(...$arguments)
     {
+        /** @var \Motor\Mvc\Utils\Render $render */
+        $render = $arguments['render'];
 
-        $paramSQL = [];
-        foreach ($arguments as $key => $value) {
-            if ($key === 'fullName') {
-                if (preg_match('/^[a-zA-Z-\s]{8,45}$/', $value)) {
-                    $paramSQL['full_name'] = $value;
-                    $namePass = true;
-                } else {
-                    echo 'Veuillez entre un nom et prenom valide minimum 8 characters maximum 45 characters';
-                    $namePass = false;
-                }
-            }
-
-            if ($key === 'email') {
-                if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $paramSQL['email'] = $value;
-                    $emailPass = true;
-                } else {
-                    echo 'Veuillez entre un email valide';
-                    $emailPass = false;
-                }
-            }
-            if ($key === 'password') {
-                if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $value)) {
-                    $paramSQL['password'] = $value;
-                    $passwordPass = true;
-                } else {
-                    echo "Veuillez entre un mot de passe valide avoir une longueur de 6 à 25 caractères ,contenir au moins une lettre majuscule, un chiffre et l'un des caractères spéciaux spécifiés : %, $, ,, ;, !, _, ou -.";
-                    $passwordPass = false;
-                }
-            }
-        }
-        // var_dump($paramSQL);
-        if ($namePass == true && $emailPass == true && $passwordPass == true) {
-            $model = new Users($paramSQL);
-            $crudManager = new CrudManager('users', Users::class);
-            if ($crudManager->getByEmail($paramSQL['email']) !== false) {
-                echo 'Compte deja enregistre avec ce mail';
-            } else {
-                // echo 'create';
-                $crudManager->create($model, ['full_name', 'email', 'password', 'role']);
-                header('location:/connexion');
-            }
-        }
-        // $this->addParams('exemple', $exemple);
-        $content = $arguments['render']->render('inscription', $arguments);
-        // $content = $this->render('inscription', $arguments);
-        return $content;
-    }
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return void Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function ViewConnect(...$arguments)
-    {
-        // $this->addParams('exemple', $exemple);
-        // $content = $this->render('connexion', $arguments);
         if ($arguments['render']->has('isConnected') == true) {
-            return header('location:/');
-        } else {
-            return $arguments['render']->render('connexion', $arguments);
+            header('location:/');
         }
-    }
-    /**
-     * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,
-     * renvoie une vue template nommée 'test-render', et retourne le contenu.
-     *
-     * @param array ...$arguments Les arguments transmis à la méthode.
-     * @return string Le contenu généré en rendant le template 'test-render' avec les arguments fournis.
-     */
-    public function Connect(...$arguments)
-    {
-        $crudManager = new CrudManager('users', Users::class);
-        $user = $crudManager->getByEmail($arguments['email']);
-        // var_dump($user->password);
-        if ($crudManager->getByEmail($arguments['email']) !== false) {
-            // var_dump($arguments['password']);
-            if (preg_match('/^(?(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\-_@.])[a-zA-Z0-9\%\$\,\;\!\-_\@\.]{6,25})$/', $arguments['password'])) {
-                $verifPassword = new PasswordHashManager();
-                // var_dump($verifPassword->verify($user->password, $arguments['password']));
-                // var_dump($verifPassword->hash($arguments['password']));
-                if ($verifPassword->verify($user->password, $arguments['password'])) {
-                    // echo "Si";
-                    // var_dump($user->email);
-                    // var_dump($user->full_name);
-                    // var_dump($user->role);
-                    // $sessionManager = new SessionManager();
-                    // $sessionManager->add(['email' => $user->email, 'isConnected' => true, 'full_name' => $user->full_name, 'role' => $user->role]);
-                    setcookie('email', $user->email, time() + 3600, '/');
-                    $arguments['render']->addSession([
-                        'email' => $user->email,
-                        'isConnected' => true,
-                        'full_name' => $user->full_name,
-                        'role' => $user->role,
-                    ]);
-                    /**NOTE - Voir si gestion correcte cookie
-                     * Ajout des cookies enregistré par l'utilisateur non connecté
-                     */
-                    if(isset($_COOKIE['cart'])) {
-                        // Récupère les données du cookie et les décode en tableau associatif
-                        $cart = json_decode($_COOKIE['cart'], true);
-                        // var_dump($cart[0]['name']);
-                        // var_dump($cart[0]['price']);
-                        // var_dump($cart[0]['quantity']);
-                        $crudManagerOrder = new CrudManager('Orders', Orders::class);
-                        foreach($cart as $key => $value){
-                            for($i=0; $i < $value['quantity']; $i++){
-                                // var_dump($value['name']);
-                                $crudManagerOrder->CreateOrder($user->id, $value['id']);
-                            }
-                        }
-                        unset($_COOKIE['cart']); 
-                        setcookie('cart', '', -1, '/'); 
-                    }
-                    
 
+        $modelUser = new UsersRegistration($arguments); // Instance d'un model de class User
 
-                    // var_dump($_SESSION['email']);
-                    // var_dump($_SESSION['isConnected']);
-                    // var_dump($_SESSION['full_name']);
-                    // var_dump($_SESSION['role']);
-                    header('location:/');
+        if (!empty($_POST)) {
+            $modelUser->setPassword($arguments['password'] ?? '');
+            $errors = ReflectionValidator::validate($modelUser); // VALIDATION DATA
+
+            if (!$errors && isset($arguments['email'])) {
+
+                $crudManager = new CrudManager('users', UsersRegistration::class); // CRUD
+
+                if ($crudManager->getByEmail($arguments['email']) !== false) {
+                    throw new ClientExceptions(ClientExceptionEnum::AccountIsRegistered); // EXCEPTION
                 } else {
-                    echo 'Mot de passe incorrect';
+                    $modelUser->setPassword($modelUser->hash($arguments['password']));
+                    $crudManager->create($modelUser, ['full_name', 'email', 'password', 'role']); // INSERT
+                    setcookie('registered_user', $modelUser->getFull_name());
+                    header('location:/connexion'); // REDIRECT
                 }
-            } else {
-                echo 'Not preg match';
             }
-        } else {
-            echo 'Email non existant';
         }
+        // Ajout de la class FormBuilder au tableau de parametre retourner au template
+        $render->addParams('formRegister', UsersRegistrationForms::RegistrationForm($modelUser, $errors ?? null));
 
-        // $this->addParams('exemple', $exemple);
+        $content = $render->render("register/inscription", $arguments); // RENDER HTML
 
-
-        $content = $arguments['render']->render('connexion', $arguments);
-        // $content = $this->render('connexion', $arguments);
         return $content;
     }
 
-    /******************************************************** SAMPLE CONNECT JS START */
-    public function ConnectJS(...$arguments): void
+    public function ConnectJS(...$arguments)
     {
+        /** @var \Motor\Mvc\Utils\Render $render */
+        $render = $arguments['render'];
 
-        $modelUser = new Users($arguments); // Instance d'un models de class User
 
-        /**
-          Cette méthode n'est pas présente dans la classe Users du modèle. 
-         * Elle a été créée ici pour tester un cas suite à un bug lié à l'utilisation de ReflectionValidator::validate. 
-         * En effet, la méthode vérifie la regex sur un mot de passe encodé directement dans le constructeur de la classe Users.
-         * 
-          Créer un issues pour ajouter les setter au model User
-         */
-        $modelUser->setPassword($arguments['password']);
+        if (isset($_COOKIE['registered_user'])) {
 
-        // ReflectionValidator::validate($modelUser)
-        // Cette méthode static de la class ReflectionValidator
-        // Permet de valider les données côter backend en utilisant
-        // les attributs introduit depuis php 8.*.
-        // Préfixer vos propriéte dans vos class est utilisé le
-        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+            // Message Avertissement utilisateur enregistrer
+            $alertMessage = '<div id="toast-registered-user" class="fixed flex items-center w-full max-w-xs p-4 animate-opacity-show opacity-0 space-x-4 text-gray-400 divide-gray-700 bg-gray-800 divide-x rtl:divide-x-reverse rounded-lg shadow bottom-5 right-5 dark:text-gray-500 dark:divide-gray-200 space-x dark:bg-white" role="alert">
+                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
+                <svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 9C15 10.6569 13.6569 12 12 12C10.3431 12 9 10.6569 9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9ZM12 20.5C13.784 20.5 15.4397 19.9504 16.8069 19.0112C17.4108 18.5964 17.6688 17.8062 17.3178 17.1632C16.59 15.8303 15.0902 15 11.9999 15C8.90969 15 7.40997 15.8302 6.68214 17.1632C6.33105 17.8062 6.5891 18.5963 7.19296 19.0111C8.56018 19.9503 10.2159 20.5 12 20.5Z"></path> </g></svg>
+                    <span class="sr-only">User icon</span>
+                </div>
+                <div class="ms-3 text-sm font-normal"> Bienvenue sur TeaCoffe ' . $_COOKIE['registered_user'] . ', merci de votre inscription.</div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-registered-user" aria-label="Close">
+                    <span class="sr-only">Fermer la fenêtre</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            </div>';
+
+            // Retrait de la valeur registered_user du cookie.
+            unset($_COOKIE['registered_user']);
+            setcookie('registered_user', '', -1, '/');
+
+            $render->addParams('alertMessage', $alertMessage);
+        }
+
+        if ($render->has('isConnected') == true) {
+            header('location:/user');
+        }
+
+        $modelUser = new UsersConnect($arguments); // Instance d'un models de class User
+
         if (!empty($_POST)) {
-            $errorsIntercept = ReflectionValidator::validate($modelUser);
+
+            $modelUser->setPassword($arguments['password'] ?? "");
+
+            $errorsIntercept = ReflectionValidator::validate($modelUser); // VALIDATOR PHP
 
             /**
              *On définit un tableau associatif arbitraire des données que nous souhaitons mapper avec les erreurs renvoyées par la classe ReflectionValidator. Ensuite, nous excluons de ce tableau toutes les clés ne figurant pas dans le tableau de comparaison $arrayinterseckeycompare.
@@ -249,7 +125,7 @@ class RegisterController
             // Pas d'erreur
             if (!$errors) {
                 /* CONNECT USER */
-                $crudManager = new CrudManager('users', Users::class);  // Instance of PasswordHashManager - table users, models Users
+                $crudManager = new CrudManager('users', UsersRegistration::class);  // Instance of PasswordHashManager - table users, models Users
                 $user = $crudManager->getByEmail($modelUser->getEmail()); // Appel de la méthode getByEmail(email)
 
                 // réponse JSON 200 avec le corps suivant : {'errors' : ['email' => 'Une erreur avec votre email viens de ce produire.']}
@@ -262,6 +138,7 @@ class RegisterController
 
                 // Vérification du mot de passe.
                 if ($verifPassword->verify($user->getPassword(), $arguments['password'])) {
+
                     // Incorporation des paramètres de l'utilisateur dans la session.
                     $arguments['render']->addSession([
                         'email' => $user->getEmail(),
@@ -269,11 +146,46 @@ class RegisterController
                         'full_name' => $user->getFull_name(),
                         'role' => $user->getRole(),
                     ]);
-                    //  var_dump($arguments);
+
+                    // Request JWT Token - Set JWT COOKIE
+                    $responseJWT = GruzzelRequest::requestJWT();
+                    if (property_exists($responseJWT, 'access_token')) {
+                        setcookie('token', $responseJWT->access_token);
+                    }
+
+                    /**NOTE - Voir si gestion correcte cookie
+                     * Ajout des cookies enregistré par l'utilisateur non connecté
+                     */
+                    if (isset($_COOKIE['cart'])) {
+                        // Récupère les données du cookie et les décode en tableau associatif
+                        $cart = json_decode($_COOKIE['cart'], true);
+                        // var_dump($cart[0]['name']);
+                        // var_dump($cart[0]['price']);
+                        // var_dump($cart[0]['quantity']);
+                        $crudManagerOrder = new CrudManager('Orders', Orders::class);
+                        foreach ($cart as $key => $value) {
+                            for ($i = 0; $i < $value['quantity']; $i++) {
+                                // var_dump($value['name']);
+                                $crudManagerOrder->CreateOrder($user->id, $value['id']);
+                            }
+                        }
+                        unset($_COOKIE['cart']);
+                        setcookie('cart', '', -1, '/');
+                    }
+
+                    //DEBUG var_dump($arguments);
                     // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
                     $this->responseJson(200, ['isConnected' => true]);
+                } else {
+                    // ERROR
+                    $this->responseJson(200, ['errors' => ['email' => "Il n'y a aucune correspondance entre votre email et votre mot de passe."]]);
                 }
             }
+        } else {
+            // Ajout de la class FormBuilder au tableau de parametre retourner au template
+            $render->addParams('formConnect', UsersRegistrationForms::ConnectFormUsersRegistration($modelUser, $errors ?? null));
+
+            return $render->render("register/connexion", $arguments);
         }
     }
 
@@ -292,7 +204,7 @@ class RegisterController
         echo json_encode($response);
         exit;
     }
-    /******************************************************** SAMPLE CONNECT JS END */
+
 
     /**
      * Fonction View qui récupère les données de la classe Exemple, les ajoute aux paramètres,

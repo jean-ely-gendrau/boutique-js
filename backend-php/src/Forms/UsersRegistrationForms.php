@@ -6,18 +6,22 @@ use App\Boutique\Models\Users;
 use Motor\Mvc\Builder\FormBuilder;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Validators\ValidatorJS;
+use App\Boutique\Models\Special\UsersConnect;
 use Motor\Mvc\Validators\ReflectionValidator;
+use App\Boutique\Models\Special\UsersRegistration;
 
 class UsersRegistrationForms
 {
     /**
      * Méthode static ConnectForm
      *
-     * @param array [...$arguments Les arguments transmis à la méthode suivant l'appel de call_user_func_array.]
-     *
-     * @return string [Le contenu généré en rendant le template 'test-render' avec les arguments fournis.]
+     * @param UsersConnect $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
+     * @param bool|string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
+     * @param bool $render [Par défaut **(false)** le render ce fait au moment de l'appel de la méthode dans le template, si vous deviez le rendre au moment du rendu de la méthode passée l'argument à **(true)**]
+     * 
+     * @return FormBuilder|string [Le contenu généré du formulaire]
      */
-    public static function ConnectForm(...$arguments)
+    public static function ConnectFormUsersRegistration(UsersConnect $modelUser, $errors = false, $render = false): FormBuilder|string
     {
         $formBuilderConnect = new FormBuilder();
 
@@ -44,8 +48,8 @@ class UsersRegistrationForms
              * Route de l'exemple : /sample-modal-viewer
              * Route de traitement du formulaire : /sample-connect-js
              */
-            ->setIdForm('sample-form-connect') // ID FORM
-            ->setAction('/form-test-connect') // ACTION -> ROUTE DE TRAITEMENT
+            ->setIdForm('form-connect') // ID FORM
+            ->setAction('/connexion') // ACTION -> ROUTE DE TRAITEMENT
             ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
             ->addField('email', 'email', [
                 'text-label' => 'Email',
@@ -53,39 +57,132 @@ class UsersRegistrationForms
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre email',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'error-message' => $errors['email'] ?? false,
             ]) // CHAMP MAIL
+            ->addField('password', 'password', [
+                'text-label' => 'Mot de passe',
+                'required' => 1,
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'placeholder' => 'Enter votre mot de pass',
+            ]) // CHAMP PASSWORD
+            ->addElementAction('button', 'connect-button-user', 'connect-button-user', [
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'anchor' => 'Connection',
+                'attributes' => [
+                    'data-js' => 'handleSampleConnect,click',
+                    'data-route' => '/connexion',
+                    'data-id-form' => 'form-connect',
+                ]
+            ]) // BUTTON SUBMIT
+            ->addElementAction('link', 'isRegistred', 'isRegistred', [
+                'class' => 'text-gray-900 text-sm dark:text-white',
+                'anchor' => 'pas encore inscrit ?',
+                'attributes' => [
+                    'title' => 'inscription sur TeaCoffee',
+                    'href' => 'inscription'
+                ],
+            ]); // LINK ADDITIONAL
+
+        return $render === false ? $formBuilderConnect : $formBuilderConnect->render();
+    }
+
+    /**
+     * Méthode RegistrationForm
+     *
+     * @param UsersRegistration $modelUser [$modelUsers une instance de la class Users instancié avec les données du formulaire ou vide lors de l'initialisation]
+     * @param string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
+     *
+     * @return FormBuilder [Le contenu généré du formulaire]
+     */
+    public static function RegistrationForm(UsersRegistration $modelUser, $errors): FormBuilder
+    {
+        $formRegister = new FormBuilder();
+
+        // ValidatorJS Pour ajouter les règles de validation d'input avec Javascript
+        $validatorJS = new ValidatorJS();
+
+        // Mappage des règles de validation au champ du formulaire
+        $validatorJS->addRule('full_name', '/^([\w\s-]{3,25})$/', "Votre nom et prénom n'est pas conforme");
+        $validatorJS->addRule(
+            'password',
+            '/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\%\$\,\;\!\@\.\-_])[a-zA-Z0-9\%\$\,\;\!\@\.\-_]{6,25}$/',
+            'Votre mot de passe doit être complété',
+        );
+        $validatorJS->addRule('email', '/^[^\s@]+@[^\s@]+\.[^\s@]+$/', "Votre adresse email n'a pas un format valide");
+
+        // Ajout des règles de validation au formulaire
+        $formRegister->setValidator($validatorJS);
+
+        $formRegister
+            ->setIdForm('form-registration') // ID FORM
+            ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
+            ->addField('text', 'full_name', [
+                'text-label' => 'Votre nom et prénom',
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'placeholder' => 'Enter votre nom complet',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->getFull_name() ?? '', 'autocomplete' => 'section-blue shipping family-name'],
+                'error-message' => $errors['full_name'] ?? false,
+            ]) // CHAMP FULL_NAME
+            ->addField('email', 'email', [
+                'text-label' => 'Votre Email',
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'placeholder' => 'Enter votre email',
+                'required' => 1,
+                'attributes' => ['value' => $modelUser->getEmail() ?? '', 'autocomplete' => 'section-blue shipping email'],
+                'error-message' => $errors['email'] ?? false,
+            ]) // CHAMP EMAIL
             ->addField('password', 'password', [
                 'text-label' => 'Mot de passe',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                 'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
                 'placeholder' => 'Enter votre mot de pass',
+                'required' => 1,
+                'attributes' => ['autocomplete' => 'new-password'],
+                'error-message' => $errors['password'] ?? false,
             ]) // CHAMP PASSWORD
-            ->addElementAction('button', 'buttonA', 'buttonA', [
+            ->addField('password', 'passwordCompare', [
+                'text-label' => 'Confirmation de mot de passe',
                 'class' =>
                 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-                'anchor' => 'Connection',
-                'attributes' => [
-                    'data-js' => 'handleSampleConnect,click',
-                    'data-route' => '/sample-connect-js',
-                    'data-id-form' => 'sample-form-connect',
-                ]
+                'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
+                'placeholder' => 'Enter votre mot de pass',
+                'required' => 1,
+                'error-message' => $errors['passwordCompare'] ?? false,
+            ]) // CHAMP PASSWORD COMPARE
+            ->addElementAction('submit', 'buttonA', 'buttonA', [
+                'class' =>
+                'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                'anchor' => 'Inscription',
             ]) // BUTTON SUBMIT
             ->addElementAction('link', 'buttonA', 'isRegistred', [
                 'class' => 'text-gray-900 text-sm dark:text-white',
-                'anchor' => 'pas encore inscrit ?',
-                'attributes' => [
-                    'title' => 'connection',
-                    'href' => 'form-test-inscription'
-                ],
+                'anchor' => 'Vous avez déjà un compte ?',
+                'attributes' => ['title' => 'connection', 'href' => '/connexion'],
             ]); // LINK ADDITIONAL
 
-        return $formBuilderConnect->render();
+        return $formRegister; // Return du formulaire , le render ce fais dans le template.
     }
 
     /**
      * Méthode static AdminAddUser
      *
+     * Cette méthode permet l'affichage d'un fomulaire pour
+     * 
+     *  - l'ajout/modification/suppréssion d'utilisateur à partir de l'espace d'administration
+     *  - Possibilité de changer de mots de passe à implémenter
+     *  - Possibilité de changer le rôle des utilisateur
+     * 
      * @param array [...$data Les données du formualaire user $_POST]
      *
      * @return string [Un chaîne de caractère de l'élement formulaire]
@@ -102,14 +199,9 @@ class UsersRegistrationForms
         $modelUser = new Users($data); // Instance d'un models de class User
 
         $errors = [];
-        // ReflectionValidator::validate($modelUser)
-        // Cette méthode statice de la class ReflectionValidator
-        // Permet de valider les données côter backend en utilisant
-        // les attributs introduit depuis php 8.*.
-        // Préfixer vos propriéte dans vos class est utilisé le
-        // validatorData pour créer vos Regex et réstriction sur vos valeurs.
+
         if (!empty($_POST) && isset($_POST['validation-user'])) {
-            $errors = ReflectionValidator::validate($modelUser);
+            $errors = ReflectionValidator::validate($modelUser); // VALIDATOR
             //DEBUG var_dump($errors);
         }
 

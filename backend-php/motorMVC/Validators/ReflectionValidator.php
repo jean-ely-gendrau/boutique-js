@@ -26,6 +26,12 @@ class ReflectionValidator
     /**
      * Method validate
      *
+     * Cette méthode static de la class Reflection Validator
+     * Permets de valider les données côter backend en utilisant
+     * les attributs introduisent depuis Php 8.*.
+     * Préfixer vos propriétés dans vos class est utilisé le
+     * ValidatorData pour créer vos Regex et restriction sur vos valeurs.
+     *
      * @param $object $object [Instance de l'objet qui a des Attribut à analyser]
      *
      * @return array

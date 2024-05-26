@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers\Modal;
 use Motor\Mvc\Components\Debug;
 use Motor\Mvc\Builder\ModalBuilder;
 use App\Boutique\Forms\UsersRegistrationForms as Users_Forms;
+use App\Boutique\Models\Special\UsersConnect;
 
 class ModalController
 {
@@ -22,7 +23,8 @@ class ModalController
    */
   public function modalConnect()
   {
-    $newModal = new ModalBuilder(Users_Forms::ConnectForm());
+    $userConnect = new UsersConnect();
+    $newModal = new ModalBuilder(Users_Forms::ConnectFormUsersRegistration($userConnect));
     // $newModal->setIdModal('modal-connect-form');
 
     return (object) ['modal' => $newModal->render(), 'buttonOpen' => $newModal->renderOpenButton('Connect')];
