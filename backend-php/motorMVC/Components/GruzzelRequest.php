@@ -14,9 +14,9 @@ class GruzzelRequest
    * @param ApiUrlEnum $case [Node_Jwt,Node_Service, une valeur de l'énumartion ApiUrlEnum correspondant à l'API avec laquelle communiquer ]
    * @param string $endpoint [endpoint de l'api]
    *
-   * @return false|StreamInterface
+   * @return false|string|StreamInterface
    */
-  public static function requestGZ(ApiUrlEnum $case, string $endpoint): false|StreamInterface
+  public static function requestGZ(ApiUrlEnum $case, string $endpoint): false|string|StreamInterface
   {
     $client = new \GuzzleHttp\Client();
 
@@ -37,21 +37,22 @@ class GruzzelRequest
       return false;
     }
   }
-  public static function requestJWT(): false|StreamInterface
+  public static function requestJWT()
   {
     $client = new \GuzzleHttp\Client();
 
     try {
-      $jar = new \GuzzleHttp\Cookie\CookieJar;
-      $response = $client->request('POST', ApiUrlEnum::Node_Jwt->value . "/jwtsign", [
-        'cookies' => $jar::fromArray($_COOKIE, $_SERVER['HTTP_HOST'])
+      $response = $client->request('POST', ApiUrlEnum::Node_Jwt->value . "/jwt-token", [
+        'form_params' => [
+          'email' => $_SESSION['email']
+        ]
       ]);
 
-      return $response->getBody();
+      return json_decode($response->getBody());
     } catch (\GuzzleHttp\Exception\ConnectException $e) {
       return false;
     } catch (\GuzzleHttp\Exception\RequestException $e) {
-      return false;
+      return "request";
     } catch (\GuzzleHttp\Exception\BadResponseException $e) {
       $response = $e->getResponse();
       $responseBodyAsString = $response->getBody()->getContents();

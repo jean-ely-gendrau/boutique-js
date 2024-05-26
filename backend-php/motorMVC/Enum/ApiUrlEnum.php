@@ -4,6 +4,6 @@ namespace Motor\Mvc\Enum;
 
 enum ApiUrlEnum: string
 {
-  case Node_Jwt = "http://teaCoffee.dock:8882";
-  case Node_Service = "http://teaCoffee.dock:8881";
+  case Node_Jwt = "http://node-jwt:3555";
+  case Node_Service = "http://node:9999";
 }

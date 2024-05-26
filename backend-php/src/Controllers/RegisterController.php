@@ -92,7 +92,7 @@ class RegisterController
         }
 
         if ($render->has('isConnected') == true) {
-            header('location:/profile');
+            header('location:/user');
         }
 
         $modelUser = new UsersConnect($arguments); // Instance d'un models de class User
@@ -137,10 +137,7 @@ class RegisterController
 
                 // Vérification du mot de passe.
                 if ($verifPassword->verify($user->getPassword(), $arguments['password'])) {
-                    setcookie('email', $user->getEmail());
 
-                    $responseJWT = GruzzelRequest::requestJWT();
-                    var_dump($responseJWT);
                     // Incorporation des paramètres de l'utilisateur dans la session.
                     $arguments['render']->addSession([
                         'email' => $user->getEmail(),
@@ -148,6 +145,12 @@ class RegisterController
                         'full_name' => $user->getFull_name(),
                         'role' => $user->getRole(),
                     ]);
+
+                    // Request JWT Token - Set JWT COOKIE
+                    $responseJWT = GruzzelRequest::requestJWT();
+                    if (property_exists($responseJWT, 'access_token')) {
+                        setcookie('token', $responseJWT->access_token);
+                    }
                     //DEBUG var_dump($arguments);
                     // Tout s'est bien passé : réponse JSON 200 avec le corps suivant : {'isConnected' : true}
                     $this->responseJson(200, ['isConnected' => true]);
