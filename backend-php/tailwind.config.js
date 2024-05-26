@@ -10,6 +10,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        "opacity-show": {
+          from: { opacity: 1 },
+          to: { opacity: 0 }
+        }
+      },
+      animation: {
+        "opacity-show": 'opacity-show 10s 1',
+      },
       textShadow: {
         sm: "0 1px 2px var(--tw-shadow-color)",
         DEFAULT: "0 2px 4px var(--tw-shadow-color)",

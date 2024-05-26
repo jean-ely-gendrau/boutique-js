@@ -12,8 +12,8 @@
         /** @var \App\Boutique\Builder\FormBuilder $formConnect */
         echo $formConnect->render();
         ?>
-        <?= $alertMessage ?? "" ?>
       </div>
     </div>
+    <?= $alertMessage ?? "" ?>
   </div>
 </section>
