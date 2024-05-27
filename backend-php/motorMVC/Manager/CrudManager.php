@@ -496,13 +496,13 @@ class CrudManager extends BddManager implements PaginatePerPage
         $adresse->execute(['client_id' => $clientId]);
         $adresse->setFetchMode(\PDO::FETCH_ASSOC);
         $adresse = $adresse->fetch();
-*/
+        */
 
         $sql = 'SELECT u.adress, o.*, p.* FROM orders o 
         JOIN productsorders po ON o.id = po.orders_id
         JOIN products p ON p.id = po.products_id
         join users u ON u.id = o.users_id 
-        WHERE o.users_id = :client_id AND o.basket != 1';
+        WHERE o.users_id = :client_id AND o.basket = 0';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute(['client_id' => $clientId]);
         $stmt->setFetchMode(\PDO::FETCH_OBJ);
@@ -519,7 +519,7 @@ class CrudManager extends BddManager implements PaginatePerPage
                 'status' => $row['status'],
             ];
         }
-*/
+        */
         return $stmt->fetchAll();
     }
 
