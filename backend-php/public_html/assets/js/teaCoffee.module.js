@@ -315,7 +315,7 @@ teaCoffee.request = {
         },
       body: teaCoffee.format.bufferBodyParams,
     });
-
+    console.log(res);
     let response =
       resType === "json" ? res.json() : resType === "text" ? res.text() : false;
 

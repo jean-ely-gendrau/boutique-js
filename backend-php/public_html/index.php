@@ -87,10 +87,9 @@ $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 //$router->map('POST', '/panier', 'PanierController#Panier', 'panierTable');
 
 // Inscription/Connexion route
-$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
-$router->map('POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
-$router->map('GET', '/connexion', 'RegisterController#ViewConnect', 'connexionForm');
-$router->map('POST', '/connexion', 'RegisterController#Connect', 'connexionConnect');
+//$router->map('GET', '/inscription', 'RegisterController#View', 'inscriptionForm');
+$router->map('GET|POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
+$router->map('GET|POST', '/connexion', 'RegisterController#ConnectJS', 'connexionForm');
 
 /****
  * BLOC CONDITION PROVISOIR POUR VOIR POUR LE PANEL ADMIN
@@ -234,7 +233,7 @@ $match = $router->match();
 try {
 
   // Si la route est bien enregistré avec $router->map alors on execute la condition
-  if (is_array($match)):
+  if (is_array($match)) :
     $params = $match['params'];
 
     /* Cas de Figure Du contrôlleur et de la méthod à appeler
@@ -252,7 +251,7 @@ try {
      * - Traiter les données avant de les rendre au client
      * - Ajouter en base de données, faire des calculs ou toute autre action côté serveur
      */
-    if (str_contains($match['target'], '#')):
+    if (str_contains($match['target'], '#')) :
       // On assign les valeurs du tableau à
       // $contoller pour $match['target'][0]
       // $method    pour $match['target'][1]
@@ -292,7 +291,7 @@ try {
       // $match['params']['serverName'] = $serverName;
       // Si le $controller à bien une méthode définit dans la target (il faut que cette méthode soit callable est non static)
       // https://www.php.net/manual/en/function.is-callable.php
-      if (is_callable([$controller, $method])):
+      if (is_callable([$controller, $method])) :
         /*
              * Toutes les conditions sont remplies pour exécuter la méthode de notre contrôleur
              * on utilise call_user_func_array pour instanciées la class charger précédemment dans la variable $controller
@@ -313,21 +312,21 @@ try {
        */
 
         echo call_user_func_array([$controller, $method], $match['params']);
-      else:
+      else :
         throw new MotorMvcException(ExceptionEnum::ControllerNotFound);
       endif;
-      /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
+    /*Si la page 'target' ne contient pas de # on créé une nouvelle instance de Render
        *
        * On appel la méthode defaultRender prenant en paramétre
        * le nom de la page ($match['target']) et la variable $serverName
        *
        * Enfin on affiche le resultat de la méthode
        */
-    else:
+    else :
       $rendering->addParams('params', $match['params']);
       echo $rendering->defaultRender($match['target']);
     endif;
-  else:
+  else :
     throw new ClientExceptions(ClientExceptionEnum::NotFound404); // THROW EXCEPTION
   endif;
 }

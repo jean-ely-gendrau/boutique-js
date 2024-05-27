@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 /*
 * Ajout de la lecture du secrets Docker pour la jwt_key
 */
@@ -13,6 +14,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+app.use(cors());
 
 app.use(cookieParser());
 
@@ -24,6 +26,25 @@ app.listen(3555, () => {
 app.get("/hello", (request, response) => {
   console.log("hello");
   response.send("hello");
+});
+
+app.post("/jwt-token", (request, response) => {
+
+  let { email } = request.query;
+
+  // Define the secret key
+  let key = jwt_key;
+
+  // Generate the JWT token
+  let token = jwt.sign({ email }, key, {
+    expiresIn: '1h',
+    algorithm: "HS256"
+
+  });
+
+  // Send the token to the cookie
+  console.log({ access_token: token });
+  return response.json({ access_token: token })
 });
 
 app.post("/jwtsign", (request, response) => {
