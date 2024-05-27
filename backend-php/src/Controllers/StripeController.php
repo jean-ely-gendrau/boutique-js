@@ -19,6 +19,11 @@ class StripeController
 
     public function Pay(...$arguments)
     {
+        if (!isset($_SESSION['email'])) {
+            // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
+            $content = $arguments['render']->render('connexion', $arguments);
+            return $content;
+        }
         /**NOTE - Voir récupération des données du panier, ne pas créer de doublon de requête */
         $IdclientCrudManager = new CrudManager('users', Users::class);
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
