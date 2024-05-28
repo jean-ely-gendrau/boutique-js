@@ -2,9 +2,12 @@
 
 namespace App\Boutique\Forms;
 
+use App\Boutique\EntityManager\ProductsEntity;
 use Motor\Mvc\Builder\FormBuilder;
 use Motor\Mvc\Validators\ValidatorJS;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Models\Special\CategorySubCat;
+use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Validators\ReflectionValidator;
 
 class ProductsAdminForms
@@ -26,6 +29,9 @@ class ProductsAdminForms
     $validatorJS = new ValidatorJS();
 
     $modelProducts = new ProductsModels($arguments); // Instance d'un models de class User
+    $crudManager = new ProductsEntity();
+    $resultCategory = $crudManager->getAllCategory();
+    $resultSubCategory = $crudManager->getSubCategoryByCategoryId(1);
 
     $errors = [];
     // ReflectionValidator::validate($modelProducts)
@@ -34,7 +40,7 @@ class ProductsAdminForms
     // les attributs introduit depuis php 8.*.
     // Préfixer vos propriéte dans vos class est utilisé le
     // validatorData pour créer vos Regex et réstriction sur vos valeurs.
-    if (!empty($_POST) && isset($_POST['validation-user'])) {
+    if (!empty($_POST) && isset($_POST['validation-product'])) {
       $errors = ReflectionValidator::validate($modelProducts);
       //DEBUG var_dump($errors);
     }
@@ -58,6 +64,28 @@ class ProductsAdminForms
         'placeholder' => 'Enter le nom du produit',
         'attributes' => ['value' => $modelProducts->getName() ?? ''],
       ]) // CHAMP NAME
+      ->addField('select', 'selectCategory', [
+        'label-false' => 1,
+        'options-selected' => "1",
+        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        'options-select-array' => json_decode(json_encode($resultCategory), true),
+        'select-array-multi' => 1,
+        'options-keys' => ['keyValue' => 'id', 'keyText' => 'name'],
+        'attributes' => [
+          'data-js' => 'handleViewHtml,change',
+          'data-route' => '/api-html/select/subCategory',
+          'data-replace' => true,
+          'data-target-id' => 'selectSubCategory'
+        ]
+      ])
+      ->addField('select', 'selectSubCategory', [
+        'label-false' => 1,
+        'options-selected' => "1",
+        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        'options-select-array' => json_decode(json_encode($resultSubCategory), true),
+        'select-array-multi' => 1,
+        'options-keys' => ['keyValue' => 'idSubCat', 'keyText' => 'nameSubCat'],
+      ])
       ->addField('textarea', 'description', [
         'text-label' => 'Déscription',
         'class' =>
