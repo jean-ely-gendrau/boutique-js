@@ -356,9 +356,8 @@ class UsersRegistrationForms
                     'data-method' => 'DELETE',
                     'data-route' => '/api/Users/' . $modelUser->getId() . '',
                     'data-success' => '',
-                    'data-id-form' => 'form-registration',
                 ],
-                'anchor' => 'Supprimer ' . $modelUser->getFull_name() . '</span>',
+                'anchor' => "Supprimer {$modelUser->getFull_name()}",
             ]);
         }
 

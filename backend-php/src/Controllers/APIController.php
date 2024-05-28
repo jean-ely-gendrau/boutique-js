@@ -264,7 +264,7 @@ class ApiController extends JWTController
 
 
         // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
-        if (is_string($result) &&  str_contains($result, 'SQLSTATE[23000]')) {
+        if ($result || is_string($result) &&  str_contains($result, 'SQLSTATE[23000]')) {
             $response = ['errors' => "Un produit existe déjà pour {$arguments['name']}"];
             http_response_code(402);
             header('Content-Type: application/json; charset=utf-8;');
@@ -616,32 +616,52 @@ class ApiController extends JWTController
 
     public function deleteProducts(...$arguments)
     {
-
         // cette fonction permet de supprimer un produit de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
+        //COMMENTS JWT  if ($this->accesAPI == true) {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+
+        $result = false;
+        $response = ['errors' => "Une erreur c'est produite."];
+        // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        //COMMENTS JWT    if ($this->accesAPI == true) {
+
+        if (isset($arguments["id"])) {
+
+            $id = intval($arguments["id"]);
+
             $result = $this->products->delete($id);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
+            $response = $result ? ['success' => "Supprimer avec succées."] : $response;
 
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
+            if (is_array($result)) {
+                $response = $result;
             }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(204);
-        } else {
-            header('Location:/404');
         }
+
+        $logFile = __DIR__ . DIRECTORY_SEPARATOR . '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(202);
+        header('Content-Type: application/json; charset=utf-8;');
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT    } else {
+        //COMMENTS JWT       header('Location:/404');
+        //COMMENTS JWT    }
     }
 
     public function deleteCategory(...$arguments)
@@ -669,7 +689,7 @@ class ApiController extends JWTController
             $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
             error_log($logMessage, 3, $logFile);
             header('Content-Type: application/json; charset=utf-8;');
-            http_response_code(204);
+            http_response_code(202);
         } else {
             header('Location:/404');
         }
@@ -701,7 +721,7 @@ class ApiController extends JWTController
             $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
             error_log($logMessage, 3, $logFile);
             header('Content-Type: application/json; charset=utf-8;');
-            http_response_code(204);
+            http_response_code(202);
         } else {
             header('Location:/404');
         }
@@ -732,8 +752,11 @@ class ApiController extends JWTController
                 goto goto_response;
             }
 
-            if ($result = $this->users->delete($id)) {
-                $response = ['success' => "Supprimer avec succées."];
+            $result = $this->users->delete($id);
+
+            $response = $result ? ['success' => "Supprimer avec succées."] : $response;
+            if (is_array($result)) {
+                $response = $result;
             }
         }
         goto_response:

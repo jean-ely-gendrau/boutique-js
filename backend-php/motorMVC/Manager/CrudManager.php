@@ -367,9 +367,9 @@ class CrudManager extends BddManager implements PaginatePerPage
      *
      * @param object $id [id de l'élément à supprimer]
      *
-     * @return bool
+     * @return array|bool
      */
-    public function delete(int $id): bool
+    public function delete(int $id): array|bool
     {
         try {
             if (is_integer($id)) {
@@ -378,6 +378,9 @@ class CrudManager extends BddManager implements PaginatePerPage
                 return true;
             }
         } catch (\PDOException $e) {
+            if (str_contains($e->getMessage(), 'SQLSTATE[23000]')) {
+                return ['errors' => "Impossible de supprimer pour le moment."];
+            }
             return false;
             // throw new \PDOException($e);
         }
