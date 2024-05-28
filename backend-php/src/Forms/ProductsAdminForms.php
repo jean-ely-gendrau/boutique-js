@@ -57,9 +57,10 @@ class ProductsAdminForms
     $formBuilderProduct
       ->setIdForm('admin-form-product') // ID FORM
       ->setAction('/panel-admin/products') // ACTION -> ROUTE DE TRAITEMENT
-      ->setClassForm('space-y-2 md:space-y-4 p-2') // CSS FORM
+      ->setClassForm('flex flex-wrap justify-between items-center space-y-2 md:space-y-4 p-2') // CSS FORM
       ->addField('text', 'name', [
         'text-label' => 'Nom du produit',
+        'class-label-group' => 'min-w-full w-full',
         'class' =>
         'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -68,8 +69,11 @@ class ProductsAdminForms
       ]) // CHAMP NAME
       ->addField('select', 'category_id', [
         'label-false' => 1,
+        'class-label-group' => 'w-[calc(50%/1.2)] relative flex flex-nowrap text-gray-900 dark:text-white items-center gap-2',
+        'indicator' => 'Catégorie',
+        'class-indicator' => 'bg-blue-200 text-xs font-medium text-blue-800 text-center p-0.5 leading-none rounded-full px-2 dark:bg-blue-900 dark:text-blue-200 absolute translate-y-1/2 translate-x-1/2 bottom-2 right-1/2',
         'options-selected' => "{$idCat}",
-        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        'class' => 'w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'options-select-array' => json_decode(json_encode($resultCategory), true),
         'select-array-multi' => 1,
         'options-keys' => ['keyValue' => 'id', 'keyText' => 'name'],
@@ -82,14 +86,17 @@ class ProductsAdminForms
       ])
       ->addField('select', 'sub_category_id', [
         'label-false' => 1,
+        'class-label-group' => 'w-[calc(50%/1.2)] relative flex flex-nowrap text-gray-900 -dark:text-white items-center gap-2',
+        'indicator' => 'Sous catégorie',
         'options-selected' => "1",
-        'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+        'class' => 'w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'options-select-array' => json_decode(json_encode($resultSubCategory), true),
         'select-array-multi' => 1,
         'options-keys' => ['keyValue' => 'idSubCat', 'keyText' => 'nameSubCat'],
       ])
       ->addField('textarea', 'description', [
         'text-label' => 'Déscription',
+        'class-label-group' => 'min-w-full w-full',
         'class' =>
         'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -98,6 +105,7 @@ class ProductsAdminForms
       ]) // CHAMP DESCRIPTION
       ->addField('number', 'price', [
         'text-label' => 'Prix en €',
+        'class-label-group' => 'w-[calc(50%/1.2)]',
         'class' =>
         'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -106,6 +114,7 @@ class ProductsAdminForms
       ]) // CHAMP PRICE
       ->addField('number', 'quantity', [
         'text-label' => 'Produit en stock',
+        'class-label-group' => 'w-[calc(50%/1.2)] ',
         'class' =>
         'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
@@ -114,8 +123,9 @@ class ProductsAdminForms
       ]) // CHAMP NAME
       ->addField('file', 'image-main', [
         'text-label' => 'Image Principal',
+        'class-label-group' => 'w-full',
         'class' =>
-        'block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
+        'w-full block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
       ]); // CHAMP URL_IMAGE
 
@@ -126,9 +136,9 @@ class ProductsAdminForms
      */
     $formBuilderProduct->setClassActionGroup('flex flex-wrap w-full justify-between');
 
-    $boolUpdate = isset($data['update-product']);
+    $boolUpdate = isset($arguments['update-product']);
     $parmsForm = (object) [
-      'route' => $boolUpdate ? "/api/Products/{ $modelProducts->getId()}" : "/api/Products",
+      'route' => $boolUpdate ? "/api/Products/{$modelProducts->getId()}" : "/api/Products",
       'name' => $boolUpdate ?  'update-product' : 'validation-product',
       'anchor' => $boolUpdate ? 'Modification produit' : 'Ajouter produit'
     ];

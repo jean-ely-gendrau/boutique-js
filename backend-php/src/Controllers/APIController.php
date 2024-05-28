@@ -448,38 +448,53 @@ class ApiController extends JWTController
 
     public function updateProducts(...$arguments)
     {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
 
+        $produitName = $arguments['name'] ?? 'Inconnu';
+        $response = ['errors' => "Une erreur est survenue lors de la modification du produit: {$produitName} "];
         // cette fonction permet de mettre à jour un produit dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $data = json_decode(file_get_contents('php://input'), true);
+        //COMMENTS JWT  if ($this->accesAPI == true) {
+        $id = $arguments["id"];
+        $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->products->update($id, $data);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(200);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        if ($arguments) {
+            $productModel = new ProductsModels($arguments);
         } else {
-            header('Location:/404');
+            $productModel = new ProductsModels($data);
         }
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $productModel->setId($id);
+        if ($productModel->id) {
+            $result = $this->products->update($productModel, ['id', 'name', 'description', 'price', 'quantity', 'category_id', 'sub_category_id']);
+            $response = ['success' => "{$produitName} - Ajouté avec succées."];
+        }
+
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(201);
+        header('Content-Type: application/json; charset=utf-8;');
+        echo json_encode($response);
+        exit;
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT  header('Location:/404');
+        //COMMENTS JWT  }
     }
 
     public function updateCategory(...$arguments)
