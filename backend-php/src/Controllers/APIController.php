@@ -8,9 +8,11 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Category;
 use Motor\Mvc\Manager\CrudManager;
 
-use App\Boutique\Models\ProductsModels;
-use App\Boutique\Controllers\JWTController;
 use Motor\Mvc\Manager\SessionManager;
+use App\Boutique\Models\ProductsModels;
+use App\Boutique\Validators\ValidatorData;
+use App\Boutique\Controllers\JWTController;
+use Motor\Mvc\Validators\ReflectionValidator;
 
 class ApiController extends JWTController
 {
@@ -358,39 +360,74 @@ class ApiController extends JWTController
 
     public function addUsers(...$arguments)
     {
-
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+        $response = ['errors' => "Une erreur est survenue lors de l'ajout utilisateurs"];
         // cette fonction permet d'ajouter un utilisateur à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $data = json_decode(file_get_contents('php://input'), true);
+        //COMMENTS JWT   if ($this->accesAPI == true) {
 
-            $userModel = new Users($data);
+        $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->users->create($userModel, $data);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "User was added successfully." : "Failed to add user.";
-            error_log($logMessage . PHP_EOL, 3, $logFile);
-            http_response_code(201);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        if ($arguments) {
+            $userModel = new Users($arguments);
         } else {
-            header('Location:/404');
+            $userModel = new Users($data);
         }
+
+        // On setPassword pour ajouter le password non hash afin que la class ReflectionValidator puisse vérifier l'exactitude du password avant d'être hash par la méthode.
+        $userModel->setPassword($arguments['password'] ?? "");
+
+        $errorsIntercept = ReflectionValidator::validate($userModel); // VALIDATOR PHP
+
+        // réponse JSON 402 avec le corps suivant : {'errors' : $errors}
+        if ($errorsIntercept) {
+            // ERROR
+            $response = ['errors' => $errorsIntercept];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        // Pas d'erreur on commence la procédure d'enregistrement.
+        $userModel->setPassword($userModel->hash($arguments['password'])); // HASH du password avant l'entrer enBDD
+        $result = $this->users->create($userModel, ['full_name', 'email', 'password', 'role']);
+
+        // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
+        if (str_contains($result, 'SQLSTATE[23000]')) {
+            $response = ['errors' => "Un compte existe déjà pour {$arguments['email']}"];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        $response = ['success' => "Enregistrement utilisateur réussit"]; // Résponse success
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+        @error_log($logMessage . PHP_EOL, 3, $logFile);
+
+        http_response_code(201); // CODE 201
+        header('Content-Type: application/json; charset=utf-8;'); // header
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT   } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT   }
     }
 
     public function updateProducts(...$arguments)

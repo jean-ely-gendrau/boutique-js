@@ -322,16 +322,21 @@ class UsersRegistrationForms
         /**
          * Paramètrage du boutton du fomulaire Inscription/Modification
          */
-        $nameButton = isset($data['update-user']) ? 'update-user' : 'validation-user';
-        $anchorButton = isset($data['update-user']) ? 'Modification' : 'Inscription';
+        $boolUpdate = isset($data['update-user']);
+        $parmsForm = (object) [
+            'route' => $boolUpdate ? "/api/Users/{$modelUser->getId()}" : "/api/Users",
+            'name' => $boolUpdate ?  'update-user' : 'validation-user',
+            'anchor' => $boolUpdate ? 'Modification' : 'Inscription'
+        ];
+
         $formRegister->setClassActionGroup('flex flex-wrap w-full justify-between')
-            ->addElementAction('button', $nameButton, $nameButton, [
+            ->addElementAction('button', $parmsForm->name, $parmsForm->name, [
                 'class' =>
                 'flex w-1/2 md:w-48 items-center justify-center p-3 truncate hover:text-clip text-sm font-medium text-gray-700 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-500 hover:underline',
-                'anchor' => $anchorButton,
+                'anchor' => $parmsForm->anchor,
                 'attributes' => [
                     'data-js' => 'handlePost,click',
-                    'data-route' => '/api/Users/' . $modelUser->getId() . '',
+                    'data-route' => $parmsForm->route,
                     'data-method' => 'POST',
                     'data-success' => '',
                     'data-id-form' => 'form-registration',
