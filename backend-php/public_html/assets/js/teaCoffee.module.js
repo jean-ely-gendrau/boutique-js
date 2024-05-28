@@ -294,7 +294,7 @@ teaCoffee.request = {
       defineRequest,
       headersParams)
     if (bodyParam) {
-      bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam); 
+      bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam);
     } else if (idForm) {
 
       bodyParamFormat = teaCoffee.format.formParam(
@@ -528,23 +528,16 @@ teaCoffee.action = {
 
     // POST REQUEST
     const response = await teaCoffee.request.post(e.target.dataset);
-   
-      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
-      if (response && response.hasOwnProperty('success')) {
-          teaCoffee.response.success(response)
-          // console.log(teaCoffee.response.success(response))
-      }
-       /*// Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
-      else if (response && response.hasOwnProperty('errors')) {
-        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
-        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
-          // 
-          let errorObject = {
-            [keyInput]: errorMessage,
-          }
-          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
-        });
-    */
+
+    // Vérification de la présence d'une réponse, success ou errors
+    if (response && response.hasOwnProperty('success')) {
+      teaCoffee.response.success(response)
+
+    } else if (response && response.hasOwnProperty('errors')) {
+      teaCoffee.response.errors(response)
+
+    }
+
   },
   /**
    * Gère l'événement de clic de souris pour l'exemple.

@@ -322,7 +322,7 @@ class UsersRegistrationForms
         /**
          * Paramètrage du boutton du fomulaire Inscription/Modification
          */
-        $nameButton = $data['update-user'] ?? 'validation-user';
+        $nameButton = isset($data['update-user']) ? 'update-user' : 'validation-user';
         $anchorButton = isset($data['update-user']) ? 'Modification' : 'Inscription';
         $formRegister->setClassActionGroup('flex flex-wrap w-full justify-between')
             ->addElementAction('button', $nameButton, $nameButton, [
@@ -333,7 +333,7 @@ class UsersRegistrationForms
                     'data-js' => 'handlePost,click',
                     'data-route' => '/api/Users/' . $modelUser->getId() . '',
                     'data-method' => 'POST',
-                    'data-succes' => '',
+                    'data-success' => '',
                     'data-id-form' => 'form-registration',
                     //'data-token' => base64_encode('ABC55'),
                 ]
@@ -343,14 +343,17 @@ class UsersRegistrationForms
          * Visible seulement si on souhaite modifier un profile
          */
         if (isset($data['update-user'])) {
-            $formRegister->addElementAction('submit', 'delete-user', 'delete-user', [
+            $formRegister->addElementAction('button', 'delete-user', 'delete-user', [
                 'class' =>
                 'flex w-1/2 md:w-48 items-center justify-center p-3 text-red-600 dark:text-red-500 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 hover:underline',
-                'anchor' => '<svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
-              </svg>
-              <span class="truncate hover:text-clip hover:text-balance text-sm font-medium">Supprimer ' . $modelUser->getFull_name() . '</span>',
-                'attributes' => ['data-js' => 'handlePost,click', 'data-route' => '/api/delete/' . $modelUser->getId() . '']
+                'attributes' => [
+                    'data-js' => 'handlePost,click',
+                    'data-method' => 'DELETE',
+                    'data-route' => '/api/Users/' . $modelUser->getId() . '',
+                    'data-success' => '',
+                    'data-id-form' => 'form-registration',
+                ],
+                'anchor' => 'Supprimer ' . $modelUser->getFull_name() . '</span>',
             ]);
         }
 
