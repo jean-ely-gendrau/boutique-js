@@ -331,9 +331,10 @@ class UsersRegistrationForms
                 'anchor' => $anchorButton,
                 'attributes' => [
                     'data-js' => 'handlePost,click',
-                    'data-route' => '/api/update-user/' . $modelUser->getId() . '',
+                    'data-route' => '/api/Users/' . $modelUser->getId() . '',
                     'data-method' => 'POST',
-                    'data-action' => 'POST',
+                    'data-succes' => '',
+                    'data-id-form' => 'form-registration',
                     //'data-token' => base64_encode('ABC55'),
                 ]
             ]);
