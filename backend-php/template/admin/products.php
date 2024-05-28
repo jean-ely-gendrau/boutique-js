@@ -125,7 +125,7 @@ Export
                       'type' => 'a',
                       'data-js' => 'handleViewHtml,click',
                       'data-route' => '/api-html/template/products/' . $product->id . '',
-                      'data-target-id' => 'body-modal-add-product-adm',
+                      'data-target-id' => 'admin-form-product',
                     ]); ?>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell">
