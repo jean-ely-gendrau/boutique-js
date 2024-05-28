@@ -10,7 +10,7 @@ use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Controllers\JWTController;
-
+use Motor\Mvc\Manager\SessionManager;
 
 class ApiController extends JWTController
 {
@@ -25,7 +25,7 @@ class ApiController extends JWTController
         $this->category = new CrudManager('category', Category::class);
         $this->orders = new CrudManager('orders', Orders::class);
         $this->users = new CrudManager('users', Users::class);
-        $this->accesAPI = $this->jwt();
+        //  $this->accesAPI = $this->jwt();
     }
 
     public function GetProductsAll(...$arguments)
@@ -505,36 +505,45 @@ class ApiController extends JWTController
     {
 
         // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            $result = $this->users->update($id, $data);
-
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(200);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        //COMMENTS JWT if ($this->accesAPI == true) {
+        $result = false;
+        $id = $arguments["id"];
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ($arguments) {
+            $userModel = new Users($arguments);
         } else {
-            header('Location:/404');
+            $userModel = new Users($data);
         }
+        $userModel?->setId($id);
+        if ($userModel->id) {
+            $result = $this->users->update($userModel, ['id', 'full_name', 'email', 'birthday']);
+        }
+
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                };
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode(['success' => 'Modification enregistrée avec succès']);
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT  }
     }
 
     public function deleteProducts(...$arguments)
@@ -591,6 +600,7 @@ class ApiController extends JWTController
             // Now you can use error_log
             $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
             error_log($logMessage, 3, $logFile);
+            header('Content-Type: application/json; charset=utf-8;');
             http_response_code(204);
         } else {
             header('Location:/404');
@@ -622,6 +632,7 @@ class ApiController extends JWTController
             // Now you can use error_log
             $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
             error_log($logMessage, 3, $logFile);
+            header('Content-Type: application/json; charset=utf-8;');
             http_response_code(204);
         } else {
             header('Location:/404');
@@ -631,32 +642,58 @@ class ApiController extends JWTController
 
     public function deleteUsers(...$arguments)
     {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
 
+        $result = false;
+        $response = ['errors' => "Une erreur c'est produite."];
         // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $result = $this->users->delete($id);
+        //COMMENTS JWT    if ($this->accesAPI == true) {
+        /**
 
-            // Log the deletion
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
+         */
+        if (isset($arguments["id"])) {
 
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
+            $id = intval($arguments["id"]);
 
-                // Create the file
-                touch($logFile);
+            // Si on essaie de supprimer un administrateur
+            // Il faudrait améliorer la condition
+            // En allant récupérer le résultat et vérifier le rôle.
+            if ($id <= 5) {
+                $response = ['errors' => "Vous ne pouvez pas supprimer cet utilisateur, contactez l'administration."];
+                goto goto_response;
             }
 
-            // Now you can use error_log
-            $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(204);
-        } else {
-            header('Location:/404');
+            if ($result = $this->users->delete($id)) {
+                $response = ['success' => "Supprimer avec succées."];
+            }
         }
+        goto_response:
+        // Log the deletion
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+
+
+        header('Content-Type: application/json; charset=utf-8;');
+        http_response_code(200);
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT  }
     }
 }

@@ -365,18 +365,21 @@ class CrudManager extends BddManager implements PaginatePerPage
     /**
      * Method delete
      *
-     * @param object $objectClass [object des données à metre à jour dans la table]
+     * @param object $id [id de l'élément à supprimer]
      *
-     * @return mixed
+     * @return bool
      */
-    public function delete(object $objectClass): mixed
+    public function delete(int $id): bool
     {
-        if (property_exists($objectClass, 'id')) {
-            $req = $this->_dbConnect->prepare('DELETE FROM ' . $this->_tableName . ' WHERE id=?');
-
-            return $req->execute([$objectClass->id]);
-        } else {
-            echo "Une erreur viens de ce produire lors de la suppression avec id: $this->_objectClass";
+        try {
+            if (is_integer($id)) {
+                $req = $this->_dbConnect->prepare('DELETE FROM ' . $this->_tableName . ' WHERE id = :id');
+                $req->execute(['id' => $id]);
+                return true;
+            }
+        } catch (\PDOException $e) {
+            return false;
+            // throw new \PDOException($e);
         }
     }
 
@@ -542,9 +545,9 @@ class CrudManager extends BddManager implements PaginatePerPage
         $sql = 'INSERT INTO orders (basket, status, created_at, updated_at, users_id) VALUES (1, "en attente", NOW(), NOW(), :client_id)';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':client_id' => $clientId]);
-        
+
         $orderId = $this->_dbConnect->lastInsertId();
-        
+
         $sql = 'INSERT INTO productsorders (products_id, orders_id) VALUES (:product_id, :order_id)';
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute([':product_id' => $productId, ':order_id' => $orderId]);
