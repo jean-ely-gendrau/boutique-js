@@ -12,6 +12,7 @@ use Motor\Mvc\Validators\ReflectionValidator;
 
 class ProductsAdminForms
 {
+
   /**
    * Méthode static ProductsForm
    *
@@ -31,7 +32,8 @@ class ProductsAdminForms
     $modelProducts = new ProductsModels($arguments); // Instance d'un models de class User
     $crudManager = new ProductsEntity();
     $resultCategory = $crudManager->getAllCategory();
-    $resultSubCategory = $crudManager->getSubCategoryByCategoryId(1);
+    $idCat = isset($arguments['selectCategory']) ? intval($arguments['selectCategory']) : 1;
+    $resultSubCategory = $crudManager->getSubCategoryByCategoryId($idCat);
 
     $errors = [];
     // ReflectionValidator::validate($modelProducts)
@@ -64,21 +66,21 @@ class ProductsAdminForms
         'placeholder' => 'Enter le nom du produit',
         'attributes' => ['value' => $modelProducts->getName() ?? ''],
       ]) // CHAMP NAME
-      ->addField('select', 'selectCategory', [
+      ->addField('select', 'category_id', [
         'label-false' => 1,
-        'options-selected' => "1",
+        'options-selected' => "{$idCat}",
         'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
         'options-select-array' => json_decode(json_encode($resultCategory), true),
         'select-array-multi' => 1,
         'options-keys' => ['keyValue' => 'id', 'keyText' => 'name'],
         'attributes' => [
           'data-js' => 'handleViewHtml,change',
-          'data-route' => '/api-html/select/subCategory',
-          'data-replace' => true,
-          'data-target-id' => 'selectSubCategory'
+          'data-route' => '/api-html/form/products',
+          'data-target-id' => 'admin-form-product',
+          'data-form-id' => 'admin-form-product'
         ]
       ])
-      ->addField('select', 'selectSubCategory', [
+      ->addField('select', 'sub_category_id', [
         'label-false' => 1,
         'options-selected' => "1",
         'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 mb-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
@@ -115,13 +117,12 @@ class ProductsAdminForms
         'class' =>
         'block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
         'class-label' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white',
-        'attributes' => ['value' => $modelProducts->getUrl_Image() ?? ''],
       ]); // CHAMP URL_IMAGE
 
 
 
     /**
-     * Paramètrage du boutton du fomulaire Inscription/Modification
+     * Paramètrage du boutton du fomulaire Ajout/Modification de produit
      */
     $formBuilderProduct->setClassActionGroup('flex flex-wrap w-full justify-between');
 
@@ -137,7 +138,7 @@ class ProductsAdminForms
       'flex w-1/2 md:w-48 items-center justify-center p-3 truncate hover:text-clip text-sm font-medium text-gray-700 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-500 hover:underline',
       'anchor' => $parmsForm->anchor,
       'attributes' => [
-        'data-js' => 'handleSampleConnect,click',
+        'data-js' => 'handlePost,click',
         'data-route' => $parmsForm->route,
         'data-id-form' => 'admin-form-product',
       ]

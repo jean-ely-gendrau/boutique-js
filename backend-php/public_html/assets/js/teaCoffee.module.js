@@ -293,15 +293,37 @@ teaCoffee.request = {
       resType,
       defineRequest,
       headersParams)
-    if (bodyParam) {
+
+    // Condition si il y à un object JSON avec des query params à ajouter au body de la requête
+    if (bodyParam && !idForm) {
       bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam);
-    } else if (idForm) {
+    }
+    // Condition si on à un id de formulaire à inclure dans le body de la raquête. (le formulaire sera transfomer new FormData)
+    else if (idForm && !bodyParam) {
 
       bodyParamFormat = teaCoffee.format.formParam(
         teaCoffee.sys.getById(idForm).elems[0]
       );
+      teaCoffee.sys.elems.pop(); // CLEAN
     }
+    // Condition si on à un object JSON avec des query params et id de formulaire (le formulaire sera transfomer new FormData) à inclure dans le body de la raquête
+    else if (idForm && bodyParam) {
 
+      teaCoffee.format.formParam(
+        teaCoffee.sys.getById(idForm).elems[0]
+      );
+      teaCoffee.sys.elems.pop(); // CLEAN
+      let tempFormatForm = teaCoffee.format.bufferBodyParams; // Assignation de la valeur
+
+      teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam);
+      let tempFormatBodyParam = teaCoffee.format.bufferBodyParams; // Assignation de la valeur
+
+      teaCoffee.format.bufferBodyParams.pop(); // CLEAN
+
+      teaCoffee.format.bufferBodyParams = tempFormatForm + '&' + tempFormatBodyParam; // Assignation de la concaténation
+
+    }
+    console.log(teaCoffee.format.bufferBodyParams);
     let defaultRequest = defineRequest
       ? defineRequest
       : `http://${window.location.hostname}:8880${route}`;
@@ -315,7 +337,9 @@ teaCoffee.request = {
         },
       body: teaCoffee.format.bufferBodyParams,
     });
+
     console.log(res);
+
     let response =
       resType === "json" ? res.json() : resType === "text" ? res.text() : false;
 
@@ -589,15 +613,19 @@ teaCoffee.action = {
     let urlPost = e.target?.getAttribute('data-route'); // data attribute
     let targetId = e.target?.getAttribute('data-target-id'); // data attribute
     let replace = e.target?.getAttribute('data-replace'); // data attribute
+    let idForm = e.target?.getAttribute('data-form-id'); // data attribute
+    let bodyParam = { 'view-html': true, 'target-id': targetId, 'replace': replace };
 
+    console.log(bodyParam);
     // POST REQUEST
     const response = await teaCoffee.request.post({
       route: urlPost,
-      bodyParam: { 'view-html': true, 'target-id': targetId, 'replace': replace },
+      idForm: idForm,
+      bodyParam: bodyParam,
       contentType: 'application/x-www-form-urlencoded',
       resType: 'json',
     });
-
+    console.log(response);
     // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
     if (response && response.hasOwnProperty('htmlElement')) {
       teaCoffee.html.viewHtml({

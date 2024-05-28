@@ -250,6 +250,7 @@ class ApiController extends JWTController
     {
         /** @param \Motor\MVC\Utils\Render $render */
         $render = $arguments['render'];
+        $response = ['errors' => "Une erreur est survenue lors de l'ajout de produit"];
         // cette fonction permet d'ajouter un produit à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         //COMMENTS JWT  if ($this->accesAPI == true) {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -261,6 +262,17 @@ class ApiController extends JWTController
 
         $result = $this->products->create($productsModel, ['name', 'description', 'price', 'quantity', 'category_id', 'sub_category_id']);
 
+
+        // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
+        if (is_string($result) &&  str_contains($result, 'SQLSTATE[23000]')) {
+            $response = ['errors' => "Un produit existe déjà pour {$arguments['name']}"];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        $response = ['success' => "Enregistrement de produit validé"];
         $logFile = '../../config/logs/logfile.txt';
         if (!file_exists($logFile)) {
             $directory = dirname($logFile);
@@ -280,7 +292,7 @@ class ApiController extends JWTController
 
         http_response_code(201);
         header('Content-Type: application/json; charset=utf-8;');
-        echo json_encode($data);
+        echo json_encode($response);
         exit();
         //COMMENTS JWT   } else {
         //COMMENTS JWT  header('Location:/404');
@@ -399,7 +411,7 @@ class ApiController extends JWTController
         $result = $this->users->create($userModel, ['full_name', 'email', 'password', 'role']);
 
         // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
-        if (str_contains($result, 'SQLSTATE[23000]')) {
+        if (is_string($result) && str_contains($result, 'SQLSTATE[23000]')) {
             $response = ['errors' => "Un compte existe déjà pour {$arguments['email']}"];
             http_response_code(402);
             header('Content-Type: application/json; charset=utf-8;');
