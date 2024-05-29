@@ -6,4 +6,5 @@ enum ClientExceptionEnum
 {
   case NotFound404;
   case AccountIsRegistered;
+  case KeyNotFound;
 }

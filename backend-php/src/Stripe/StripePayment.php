@@ -2,6 +2,10 @@
 
 namespace App\Boutique\Stripe;
 
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
+use Error;
+use Exception;
 use Motor\Mvc\Components\DockerSecrets;
 use Motor\Mvc\Enum\SecretsEnum;
 use Stripe\Checkout\Session;
@@ -14,13 +18,11 @@ class StripePayment
 
     public function StartPayment($basket)
     {
-        
-        setcookie('stripe', true, time() + 3600, '/');
-
         // TODO Voir où enregistrer la clé d'API
         $stripeSecretKey = DockerSecrets::getSecrets(SecretsEnum::Api_Key_Stripe);
-
-        \Stripe\Stripe::setApiKey($stripeSecretKey);
+        try {
+            \Stripe\Stripe::setApiKey($stripeSecretKey);
+       
 
         $YOUR_DOMAIN = 'http://boutique-js.test:8880/';
 
@@ -52,7 +54,7 @@ class StripePayment
                 ];
             }
         }
-
+        
         $session = Session::create([
             'line_items' => $line_items,
             'mode' => 'payment',
@@ -63,8 +65,10 @@ class StripePayment
                 'allowed_countries' => ['FR'],
             ],
         ]);
-        // Voir implementation d'image de produits par Content Delivery Network
-
+         } catch (Exception $e){
+            throw new ClientExceptions(ClientExceptionEnum::KeyNotFound);
+        }
+        
         // Voir nécéssité des header
         header('HTTP/1.1 303 See Other');
         header('Location: ' . $session->url);
