@@ -43,8 +43,6 @@ class StripeController
 
                     $arguments['render']->addParams('commande', $commande);
 
-                    
-
                     $content = $arguments['render']->render('stripe/success', $arguments);
 
                     unset($_COOKIE['stripe']); 
