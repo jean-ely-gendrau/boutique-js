@@ -18,11 +18,13 @@ class StripePayment
 
     public function StartPayment($basket)
     {
+        
         // TODO Voir où enregistrer la clé d'API
         $stripeSecretKey = DockerSecrets::getSecrets(SecretsEnum::Api_Key_Stripe);
         try {
             \Stripe\Stripe::setApiKey($stripeSecretKey);
-       
+
+            setcookie('stripe', true, time()+3600, '/');
 
         $YOUR_DOMAIN = 'http://boutique-js.test:8880/';
 
@@ -66,6 +68,9 @@ class StripePayment
             ],
         ]);
          } catch (Exception $e){
+            
+            unset($_COOKIE['stripe']); 
+            setcookie('stripe', '', -1, '/'); 
             throw new ClientExceptions(ClientExceptionEnum::KeyNotFound);
         }
         
