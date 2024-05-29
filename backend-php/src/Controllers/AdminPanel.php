@@ -11,6 +11,7 @@ use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\EntityManager\UsersEntity;
 use App\Boutique\EntityManager\ProductsEntity;
 use App\Boutique\Enum\BasketSvgEnum;
+use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\SelectBoxForms;
 use Motor\Mvc\Builder\ModalBuilder;
@@ -157,7 +158,7 @@ class AdminPanel
                 ]);
                 $render->addParams('categoryName', 'produits');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
-
+                $render->addParams('buttonControlForms', ButtonControlForms::class);
                 break;
 
 

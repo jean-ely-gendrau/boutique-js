@@ -458,7 +458,8 @@ class ApiController extends JWTController
         $id = $arguments["id"];
         $data = json_decode(file_get_contents('php://input'), true);
 
-
+        $productLastUpdate = $this->products->getById($id);
+        var_dump($productLastUpdate);
         if ($arguments) {
             $productModel = new ProductsModels($arguments);
         } else {
