@@ -19,7 +19,6 @@ class StripeController
 
     public function Pay(...$arguments)
     {
-        /**NOTE - Voir récupération des données du panier, ne pas créer de doublon de requête */
         $IdclientCrudManager = new CrudManager('users', Users::class);
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
 
@@ -35,19 +34,23 @@ class StripeController
         if (isset($_SESSION['isConnected'])) {
             if(isset($_COOKIE['stripe'])){
                 try{
+                    unset($_COOKIE['stripe']); 
+                    setcookie('stripe', '', -1, '/'); 
+
                     $IdclientCrudManager = new CrudManager('users', Users::class);
                     $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
 
                     $crudManagerOrder = new CrudManager('orders', Orders::class);
-                    $commande = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+                    $commandes = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+                    foreach($commandes as $commande){
+                        $ordermodel= new Orders((array)$commande);
+                        $ordermodel->setBasket(0);
+                        $crudManagerOrder->update($ordermodel, ['id', 'basket']);
+                    }
 
-                    $arguments['render']->addParams('commande', $commande);
+                    $arguments['render']->addParams('commande', $commandes);
 
                     $content = $arguments['render']->render('stripe/success', $arguments);
-
-                    unset($_COOKIE['stripe']); 
-                    setcookie('stripe', '', -1, '/'); 
-
                     return $content;
                 } catch (Exception $e) {
                     $content = $arguments['render']->render('404', $arguments);
