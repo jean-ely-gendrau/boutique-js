@@ -176,10 +176,10 @@ $router->map('GET', '/basket', 'StripeController#Index', 'basket');
 // Route renvoyant sur l'API Stripe checkout
 $router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
 
-// // Route si le paiment est abandonné
+// Route si le paiment est abandonné
 $router->map('GET', '/stripe/cancel', 'StripeController#Cancel', 'cancel');
 
-// // Route si le paiement est confirmé
+// Route si le paiement est confirmé
 $router->map('GET', '/stripe/success', 'StripeController#Success', 'success');
 
 /*
