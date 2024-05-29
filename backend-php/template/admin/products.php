@@ -15,6 +15,23 @@ Update stocks 1/250
 </svg>
 Export
 </button> 
+
+
+<button data-js="handelPost,click" data-route="/api/Products/<?= $product->id ?>" success="" class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                        <span class="sr-only">Boutton de diminution de la quantité</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                        </svg>
+                      </button>
+                      <div>
+                        <input type="number" id="first_product" class="bg-gray-50 w-16 text-center border <?= $product->quantity > 10 ? 'border-green-300' : 'border-red-300' ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 <?= $product->quantity > 10 ? 'dark:border-green-600' : 'dark:border-red-700' ?> dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="<?= $product->quantity ?>" required />
+                      </div>
+                      <button data-js="handelPost,click" data-route="/api/Products/<?= $product->id ?>" success="" class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                        <span class="sr-only">Boutton d'augmentation de la quantité</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                        </svg>
+                      </button>
 */
 ?>
 <section class="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5 mt-16">
@@ -58,7 +75,7 @@ Export
                   </li>
                 </ul>
                 <div class="py-1">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Supprimer le produit</a>
+                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Supprimer le produit</a>
                 </div>
               </div>
             </div>
@@ -125,26 +142,15 @@ Export
                       'type' => 'a',
                       'data-js' => 'handleViewHtml,click',
                       'data-route' => '/api-html/template/products/' . $product->id . '',
-                      'data-target-id' => 'body-modal-add-product-adm',
+                      'data-target-id' => 'admin-form-product',
                     ]); ?>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden lg:table-cell">
                     <div class="flex items-center">
-                      <button class="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                        <span class="sr-only">Boutton de diminution de la quantité</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                        </svg>
-                      </button>
-                      <div>
-                        <input type="number" id="first_product" class="bg-gray-50 w-16 text-center border <?= $product->quantity > 10 ? 'border-green-300' : 'border-red-300' ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 <?= $product->quantity > 10 ? 'dark:border-green-600' : 'dark:border-red-700' ?> dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="<?= $product->quantity ?>" required />
-                      </div>
-                      <button class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                        <span class="sr-only">Boutton d'augmentation de la quantité</span>
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                        </svg>
-                      </button>
+                      <?php
+                      /** @var \App\Boutique\Forms\ButtonControlForms $buttonControlForms */
+                      echo $buttonControlForms::buttonUpdateQuantityProduct($product)->render();
+                      ?>
                     </div>
                   </td>
                   <td class="px-3 md:px-6 py-4 hidden md:table-cell font-semibold text-gray-900 dark:text-white">
@@ -181,10 +187,7 @@ Export
                         </li>
                       </ul>
                       <div class="py-2">
-                        <a href="#" class="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline">
-                          <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
-                          </svg>
+                        <a data-js='handlePost,click' data-method='DELETE' data-route="/api/Products/<?= $product->id ?>" data-success='' class="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline">
                           Supprimer le produit
                         </a>
                       </div>

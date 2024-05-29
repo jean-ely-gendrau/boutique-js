@@ -11,6 +11,7 @@ use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\EntityManager\UsersEntity;
 use App\Boutique\EntityManager\ProductsEntity;
 use App\Boutique\Enum\BasketSvgEnum;
+use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\SelectBoxForms;
 use Motor\Mvc\Builder\ModalBuilder;
@@ -137,7 +138,7 @@ class AdminPanel
                 $newModalProduct = new ModalBuilder();
                 $newModalProduct->setIdModal('modal-form-product');
                 $newModalProduct->addHeader('modal-add-product-adm', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Formulaire produits</h2>')
-                    ->addBody('body-modal-add-product-adm', '<div></div>');
+                    ->addBody('body-modal-add-product-adm', '<div id="admin-form-product"></div>');
 
                 $buttonModalProduct =   $newModalProduct->renderOpenButton('
                     <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -157,7 +158,7 @@ class AdminPanel
                 ]);
                 $render->addParams('categoryName', 'produits');
                 $render->addParams('selectAllPaginate', $selectAllPaginate);
-
+                $render->addParams('buttonControlForms', ButtonControlForms::class);
                 break;
 
 

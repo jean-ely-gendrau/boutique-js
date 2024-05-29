@@ -1120,6 +1120,10 @@ input:checked + .toggle-bg {
   bottom: 0px;
 }
 
+.bottom-2 {
+  bottom: 0.5rem;
+}
+
 .bottom-5 {
   bottom: 1.25rem;
 }
@@ -1544,6 +1548,10 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
+.h-7 {
+  height: 1.75rem;
+}
+
 .max-h-\[32rem\] {
   max-height: 32rem;
 }
@@ -1680,12 +1688,24 @@ input:checked + .toggle-bg {
   width: 600px;
 }
 
+.w-\[calc\(50\%\/1\.2\)\] {
+  width: calc(50% / 1.2);
+}
+
 .w-auto {
   width: auto;
 }
 
 .w-full {
   width: 100%;
+}
+
+.w-7 {
+  width: 1.75rem;
+}
+
+.min-w-full {
+  min-width: 100%;
 }
 
 .max-w-2xl {
@@ -3193,10 +3213,6 @@ background: white;*/
 
 .hover\:text-clip:hover {
   text-overflow: clip;
-}
-
-.hover\:text-balance:hover {
-  text-wrap: balance;
 }
 
 .hover\:border:hover {

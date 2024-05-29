@@ -87,27 +87,83 @@ class ButtonControlForms
       'attributes' => ['value' => 'expensive'],
       'anchor' => 'Plus cher'
     ])->addElementAction('button', 'cheaper', 'cheaper', [
-          'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
-          'label-false' => 1,
-          'attributes' => ['value' => 'cheaper'],
-          'anchor' => 'Moins cher'
-        ])->addElementAction('button', 'bestSeller', 'bestSeller', [
-          'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
-          'label-false' => 1,
-          'attributes' => ['value' => 'bestSeller'],
-          'anchor' => 'Top des ventes'
-        ])->addElementAction('button', 'bestRated', 'bestRated', [
-          'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
-          'label-false' => 1,
-          'attributes' => ['value' => 'bestRated'],
-          'anchor' => 'Top des ventes'
-        ])->addElementAction('button', 'clear', 'clear', [
-          'class' => 'text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900',
-          'label-false' => 1,
-          'attributes' => ['value' => 'clear'],
-          'anchor' => 'Clear'
-        ]);
+      'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
+      'label-false' => 1,
+      'attributes' => ['value' => 'cheaper'],
+      'anchor' => 'Moins cher'
+    ])->addElementAction('button', 'bestSeller', 'bestSeller', [
+      'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
+      'label-false' => 1,
+      'attributes' => ['value' => 'bestSeller'],
+      'anchor' => 'Top des ventes'
+    ])->addElementAction('button', 'bestRated', 'bestRated', [
+      'class' => 'filters text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800',
+      'label-false' => 1,
+      'attributes' => ['value' => 'bestRated'],
+      'anchor' => 'Top des ventes'
+    ])->addElementAction('button', 'clear', 'clear', [
+      'class' => 'text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900',
+      'label-false' => 1,
+      'attributes' => ['value' => 'clear'],
+      'anchor' => 'Clear'
+    ]);
 
     return $buttonFilterNavigation;
+  }
+
+  public static function buttonUpdateQuantityProduct($product)
+  {
+    // Params Class Color Quantity
+    $colorParam = (object) [
+      'border' => (object) [
+        'light' => $product->quantity > 10 ? 'border-green-300' : 'border-red-300',
+        'dark' => $product->quantity > 10 ? 'dark:border-green-600' : 'dark:border-red-700'
+      ]
+    ];
+    //FormBuilder Button
+    $buttonNavigation = new FormBuilder();
+    $buttonNavigation->setIdForm("form-update-qty-{$product->getId()}");
+    $buttonNavigation->setClassForm('flex flex-col justify-center items-center md:flex-row md:flex-nowrap gap-5 my-5');
+    $buttonNavigation->setClassActionGroup('flex flex-row flex-nowrap gap-5')
+      ->addField('button', 'upStock', [
+        'label-false' => 1,
+        'class' => "flex items-center justify-center align-center h-6 w-6 text-xl font-bold text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700",
+        'value-button' => '<span class="sr-only">Boutton de diminution de la quantité</span>-',
+        'attributes' => [
+          'data-js' => 'handleUpdateQuantity,click',
+          'data-action' => "down",
+          'data-target-id' => "quantity",
+          'data-id-form' => "form-update-qty-{$product->getId()}",
+          'data-route' => "/api/Products/{$product->getId()}"
+        ],
+        'error-tooltip' => "Vous ne pouvez entrer que des nombre la valeur minimum et 0",
+      ])->addField('number', 'quantity', [
+        'class-label-group' => 'relative flex flex-nowrap text-gray-900 dark:text-white items-center gap-2',
+        'label-false' => 1,
+        'indicator' => 'quantité',
+        'class' => "bg-gray-50 w-16 text-center border " . $colorParam->border->light . " text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 " . $colorParam->border->dark . " dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+        'attributes' => [
+          'value' => $product->getQuantity() ?? 0,
+          'data-js' => 'handleClick,change',
+          'data-action' => 'verifyNumber',
+          'data-min' => 0,
+          'data-type' => 'number',
+          'data-tooltip-target' => 'tooltip-warn-select_pages'
+        ],
+        'error-tooltip' => "Vous ne pouvez entrer que des nombre la valeur minimum et 0",
+      ])->addField('button', 'dwStock', [
+        'label-false' => 1,
+        'value-button' => '<span class="sr-only">Boutton d\'augmentation de la quantité</span>+',
+        'class' => "inline-flex items-center justify-center h-6 w-6 text-xl font-bold text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 translate-x translate-y",
+        'attributes' => [
+          'data-js' => 'handleUpdateQuantity,click',
+          'data-action' => "up",
+          'data-target-id' => "quantity",
+          'data-id-form' => "form-update-qty-{$product->getId()}",
+          'data-route' => "/api/Products/{$product->getId()}"
+        ]
+      ]);
+
+    return $buttonNavigation;
   }
 }
