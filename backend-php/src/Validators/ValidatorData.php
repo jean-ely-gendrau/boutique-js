@@ -91,7 +91,7 @@ class ValidatorData
                 return in_array($value, $this->options);
 
             case 'full_name': // Pour le champ full_name
-                if (preg_match('/^(\w{3,25})$/', $value)) :
+                if (preg_match('/^([\w\s-]{3,25})$/', $value)) :
                     // test regex sur les caratère \w min 3 et max 25
 
                     return true; // Si le masque est bon true
