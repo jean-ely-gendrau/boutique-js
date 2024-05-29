@@ -451,17 +451,42 @@ class ApiController extends JWTController
         /** @param \Motor\MVC\Utils\Render $render */
         $render = $arguments['render'];
 
-        $produitName = $arguments['name'] ?? 'Inconnu';
-        $response = ['errors' => "Une erreur est survenue lors de la modification du produit: {$produitName} "];
         // cette fonction permet de mettre à jour un produit dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
         //COMMENTS JWT  if ($this->accesAPI == true) {
         $id = $arguments["id"];
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Récuperation du produit
         $productLastUpdate = $this->products->getById($id);
-        var_dump($productLastUpdate);
-        if ($arguments) {
-            $productModel = new ProductsModels($arguments);
+        $produitName = $productLastUpdate->getName() ?? 'Inconnu';
+
+        // Définition d'un message d'erreur par défault.
+        $response = ['errors' => "Une erreur est survenue lors de la modification du produit: {$produitName} "];
+
+        // Filtrer les arguments transmis à la méthod
+        // unset $filterArgument['render']
+        $filterArgument = $arguments;
+        unset($filterArgument['render']);
+
+        //$arrayKeySafe = array_keys((array)json_decode(json_encode($productLastUpdate))); // Les keys du model product
+
+        // La valeur de retour de array_diff_assoc sera un tableau clé et de valeur qui seront différente du model extrait de la BDD
+        // Afin de ne mettre à jour seulement les valeurs qui on changé.
+        $objectToArray = (array) json_decode(json_encode($productLastUpdate), true);
+        $arrayKeyDynamicUpdate = array_diff_assoc($filterArgument, $objectToArray);
+
+
+        // On vérifie que chaque élément passée à la requêttes figure bien dans le model product.
+        foreach ($arrayKeyDynamicUpdate as $keyDynamic => $valDynamic) {
+            if (!property_exists(ProductsModels::class, $keyDynamic)) {
+                unset($arrayKeyDynamicUpdate[$keyDynamic]);
+            }
+        }
+
+        $productLastUpdate = array_merge($objectToArray, (array)$arrayKeyDynamicUpdate);
+
+        if ($productLastUpdate) {
+            $productModel = new ProductsModels($productLastUpdate);
         } else {
             $productModel = new ProductsModels($data);
         }
@@ -469,8 +494,10 @@ class ApiController extends JWTController
 
         $productModel->setId($id);
         if ($productModel->id) {
-            $result = $this->products->update($productModel, ['id', 'name', 'description', 'price', 'quantity', 'category_id', 'sub_category_id']);
-            $response = ['success' => "{$produitName} - Ajouté avec succées."];
+            $arrayKeyDynamicUpdate['id'] = $id; // On ajoute l'id au tableau
+            $result = $this->products->update($productModel, array_reverse(array_keys($arrayKeyDynamicUpdate)));
+
+            $response = ['success' => "{$produitName} - mise à jour avec succées."];
         }
 
         $logFile = '../../config/logs/logfile.txt';

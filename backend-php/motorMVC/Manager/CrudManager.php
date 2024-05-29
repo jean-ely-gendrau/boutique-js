@@ -332,10 +332,11 @@ class CrudManager extends BddManager implements PaginatePerPage
      * @param object $objectClass [object des données à metre à jour dans la table]
      * @param array $param [paramètre representant les données à metre à jour - Le premier élément du tableau dois être la clé de id à mettre à jour exemple id,id_user,id_product ...]
      *
-     * @return void
+     * @return bool
      */
-    public function update(object $objectClass, array $param): void
+    public function update(object $objectClass, array $param): bool
     {
+        var_dump($param);
         // On mémorise les paramètres à mettre à jours
         $paramsUpdate = $param;
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
@@ -358,8 +359,8 @@ class CrudManager extends BddManager implements PaginatePerPage
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
-        // var_dump($boundParam);
-        $req->execute($boundParam);
+        var_dump($boundParam);
+        return $req->execute($boundParam);
     }
 
     /**

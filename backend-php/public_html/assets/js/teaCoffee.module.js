@@ -658,6 +658,42 @@ teaCoffee.action = {
       }
     }
   },
+  /**
+ * Gère l'événement de clic de souris pour l'exemple.
+ * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+ * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+ */
+  handleUpdateQuantity: async function (e) {
+    e.preventDefault();
+    let action = e.target?.getAttribute("data-action"); // data attribute
+    let targetId = e.target?.getAttribute("data-target-id"); // data attribute
+    let route = e.target?.getAttribute("data-route"); // data attribute
+    let idForm = e.target?.getAttribute("data-id-form"); // data attribute
+
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      switch (action) {
+        case 'up':
+          targetElement.value = parseInt(targetElement.value) + 1;
+          break;
+        case 'down':
+          targetElement.value = parseInt(targetElement.value) - 1;
+          break;
+      }
+
+      if (route && idForm) {
+        const response = await teaCoffee.request.post({
+          route: route,
+          idForm: idForm,
+          contentType: "application/x-www-form-urlencoded",
+          resType: "json",
+        });
+
+        console.log(response);
+      }
+    }
+    console.log(e, action, targetId);
+  },
   /***************************************************** SAMPLE METHODE */
   /**
    * Gère l'événement de clic de souris pour l'exemple.
