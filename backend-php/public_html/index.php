@@ -46,11 +46,11 @@ $router->map('GET', '/detail/[a:product_id]', 'ElementProduit#ProduitElement', '
 
 // -------------------------------
 
-$router->map('GET', '/api/products', 'ApiController#GetProductsAll', 'products');
+$router->map('GET', '/api/products_all', 'ApiController#GetProductsAll', 'products-all');
+$router->map('GET', '/api/category_all', 'ApiController#GetCategoryAll', 'categorys-all');
+$router->map('GET', '/api/orders_all', 'ApiController#GetOrdersAll', 'orders-all');
+$router->map('GET', '/api/users_all', 'ApiController#GetUsersAll', 'users-all');
 $router->map('GET', '/api/products/[a:category]', 'ApiController#GetProductsByCategory', 'products-category');
-$router->map('GET', '/api/category', 'ApiController#GetCategory', 'categorys');
-$router->map('GET', '/api/orders', 'ApiController#GetOrders', 'orders');
-$router->map('GET', '/api/users', 'ApiController#GetUsers', 'users');
 $router->map('GET', '/api/users/[i:id]', 'ApiController#GetUserById', 'user');
 $router->map('GET', '/api/products/[i:id]', 'ApiController#GetProductById', 'product');
 $router->map('GET', '/api/category/[i:id]', 'ApiController#GetCategoryById', 'category');
@@ -176,10 +176,10 @@ $router->map('GET', '/basket', 'StripeController#Index', 'basket');
 // Route renvoyant sur l'API Stripe checkout
 $router->map('GET', '/stripe/pay', 'StripeController#Pay', 'pay');
 
-// // Route si le paiment est abandonné
+// Route si le paiment est abandonné
 $router->map('GET', '/stripe/cancel', 'StripeController#Cancel', 'cancel');
 
-// // Route si le paiement est confirmé
+// Route si le paiement est confirmé
 $router->map('GET', '/stripe/success', 'StripeController#Success', 'success');
 
 /*
