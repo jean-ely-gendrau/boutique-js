@@ -37,7 +37,7 @@ class HtmlToJsonController
    * [!>Warning] IMPLEMENTER JWT
    *
    * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
-   * @return void
+   * @return string
    */
   public function FormAdmin(...$arguments)
   {
@@ -69,7 +69,7 @@ class HtmlToJsonController
    * [!>Warning] IMPLEMENTER JWT
    *
    * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
-   * @return void
+   * @return string
    */
   public function Template(...$arguments)
   {

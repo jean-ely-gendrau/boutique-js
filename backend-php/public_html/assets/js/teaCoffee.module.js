@@ -293,15 +293,37 @@ teaCoffee.request = {
       resType,
       defineRequest,
       headersParams)
-    if (bodyParam) {
-      bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam); 
-    } else if (idForm) {
+
+    // Condition si il y à un object JSON avec des query params à ajouter au body de la requête
+    if (bodyParam && !idForm) {
+      bodyParamFormat = teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam);
+    }
+    // Condition si on à un id de formulaire à inclure dans le body de la raquête. (le formulaire sera transfomer new FormData)
+    else if (idForm && !bodyParam) {
 
       bodyParamFormat = teaCoffee.format.formParam(
         teaCoffee.sys.getById(idForm).elems[0]
       );
+      teaCoffee.sys.elems.pop(); // CLEAN
     }
+    // Condition si on à un object JSON avec des query params et id de formulaire (le formulaire sera transfomer new FormData) à inclure dans le body de la raquête
+    else if (idForm && bodyParam) {
 
+      teaCoffee.format.formParam(
+        teaCoffee.sys.getById(idForm).elems[0]
+      );
+      teaCoffee.sys.elems.pop(); // CLEAN
+      let tempFormatForm = teaCoffee.format.bufferBodyParams; // Assignation de la valeur
+
+      teaCoffee.format.bodyParam(typeof bodyParam === 'string' ? eval('(' + bodyParam + ')') : bodyParam);
+      let tempFormatBodyParam = teaCoffee.format.bufferBodyParams; // Assignation de la valeur
+
+      teaCoffee.format.bufferBodyParams.pop(); // CLEAN
+
+      teaCoffee.format.bufferBodyParams = tempFormatForm + '&' + tempFormatBodyParam; // Assignation de la concaténation
+
+    }
+    console.log(teaCoffee.format.bufferBodyParams);
     let defaultRequest = defineRequest
       ? defineRequest
       : `http://${window.location.hostname}:8880${route}`;
@@ -315,7 +337,9 @@ teaCoffee.request = {
         },
       body: teaCoffee.format.bufferBodyParams,
     });
+
     console.log(res);
+
     let response =
       resType === "json" ? res.json() : resType === "text" ? res.text() : false;
 
@@ -528,23 +552,16 @@ teaCoffee.action = {
 
     // POST REQUEST
     const response = await teaCoffee.request.post(e.target.dataset);
-   
-      // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
-      if (response && response.hasOwnProperty('success')) {
-          teaCoffee.response.success(response)
-          // console.log(teaCoffee.response.success(response))
-      }
-       /*// Vérification de la présence d'une réponse, ainsi que de la propriété 'errors' dans cette réponse
-      else if (response && response.hasOwnProperty('errors')) {
-        // Transforme l'objet de la réponse en tableau associatif de keyInput => errorMessage
-        Object.entries(response.errors).forEach(([keyInput, errorMessage], index) => {
-          // 
-          let errorObject = {
-            [keyInput]: errorMessage,
-          }
-          teaCoffee.html.addAndCleanErrorHtmlMessage(keyInput, errorObject)
-        });
-    */
+
+    // Vérification de la présence d'une réponse, success ou errors
+    if (response && response.hasOwnProperty('success')) {
+      teaCoffee.response.success(response)
+
+    } else if (response && response.hasOwnProperty('errors')) {
+      teaCoffee.response.errors(response)
+
+    }
+
   },
   /**
    * Gère l'événement de clic de souris pour l'exemple.
@@ -596,15 +613,19 @@ teaCoffee.action = {
     let urlPost = e.target?.getAttribute('data-route'); // data attribute
     let targetId = e.target?.getAttribute('data-target-id'); // data attribute
     let replace = e.target?.getAttribute('data-replace'); // data attribute
+    let idForm = e.target?.getAttribute('data-form-id'); // data attribute
+    let bodyParam = { 'view-html': true, 'target-id': targetId, 'replace': replace };
 
+    console.log(bodyParam);
     // POST REQUEST
     const response = await teaCoffee.request.post({
       route: urlPost,
-      bodyParam: { 'view-html': true, 'target-id': targetId, 'replace': replace },
+      idForm: idForm,
+      bodyParam: bodyParam,
       contentType: 'application/x-www-form-urlencoded',
       resType: 'json',
     });
-
+    console.log(response);
     // Vérification de la présence d'une réponse, ainsi que de la propriété 'isConnected' dans cette réponse, en s'assurant que cette propriété est de type booléen et a la valeur true
     if (response && response.hasOwnProperty('htmlElement')) {
       teaCoffee.html.viewHtml({
@@ -636,6 +657,42 @@ teaCoffee.action = {
           window.location.assign(linkUrl);
       }
     }
+  },
+  /**
+ * Gère l'événement de clic de souris pour l'exemple.
+ * @param {MouseEvent} e - L'événement de clic de souris déclenché.
+ * @returns {Promise<void>} - Une promesse résolue lorsque le traitement de l'événement est terminé.
+ */
+  handleUpdateQuantity: async function (e) {
+    e.preventDefault();
+    let action = e.target?.getAttribute("data-action"); // data attribute
+    let targetId = e.target?.getAttribute("data-target-id"); // data attribute
+    let route = e.target?.getAttribute("data-route"); // data attribute
+    let idForm = e.target?.getAttribute("data-id-form"); // data attribute
+
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      switch (action) {
+        case 'up':
+          targetElement.value = parseInt(targetElement.value) + 1;
+          break;
+        case 'down':
+          targetElement.value = parseInt(targetElement.value) - 1;
+          break;
+      }
+
+      if (route && idForm) {
+        const response = await teaCoffee.request.post({
+          route: route,
+          idForm: idForm,
+          contentType: "application/x-www-form-urlencoded",
+          resType: "json",
+        });
+
+        console.log(response);
+      }
+    }
+    console.log(e, action, targetId);
   },
   /***************************************************** SAMPLE METHODE */
   /**

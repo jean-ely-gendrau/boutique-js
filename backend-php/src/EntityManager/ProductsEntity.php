@@ -57,7 +57,7 @@ class ProductsEntity extends CrudApi
         //     GROUP BY ord.id_product
         $selectItem = is_null($select) ? '*' : join(', ', $select);
 
-        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName, ord.id 
+        $sql = "SELECT prod.* , i.url_image, i.image_main, c.name as catName, sub.name as subCatName 
             FROM {$this->getTableName()} as prod 
             LEFT JOIN category as c ON prod.category_id = c.id 
             LEFT JOIN sub_category as sub ON prod.sub_category_id = sub.id  

@@ -17,7 +17,7 @@ class Users extends PasswordHashManager implements \JsonSerializable
      *
      * @var int
      */
-    #[ValidatorData('numeric')]
+    //#[ValidatorData('numeric')]
     private $id;
 
     /**

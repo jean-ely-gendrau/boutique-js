@@ -162,6 +162,10 @@ class FormBuilder extends AbstractFormBuilder
                 // Début de la balise Select
                 $output .= '<select name="' . $name . '" id="' . $id . '"';
                 break;
+            case 'button':
+                // Début de la balise Select
+                $output .= '<button name="' . $name . '" id="' . $id . '"';
+                break;
                 /* Tout les champs Input ce ressemble écrivons en dernière condition de switch*/
             case 'text':
             case 'password':
@@ -170,7 +174,6 @@ class FormBuilder extends AbstractFormBuilder
             case 'date':
             case 'month':
             case 'number':
-            case 'button':
             case 'radio':
             case 'checkbox':
             case 'range':
@@ -233,6 +236,16 @@ class FormBuilder extends AbstractFormBuilder
             $output .= $options['value-area'] ?? '';
 
             $output .= '</textarea>'; // Fin de la balise Textarea
+        }
+
+        // BUTTON
+        if ($type === 'button') {
+            $output .= '>';
+
+            /* Assignation d'un valeur avec l'opérateur coalescing ref: https://www.php.net/manual/en/migration70.new-features.php */
+            $output .= $options['value-button'] ?? '';
+
+            $output .= '</button>'; // Fin de la balise Button
         }
         // SELECT
         elseif ($type === 'select') {
