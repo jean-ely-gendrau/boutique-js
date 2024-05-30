@@ -154,7 +154,6 @@ class CrudManager extends BddManager implements PaginatePerPage
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
 
-        // var_dump($req->fetch());
         return $req->fetch();
     }
 
@@ -336,7 +335,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function update(object $objectClass, array $param): bool
     {
-        var_dump($param);
+        
         // On mémorise les paramètres à mettre à jours
         $paramsUpdate = $param;
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
@@ -359,7 +358,7 @@ class CrudManager extends BddManager implements PaginatePerPage
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
-        var_dump($boundParam);
+        
         return $req->execute($boundParam);
     }
 
@@ -592,12 +591,11 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function GetBasketForStripe($clientId): array
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT o.*, p.id, p.name, p.price, i.id, i.url_image FROM orders o 
-            INNER JOIN productsorders po ON o.id = po.orders_id
-            INNER JOIN products p ON po.products_id = p.id 
-            INNER JOIN productsimages pi ON p.id = pi.products_id
-            INNER JOIN images i ON i.id = pi.images_id
-            WHERE o.users_id = :client_id AND o.basket = 1',
+            'SELECT o.*, p.id AS products_id, p.name, p.price, i.id AS images_id, i.url_image FROM orders o
+             INNER JOIN productsorders po ON o.id = po.orders_id 
+             INNER JOIN products p ON po.products_id = p.id 
+             INNER JOIN productsimages pi ON p.id = pi.products_id 
+             LEFT JOIN images i ON i.id = pi.images_id WHERE o.users_id = :client_id AND o.basket = 1',
         );
         $req->execute(['client_id' => $clientId]);
         $req->setFetchMode(\PDO::FETCH_OBJ);
@@ -633,7 +631,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id IN (1, 4, 5)');
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
-        var_dump($req->fetchAll());
+        
         return $req->fetchAll();
     }
 
