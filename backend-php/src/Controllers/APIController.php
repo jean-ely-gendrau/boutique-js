@@ -8,9 +8,11 @@ use App\Boutique\Models\Orders;
 use App\Boutique\Models\Category;
 use Motor\Mvc\Manager\CrudManager;
 
+use Motor\Mvc\Manager\SessionManager;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Controllers\JWTController;
-
+use Motor\Mvc\Validators\ReflectionValidator;
 
 class ApiController extends JWTController
 {
@@ -25,7 +27,7 @@ class ApiController extends JWTController
         $this->category = new CrudManager('category', Category::class);
         $this->orders = new CrudManager('orders', Orders::class);
         $this->users = new CrudManager('users', Users::class);
-        $this->accesAPI = $this->jwt();
+        //  $this->accesAPI = $this->jwt();
     }
 
     public function GetProductsAll(...$arguments)
@@ -246,39 +248,55 @@ class ApiController extends JWTController
 
     public function addProducts(...$arguments)
     {
-
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+        $response = ['errors' => "Une erreur est survenue lors de l'ajout de produit"];
         // cette fonction permet d'ajouter un produit à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            $productsModel = new ProductsModels($data);
-
-            $result = $this->products->create($productsModel, $data);
-
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(201);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        //COMMENTS JWT  if ($this->accesAPI == true) {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ($arguments) {
+            $productsModel = new ProductsModels($arguments);
         } else {
-            header('Location:/404');
+            $productsModel = new ProductsModels($data);
         }
+
+        $result = $this->products->create($productsModel, ['name', 'description', 'price', 'quantity', 'category_id', 'sub_category_id']);
+
+
+        // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
+        if ($result || is_string($result) &&  str_contains($result, 'SQLSTATE[23000]')) {
+            $response = ['errors' => "Un produit existe déjà pour {$arguments['name']}"];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        $response = ['success' => "Enregistrement de produit validé"];
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product was added successfully." : "Failed to add product.";
+        @error_log($logMessage, 3, $logFile);
+
+        http_response_code(201);
+        header('Content-Type: application/json; charset=utf-8;');
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT   } else {
+        //COMMENTS JWT  header('Location:/404');
+        //COMMENTS JWT   }
     }
 
     public function addCategory(...$arguments)
@@ -358,75 +376,153 @@ class ApiController extends JWTController
 
     public function addUsers(...$arguments)
     {
-
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+        $response = ['errors' => "Une erreur est survenue lors de l'ajout utilisateurs"];
         // cette fonction permet d'ajouter un utilisateur à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $data = json_decode(file_get_contents('php://input'), true);
+        //COMMENTS JWT   if ($this->accesAPI == true) {
 
-            $userModel = new Users($data);
+        $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->users->create($userModel, $data);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "User was added successfully." : "Failed to add user.";
-            error_log($logMessage . PHP_EOL, 3, $logFile);
-            http_response_code(201);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        if ($arguments) {
+            $userModel = new Users($arguments);
         } else {
-            header('Location:/404');
+            $userModel = new Users($data);
         }
+
+        // On setPassword pour ajouter le password non hash afin que la class ReflectionValidator puisse vérifier l'exactitude du password avant d'être hash par la méthode.
+        $userModel->setPassword($arguments['password'] ?? "");
+
+        $errorsIntercept = ReflectionValidator::validate($userModel); // VALIDATOR PHP
+
+        // réponse JSON 402 avec le corps suivant : {'errors' : $errors}
+        if ($errorsIntercept) {
+            // ERROR
+            $response = ['errors' => $errorsIntercept];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        // Pas d'erreur on commence la procédure d'enregistrement.
+        $userModel->setPassword($userModel->hash($arguments['password'])); // HASH du password avant l'entrer enBDD
+        $result = $this->users->create($userModel, ['full_name', 'email', 'password', 'role']);
+
+        // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
+        if (is_string($result) && str_contains($result, 'SQLSTATE[23000]')) {
+            $response = ['errors' => "Un compte existe déjà pour {$arguments['email']}"];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        $response = ['success' => "Enregistrement utilisateur réussit"]; // Résponse success
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+        @error_log($logMessage . PHP_EOL, 3, $logFile);
+
+        http_response_code(201); // CODE 201
+        header('Content-Type: application/json; charset=utf-8;'); // header
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT   } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT   }
     }
 
     public function updateProducts(...$arguments)
     {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
 
         // cette fonction permet de mettre à jour un produit dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $data = json_decode(file_get_contents('php://input'), true);
+        //COMMENTS JWT  if ($this->accesAPI == true) {
+        $id = $arguments["id"];
+        $data = json_decode(file_get_contents('php://input'), true);
 
-            $result = $this->products->update($id, $data);
+        // Récuperation du produit
+        $productLastUpdate = $this->products->getById($id);
+        $produitName = $productLastUpdate->getName() ?? 'Inconnu';
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
+        // Définition d'un message d'erreur par défault.
+        $response = ['errors' => "Une erreur est survenue lors de la modification du produit: {$produitName} "];
 
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
+        // Filtrer les arguments transmis à la méthod
+        // unset $filterArgument['render']
+        $filterArgument = $arguments;
+        unset($filterArgument['render']);
 
-                // Create the file
-                touch($logFile);
+        //$arrayKeySafe = array_keys((array)json_decode(json_encode($productLastUpdate))); // Les keys du model product
+
+        // La valeur de retour de array_diff_assoc sera un tableau clé et de valeur qui seront différente du model extrait de la BDD
+        // Afin de ne mettre à jour seulement les valeurs qui on changé.
+        $objectToArray = (array) json_decode(json_encode($productLastUpdate), true);
+        $arrayKeyDynamicUpdate = array_diff_assoc($filterArgument, $objectToArray);
+
+
+        // On vérifie que chaque élément passée à la requêttes figure bien dans le model product.
+        foreach ($arrayKeyDynamicUpdate as $keyDynamic => $valDynamic) {
+            if (!property_exists(ProductsModels::class, $keyDynamic)) {
+                unset($arrayKeyDynamicUpdate[$keyDynamic]);
             }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(200);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
-        } else {
-            header('Location:/404');
         }
+
+        $productLastUpdate = array_merge($objectToArray, (array)$arrayKeyDynamicUpdate);
+
+        if ($productLastUpdate) {
+            $productModel = new ProductsModels($productLastUpdate);
+        } else {
+            $productModel = new ProductsModels($data);
+        }
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $productModel->setId($id);
+        if ($productModel->id) {
+            $arrayKeyDynamicUpdate['id'] = $id; // On ajoute l'id au tableau
+            $result = $this->products->update($productModel, array_reverse(array_keys($arrayKeyDynamicUpdate)));
+
+            $response = ['success' => "{$produitName} - mise à jour avec succées."];
+        }
+
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was updated successfully." : "Failed to update product with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(201);
+        header('Content-Type: application/json; charset=utf-8;');
+        echo json_encode($response);
+        exit;
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT  header('Location:/404');
+        //COMMENTS JWT  }
     }
 
     public function updateCategory(...$arguments)
@@ -505,66 +601,95 @@ class ApiController extends JWTController
     {
 
         // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            $result = $this->users->update($id, $data);
-
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
-
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
-            }
-
-            // Now you can use error_log
-            $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(200);
-
-            header('Content-Type: application/json');
-
-            echo json_encode($data);
+        // cette fonction permet de mettre à jour un utilisateur dans la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        //COMMENTS JWT if ($this->accesAPI == true) {
+        $result = false;
+        $id = $arguments["id"];
+        $data = json_decode(file_get_contents('php://input'), true);
+        if ($arguments) {
+            $userModel = new Users($arguments);
         } else {
-            header('Location:/404');
+            $userModel = new Users($data);
         }
+        $userModel?->setId($id);
+        if ($userModel->id) {
+            $result = $this->users->update($userModel, ['id', 'full_name', 'email', 'birthday']);
+        }
+
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                };
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was updated successfully." : "Failed to update user with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(200);
+
+        header('Content-Type: application/json');
+
+        echo json_encode(['success' => 'Modification enregistrée avec succès']);
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT  }
     }
 
     public function deleteProducts(...$arguments)
     {
-
         // cette fonction permet de supprimer un produit de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
+        //COMMENTS JWT  if ($this->accesAPI == true) {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+
+        $result = false;
+        $response = ['errors' => "Une erreur c'est produite."];
+        // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        //COMMENTS JWT    if ($this->accesAPI == true) {
+
+        if (isset($arguments["id"])) {
+
+            $id = intval($arguments["id"]);
+
             $result = $this->products->delete($id);
 
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
+            $response = $result ? ['success' => "Supprimer avec succées."] : $response;
 
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                // Create the file
-                touch($logFile);
+            if (is_array($result)) {
+                $response = $result;
             }
-
-            // Now you can use error_log
-            $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(204);
-        } else {
-            header('Location:/404');
         }
+
+        $logFile = __DIR__ . DIRECTORY_SEPARATOR . '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "Product with ID $id was deleted successfully." : "Failed to delete product with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+        http_response_code(202);
+        header('Content-Type: application/json; charset=utf-8;');
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT    } else {
+        //COMMENTS JWT       header('Location:/404');
+        //COMMENTS JWT    }
     }
 
     public function deleteCategory(...$arguments)
@@ -591,7 +716,8 @@ class ApiController extends JWTController
             // Now you can use error_log
             $logMessage = $result ? "Category with ID $id was deleted successfully." : "Failed to delete category with ID $id.";
             error_log($logMessage, 3, $logFile);
-            http_response_code(204);
+            header('Content-Type: application/json; charset=utf-8;');
+            http_response_code(202);
         } else {
             header('Location:/404');
         }
@@ -622,7 +748,8 @@ class ApiController extends JWTController
             // Now you can use error_log
             $logMessage = $result ? "Order with ID $id was deleted successfully." : "Failed to delete order with ID $id.";
             error_log($logMessage, 3, $logFile);
-            http_response_code(204);
+            header('Content-Type: application/json; charset=utf-8;');
+            http_response_code(202);
         } else {
             header('Location:/404');
         }
@@ -631,32 +758,61 @@ class ApiController extends JWTController
 
     public function deleteUsers(...$arguments)
     {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
 
+        $result = false;
+        $response = ['errors' => "Une erreur c'est produite."];
         // cette fonction permet de supprimer un utilisateur de la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
-        if ($this->accesAPI == true) {
-            $id = $arguments["id"];
-            $result = $this->users->delete($id);
+        //COMMENTS JWT    if ($this->accesAPI == true) {
+        /**
 
-            // Log the deletion
-            $logFile = '../../config/logs/logfile.txt';
-            if (!file_exists($logFile)) {
-                $directory = dirname($logFile);
+         */
+        if (isset($arguments["id"])) {
 
-                // Create the directory if it doesn't exist
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
+            $id = intval($arguments["id"]);
 
-                // Create the file
-                touch($logFile);
+            // Si on essaie de supprimer un administrateur
+            // Il faudrait améliorer la condition
+            // En allant récupérer le résultat et vérifier le rôle.
+            if ($id <= 5) {
+                $response = ['errors' => "Vous ne pouvez pas supprimer cet utilisateur, contactez l'administration."];
+                goto goto_response;
             }
 
-            // Now you can use error_log
-            $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
-            error_log($logMessage, 3, $logFile);
-            http_response_code(204);
-        } else {
-            header('Location:/404');
+            $result = $this->users->delete($id);
+
+            $response = $result ? ['success' => "Supprimer avec succées."] : $response;
+            if (is_array($result)) {
+                $response = $result;
+            }
         }
+        goto_response:
+        // Log the deletion
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User with ID $id was deleted successfully." : "Failed to delete user with ID $id.";
+        @error_log($logMessage, 3, $logFile);
+
+
+        header('Content-Type: application/json; charset=utf-8;');
+        http_response_code(200);
+        echo json_encode($response);
+        exit();
+        //COMMENTS JWT  } else {
+        //COMMENTS JWT      header('Location:/404');
+        //COMMENTS JWT  }
     }
 }
