@@ -169,7 +169,7 @@ $router->map('GET', '/information/boutique', 'information/boutique', 'boutique')
   Ici on appel la class TestRender avec la méthode View
 */
 $router->map('GET', '/test-render', 'TestRender#TestRender', 'test-render');
-
+$router->map('GET', '/panier-modal', 'PanierController#PanierDynamique', 'panier-modal');
 // Route à supprimer
 $router->map('GET', '/basket', 'StripeController#Index', 'basket');
 

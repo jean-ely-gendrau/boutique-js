@@ -41,7 +41,11 @@
   <meta name="robots" content="<?= $seoConfig->seoRobotIndex
                                 /* balise pour les robot , par défault index follow, indiqué noindex pour ne pas indexé la page, nofollow pour ne pas suivre les liens de la page, none pour tout interdire. c'est le cas de la page erreur qui ne sera ni indexer ni suivie par les robots. */
                                 ?>" />
-  <?php  ?>
+  <?php
+
+                                use App\Boutique\Components\PanierModal;
+
+  ?>
   <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
 
@@ -90,6 +94,10 @@
               <div class="modal-body">
                   <tbody>
                       <div class="cart-items">
+                        <?php if (isset($_SESSION['isConnected'])){
+                           $modal = new PanierModal();
+                           echo $modal->PanierDynamique();
+                         }?>
                       </div>
                   </tbody>
                 </table>
