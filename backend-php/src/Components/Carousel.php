@@ -29,7 +29,7 @@ class Carousel
                     "' class='hidden duration-900 ease-in-out' data-carousel-item>
                         <img
                         src='{$image}'
-                        class='object-cover rounded-3xl absolute block w-full h-full max-h-[32rem] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'
+                        class='object-cover rounded-3xl absolute block w-full h-auto max-h-[32rem] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'
                         alt='...'
                         />
                      </div>";

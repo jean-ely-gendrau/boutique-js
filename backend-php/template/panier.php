@@ -19,7 +19,8 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
+      
+        <tbody id="myTable">
             <?php
             foreach ($paniers as $productItem):
 
@@ -27,6 +28,7 @@
 
             $filename = __DIR__ . "/../../public_html/assets/images/{$productItem['url_image']}";
             ?>
+
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="p-4">
             <?php if (file_exists($filename) == true){?>
@@ -41,7 +43,7 @@
                     <td class="px-6 py-4">
                         <div class="flex items-center">
                             <div>
-                                <input type="number" id="Quantiter" min="1" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="1" required />
+                                <input type="number" id="Quantiter" min="1" max="10" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="1" required />
                             </div>
                         </div>
                     </td>
@@ -50,7 +52,9 @@
                     </td>
                     <td class="px-6 py-4">
                         <!-- <a href="removefromcart/<?//= $productItem['id'} ?>" -->
-                         <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['products_id']?>'}" href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        <button id="removeElement">
+                            <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['products_id']?>'}" href="#" onclick="removeRowElement()" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        </button>
                     </td>
                 </tr>
             <?php endforeach; ?>

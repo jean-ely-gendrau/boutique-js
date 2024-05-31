@@ -156,12 +156,17 @@ use Motor\Mvc\Manager\CrudManager;
 <script defer type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/search.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/produit.js"></script>
-<script defer src="http://<?= $serverName ?>/assets/js/accueil-carousel.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/ratings.js"></script>
-<script defer src="http://<?= $serverName ?>/assets/js/addtobasket.js"></script>
+<?php if(!isset($_SESSION['isConnected'])){ ?>
+    <script defer src="http://<?= $serverName ?>/assets/js/basketUserNotConnected.js"></script>
+<?php }else{ ?>
+    <script type='module' defer src="http://<?= $serverName ?>/assets/js/basketForUser.js"></script>
+<?php } ?>
+<script defer src="http://<?= $serverName ?>/assets/js/modalPanier.js"></script>
 <script defer src="https://js.stripe.com/v3/"></script>
+
 </body>
 
 </html>
