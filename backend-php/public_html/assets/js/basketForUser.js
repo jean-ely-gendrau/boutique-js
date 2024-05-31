@@ -1,7 +1,6 @@
 const select = document.getElementById("myBtn");
 
 select.addEventListener("click", () => {
-    console.log('click');
     fetch('/panier-modal')
         .then(response => response.json())
         .then(data => {
@@ -12,19 +11,20 @@ select.addEventListener("click", () => {
 
 function updateCart(data) {
     const cartItemsElement = document.querySelector('.cart-items-connected');
-    cartItemsElement.innerHTML = ''; // Clear previous items
+    cartItemsElement.innerHTML = '';
 
     data.forEach(item => {
         const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item', 'cart-column');
-        
+        cartItem.classList.add('cart-item', 'cart-column', 'flex', 'flex-row');
+        let srcImg = ('http://boutique-js.test:8880/assets/images/tea-coffee.png');
+
         cartItem.innerHTML = `
-            <img class="cart-item-image" src="${item.url_image}" width="100" height="100">
+            <img class="cart-item-image w-18" src="${srcImg}" width="100" height="100">
             <span class="">${item.name}</span>
             <span class="">${item.price} €</span>
             <div class="">
-                <input class="cart-quantity-input" type="number" value="1" data-id="${item.products_id}">
-                <button class="btn-danger" type="button" data-id="${item.products_id}">REMOVE</button>
+                <input class="cart-quantity-input w-20" type="number" value="1" data-id="${item.products_id}">
+                <button class="btn-danger mr-auto" type="button" data-id="${item.products_id}">REMOVE</button>
             </div>
         `;
         
@@ -72,7 +72,6 @@ document.addEventListener('click', (event) => {
             return response.json();
         })
         .then(data => {
-            console.log('Product removed:', data);
             removeItemFromCart(productId); // Retire le produit du DOM
         })
         .catch(error => console.error('Error:', error));

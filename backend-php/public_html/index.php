@@ -75,7 +75,7 @@ $router->map('POST', '/addtobasket', 'PanierController#AddToBasket', 'addtobaske
 $router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
 
 // $router->map('GET', '/removefromcart/[a:product_id]', 'PanierController#RemoveFromCart', 'removefromcart');
-$router->map('POST | GET', '/removefromcart', 'PanierController#RemoveFromCart', 'removefromcart');
+$router->map('POST', '/removefromcart', 'PanierController#RemoveFromCart', 'removefromcart');
 
 // Route page profil
 $router->map('GET', '/user', 'ProfilController#Profil', 'user-profile');
