@@ -88,9 +88,10 @@
                   <tbody>
                       <div class="cart-items">
                         <?php if (isset($_SESSION['isConnected'])){?>
-                          <div class="cart-items-connected">
-                          </div>
-                         <?php }?>
+                          <button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"><a href="/stripe/pay">Valider</a></button>
+                        <?php }else{?>
+                          <button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"><a href="/contact">Valider</a></button>
+                        <?php } ?>
                       </div>
                   </tbody>
                 </table>
