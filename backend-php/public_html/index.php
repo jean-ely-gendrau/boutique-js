@@ -75,7 +75,7 @@ $router->map('POST', '/addtobasket', 'PanierController#AddToBasket', 'addtobaske
 $router->map('GET', '/produit/addtobasket/[a:product_id]', 'PanierController#AddToBasket', 'addtobasketProduit');
 
 // $router->map('GET', '/removefromcart/[a:product_id]', 'PanierController#RemoveFromCart', 'removefromcart');
-$router->map('POST', '/removefromcart', 'PanierController#RemoveFromCart', 'removefromcart');
+$router->map('POST | GET', '/removefromcart', 'PanierController#RemoveFromCart', 'removefromcart');
 
 // Route page profil
 $router->map('GET', '/user', 'ProfilController#Profil', 'user-profile');
@@ -168,8 +168,11 @@ $router->map('GET', '/information/boutique', 'information/boutique', 'boutique')
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#TestRender', 'test-render');
+$router->map('GET', '/test-render', 'TestRender#TestRender', 'test-render'); 
+
+// Acces au donnée du panier d'un utilisateur connecté
 $router->map('GET', '/panier-modal', 'PanierController#PanierDynamique', 'panier-modal');
+
 // Route à supprimer
 $router->map('GET', '/basket', 'StripeController#Index', 'basket');
 

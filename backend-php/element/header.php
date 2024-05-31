@@ -65,8 +65,8 @@
             </svg>
           </button>
           <!-- Insert basket here -->
-          <!-- Trigger/Open The Modal -->
-          <button id="myBtn" type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
+          <!--  Trigger/Open The Modal data-js="handleFetch,click" data-route='/panier-modal' data-method='GET'-->
+          <button id="myBtn" type="button" class="rounded-full fill-gray-700 stroke-white dark:bg-gray-500 dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
             <svg viewBox="0 0 50 50" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg">
               <path d="M35 34H13c-.3 0-.6-.2-.8-.4s-.2-.6-.1-.9l1.9-4.8L12.1 10H6V8h7c.5 0 .9.4 1 .9l2 19c0 .2 0 .3-.1.5L14.5 32H36l-1 2z"/>
               <path d="M15.2 29l-.4-2L38 22.2V14H14v-2h25c.6 0 1 .4 1 1v10c0 .5-.3.9-.8 1l-24 5z"/>
@@ -94,10 +94,10 @@
               <div class="modal-body">
                   <tbody>
                       <div class="cart-items">
-                        <?php if (isset($_SESSION['isConnected'])){
-                           $modal = new PanierModal();
-                           echo $modal->PanierDynamique();
-                         }?>
+                        <?php if (isset($_SESSION['isConnected'])){?>
+                          <div class="cart-items-connected">
+                          </div>
+                         <?php }?>
                       </div>
                   </tbody>
                 </table>

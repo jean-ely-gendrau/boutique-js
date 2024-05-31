@@ -35,8 +35,9 @@ class HomeController
         // Passage des elements php dans la clé element, le chemin relatif des images dans la clé image
         // dans la méthode appelé RenderCarousel
         $RenderCarousel = $carousel->RenderCarousel([
-            'element' => ['../../element/bannerCarousel.php'],
+            'element' => [],
             'image' => [
+                '/assets//images//banière//TotalBannerImage.jpg',
                 '/assets//images//banière//HomeCoffee.jpg',
                 '/assets//images//banière//hearderCoffeePage.jpg',
                 '/assets//images//banière//hearderCoffeePage2.jpg',
