@@ -7,6 +7,8 @@ use App\Boutique\Models\Orders;
 use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Components\Carousel;
+use App\Boutique\Models\Users;
+use Exception;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -87,10 +89,38 @@ class TestRender
     public function View(...$arguments)
     {
         // Test de la méthode getById du CrudManager pour la classe Orders
-        $crudManager = new CrudManager('orders', Orders::class);
-        $tableIdOrder = $crudManager->getById('1', 'id_order');
-        $arguments['render']->addParams('order', $tableIdOrder);
-        $content = $arguments['render']->render('test-orders', $arguments);
-        return $content;
+        if (isset($_SESSION['isConnected'])) {
+            
+                try{
+                   
+
+                    $IdclientCrudManager = new CrudManager('users', Users::class);
+                    $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+
+                    $crudManagerOrder = new CrudManager('orders', Orders::class);
+                    $commandes = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+                    foreach($commandes as $commande){
+                        $ordermodel= new Orders((array)$commande);
+                        // var_dump($commande);
+                        $ordermodel->setBasket(0);
+                        var_dump($ordermodel);
+                        // var_dump('');
+                        $crudManagerOrder->update($ordermodel, ['id', 'basket']);
+
+                    }
+
+                    $arguments['render']->addParams('commande', $commandes);
+                    
+                    $content = $arguments['render']->render('test-render', $arguments);
+                    return $content;
+                } catch (Exception $e) {
+                    $content = $arguments['render']->render('404', $arguments);
+                    return $content;
+                } 
+            } else {
+                $content = $arguments['render']->render('404', $arguments);
+                return $content;
+            }
+
     }
 }
