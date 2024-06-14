@@ -1,22 +1,22 @@
 const select = document.getElementById("myBtn");
 
 select.addEventListener("click", () => {
-    fetch('/panier-modal')
+    fetch(`http://${window.location.hostname}:8880/panier-modal`)
         .then(response => response.json())
-        .then(data => {
-            updateCart(data);
-        })
+        .then(data =>
+            updateCart(data)
+        )
         .catch(error => console.error('Error:', error));
 });
 
 function updateCart(data) {
-    const cartItemsElement = document.querySelector('.cart-items-connected');
+    const cartItemsElement = document.querySelector('.cart-items');
     cartItemsElement.innerHTML = '';
 
     data.forEach(item => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item', 'cart-column', 'flex', 'flex-row');
-        let srcImg = ('http://boutique-js.test:8880/assets/images/tea-coffee.png');
+        let srcImg = (`http://${window.location.hostname}:8880/assets/images/tea-coffee.png`);
 
         cartItem.innerHTML = `
             <img class="cart-item-image w-18" src="${srcImg}" width="100" height="100">
@@ -27,7 +27,7 @@ function updateCart(data) {
                 <button class="btn-danger mr-auto" type="button" data-id="${item.products_id}">REMOVE</button>
             </div>
         `;
-        
+
         cartItemsElement.appendChild(cartItem);
     });
 
@@ -54,10 +54,10 @@ document.addEventListener('click', (event) => {
     if (event.target.classList.contains('btn-danger')) {
         const productId = event.target.getAttribute('data-id');
         let bodyParamFormat = Object.entries({ product_id: productId })
-        .map(([key, val], index) => {
-          return `${key}=${val}`;
-        })
-        .join("&");
+            .map(([key, val], index) => {
+                return `${key}=${val}`;
+            })
+            .join("&");
         fetch('/removefromcart', {
             method: 'POST',
             headers: {
@@ -65,21 +65,21 @@ document.addEventListener('click', (event) => {
             },
             body: bodyParamFormat
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            removeItemFromCart(productId); // Retire le produit du DOM
-        })
-        .catch(error => console.error('Error:', error));
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                removeItemFromCart(productId); // Retire le produit du DOM
+            })
+            .catch(error => console.error('Error:', error));
     }
 });
 
 function removeItemFromCart(productId) {
-    const cartItemsElement = document.querySelector('.cart-items-connected');
+    const cartItemsElement = document.querySelector('.cart-items');
     const cartItem = cartItemsElement.querySelector(`.btn-danger[data-id="${productId}"]`).closest('.cart-item');
     if (cartItem) {
         cartItemsElement.removeChild(cartItem);
@@ -93,5 +93,5 @@ function removeItemFromCart(productId) {
 
 
 function removeRowElement() {
-  document.getElementById("myTable").deleteRow(0);
+    document.getElementById("myTable").deleteRow(0);
 }
