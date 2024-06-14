@@ -34,15 +34,18 @@ if (selectSubCat !== null) {
     const storedValueButton = localStorage.getItem('selectedButton');
     if (storedIdCat == null) {
       const storedIdCat = localStorage.setItem('idCat', idCat);
-    } else /* if (storedIdCat == ) */ {
-      buttonValue = null;
-      messageResearch.innerText = '';
-      selectSubCat.selectedIndex = 0;
-      localStorage.removeItem('selectedSubCat');
-      localStorage.removeItem('selectedButton');
-      localStorage.removeItem('idCat');
-      //window.location.href = `${currentPageUrl}/produit/${idCat}`;
     }
+    /*
+    else /* if (storedIdCat == ) */// {
+    /* buttonValue = null;
+     messageResearch.innerText = '';
+     selectSubCat.selectedIndex = 0;
+     localStorage.removeItem('selectedSubCat');
+     localStorage.removeItem('selectedButton');
+     localStorage.removeItem('idCat');
+     //window.location.href = `${currentPageUrl}/produit/${idCat}`;
+   }
+     */
     if (storedValueSub !== null) {
       selectSubCat.value = storedValueSub;
     }
@@ -259,6 +262,7 @@ function plusPage() {
     currentPage.value = currentPageNumber + 1;
     resultat.innerText = '';
     showProducts(pages[currentPageNumber]);
+    window.scrollTo(0, 50);
   }
 }
 
@@ -268,6 +272,7 @@ function minusPage() {
     currentPage.value = currentPageNumber - 1;
     resultat.innerText = '';
     showProducts(pages[currentPageNumber - 2]);
+    window.scrollTo(0, 50);
   }
 }
 
