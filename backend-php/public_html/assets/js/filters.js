@@ -41,7 +41,7 @@ if (selectSubCat !== null) {
       localStorage.removeItem('selectedSubCat');
       localStorage.removeItem('selectedButton');
       localStorage.removeItem('idCat');
-      window.location.href = `${currentPageUrl}/produit/${idCat}`;
+      //window.location.href = `${currentPageUrl}/produit/${idCat}`;
     }
     if (storedValueSub !== null) {
       selectSubCat.value = storedValueSub;
@@ -183,10 +183,10 @@ if (selectSubCat !== null) {
   })
   selectSubCat.addEventListener('change', function () {
     if (buttonValue === undefined && selectSubCat.value === '0') {
-      //   filterPrice();
+      filterPrice();
     } else if (selectSubCat.value === '0' && buttonValue !== undefined) {
 
-      // filterPrice(buttonValue, null);
+      filterPrice(buttonValue, null);
     }
     else if (buttonValue === undefined) {
       filterPrice(null, selectSubCat.value);
