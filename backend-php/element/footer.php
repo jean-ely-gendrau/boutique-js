@@ -156,7 +156,7 @@ use Motor\Mvc\Manager\CrudManager;
 <script defer type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/search.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/produit.js"></script>
-<!--<script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>-->
+<script defer src="http://<?= $serverName ?>/assets/js/filters.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/wishlist.js"></script>
 <script defer src="http://<?= $serverName ?>/assets/js/ratings.js"></script>
 <?php if (!isset($_SESSION['isConnected'])) : ?>
