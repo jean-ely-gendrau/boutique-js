@@ -41,7 +41,7 @@ if (selectSubCat !== null) {
       localStorage.removeItem('selectedSubCat');
       localStorage.removeItem('selectedButton');
       localStorage.removeItem('idCat');
-      window.location.href = `${currentPageUrl}/produit/${idCat}`;
+      //window.location.href = `${currentPageUrl}/produit/${idCat}`;
     }
     if (storedValueSub !== null) {
       selectSubCat.value = storedValueSub;
