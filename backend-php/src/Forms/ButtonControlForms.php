@@ -42,7 +42,7 @@ class ButtonControlForms
       'error-tooltip' => "La valeur dois être comprise entre 1 et {$pagination['number_pages']}",
     ]);
 
-    $buttonNavigation->addField('button', 'number_pages', [
+    $buttonNavigation->addField('number', 'number_pages', [
       'class-label-group' => 'relative flex flex-nowrap text-gray-900 dark:text-white items-center gap-2',
       'label-false' => 1,
       'indicator' => 'total',
