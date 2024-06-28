@@ -88,7 +88,7 @@ class Slider
                 $slider .= "<img src='http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png' data-url='http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png'";
             }
 
-             $slider .= "alt='image {$productItem->name}' class='article-image h-full w-full object-contain' />
+             $slider .= "alt='image {$productItem->name}' id='{$productItem->id}' class='article-image h-full w-full object-contain' />
           </div>
           <div class='product text-center mt-4' data-price='{$productItem->price}' data-id='{$productItem->id}' data-name='{$productItem->name}'>
             <h3 id='{$productItem->id}' class='article-name text-lg font-extrabold text-gray-800'>{$productItem->name}</h3>
