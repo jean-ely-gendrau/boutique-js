@@ -2,6 +2,7 @@
 /node-service/node_modules/
 /backend-php/vendor/
 /docker-data/secrets
+/docker-data/ssl/*.pem
 /backend-php/node_modules/
 /backend-php/package-lock.json
 /backend-php/composer.lock
