@@ -20,7 +20,7 @@
                 <?php foreach ($commande as $product): ?>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td scope="col" class="px-6 py-3 text-center w-6/12">
-                      <img id='<?= $product->id ?>' src='http://<?= $serverName ?>/assets/images/tea-coffee.png' alt='<?= $product->name ?>' class='w-10 h-10 mx-auto mt-2 article-image' />
+                      <img id='<?= $product->id ?>' src='https://<?= $serverName ?>/assets/images/tea-coffee.png' alt='<?= $product->name ?>' class='w-10 h-10 mx-auto mt-2 article-image' />
                       <p id='<?= $product->id ?>' class="mx-auto mt-2 text-gray-700 dark:text-gray-200 text-sm cursor-pointer article-name"><?= $product->name ?></p>
                     </td>
                     <td scope="col" class="px-6 py-3 text-center"><?= $product->status ?></td>

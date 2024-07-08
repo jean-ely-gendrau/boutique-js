@@ -11,7 +11,7 @@
   <meta name="keywords" content="keywords,here">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link href="http://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
+  <link href="https://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> <!--Totally optional :) -->
 
 
@@ -25,8 +25,8 @@
 
       <div class="flex flex-wrap items-center">
         <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-          <a href="http://<?= $serverName ?>/" aria-label="Home">
-            <img class="h-20" src="http://<?= $serverName ?>/assets/images/tea-coffee.png" />
+          <a href="https://<?= $serverName ?>/" aria-label="Home">
+            <img class="h-20" src="https://<?= $serverName ?>/assets/images/tea-coffee.png" />
           </a>
         </div>
 
@@ -34,7 +34,7 @@
           <span class="relative w-full">
             <input aria-label="search" type="search" id="search" placeholder="Search" class="w-full bg-gray-900 text-white transition border border-transparent focus:outline-none focus:border-gray-400 rounded py-3 px-2 pl-10 appearance-none leading-normal">
             <div class="absolute search-icon" style="top: 1rem; left: .8rem;">
-              <svg class="fill-current pointer-events-none text-white w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <svg class="fill-current pointer-events-none text-white w-4 h-4" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
               </svg>
             </div>
@@ -51,7 +51,7 @@
             </li>
             <li class="flex-1 md:flex-none md:mr-3">
               <div class="relative inline-block">
-                <button onclick="toggleDD('myDropdown')" class="drop-button text-white py-2 px-2"> <span class="pr-2"><i class="em em-robot_face"></i></span> Hi, User <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <button onclick="toggleDD('myDropdown')" class="drop-button text-white py-2 px-2"> <span class="pr-2"><i class="em em-robot_face"></i></span> Hi, User <svg class="h-3 fill-current inline" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                   </svg></button>
                 <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">

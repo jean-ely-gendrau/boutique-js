@@ -5,13 +5,13 @@ foreach ($detail as $details):
     $details['images'] = $imageData;
     ?>
 
-    <img id="<?= $details['id_product'] ?>" class="article-image" src="http://<?= $serverName ?>/assets/images/<?= $details['images'][
+    <img id="<?= $details['id_product'] ?>" class="article-image" src="https://<?= $serverName ?>/assets/images/<?= $details['images'][
             'main'
         ] ?>" alt="<?= $details['name'] ?>">
-    <img id="<?= $details['id_product'] ?>" class="article-image" src="http://<?= $serverPath ?>/assets/images/additional<?= $details['images'][
+    <img id="<?= $details['id_product'] ?>" class="article-image" src="https://<?= $serverPath ?>/assets/images/additional<?= $details['images'][
             'additional'
         ][0] ?>" alt="<?= $details['name'] ?>">
-    <img id="<?= $details['id_product'] ?>" class="article-image" src="http://<?= $serverPath ?>/assets/images/<?= $details['images']['additional'][
+    <img id="<?= $details['id_product'] ?>" class="article-image" src="https://<?= $serverPath ?>/assets/images/<?= $details['images']['additional'][
             '1'
         ] ?>" alt="<?= $details['name'] ?>">
     <!-- les autres images -->

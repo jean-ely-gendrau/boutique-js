@@ -20,7 +20,7 @@ class ButtonControlForms
       'label-false' => 1,
       'anchor' => 'Précédant',
       'attributes' => [
-        'href' => $pagination['page_last'] ? "http://{$serverName}/produit/{$arguments['categoryName']}/{$pagination['page_last']}" : '#',
+        'href' => $pagination['page_last'] ? "https://{$serverName}/produit/{$arguments['categoryName']}/{$pagination['page_last']}" : '#',
         'disabled' => $pagination['page_last'] ? '' : 'disabled',
       ]
     ]);
@@ -34,7 +34,7 @@ class ButtonControlForms
         'value' => $arguments['page'] ?? 1,
         'data-js' => 'handleClick,change',
         'data-action' => 'redirectByValue',
-        'data-link' => "http://{$serverName}/produit/{$arguments['categoryName']}/{{id}}",
+        'data-link' => "https://{$serverName}/produit/{$arguments['categoryName']}/{{id}}",
         'data-min' => 1,
         'data-max' => $pagination['number_pages'],
         'data-tooltip-target' => 'tooltip-warn-select_pages'
@@ -58,7 +58,7 @@ class ButtonControlForms
       'class' => "flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white",
       'anchor' => 'Suivant',
       'attributes' => [
-        'href' => $pagination['page_next'] ? "http://{$serverName}/produit/{$arguments['categoryName']}/{$pagination['page_next']}" : '#',
+        'href' => $pagination['page_next'] ? "https://{$serverName}/produit/{$arguments['categoryName']}/{$pagination['page_next']}" : '#',
         'disabled' => $pagination['page_next'] ? '' : 'disabled',
       ]
     ]);

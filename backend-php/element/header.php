@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="http://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
+  <link href="https://<?= $serverName ?>/assets/styles/global.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="https://www.google.com/recaptcha/api.js"></script>
   <title>Teacoffe</title>
@@ -46,7 +46,7 @@
   use App\Boutique\Components\PanierModal;
 
   ?>
-  <link rel="icon" href="http://<?= $serverName ?>/assets/images/iconTitle.png">
+  <link rel="icon" href="https://<?= $serverName ?>/assets/images/iconTitle.png">
 </head>
 
 <body class="flex flex-col space-y-5 bg-gray-50 dark:bg-gray-900">
@@ -56,7 +56,7 @@
 
         <div class="flex font-medium md:justify-end items-center md:order-3 space-x-3 rtl:space-x-reverse md:w-72 lg:w-[22rem]">
           <button type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2" data-js="darkSwitch,click">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg">
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M18 2.75C17.5858 2.75 17.25 2.41421 17.25 2C17.25 1.58579 17.5858 1.25 18 1.25H22C22.3034 1.25 22.5768 1.43273 22.6929 1.71299C22.809 1.99324 22.7449 2.31583 22.5304 2.53033L19.8107 5.25H22C22.4142 5.25 22.75 5.58579 22.75 6C22.75 6.41421 22.4142 6.75 22 6.75H18C17.6967 6.75 17.4232 6.56727 17.3071 6.28701C17.191 6.00676 17.2552 5.68417 17.4697 5.46967L20.1894 2.75H18ZM13.5 8.75C13.0858 8.75 12.75 8.41421 12.75 8C12.75 7.58579 13.0858 7.25 13.5 7.25H16.5C16.8034 7.25 17.0768 7.43273 17.1929 7.71299C17.309 7.99324 17.2449 8.31583 17.0304 8.53033L15.3107 10.25H16.5C16.9142 10.25 17.25 10.5858 17.25 11C17.25 11.4142 16.9142 11.75 16.5 11.75H13.5C13.1967 11.75 12.9232 11.5673 12.8071 11.287C12.691 11.0068 12.7552 10.6842 12.9697 10.4697L14.6894 8.75H13.5Z"></path>
@@ -67,7 +67,7 @@
           <!-- Insert basket here -->
           <!--  Trigger/Open The Modal data-js="handleFetch,click" data-route='/panier-modal' data-method='GET'-->
           <button id="myBtn" type="button" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-9 2xl:w-9 mx-2">
-            <svg viewBox="0 0 50 50" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 50 50" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="https://www.w3.org/2000/svg">
               <path d="M35 34H13c-.3 0-.6-.2-.8-.4s-.2-.6-.1-.9l1.9-4.8L12.1 10H6V8h7c.5 0 .9.4 1 .9l2 19c0 .2 0 .3-.1.5L14.5 32H36l-1 2z" />
               <path d="M15.2 29l-.4-2L38 22.2V14H14v-2h25c.6 0 1 .4 1 1v10c0 .5-.3.9-.8 1l-24 5z" />
               <path d="M36 40c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
@@ -156,7 +156,7 @@
             </ul>
           </div>';
           } else {
-            echo '<svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="http://www.w3.org/2000/svg">
+            echo '<svg viewBox="0 0 24 24" class="rounded-full fill-gray-700 stroke-white dark:fill-white dark:stroke-gray-900 h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 2xl:h-10 2xl:w-10" xmlns="https://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0">
                     </g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
@@ -180,13 +180,13 @@
         </div>
         <!-- LOGO -->
         <a href="/" class="flex items-center space-x-3 md:order-2">
-          <img src="http://<?= $serverName ?>/assets/images/tea-coffee.png" class="h-10 md:h-12 lg:h-14 xl:h-16" alt="TeaCoffe Logo" />
+          <img src="https://<?= $serverName ?>/assets/images/tea-coffee.png" class="h-10 md:h-12 lg:h-14 xl:h-16" alt="TeaCoffe Logo" />
           <!--  <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TeaCoffe</span> -->
         </a>
         <!-- BUTTON MENU -->
         <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
           <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
           </svg>
         </button>
