@@ -45,9 +45,11 @@ class FeedBackForm
     // Ajout des régles de validation au formulaire
     $formCommentRatings->setValidator($validatorJS);
 
+    $idForm = 'feedback-form';
+    $actionForm = '/api/feedback-validation';
     $formCommentRatings
-      ->setIdForm('feedback-form') // ID FORM
-      ->setAction('/feedback-validation') // ACTION -> ROUTE DE TRAITEMENT
+      ->setIdForm($idForm) // ID FORM
+      ->setAction($actionForm) // ACTION -> ROUTE DE TRAITEMENT
       ->setClassForm('space-y-2 md:space-y-4') // CSS FORM
       ->addField('number', 'ratings', [
         'text-label' => '<svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -73,11 +75,11 @@ class FeedBackForm
       ->addElementAction('button', 'connect-button-user', 'connect-button-user', [
         'class' =>
         'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
-        'anchor' => 'Connection',
+        'anchor' => 'Notez',
         'attributes' => [
           'data-js' => 'handleSampleConnect,click',
-          'data-route' => '/connexion',
-          'data-id-form' => 'form-connect',
+          'data-route' => $actionForm,
+          'data-id-form' => $idForm,
         ]
       ]); // BUTTON SUBMIT
 
