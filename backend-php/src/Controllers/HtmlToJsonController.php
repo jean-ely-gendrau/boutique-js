@@ -32,6 +32,31 @@ class HtmlToJsonController
   }
 
   /**
+   * Méthode FormUsersControl retourne un formulaire de la section transmise en arguments
+   * 
+   * [!>Warning] IMPLEMENTER JWT
+   *
+   * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
+   * @return string
+   */
+  public function FormUsersControl(...$arguments)
+  {
+    switch ($arguments['tableName'] ?? '') {
+        /*******
+       * User
+       */
+      case 'feedback':
+        $bufferOut = ['htmlElement' => FeedBackForm::CommentRatings(...$arguments ?? [])];
+        break;
+
+      default:
+        $bufferOut = 'La list est vide';
+    }
+
+    return isset($arguments['jsonFalse']) ? $bufferOut : $this->returnJson(200, $bufferOut);
+  }
+
+  /**
    * Méthode FormAdmin retourne un formulaire de la section admin
    * 
    * [!>Warning] IMPLEMENTER JWT
@@ -112,7 +137,7 @@ class HtmlToJsonController
         //$select = $crudManagerComments->getById($arguments['idGet']);
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'feedback';
-        $bufferOut = call_user_func_array([$this, 'FormFeedback'], $array['params']);
+        $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);
         break;
     }
 
