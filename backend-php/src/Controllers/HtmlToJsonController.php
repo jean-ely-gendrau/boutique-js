@@ -2,6 +2,7 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Forms\FeedBackForm;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
 use App\Boutique\Models\ProductsModels;
