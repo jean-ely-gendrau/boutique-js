@@ -12,6 +12,8 @@ use Motor\Mvc\Manager\SessionManager;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Validators\ValidatorData;
 use App\Boutique\Controllers\JWTController;
+use App\Boutique\Models\Comments;
+use App\Boutique\Models\Special\CommentRatings;
 use Motor\Mvc\Validators\ReflectionValidator;
 
 class ApiController extends JWTController
@@ -19,15 +21,98 @@ class ApiController extends JWTController
     private $products;
     private $category;
     private $orders;
+    private $comments;
+    private $ratings;
     private $users;
 
     public function __construct()
     {
         $this->products = new CrudManager('products', ProductsModels::class);
         $this->category = new CrudManager('category', Category::class);
+        $this->comments = new CrudManager('comments', Comments::class);
+        $this->ratings = new CrudManager('ratings', Ratings::class);
         $this->orders = new CrudManager('orders', Orders::class);
         $this->users = new CrudManager('users', Users::class);
         //  $this->accesAPI = $this->jwt();
+    }
+
+    public function AddFeedback(...$arguments)
+    {
+        /** @param \Motor\MVC\Utils\Render $render */
+        $render = $arguments['render'];
+        $response = ['errors' => "Une erreur est survenue lors de la notation du produit"];
+        // cette fonction permet d'ajouter un utilisateur à la base de données et de l'afficher en format json si l'utilisateur a accès à l'API
+        //COMMENTS JWT   if ($this->accesAPI == true) {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+
+        if ($arguments) {
+            $comment = new Comments($arguments);
+            $rating = new Ratings($arguments);
+        } else {
+            $comment = new Comments($data);
+            $rating = new Ratings($data);
+        }
+        /** ! Implémenter les validation de propriétés dans le model 
+         *   en prenant compte des regex de validation disponible Validators/ValidatorData.php ,
+         *   Cela permet de garantir que les données transmise par le formulaires sont correctement formatées.
+        //  $errorsIntercept = ReflectionValidator::validate($commentRatings); // VALIDATOR PHP
+
+        // réponse JSON 402 avec le corps suivant : {'errors' : $errors}
+        /*
+        if ($errorsIntercept) {
+            // ERROR
+            $response = ['errors' => $errorsIntercept];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+         */
+
+
+        /** !  
+       // REPRENDRE LE CODE DE LA VALIDATION DE COMMENTAIRE ET RATING ICI
+       // Récuperer l'id de transaction pour sécuriser les enregistrement avant de commit en bdd 
+       // Si un erreur survient rollback de la transaction.
+         */
+        // Pas d'erreur on commence la procédure d'enregistrement.
+        $result = $this->comments->create($comment, ['id', 'comment', 'users_id', 'products_id']);
+        // If id transaction
+        $result = $this->ratings->create($rating, ['id', 'rating', 'users_id', 'products_id']);
+
+        // Si l'utisateur est déjà enregistrer SQLSTATE[23000]  => Duplicate entry
+        if (is_string($result) && str_contains($result, 'SQLSTATE[23000]')) {
+            $response = ['errors' => "Vous avez déjà participé à la notation de {$arguments['name']}"];
+            http_response_code(402);
+            header('Content-Type: application/json; charset=utf-8;');
+            echo json_encode($response);
+            exit();
+        }
+
+        $response = ['success' => "La notation du produit est réussit"]; // Résponse success
+        $logFile = '../../config/logs/logfile.txt';
+        if (!file_exists($logFile)) {
+            $directory = dirname($logFile);
+
+            // Create the directory if it doesn't exist
+            if (!is_dir($directory)) {
+                if (@mkdir($directory, 0777, true)) {
+                    // Create the file
+                    touch($logFile);
+                }
+            }
+        }
+
+        // Now you can use error_log
+        $logMessage = $result ? "User was added successfully." : "Failed to add user.";
+        @error_log($logMessage . PHP_EOL, 3, $logFile);
+
+        http_response_code(201); // CODE 201
+        header('Content-Type: application/json; charset=utf-8;'); // header
+        echo json_encode($response);
+        exit();
     }
 
     public function GetProductsAll(...$arguments)
