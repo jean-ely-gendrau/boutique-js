@@ -102,6 +102,18 @@ class HtmlToJsonController
         $array['params']['update-product'] = true; // Paramètre pour la mise à jours (utilisé par la __CLASS__ UsersRegistrationForms::AdminAddUser )
         $bufferOut = call_user_func_array([$this, 'FormAdmin'], $array['params']);
         break;
+
+        /*******
+         * feedback
+         */
+      case 'feedback':
+        $crudManagerComments = new CrudManager('comments', ProductsModels::class);
+        $crudManagerRatings = new CrudManager('ratings', ProductsModels::class);
+        //$select = $crudManagerComments->getById($arguments['idGet']);
+        $array['params']['jsonFalse'] = true;
+        $array['params']['tableName'] = 'feedback';
+        $bufferOut = call_user_func_array([$this, 'FormFeedback'], $array['params']);
+        break;
     }
 
     return $this->returnJson(200, $bufferOut);
