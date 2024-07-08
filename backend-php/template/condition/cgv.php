@@ -7,7 +7,7 @@
                 <a href="/assets/pdf/CONDITIONS_GÉNÉRALES_DE_VENTE_TEACOFFEE.pdf" target="_blank">Télécharger</a>
                 </button>
                 <h1 class="text-3xl my-4 text-gray-700 dark:text-gray-200">Conditions générales de vente des produits vendus sur <span class="text-green-600">Tea'</span><span class="text-amber-700">Coffee</span></h1>
-                <p class="text-sm text-center text-gray-700 dark:text-gray-200">Les présentes CGV ont été générées gratuitement par la société de communication<a href="http://kinic.fr" target="_blank" class="underline hover:no-underline hover:bg-gray-200 rounded-full px-2 m-0">Kinic</a></p>
+                <p class="text-sm text-center text-gray-700 dark:text-gray-200">Les présentes CGV ont été générées gratuitement par la société de communication<a href="https://kinic.fr" target="_blank" class="underline hover:no-underline hover:bg-gray-200 rounded-full px-2 m-0">Kinic</a></p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">DOMAINE D'APPLICATION</h2>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Projet étudiant
@@ -37,14 +37,14 @@
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 3 - Commandes</h2>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm"><b>Vous pouvez passer commande :</b> </p>
 
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Sur Internet : <a href="http://boutique-js.test/">http://boutique-js.test/</a></p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Sur Internet : <a href="https://boutique-js.test/">https://boutique-js.test/</a></p>
 
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Les informations contractuelles sont présentées en langue française et feront l'objet d'une confirmation au plus tard au moment de la validation de votre commande.</p>
 
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">La société <b>Projet étudiant</b> se réserve le droit de ne pas enregistrer un paiement, et de ne pas confirmer une commande pour quelque raison que ce soit, et plus particulièrement en cas de problème d'approvisionnement, ou en cas de difficulté concernant la commande reçue.</p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 4 - Validation de votre commande</h2>
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Toute commande figurant sur le site Internet <a href="http://boutique-js.test/">http://boutique-js.test/</a> suppose l'adhésion aux présentes Conditions Générales. Toute confirmation de commande entraîne votre adhésion pleine et entière aux présentes conditions générales de vente, sans exception ni réserve.</p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Toute commande figurant sur le site Internet <a href="https://boutique-js.test/">https://boutique-js.test/</a> suppose l'adhésion aux présentes Conditions Générales. Toute confirmation de commande entraîne votre adhésion pleine et entière aux présentes conditions générales de vente, sans exception ni réserve.</p>
 
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">L'ensemble des données fournies et la confirmation enregistrée vaudront preuve de la transaction.</p>
 
@@ -87,9 +87,9 @@
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">La fourniture d'un contenu numérique non fourni sur un support matériel dont l'exécution a commencé après accord préalable exprès du consommateur et renoncement exprès à son droit de rétractation.</p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 7- Disponibilité</h2>
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Nos produits sont proposés tant qu'ils sont visibles sur le site <a href="http://boutique-js.test/">http://boutique-js.test/</a> et dans la limite des stocks disponibles. Pour les produits non stockés, nos offres sont valables sous réserve de disponibilité chez nos fournisseurs.</p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Nos produits sont proposés tant qu'ils sont visibles sur le site <a href="https://boutique-js.test/">https://boutique-js.test/</a> et dans la limite des stocks disponibles. Pour les produits non stockés, nos offres sont valables sous réserve de disponibilité chez nos fournisseurs.</p>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">En cas d'indisponibilité de produit après passation de votre commande, nous vous en informerons par mail. Votre commande sera automatiquement annulée et aucun débit bancaire ne sera effectué.</p>
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">En outre, le site Internet <a href="http://boutique-js.test/">http://boutique-js.test/</a> n'a pas vocation à vendre ses produits en quantités importantes. Par conséquent la société <b>Projet étudiant</b> se réserve le droit de refuser les commandes de articles identiques.</p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">En outre, le site Internet <a href="https://boutique-js.test/">https://boutique-js.test/</a> n'a pas vocation à vendre ses produits en quantités importantes. Par conséquent la société <b>Projet étudiant</b> se réserve le droit de refuser les commandes de articles identiques.</p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 8 - Livraison</h2>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Les produits sont livrés à l'adresse de livraison indiquée au cours du processus de commande, dans le délai indiqué sur la page de validation de la commande.</p>
@@ -120,7 +120,7 @@
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">La langue du présent contrat est la langue française. Les présentes conditions de vente sont soumises à la loi française. En cas de litige, les tribunaux français seront les seuls compétents.</p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 12 - Propriété intellectuelle</h2>
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Tous les éléments du site <a href="http://boutique-js.test/">http://boutique-js.test/</a> sont et restent la propriété intellectuelle et exclusive de la société <b>Projet étudiant</b>. Nul n'est autorisé à reproduire, exploiter, rediffuser, ou utiliser à quelque titre que ce soit, même partiellement, des éléments du site qu'ils soient logiciels, visuels ou sonores. Tout lien simple ou par hypertexte est strictement interdit sans un accord écrit exprès de la société <b>Projet étudiant</b>.</p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">Tous les éléments du site <a href="https://boutique-js.test/">https://boutique-js.test/</a> sont et restent la propriété intellectuelle et exclusive de la société <b>Projet étudiant</b>. Nul n'est autorisé à reproduire, exploiter, rediffuser, ou utiliser à quelque titre que ce soit, même partiellement, des éléments du site qu'ils soient logiciels, visuels ou sonores. Tout lien simple ou par hypertexte est strictement interdit sans un accord écrit exprès de la société <b>Projet étudiant</b>.</p>
 
                 <h2 class="text-2xl mt-20 mb-4 text-gray-700 dark:text-gray-200">Article 13 - Données personnelles</h2>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">La société <b>Projet étudiant</b> se réserve le droit de collecter les informations nominatives et les données personnelles vous concernant. Elles sont nécessaires à la gestion de votre commande, ainsi qu'à l'amélioration des services et des informations que nous vous adressons.</p>

@@ -29,19 +29,19 @@
             </div>
             <!-- //Notation -->
             <div id="<?= $detail->average_rating ?>" class="rating flex space-x-2 mt-4">
-              <svg id="score1" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg id="score1" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
               </svg>
-              <svg id="score2" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg id="score2" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
               </svg>
-              <svg id="score3" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg id="score3" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
               </svg>
-              <svg id="score4" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg id="score4" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
               </svg>
-              <svg id="score5" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg id="score5" class="w-5 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
               </svg>
             </div>
@@ -72,7 +72,7 @@
               <div class="space-y-3 mt-4">
                 <div class="flex items-center">
                   <p class="text-sm text-gray-900 dark:text-white font-bold">5.0</p>
-                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                   </svg>
                   <div class="bg-gray-300 dark:bg-gray-700 rounded w-full h-2 ml-3">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="flex items-center">
                   <p class="text-sm text-gray-900 dark:text-white font-bold">4.0</p>
-                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                   </svg>
                   <div class="bg-gray-300 dark:bg-gray-700 rounded w-full h-2 ml-3">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="flex items-center">
                   <p class="text-sm text-gray-900 dark:text-white font-bold">3.0</p>
-                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                   </svg>
                   <div class="bg-gray-300 dark:bg-gray-700 rounded w-full h-2 ml-3">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="flex items-center">
                   <p class="text-sm text-gray-900 dark:text-white font-bold">2.0</p>
-                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                   </svg>
                   <div class="bg-gray-300 dark:bg-gray-700 rounded w-full h-2 ml-3">
@@ -112,7 +112,7 @@
                 </div>
                 <div class="flex items-center">
                   <p class="text-sm text-gray-900 dark:text-white font-bold">1.0</p>
-                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 fill-gray-800 dark:fill-white ml-1" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                     <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                   </svg>
                   <div class="bg-gray-300 dark:bg-gray-700 rounded w-full h-2 ml-3">
@@ -127,19 +127,19 @@
                 <div class="ml-3">
                   <h4 class="text-sm font-bold">John Doe</h4>
                   <div class="flex space-x-1 mt-1">
-                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                       <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
-                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                       <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
-                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 fill-gray-800 dark:fill-white" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                       <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
-                    <svg class="w-4 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                       <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
-                    <svg class="w-4 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 fill-[#CED5D8] dark:fill-gray-900" viewBox="0 0 14 13" fill="none" xmlns="https://www.w3.org/2000/svg">
                       <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <p class="text-xs !ml-2 font-semibold">2 mins ago</p>

@@ -32,9 +32,9 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="p-4">
             <?php if (file_exists($filename) == true){?>
-               <img src='http://<?= $serverName ?>/assets/images/<?= $images ?>' class='w-16 md:w-32 max-w-full max-h-full' />
+               <img src='https://<?= $serverName ?>/assets/images/<?= $images ?>' class='w-16 md:w-32 max-w-full max-h-full' />
             <?php }else{ ?>
-                <img src='http://<?= $serverName ?>/assets/images/tea-coffee.png' class='w-16 md:w-32 max-w-full max-h-full' />
+                <img src='https://<?= $serverName ?>/assets/images/tea-coffee.png' class='w-16 md:w-32 max-w-full max-h-full' />
             <?php } ?>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">

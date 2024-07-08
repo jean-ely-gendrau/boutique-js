@@ -49,9 +49,9 @@ class ElementProduit extends BddManager
         $filename = __DIR__ . "/../../public_html/assets/images/{$detail->url_image}";
 
         if (file_exists($filename) == true) {
-            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
+            $src = "https://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
         } else {
-            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
+            $src = "https://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
         }
 
         // Passage dans render des paramètres 'detail' => $detail
