@@ -135,10 +135,12 @@ class HtmlToJsonController
          * feedback
          */
       case 'feedback':
+        $crudManagerProduct = new CrudManager('products', ProductsModels::class);
+        $product = $crudManagerProduct->getById($arguments['idGet']);
         $crudManagerComments = new CrudManager('comments', Comments::class);
         $crudManagerRatings = new CrudManager('ratings', Ratings::class);
         $select = new CommentRatings();
-        $array['params'] = json_decode(json_encode($select), true);
+        $array['params'] = json_decode(json_encode($product), true);
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'feedback';
         $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);

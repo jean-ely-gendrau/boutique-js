@@ -4,9 +4,11 @@ namespace App\Boutique\Forms;
 
 //use App\Boutique\Models\Users;
 use Motor\Mvc\Builder\FormBuilder;
-//use Motor\Mvc\Manager\SessionManager;
+use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Validators\ValidatorJS;
 use App\Boutique\Models\Special\CommentRatings;
+use App\Boutique\Models\Users;
+use Motor\Mvc\Manager\CrudManager;
 use Motor\Mvc\Validators\ReflectionValidator;
 
 class FeedBackForm
@@ -20,6 +22,7 @@ class FeedBackForm
    */
   public static function CommentRatings(...$arguments): string
   {
+
     $commentRatings = new CommentRatings($arguments);
     $formCommentRatings = new FormBuilder();
 
@@ -44,12 +47,33 @@ class FeedBackForm
     // Ajout des régles de validation au formulaire
     $formCommentRatings->setValidator($validatorJS);
 
-    $idForm = 'feedback-form';
-    $actionForm = '/api/feedback-validation';
+    /*
+    * Paramètre de configuration du formulaire
+    * Ce formulaire et soumis par Javascript.
+    */
+    $sessionManager = new SessionManager();
+    $emailUser = (string) $sessionManager->give('email'); // ID DE SESSION USER
+    $crudManager = new CrudManager('users', Users::class);
+
+    $dataUser = $crudManager->getByEmail($emailUser);
+    $users_id = $dataUser->getId();
+
+    $idForm = 'feedback-form'; // ID FORM
+
+    $actionForm = "/api/feedback-validation/{$arguments['id']}"; // ACTION
     $formCommentRatings
       ->setIdForm($idForm) // ID FORM
       ->setAction($actionForm) // ACTION -> ROUTE DE TRAITEMENT
-      ->setClassForm('p-4 space-y-2 md:space-y-4') // CSS FORM
+      ->setClassForm('p-4 space-y-3 md:space-y-6') // CSS FORM
+      ->addField('textarea', 'infos_name', [
+        'class-label' => 'flex flex-wrap w-full sm:flex-nowrap items-center gap-3 md:gap-6',
+        'text-label' => $arguments['name'],
+        'disabled' => true,
+        'class' =>
+        'disable text-gray-900 border-0 text-sm block w-full p-2.5 dark:text-white text-wrap resize-none my-2',
+        'value-area' => $arguments['description'],
+        'attributes' => ['row' => '10']
+      ])
       ->addField('number', 'rating', [
         'class-label-group' => 'relative flex flex-wrap text-gray-900 dark:text-white items-center gap-2',
         'indicator' => 'nombre compris entre 1 et 5',
@@ -74,10 +98,14 @@ class FeedBackForm
         'attributes' => ['value' => $commentRatings->getComment() ?? '', 'autocomplete' => 'section-blue shipping comments'],
         'error-message' => $errors['comment'] ?? false,
       ]) // CHAMPS COMMENTS
+      ->addField('hidden', 'users_id', [
+        'label-false' => 1,
+        'attributes' => ['value' => $users_id],
+      ]) // CHAMPS USERS_ID
       ->addElementAction('button', 'feedback-button-user', 'feedback-button-user', [
         'class' =>
-        'inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800',
-        'anchor' => 'Notez',
+        'flex w-full justify-center items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800',
+        'anchor' => 'Valider',
         'attributes' => [
           'data-js' => 'handlePost,click',
           'data-route' => $actionForm,

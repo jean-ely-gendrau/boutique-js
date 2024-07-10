@@ -47,7 +47,9 @@ class ApiController extends JWTController
         //COMMENTS JWT   if ($this->accesAPI == true) {
 
         $data = json_decode(file_get_contents('php://input'), true);
-
+        if (!isset($arguments['id']) && !isset($arguments['users_id'])  && !isset($arguments['comment'])  && !isset($arguments['rating'])) {
+            goto error;
+        }
 
         if ($arguments) {
             $comment = new Comments($arguments);
@@ -67,10 +69,11 @@ class ApiController extends JWTController
         /** ! Implémenter les validation de propriétés dans le model 
          *   en prenant compte des regex de validation disponible Validators/ValidatorData.php ,
          *   Cela permet de garantir que les données transmise par le formulaires sont correctement formatées.
-        //  $errorsIntercept = ReflectionValidator::validate($commentRatings); // VALIDATOR PHP
+         * */
+        $errorsIntercept = ReflectionValidator::validate($comment); // VALIDATOR PHP
 
         // réponse JSON 402 avec le corps suivant : {'errors' : $errors}
-        /*
+
         if ($errorsIntercept) {
             // ERROR
             $response = ['errors' => $errorsIntercept];
@@ -79,7 +82,7 @@ class ApiController extends JWTController
             echo json_encode($response);
             exit();
         }
-         */
+
 
         // Pas d'erreur on commence la procédure d'enregistrement.
         $result = $this->comments->create($comment, ['comment', 'users_id', 'products_id']);
@@ -114,6 +117,13 @@ class ApiController extends JWTController
         @error_log($logMessage . PHP_EOL, 3, $logFile);
 
         http_response_code(201); // CODE 201
+        header('Content-Type: application/json; charset=utf-8;'); // header
+        echo json_encode($response);
+        exit();
+
+        // GOTO ERROR
+        error:
+        http_response_code(403); // CODE 403
         header('Content-Type: application/json; charset=utf-8;'); // header
         echo json_encode($response);
         exit();
