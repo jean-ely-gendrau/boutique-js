@@ -27,7 +27,7 @@ class FormBuilder extends AbstractFormBuilder
      *
      * La métod rend affiche le formulaire sur la page
      *
-     * @return void
+     * @return string
      */
     public function render()
     {

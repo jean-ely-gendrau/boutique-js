@@ -8,11 +8,11 @@ class CommentRatings implements JsonSerializable
 {
   /*** PROPERTIES RATINGS */
   /**
-   * idRating
+   * id
    *
    * @var int
    */
-  private $idRating;
+  private $id;
 
   /**
    * rating
@@ -102,25 +102,25 @@ class CommentRatings implements JsonSerializable
   }
 
   /**
-   * Get idRating
+   * Get id
    *
    * @return  int
    */
-  public function getIdRating()
+  public function getId()
   {
-    return $this->idRating;
+    return $this->id;
   }
 
   /**
-   * Set idRating
+   * Set id
    *
-   * @param  int  $idRating  idRating
+   * @param  int  $id  id
    *
    * @return  self
    */
-  public function setIdRating(int $idRating)
+  public function setIdRating(int $id)
   {
-    $this->idRating = $idRating;
+    $this->id = $id;
 
     return $this;
   }

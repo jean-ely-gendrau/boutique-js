@@ -5,7 +5,9 @@ namespace App\Boutique\Controllers;
 use App\Boutique\Forms\FeedBackForm;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Comments;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Models\Special\CommentRatings;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
@@ -133,9 +135,10 @@ class HtmlToJsonController
          * feedback
          */
       case 'feedback':
-        $crudManagerComments = new CrudManager('comments', ProductsModels::class);
-        $crudManagerRatings = new CrudManager('ratings', ProductsModels::class);
-        //$select = $crudManagerComments->getById($arguments['idGet']);
+        $crudManagerComments = new CrudManager('comments', Comments::class);
+        $crudManagerRatings = new CrudManager('ratings', Ratings::class);
+        $select = new CommentRatings();
+        $array['params'] = json_decode(json_encode($select), true);
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'feedback';
         $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);

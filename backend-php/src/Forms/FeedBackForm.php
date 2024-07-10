@@ -14,14 +14,13 @@ class FeedBackForm
   /**
    * Méthode static CommentRatings
    *
-   * @param CommentRatings $commentRatings [$commentRatings une instance de la class CommentRatings instancié avec les données du formulaire ou vide lors de l'initialisation]
-   * @param bool|string $errors [Dans le cas où des erreurs surviennent lors de la saisie des champs input]
-   * @param bool $render [Par défaut **(false)** le render ce fait au moment de l'appel de la méthode dans le template, si vous deviez le rendre au moment du rendu de la méthode passée l'argument à **(true)**]
-   * 
-   * @return FormBuilder|string [Le contenu généré du formulaire]
+   * @param array [...$arguments Les arguments transmis à la méthode suivant l'appel de call_user_func_array.]
+   *
+   * @return string [Le contenu généré en rendant le template 'test-render' avec les arguments fournis.]
    */
-  public static function CommentRatings(CommentRatings $commentRatings, $errors = false, $render = false): FormBuilder|string
+  public static function CommentRatings(...$arguments): string
   {
+    $commentRatings = new CommentRatings($arguments);
     $formCommentRatings = new FormBuilder();
 
     // Instancier le ValidatorJS Pour les validation d'input avec Javascript
@@ -84,6 +83,6 @@ class FeedBackForm
       ]); // BUTTON SUBMIT
 
 
-    return $render === false ? $formCommentRatings : $formCommentRatings->render();
+    return $formCommentRatings->render();
   }
 }
