@@ -50,7 +50,7 @@ class FeedBackForm
       ->setIdForm($idForm) // ID FORM
       ->setAction($actionForm) // ACTION -> ROUTE DE TRAITEMENT
       ->setClassForm('p-4 space-y-2 md:space-y-4') // CSS FORM
-      ->addField('number', 'ratings', [
+      ->addField('number', 'rating', [
         'class-label-group' => 'relative flex flex-wrap text-gray-900 dark:text-white items-center gap-2',
         'indicator' => 'nombre compris entre 1 et 5',
         'class-label' => 'flex flex-wrap w-full sm:flex-nowrap items-center gap-2',
@@ -63,7 +63,7 @@ class FeedBackForm
         'attributes' => ['value' => $commentRatings->getRating() ?? ''],
         'error-message' => $errors['ratings'] ?? false,
       ]) // CHAMPS COMMENTS
-      ->addField('textarea', 'comments', [
+      ->addField('textarea', 'comment', [
         'class-label-group' => 'py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700',
         'text-label' => 'Commentaire',
         'class' =>
@@ -74,12 +74,12 @@ class FeedBackForm
         'attributes' => ['value' => $commentRatings->getComment() ?? '', 'autocomplete' => 'section-blue shipping comments'],
         'error-message' => $errors['comment'] ?? false,
       ]) // CHAMPS COMMENTS
-      ->addElementAction('button', 'connect-button-user', 'connect-button-user', [
+      ->addElementAction('button', 'feedback-button-user', 'feedback-button-user', [
         'class' =>
         'inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800',
         'anchor' => 'Notez',
         'attributes' => [
-          'data-js' => 'handleSampleConnect,click',
+          'data-js' => 'handlePost,click',
           'data-route' => $actionForm,
           'data-id-form' => $idForm,
         ]
