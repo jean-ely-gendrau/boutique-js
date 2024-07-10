@@ -63,7 +63,7 @@ $router->map('POST', '/api/Products/[i:id]', 'ApiController#updateProducts', 'up
 $router->map('POST', '/api/Category/[i:id]', 'ApiController#updateCategory', 'updateCategory');
 $router->map('POST', '/api/Orders/[i:id]', 'ApiController#updateOrders', 'updateOrders');
 $router->map('POST', '/api/Users/[i:id]', 'ApiController#updateUsers', 'updateUsers');
-$router->map('POST', '/api/feedback-validation', 'ApiController#addFeedback', 'addFeedback');
+$router->map('POST', '/api/feedback-validation/[i:id]', 'ApiController#addFeedback', 'addFeedback');
 $router->map('DELETE', '/api/Products/[i:id]', 'ApiController#deleteProducts', 'deleteProducts');
 $router->map('DELETE', '/api/Category/[i:id]', 'ApiController#deleteCategory', 'deleteCategory');
 $router->map('DELETE', '/api/Orders/[i:id]', 'ApiController#deleteOrders', 'deleteOrders');
