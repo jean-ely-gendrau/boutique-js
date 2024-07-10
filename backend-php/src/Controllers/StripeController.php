@@ -46,45 +46,45 @@ class StripeController
         $rendering = $arguments['render'];
 
         if (isset($_SESSION['isConnected'])) {
-            //       if (isset($_COOKIE['stripe'])) {
-            try {
-                unset($_COOKIE['stripe']);
-                setcookie('stripe', '', -1, '/');
+            if (isset($_COOKIE['stripe'])) {
+                try {
+                    unset($_COOKIE['stripe']);
+                    setcookie('stripe', '', -1, '/');
 
-                $IdclientCrudManager = new CrudManager('users', Users::class);
-                $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+                    $IdclientCrudManager = new CrudManager('users', Users::class);
+                    $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
 
-                $crudManagerOrder = new CrudManager('orders', Orders::class);
-                $commandes = $crudManagerOrder->GetBasketForStripe($Idclient->id);
-                foreach ($commandes as $commande) {
-                    $ordermodel = new Orders((array)$commande);
-                    $ordermodel->setBasket(0);
-                    $crudManagerOrder->update($ordermodel, ['id', 'basket']);
+                    $crudManagerOrder = new CrudManager('orders', Orders::class);
+                    $commandes = $crudManagerOrder->GetBasketForStripe($Idclient->id);
+                    foreach ($commandes as $commande) {
+                        $ordermodel = new Orders((array)$commande);
+                        $ordermodel->setBasket(0);
+                        $crudManagerOrder->update($ordermodel, ['id', 'basket']);
+                    }
+
+                    $rendering->addParams('commande', $commandes);
+
+                    /* FEEDBACK MODAL */
+                    $modalFeedback = new ModalBuilder();
+                    $modalFeedback->setIdModal('modal-form-feedback');
+                    $modalFeedback->addHeader('modal-add-feedback', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Noter le produit</h2>')
+                        ->addBody('body-modal-add-feedback', '<div id="feedback-form"></div>');
+
+                    $rendering->addParams([
+                        'modalFeedback' => $modalFeedback,
+                    ]);
+                    /* FEEDBACK MODAL */
+
+                    $content = $rendering->render('stripe/success', $arguments);
+                    return $content;
+                } catch (Exception $e) {
+                    $content = $rendering->render('404', $arguments);
+                    return $content;
                 }
-
-                $rendering->addParams('commande', $commandes);
-
-                /* FEEDBACK MODAL */
-                $modalFeedback = new ModalBuilder();
-                $modalFeedback->setIdModal('modal-form-feedback');
-                $modalFeedback->addHeader('modal-add-feedback', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Noter le produit</h2>')
-                    ->addBody('body-modal-add-feedback', '<div id="feedback-form"></div>');
-
-                $rendering->addParams([
-                    'modalFeedback' => $modalFeedback,
-                ]);
-                /* FEEDBACK MODAL */
-
-                $content = $rendering->render('stripe/success', $arguments);
-                return $content;
-            } catch (Exception $e) {
+            } else {
                 $content = $rendering->render('404', $arguments);
                 return $content;
             }
-            //     } else {
-            //          $content = $rendering->render('404', $arguments);
-            //          return $content;
-            //      }
         } else {
             $content = $rendering->render('404', $arguments);
             return $content;
