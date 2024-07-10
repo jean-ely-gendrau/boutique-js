@@ -32,8 +32,20 @@ class Comments
      */
     private $products_id;
 
-    public function __construct()
+    /**
+     * Method __construct
+     *
+     * @param array $data [Les données qui seront Hydratée dans le Model]
+     *
+     * @return void
+     */
+    public function __construct(array $data)
     {
+        foreach ($data as $key => $property) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $property;
+            }
+        }
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
