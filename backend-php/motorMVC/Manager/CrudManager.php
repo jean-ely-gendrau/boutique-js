@@ -2,6 +2,7 @@
 
 namespace Motor\Mvc\Manager;
 
+use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Special\BestProduct;
 use Motor\Mvc\Interfaces\PaginatePerPage;
 
@@ -144,18 +145,40 @@ class CrudManager extends BddManager implements PaginatePerPage
     public function getOneProduct(string $id): object
     {
         $req = $this->_dbConnect->prepare(
-            'SELECT p.*, pi.products_id, i.url_image, AVG(r.rating) AS average_rating
+            'SELECT p.*, 
+                pi.products_id, 
+                i.url_image, 
+                r.rating AS rating, 
+                r.id AS ratings_id, 
+                comment.comment AS comment, 
+                comment.id AS comments_id,
+                (SELECT AVG(rating) FROM ratings WHERE products_id = p.id) AS average_rating
             FROM products AS p 
             LEFT JOIN productsimages AS pi ON p.id = pi.products_id 
             LEFT JOIN images AS i ON pi.images_id = i.id 
             LEFT JOIN ratings AS r ON p.id = r.products_id
-            WHERE p.id = :id
-            GROUP BY p.id;',
+            LEFT JOIN comments AS comment ON p.id = comment.products_id
+            WHERE p.id = :id;',
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
+        $results = $req->fetchAll();
 
-        return $req->fetch();
+
+        $productModel = null;
+        // Parcourir le tableau de ProductModel
+        foreach ($results as $product) {
+            if ($productModel === null) {
+                // Initialiser le produit la première fois
+                $productModel = ProductsModels::createFromProduct($product);
+            }
+
+            // Ajouter les commentaires au produit existant
+            $productModel->addComment($product->comment, $product->comments_id);
+        }
+
+        //  var_dump($productModel);
+        return $productModel;
     }
 
     /**
@@ -336,7 +359,7 @@ class CrudManager extends BddManager implements PaginatePerPage
      */
     public function update(object $objectClass, array $param): bool
     {
-        
+
         // On mémorise les paramètres à mettre à jours
         $paramsUpdate = $param;
         unset($paramsUpdate[0]); // Supprime la clé 0 qui dois correspondre à exemple id,id_user,id_product...
@@ -359,7 +382,7 @@ class CrudManager extends BddManager implements PaginatePerPage
                 echo "Une erreur est survenu lors de la mise à jour, veuillez verifier $paramName : $this->_objectClass";
             }
         }
-        
+
         return $req->execute($boundParam);
     }
 
@@ -632,7 +655,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $req = $this->_dbConnect->prepare('SELECT * FROM ' . $this->_tableName . ' WHERE id IN (1, 4, 5)');
         $req->execute();
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
-        
+
         return $req->fetchAll();
     }
 

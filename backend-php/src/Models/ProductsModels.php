@@ -115,16 +115,46 @@ class ProductsModels implements JsonSerializable
      */
     private $average_rating;
 
+    /**
+     * ratings_id
+     *
+     * @var array
+     */
+    private $ratings_id;
+
+    /**
+     * rating
+     *
+     * @var array
+     */
+    private $rating;
+
+    /**
+     * comment
+     *
+     * @var array
+     */
+    private $comment;
+
+    /**
+     * comments_id
+     *
+     * @var array
+     */
+    private $comments_id;
+
     public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
-
         // Hydrate les propriété existante de la class avec les données passée en arguments
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }
+
+        $this->comment = [];
+        $this->comments_id = [];
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
@@ -165,6 +195,14 @@ class ProductsModels implements JsonSerializable
     {
     }
 
+    /************************************** Add Méthode ***********************************/
+    public function addComment($comment, $commentId)
+    {
+        if (!in_array($commentId, $this->comments_id)) {
+            $this->comment[] = $comment;
+            $this->comments_id[] = $commentId;
+        }
+    }
     /************************************** Getter/Setter ***********************************/
 
     /**
@@ -490,5 +528,130 @@ class ProductsModels implements JsonSerializable
         $this->average_rating = $average_rating;
 
         return $this;
+    }
+
+
+
+    /**
+     * Get comments_id
+     *
+     * @return  array
+     */
+    public function getComments_id()
+    {
+        return $this->comments_id;
+    }
+
+    /**
+     * Set comments_id
+     *
+     * @param  array  $comments_id  comments_id
+     *
+     * @return  self
+     */
+    public function setComments_id(array $comments_id)
+    {
+        if ($comments_id && !in_array($comments_id, $this->comments_id)) {
+            $this->comments_id[] = $comments_id;
+        }
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return  array
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param  array  $comment  comment
+     *
+     * @return  self
+     */
+    public function setComment(array $comment)
+    {
+        if ($comment && !in_array($comment, $this->comment)) {
+            $this->comment[] = $comment;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get ratings_id
+     *
+     * @return  array
+     */
+    public function getRatings_id()
+    {
+        return $this->ratings_id;
+    }
+
+    /**
+     * Set ratings_id
+     *
+     * @param  array  $ratings_id  ratings_id
+     *
+     * @return  self
+     */
+    public function setRatings_id(array $ratings_id)
+    {
+        if ($ratings_id && !in_array($ratings_id, $this->ratings_id)) {
+            $this->ratings_id[] = $ratings_id;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return  array
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param  array  $rating  rating
+     *
+     * @return  self
+     */
+    public function setRating(array $rating)
+    {
+        if ($rating && !in_array($rating, $this->rating)) {
+            $this->rating[] = $rating;
+        }
+        return $this;
+    }
+
+    public static function createFromProduct(ProductsModels $product): self
+    {
+        // On hydrate les données avec l'instance de cette class
+        return new self([
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price,
+            'quantity' => $product->quantity,
+            'category_id' => $product->category_id,
+            'sub_category_id' => $product->sub_category_id,
+            'created_at' => $product->created_at,
+            'updated_at' => $product->updated_at,
+            'image_id' => $product->image_id,
+            'image_url' => $product->image_url,
+            'rating' => $product->rating,
+            'ratings_id' => $product->ratings_id,
+            'average_rating' => $product->average_rating
+        ]);
     }
 }
