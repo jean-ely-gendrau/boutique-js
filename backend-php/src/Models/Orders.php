@@ -75,6 +75,22 @@ class Orders implements JsonSerializable
         }
     }
 
+    /**
+     * Method selfHydrate
+     *
+     * @param array $dataToHydrate [Données pour l'hydratation du modèle]
+     *
+     * @return void
+     */
+    public function selfHydrate(array $dataToHydrate): void
+    {
+        $this->id = $dataToHydrate['ordersId'];
+        $this->basket = $dataToHydrate['orderBasket'];
+        $this->status = $dataToHydrate['orderStatus'];
+        $this->created_at = $dataToHydrate['orderCreatedAt'];
+        $this->updated_at = $dataToHydrate['orderUpdatedAt'];
+    }
+
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
 
     /**
