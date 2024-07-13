@@ -108,6 +108,8 @@ class ProductsModels implements JsonSerializable
      */
     private $ordered;
 
+    /*** RATINGS PROPERTIES */
+
     /**
      * average_rating
      *
@@ -118,30 +120,74 @@ class ProductsModels implements JsonSerializable
     /**
      * ratings_id
      *
-     * @var array
+     * @var int
      */
     private $ratings_id;
 
     /**
      * rating
      *
-     * @var array
+     * @var int
      */
     private $rating;
 
     /**
-     * comment
+     * ratings
      *
      * @var array
      */
-    private $comment;
+    private $ratings;
+
+    /**
+     * commentUsers_id
+     *
+     * @var int
+     */
+    private $ratingUsers_id;
+
+    /**
+     * usersRating
+     *
+     * @var string
+     */
+    private $usersRating;
+
+    /*** COMMENTS PROPERTIES */
 
     /**
      * comments_id
      *
-     * @var array
+     * @var int
      */
     private $comments_id;
+
+    /**
+     * comment
+     *
+     * @var string
+     */
+    private $comment;
+
+    /**
+     * comments
+     *
+     * @var array
+     */
+    private $comments;
+
+    /**
+     * commentUsers_id
+     *
+     * @var int
+     */
+    private $commentUsers_id;
+
+    /**
+     * usersComment
+     *
+     * @var string
+     */
+    private $usersComment;
 
     public function __construct(mixed $data = [])
     {
@@ -153,8 +199,11 @@ class ProductsModels implements JsonSerializable
             }
         }
 
-        $this->comment = [];
-        $this->comments_id = [];
+        /**
+         * Initialiser les propriétés après l'hydratation de données avec un tableau vide lors de l'instanciation de la class
+         */
+        $this->comments = [];
+        $this->ratings = [];
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
@@ -195,13 +244,40 @@ class ProductsModels implements JsonSerializable
     {
     }
 
-    /************************************** Add Méthode ***********************************/
-    public function addComment($comment, $commentId)
+    /************************************** Add/Create Méthode ***********************************/
+    /** ATTENTION : Vérifier l'absence de doublons dans les commentaires.
+     * Si des doublons sont détectés, implémenter une fonction récursive 
+     * utilisant in_array pour vérifier la présence des données.
+     */
+
+    public function addComment($comment, $commentId, $usersComment)
     {
-        if (!in_array($commentId, $this->comments_id)) {
-            $this->comment[] = $comment;
-            $this->comments_id[] = $commentId;
-        }
+
+        $this->comments[] = [$commentId, $usersComment, $comment];
+    }
+
+    public function addRating($rating, $ratingId, $usersRating)
+    {
+        $this->ratings[] = [$ratingId, $usersRating, $rating];
+    }
+
+    public static function createFromProduct(ProductsModels $product): self
+    {
+        // On hydrate les données en utilisant une instance de cette classe.
+        return new self([
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price,
+            'quantity' => $product->quantity,
+            'category_id' => $product->category_id,
+            'sub_category_id' => $product->sub_category_id,
+            'created_at' => $product->created_at,
+            'updated_at' => $product->updated_at,
+            'image_id' => $product->image_id,
+            'image_url' => $product->image_url,
+            'average_rating' => $product->average_rating
+        ]);
     }
     /************************************** Getter/Setter ***********************************/
 
@@ -532,12 +608,115 @@ class ProductsModels implements JsonSerializable
 
 
 
+
+
+    /************************************** START ASSESSEUR NOTATIONS *******************************/
+
+    /**
+     * Get rating
+     *
+     * @return  int
+     */
+    public function getRating(): int
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set ratings
+     *
+     * @param  int  $rating  rating
+     *
+     * @return  self
+     */
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
+    /**
+     * Get ratings_id
+     *
+     * @return  int
+     */
+    public function getRatings_id(): int
+    {
+        return $this->ratings_id;
+    }
+
+    /**
+     * Set ratings_id
+     *
+     * @param  int  $ratings_id  ratings_id
+     *
+     * @return  self
+     */
+    public function setRatings_id(int $ratings_id): self
+    {
+        $this->ratings_id = $ratings_id;
+
+        return $this;
+    }
+
+    /**
+     * Get ratingUsers_id
+     *
+     * @return  int
+     */
+    public function getRatingUsers_id(): int
+    {
+        return $this->ratingUsers_id;
+    }
+
+    /**
+     * Set ratingUsers_id
+     *
+     * @param  int  $ratingUsers_id  ratingUsers_id
+     *
+     * @return  self
+     */
+    public function setRatingUsers_id(int $ratingUsers_id): self
+    {
+        $this->ratingUsers_id = $ratingUsers_id;
+
+        return $this;
+    }
+
+    /**
+     * Get usersRating
+     *
+     * @return  string
+     */
+    public function getUsersRating()
+    {
+        return $this->usersRating;
+    }
+
+    /**
+     * Set usersRating
+     *
+     * @param  string  $usersRating  usersRating
+     *
+     * @return  self
+     */
+    public function setUsersRating(string $usersRating)
+    {
+        $this->usersRating = $usersRating;
+
+        return $this;
+    }
+
+    /**************************************   END ASSESSEUR NOTATIONS   ******************************/
+
+    /************************************** START ASSESSEUR COMMENTAIRE *******************************/
+
     /**
      * Get comments_id
      *
-     * @return  array
+     * @return  int
      */
-    public function getComments_id()
+    public function getComments_id(): int
     {
         return $this->comments_id;
     }
@@ -545,15 +724,13 @@ class ProductsModels implements JsonSerializable
     /**
      * Set comments_id
      *
-     * @param  array  $comments_id  comments_id
+     * @param  int  $comments_id  comments_id
      *
      * @return  self
      */
-    public function setComments_id(array $comments_id)
+    public function setComments_id(int $comments_id): self
     {
-        if ($comments_id && !in_array($comments_id, $this->comments_id)) {
-            $this->comments_id[] = $comments_id;
-        }
+        $this->comments_id = $comments_id;
         return $this;
     }
 
@@ -570,88 +747,66 @@ class ProductsModels implements JsonSerializable
     /**
      * Set comment
      *
-     * @param  array  $comment  comment
+     * @param  string  $comment  comment
      *
      * @return  self
      */
-    public function setComment(array $comment)
+    public function setComment(string $comment): self
     {
-        if ($comment && !in_array($comment, $this->comment)) {
-            $this->comment[] = $comment;
-        }
+
+        $this->comment = $comment;
+
 
         return $this;
     }
 
     /**
-     * Get ratings_id
+     * Get commentUsers_id
      *
-     * @return  array
+     * @return  int
      */
-    public function getRatings_id()
+    public function getCommentUsers_id()
     {
-        return $this->ratings_id;
+        return $this->commentUsers_id;
     }
 
     /**
-     * Set ratings_id
+     * Set commentUsers_id
      *
-     * @param  array  $ratings_id  ratings_id
+     * @param  int  $commentUsers_id  commentUsers_id
      *
      * @return  self
      */
-    public function setRatings_id(array $ratings_id)
+    public function setCommentUsers_id(int $commentUsers_id)
     {
-        if ($ratings_id && !in_array($ratings_id, $this->ratings_id)) {
-            $this->ratings_id[] = $ratings_id;
-        }
+        $this->commentUsers_id = $commentUsers_id;
 
         return $this;
     }
 
     /**
-     * Get rating
+     * Get usersComment
      *
-     * @return  array
+     * @return  string
      */
-    public function getRating()
+    public function getUsersComment()
     {
-        return $this->rating;
+        return $this->usersComment;
     }
 
     /**
-     * Set rating
+     * Set usersComment
      *
-     * @param  array  $rating  rating
+     * @param  string  $usersComment  usersComment
      *
      * @return  self
      */
-    public function setRating(array $rating)
+    public function setUsersComment(string $usersComment)
     {
-        if ($rating && !in_array($rating, $this->rating)) {
-            $this->rating[] = $rating;
-        }
+        $this->usersComment = $usersComment;
+
         return $this;
     }
 
-    public static function createFromProduct(ProductsModels $product): self
-    {
-        // On hydrate les données avec l'instance de cette class
-        return new self([
-            'id' => $product->id,
-            'name' => $product->name,
-            'description' => $product->description,
-            'price' => $product->price,
-            'quantity' => $product->quantity,
-            'category_id' => $product->category_id,
-            'sub_category_id' => $product->sub_category_id,
-            'created_at' => $product->created_at,
-            'updated_at' => $product->updated_at,
-            'image_id' => $product->image_id,
-            'image_url' => $product->image_url,
-            'rating' => $product->rating,
-            'ratings_id' => $product->ratings_id,
-            'average_rating' => $product->average_rating
-        ]);
-    }
+    /************************************** END ASSESSEUR COMMENTAIRE *******************************/
 }

@@ -146,10 +146,14 @@ class CrudManager extends BddManager implements PaginatePerPage
     {
         $req = $this->_dbConnect->prepare(
             'SELECT p.*, 
+                usersComment.full_name as usersComment,
+                usersRating.full_name as usersRating,
                 pi.products_id, 
                 i.url_image, 
+                r.users_id AS ratingUsers_id, 
                 r.rating AS rating, 
                 r.id AS ratings_id, 
+                comment.users_id AS commentUsers_id,
                 comment.comment AS comment, 
                 comment.id AS comments_id,
                 (SELECT AVG(rating) FROM ratings WHERE products_id = p.id) AS average_rating
@@ -158,26 +162,40 @@ class CrudManager extends BddManager implements PaginatePerPage
             LEFT JOIN images AS i ON pi.images_id = i.id 
             LEFT JOIN ratings AS r ON p.id = r.products_id
             LEFT JOIN comments AS comment ON p.id = comment.products_id
+            LEFT JOIN users AS usersRating ON r.users_id = usersRating.id
+            LEFT JOIN users AS usersComment ON comment.users_id = usersComment.id
             WHERE p.id = :id;',
         );
         $req->execute(['id' => intval($id)]);
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->_objectClass);
         $results = $req->fetchAll();
 
-
         $productModel = null;
+        /**
+         * Afin de pouvoir récupérer tous les commentaires et notations du produit demandé par le client,
+         * nous avons modifié la requête $req->fetch() en $req->fetchAll(), ce qui permet de récupérer toutes les données des champs demandés.
+         * Pour éviter de récupérer des résultats dupliqués, nous allons parser les données afin d'hydrater notre objet avec toutes les données dès le premier passage.
+         * Nous continuons en ajoutant les commentaires ($product->comment, $product->comments_id, $product->usersComment) au tableau, puis les notations ($product->rating, $product->ratings_id, $product->usersRating).
+         * Pour les autres résultats du tableau, nous ajouterons simplement les commentaires et les notations.
+         * (Voir aussi le constructeur pour l'initialisation des données après l'hydratation)
+         */
+
         // Parcourir le tableau de ProductModel
         foreach ($results as $product) {
+
             if ($productModel === null) {
                 // Initialiser le produit la première fois
                 $productModel = ProductsModels::createFromProduct($product);
             }
 
             // Ajouter les commentaires au produit existant
-            $productModel->addComment($product->comment, $product->comments_id);
+            $productModel->addComment($product->comment, $product->comments_id, $product->usersComment);
+
+            // Ajouter les notations au produit existant
+            $productModel->addRating($product->rating, $product->ratings_id, $product->usersRating);
         }
 
-        //  var_dump($productModel);
+        //var_dump($productModel);
         return $productModel;
     }
 
