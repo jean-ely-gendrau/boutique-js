@@ -5,18 +5,54 @@ namespace App\Boutique\Components;
 class RatingsHTML
 {
 
-  public static function templateRating($detail = null)
+  /**
+   * countRating
+   *
+   * @var int
+   */
+  private $countRating;
+
+  /**
+   * sumRating
+   *
+   * @var int
+   */
+  private $sumRating;
+
+  /**
+   * averageRating
+   *
+   * @var int
+   */
+  private $averageRating;
+
+  /**
+   * ratings
+   *
+   * @var object
+   */
+  private $ratings;
+
+  public function __construct(array $ratings)
+  {
+    $arrayColRating = array_column((array) $ratings, 'rating'); // Extraction de la colonne 'rating' du tableau
+    $this->countRating = count((array) $ratings); // Comptage du nombre de notes
+    $this->sumRating = array_sum((array) $arrayColRating); // Somme de toutes les notes
+    $this->averageRating = $this->sumRating / $this->countRating; // Calcul de la moyenne des notes
+
+    // Initialise $this->ratings avec les notes de 1 à 5 initialisées à 0,
+    // puis remplace par les valeurs réelles des notes présentes dans $arrayColRating.
+    $this->ratings = array_replace_recursive(array_fill(1, 5, 0), array_count_values($arrayColRating));
+  }
+
+  public function render()
   {
 
-    if ($detail === null) return null;
-
-    $countRating = count($detail);
-
-    $heredocRating = self::forRating(array_count_values(array_column((array) $detail, 'rating')));
+    $heredocRating = $this->generateProgressionBars();
 
     return <<<HTML
       <div class="mt-8 max-w-md">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Notations({$countRating})</h3>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Notations({$this->countRating})</h3>
           <div class="space-y-3 mt-4">
             {$heredocRating}
           </div>
@@ -24,23 +60,40 @@ class RatingsHTML
     HTML;
   }
 
-  private static function forRating($detail): string
+  /**
+   * Method generateProgressionBars
+   * 
+   * Cette méthode génère l'intégralité des barres de progression pour chaque note.
+   * 
+   * @return string Le HTML génèré des barres de notation
+   */
+  private function generateProgressionBars(): string
   {
-    $heredocOut = "";
-    $rating = array_replace_recursive(array_fill(1, 5, 0), $detail);
+    $string = ""; // Chaîne de sortie
 
-    foreach ($rating as $ratingNumber => $countRating) {
-      $heredocOut .= self::ratingSum($ratingNumber, $countRating);
+    // Parcourt le tableau $this->ratings selon le nombre d'occurrences
+    foreach ($this->ratings as $ratingNumber => $numberRating) {
+      // Concatène le résultat de ratingSum à la chaîne de sortie
+      $string .= $this->generateProgressionBar($ratingNumber, $numberRating);
     }
 
-    return $heredocOut;
+    return $string; // Chaîne concaténée
   }
 
-  private static function ratingSum(int $ratingNumber, int $countRating): string
+  /**
+   * Method generateProgressionBar
+   *
+   * @param int $ratingNumber [L'indice de la note en cours de génération (1, 2, 3, 4 ou 5).]
+   * @param int $numberRating [Le nombre total de votes pour la note en cours de génération.]
+   *
+   * @return string
+   */
+  private function generateProgressionBar(int $ratingNumber, int $numberRating): string
   {
-    $percentRating = ($countRating / 5) * 100;
+    $percentRating = ($numberRating / $this->countRating) * 100; // Calcul de la moyenne de chaque barre
 
-    $cssRating = "w-[{$percentRating}%]";
+    $cssRating = "w-[{$percentRating}%]"; // Class CSS dynamique qui contrôle la taille de la barre de progression
+
     return
       <<<HTML
       <div class="flex items-center">

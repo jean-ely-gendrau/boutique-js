@@ -56,11 +56,11 @@ class ElementProduit extends BddManager
         }
 
         // Passage dans render des paramètres 'detail' => $detail
-        $ratingComponent = new RatingsHTML();
+        $ratingComponent = new RatingsHTML($detail->ratings);
 
         $arguments['render']->addParams(
             [
-                'ratingsComponent' => $ratingComponent->templateRating($detail->ratings),
+                'ratingsComponent' => $ratingComponent->render(),
                 'detail' => $detail,
                 'src' => $src
             ]
