@@ -64,7 +64,7 @@ class HistoriqueController
 
         $usersModel = new Users();
         $usersModel = new ProductsModels();
-        $usersModel = new Orders();
+        $productModel = new Orders();
         // Now $orders should contain all orders made by the client
 
         /* FEEDBACK MODAL */
