@@ -5,6 +5,7 @@ namespace App\Boutique\Controllers;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
+use Motor\Mvc\Builder\ModalBuilder;
 
 class HistoriqueController
 {
@@ -61,7 +62,20 @@ class HistoriqueController
 
         // Now $orders should contain all orders made by the client
 
-        $render->addParams('orders', $orders);
+        /* FEEDBACK MODAL */
+        $modalFeedback = new ModalBuilder();
+        $modalFeedback->setIdModal('modal-form-feedback');
+        $modalFeedback->addHeader('modal-add-feedback', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Noter le produit</h2>')
+            ->addBody('body-modal-add-feedback', '<div id="feedback-form"></div>');
+
+
+        /* FEEDBACK MODAL */
+        $render->addParams([
+            'modalFeedback' => $modalFeedback,
+            'orders' => $orders
+        ]);
+
+
         return  $render->render('historique', $arguments);
     }
 }

@@ -8,4 +8,5 @@ enum ClientExceptionEnum
   case AccountIsRegistered;
   case KeyNotFound;
   case CookieNotFound;
+  case NotConnected;
 }
