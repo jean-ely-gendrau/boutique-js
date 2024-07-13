@@ -280,6 +280,36 @@ class ProductsModels implements JsonSerializable
             'average_rating' => $product->average_rating
         ]);
     }
+
+    public function selfHydrate(array $dataToHydrate)
+    {
+
+        $this->id = $dataToHydrate['pProductId'];
+        $this->name = $dataToHydrate['pProductName'];
+        $this->description = $dataToHydrate['pProductDescription'];
+        $this->price = $dataToHydrate['pProductPrice'];
+        $this->quantity = $dataToHydrate['pProductQuantity'];
+        $this->category_id = $dataToHydrate['pProductCategoryId'];
+        $this->sub_category_id = $dataToHydrate['pProductSubCategoryId'];
+        $this->created_at = $dataToHydrate['pProductCreatedAt'];
+        $this->updated_at = $dataToHydrate['pProductUpdatedAt'];
+        $this->url_image = $dataToHydrate['pProductImageUrl'];
+        $this->user_has_product = $dataToHydrate['pUserHasProduct'];
+        $this->ordered = $dataToHydrate['pOrdered'];
+        $this->average_rating = $dataToHydrate['pProductAverageRating'];
+        $this->ratings_id = $dataToHydrate['pRatingsId'];
+        $this->rating = $dataToHydrate['pRating'];
+        $this->ratings = $dataToHydrate['pRatings'];
+        $this->rating_users_id = $dataToHydrate['pRatingUsersId'];
+        $this->users_rating = $dataToHydrate['pUsersRating'];
+        $this->comments_id = $dataToHydrate['pCommentsId'];
+        $this->comment = $dataToHydrate['pComment'];
+        $this->comments = $dataToHydrate['pComments'];
+        $this->comment_users_id = $dataToHydrate['pCommentUsersId'];
+        $this->users_comment = $dataToHydrate['pUsersComment'];
+        $this->cat_name = $dataToHydrate['pCategoryName'];
+        $this->sub_cat_name = $dataToHydrate['pSubCategoryName'];
+    }
     /************************************** Getter/Setter ***********************************/
 
     /**

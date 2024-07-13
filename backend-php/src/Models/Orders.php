@@ -63,12 +63,13 @@ class Orders implements JsonSerializable
      * @var string
      */
     private $email;
+
     /* ----------------------------------- CONSTRUCTOR ------------------------------ */
 
     function __construct(array $data = [])
     {
-        foreach($data as $key => $property){
-            if (property_exists($this, $key)){
+        foreach ($data as $key => $property) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $property;
             }
         }

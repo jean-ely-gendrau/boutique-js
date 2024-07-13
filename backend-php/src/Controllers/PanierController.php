@@ -48,7 +48,7 @@ class PanierController
             header('Location: /inscription');
             exit();
         }
-    
+
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
         $IdclientCrudManager = new CrudManager('users', Users::class);
@@ -57,7 +57,7 @@ class PanierController
         $id = $Idclient->id;
 
         $panier = new CrudManager('orders', Orders::class);
-        $paniers = $panier->getbyidbasket($id); // Get the orders by the client's id    
+        $paniers = $panier->getByIdBasket($id); // Get the orders by the client's id    
         // Return both the client's ID and the orders
         $render->addParams('paniers', $paniers);
         return  $render->render('panier', $arguments);
@@ -70,37 +70,37 @@ class PanierController
             header('Location: /inscription');
             exit();
         }
-        
+
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
-        
+
         $IdclientCrudManager = new CrudManager('users', Users::class);
-        
+
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
         $id = $Idclient->id;
-        
+
         $idproduct = $arguments["product_id"] ?? null; // Get the product's id
-        
-        
+
+
         $panier = new CrudManager('orders', Orders::class);
-        
+
         $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
-        
-        
+
+
         $render->addParams('addtobasket', $panier);
-        
+
         header("Content-type: application/json;charset=utf-8");
         http_response_code(200);
         echo json_encode(["success" => "ok"]);
         exit();
         // return  $render->render('addtobasket', $arguments);
     }
-    
+
     public function RemoveFromCart(...$arguments)
     {
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
-       
+
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
@@ -120,22 +120,23 @@ class PanierController
         // return  $render->render('removefromcart', $arguments);
     }
 
-    public function PanierDynamique(...$arguments){
-        if(isset($_SESSION['isConnected'])){
+    public function PanierDynamique(...$arguments)
+    {
+        if (isset($_SESSION['isConnected'])) {
             /** @var \Motor\Mvc\Utils\Render */
             $render = $arguments['render'];
-       
+
 
             $IdclientCrudManager = new CrudManager('users', Users::class);
-            
+
             $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
             $id = $Idclient->id;
-             
+
             $panier = new CrudManager('orders', Orders::class);
-            $paniers = $panier->getbyidbasket($id);   
+            $paniers = $panier->getbyidbasket($id);
             $render->addParams('panier-modal', $paniers);
-            
-            
+
+
             header("Content-type: application/json;charset=utf-8");
             http_response_code(200);
             echo json_encode($paniers);
@@ -143,4 +144,3 @@ class PanierController
         }
     }
 }
-    

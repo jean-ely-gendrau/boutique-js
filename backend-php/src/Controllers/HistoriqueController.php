@@ -2,6 +2,8 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Models\Orders;
+use App\Boutique\Models\ProductsModels;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
@@ -58,8 +60,11 @@ class HistoriqueController
 
         $order = new CrudManager('orders', 'Historique');
         $clientId = $Idclient->id; // Get the client's id from the arguments
-        $orders = $order->getByIdOrder($clientId); // Get the orders by the client's id
+        $orders = $order->getOrderById($clientId, 0); // Get the orders by the client's id
 
+        $usersModel = new Users();
+        $usersModel = new ProductsModels();
+        $usersModel = new Orders();
         // Now $orders should contain all orders made by the client
 
         /* FEEDBACK MODAL */
