@@ -104,11 +104,11 @@ class Users extends PasswordHashManager implements \JsonSerializable
 
     public function selfHydrate(array $dataToHydrate)
     {
-        $this->id = $dataToHydrate['userId'];
-        $this->full_name = $dataToHydrate['userFullName'];
-        $this->email = $dataToHydrate['userEmail'];
-        $this->birthday = $dataToHydrate['userBirthday'];
-        $this->address = $dataToHydrate['userAddress'];
+        $this->id = $dataToHydrate['userId'] ?? 0;
+        $this->full_name = $dataToHydrate['userFullName'] ?? '';
+        $this->email = $dataToHydrate['userEmail'] ?? '';
+        $this->birthday = $dataToHydrate['userBirthday'] ?? '';
+        $this->adress = $dataToHydrate['userAddress'] ?? '';
     }
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
     /* __get magic

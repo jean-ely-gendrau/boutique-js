@@ -2,6 +2,8 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Enum\BasketSvgEnum;
+use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Models\Orders;
 use App\Boutique\Models\ProductsModels;
 use Motor\Mvc\Manager\CrudManager;
@@ -61,16 +63,36 @@ class HistoriqueController
         $order = new CrudManager('orders', 'Historique');
         $clientId = $Idclient->id; // Get the client's id from the arguments
         $orders = $order->getOrderById($clientId, 0); // Get the orders by the client's id
+        // var_dump($orders);
 
         /** Hydratation des classes avec les données récupérées par la requête. */
-        $userModel = new Users();
-        $userModel->selfHydrate($orders);
 
-        $productModel = new ProductsModels();
-        $productModel->selfHydrate($orders);
 
-        $orderModel = new Orders();
-        $orderModel->selfHydrate($orders);
+        $productsModels = [];
+        $ordersModels = [];
+        $countInstance = 0;
+
+        foreach ($orders as $order) {
+            // var_dump($order);
+            $orderId = $order['ordersId'];
+            $productId = $order['pId'];
+
+            if (!isset($orders[$orderId])) {
+                // Hydrate Orders
+                $ordersModels[$orderId] = new Orders();
+                $ordersModels[$orderId]->selfHydrate($order);
+
+                // Hydrate ProductsModels
+                $productsModels[$productId] = new ProductsModels();
+                $productsModels[$productId]->selfHydrate($order);
+
+                // Hydrate Users
+                $userModel = new Users();
+            }
+        }
+
+        $userModel->selfHydrate($orders[0]);
+
         // Now $orders should contain all orders made by the client
 
         /* FEEDBACK MODAL */
@@ -79,13 +101,23 @@ class HistoriqueController
         $modalFeedback->addHeader('modal-add-feedback', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Noter le produit</h2>')
             ->addBody('body-modal-add-feedback', '<div id="feedback-form"></div>');
 
+        echo '<pre>', var_dump(
+            'userModel',
+            $userModel,
+            'productModel',
+            $productsModels,
+            'orderModel',
+            $ordersModels
+        ), '</pre>';
 
         /* FEEDBACK MODAL */
         $render->addParams([
+            'basketStatus' => BasketSvgEnum::class,
+            'buttonControlForms' => ButtonControlForms::class,
             'modalFeedback' => $modalFeedback,
             'userModel' => $userModel,
-            'productModel' => $productModel,
-            'orderModel' => $orderModel
+            'productModel' => $productsModels,
+            'orderModel' => $ordersModels
         ]);
 
 

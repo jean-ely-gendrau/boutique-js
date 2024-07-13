@@ -567,7 +567,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute(['client_id' => $clientId, 'boolBasket' => $boolBasket]);
         $stmt->setFetchMode(\PDO::FETCH_OBJ);
-        var_dump($stmt->fetchAll());
+        // var_dump($stmt->fetchAll());
         /*
         $orders = [];
 
@@ -635,7 +635,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt->execute(['client_id' => $clientId, 'basket' => $boolBasket]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        var_dump($stmt->fetchAll());
+        // var_dump($stmt->fetchAll());
         return $stmt->fetchAll();
     }
 
@@ -681,8 +681,10 @@ class CrudManager extends BddManager implements PaginatePerPage
         sc.name AS subCategoryName,
         o.id AS ordersId,
         o.status AS orderStatus,
+        o.users_id AS orderUsersId,
         o.created_at AS orderCreatedAat,
-        o.updated_at AS orderUpdatedAt
+        o.updated_at AS orderUpdatedAt,
+        po.products_id orderProductsId
     FROM orders o
     JOIN productsorders po ON o.id = po.orders_id 
     JOIN products p ON p.id = po.products_id 
@@ -698,7 +700,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         $stmt->execute(['client_id' => $clientId, 'basket' => $boolBasket]);
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        var_dump($stmt->fetchAll());
+        // var_dump($stmt->fetchAll());
         return $stmt->fetchAll();
     }
 

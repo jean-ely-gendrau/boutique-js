@@ -64,6 +64,12 @@ class Orders implements JsonSerializable
      */
     private $email;
 
+    /**
+     * products_id
+     *
+     * @var int
+     */
+    private $products_id;
     /* ----------------------------------- CONSTRUCTOR ------------------------------ */
 
     function __construct(array $data = [])
@@ -84,11 +90,14 @@ class Orders implements JsonSerializable
      */
     public function selfHydrate(array $dataToHydrate): void
     {
-        $this->id = $dataToHydrate['ordersId'];
-        $this->basket = $dataToHydrate['orderBasket'];
-        $this->status = $dataToHydrate['orderStatus'];
-        $this->created_at = $dataToHydrate['orderCreatedAt'];
-        $this->updated_at = $dataToHydrate['orderUpdatedAt'];
+
+        $this->id = $dataToHydrate['ordersId'] ?? 0;
+        $this->basket = $dataToHydrate['orderBasket'] ?? false;
+        $this->status = $dataToHydrate['orderStatus'] ?? '';
+        $this->users_id = $dataToHydrate['orderUsersId'] ?? 0;
+        $this->products_id = $dataToHydrate['orderProductsId'] ?? 0;
+        $this->created_at = $dataToHydrate['orderCreatedAt'] ?? '';
+        $this->updated_at = $dataToHydrate['orderUpdatedAt'] ?? '';
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */

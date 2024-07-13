@@ -40,14 +40,24 @@ echo $modalFeedback?->render() ?? "";
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($orders as $order) : ?>
+                            // var_dump($orderModel);
+                            foreach ($orderModel as $order) : ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <?= $order->name ?>
+                                        <?= $productModel[$order->products_id]->name ?>
                                     </th>
-                                    <td class="px-6 py-4"><?= $order->adress ?></td>
+                                    <td class="px-6 py-4"><?= $userModel->adress ?></td>
                                     <td class="px-6 py-4"><?= $order->price ?></td>
-                                    <td class="px-6 py-4"><?= $order->status ?></td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <?php
+                                            /** @var \App\Boutique\Enum\BasketStatus $basketStatus  */
+                                            $statusFormat = str_replace(' ', '_', ucwords($order->status));
+                                            $icon =  $basketStatus::fromName($statusFormat);
+                                            echo $icon->value;
+                                            ?>
+                                        </div>
+                                    </td>
                                     <td>
                                         <?php
                                         // MODAL FEEDBACK RENDER
