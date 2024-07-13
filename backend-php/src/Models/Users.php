@@ -102,6 +102,14 @@ class Users extends PasswordHashManager implements \JsonSerializable
         $this->role = $data['role'] ?? 'user';
     }
 
+    public function selfHydrate(array $dataToHydrate)
+    {
+        $this->id = $dataToHydrate['userId'];
+        $this->full_name = $dataToHydrate['userFullName'];
+        $this->email = $dataToHydrate['userEmail'];
+        $this->birthday = $dataToHydrate['userBirthday'];
+        $this->address = $dataToHydrate['userAddress'];
+    }
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
     /* __get magic
      * https://www.php.net/manual/en/language.oop5.magic.php
