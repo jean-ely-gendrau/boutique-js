@@ -239,6 +239,20 @@ class Orders implements JsonSerializable
     }
 
     /**
+     * format created_at
+     *
+     * @param  string  $created_at  created_at
+     *
+     * @return  string
+     */
+    public static function formatCreated_at(string $created_at): string
+    {
+        $dateFormat = new \DateTimeImmutable($created_at);
+
+        return  $dateFormat->format("d-m-Y");
+    }
+
+    /**
      * Get updated_at
      *
      * @return  string

@@ -1336,6 +1336,10 @@ input:checked + .toggle-bg {
   margin-inline-end: 0.25rem;
 }
 
+.me-1\.5 {
+  margin-inline-end: 0.375rem;
+}
+
 .me-2 {
   margin-inline-end: 0.5rem;
 }
@@ -2680,6 +2684,11 @@ input:checked + .toggle-bg {
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity));
+}
+
 .border-gray-800 {
   --tw-border-opacity: 1;
   border-color: rgb(31 41 55 / var(--tw-border-opacity));
@@ -2963,6 +2972,16 @@ input:checked + .toggle-bg {
   padding-right: 1.5rem;
 }
 
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -3006,6 +3025,16 @@ input:checked + .toggle-bg {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.px-9 {
+  padding-left: 2.25rem;
+  padding-right: 2.25rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .pb-1 {
@@ -3106,6 +3135,10 @@ input:checked + .toggle-bg {
 .text-7xl {
   font-size: 4.5rem;
   line-height: 1;
+}
+
+.text-\[0\.7em\] {
+  font-size: 0.7em;
 }
 
 .text-base {
@@ -4374,6 +4407,12 @@ background: white;*/
     display: flex;
   }
 
+  @media (min-width: 768px) {
+    .md\:md\:table-cell {
+      display: table-cell;
+    }
+  }
+
   .md\:table-cell {
     display: table-cell;
   }
@@ -4432,6 +4471,10 @@ background: white;*/
 
   .md\:w-32 {
     width: 8rem;
+  }
+
+  .md\:w-4 {
+    width: 1rem;
   }
 
   .md\:w-48 {
@@ -4514,6 +4557,10 @@ background: white;*/
     justify-content: space-between;
   }
 
+  .md\:gap-4 {
+    gap: 1rem;
+  }
+
   .md\:gap-6 {
     gap: 1.5rem;
   }
@@ -4558,6 +4605,10 @@ background: white;*/
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
   }
 
+  .md\:text-clip {
+    text-overflow: clip;
+  }
+
   .md\:text-wrap {
     text-wrap: wrap;
   }
@@ -4595,6 +4646,16 @@ background: white;*/
   .md\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+
+  .md\:px-2\.5 {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+  }
+
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .md\:px-6 {
@@ -4664,6 +4725,10 @@ background: white;*/
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:font-medium {
+    font-weight: 500;
   }
 
   .md\:text-blue-700 {
@@ -4907,6 +4972,10 @@ background: white;*/
     width: 33.333333%;
   }
 
+  .xl\:w-5 {
+    width: 1.25rem;
+  }
+
   .xl\:p-0 {
     padding: 0px;
   }
@@ -4924,6 +4993,11 @@ background: white;*/
   .xl\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+
+  .xl\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 

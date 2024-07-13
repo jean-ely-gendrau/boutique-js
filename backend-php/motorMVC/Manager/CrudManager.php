@@ -682,7 +682,7 @@ class CrudManager extends BddManager implements PaginatePerPage
         o.id AS ordersId,
         o.status AS orderStatus,
         o.users_id AS orderUsersId,
-        o.created_at AS orderCreatedAat,
+        o.created_at AS orderCreatedAt,
         o.updated_at AS orderUpdatedAt,
         po.products_id orderProductsId
     FROM orders o

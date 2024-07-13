@@ -71,27 +71,33 @@ class HistoriqueController
         $productsModels = [];
         $ordersModels = [];
         $countInstance = 0;
+        // Hydrate Users
+        $userModel = new Users();
 
         foreach ($orders as $order) {
             // var_dump($order);
             $orderId = $order['ordersId'];
             $productId = $order['pId'];
 
-            if (!isset($orders[$orderId])) {
+            // Si
+            if (!isset($orders[$orderId]) && !array_key_exists($productId, $productsModels)) {
                 // Hydrate Orders
                 $ordersModels[$orderId] = new Orders();
                 $ordersModels[$orderId]->selfHydrate($order);
+
 
                 // Hydrate ProductsModels
                 $productsModels[$productId] = new ProductsModels();
                 $productsModels[$productId]->selfHydrate($order);
 
-                // Hydrate Users
-                $userModel = new Users();
+
+                // Hydrate UsersModels
+                $userModel->selfHydrate($order);
             }
         }
+        $productsModels[$productId]->setQuantity(count($orders));
 
-        $userModel->selfHydrate($orders[0]);
+
 
         // Now $orders should contain all orders made by the client
 
@@ -101,6 +107,7 @@ class HistoriqueController
         $modalFeedback->addHeader('modal-add-feedback', '<h2 class="text-gray-900 text-base md:text-lg text-center block w-full p-2.5 dark:text-white">Noter le produit</h2>')
             ->addBody('body-modal-add-feedback', '<div id="feedback-form"></div>');
 
+        /*
         echo '<pre>', var_dump(
             'userModel',
             $userModel,
@@ -109,6 +116,7 @@ class HistoriqueController
             'orderModel',
             $ordersModels
         ), '</pre>';
+*/
 
         /* FEEDBACK MODAL */
         $render->addParams([
