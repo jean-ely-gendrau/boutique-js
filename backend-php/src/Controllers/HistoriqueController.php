@@ -62,9 +62,15 @@ class HistoriqueController
         $clientId = $Idclient->id; // Get the client's id from the arguments
         $orders = $order->getOrderById($clientId, 0); // Get the orders by the client's id
 
-        $usersModel = new Users();
-        $usersModel = new ProductsModels();
-        $productModel = new Orders();
+        /** Hydratation des classes avec les données récupérées par la requête. */
+        $userModel = new Users();
+        $userModel->selfHydrate($orders);
+
+        $productModel = new ProductsModels();
+        $productModel->selfHydrate($orders);
+
+        $orderModel = new Orders();
+        $orderModel->selfHydrate($orders);
         // Now $orders should contain all orders made by the client
 
         /* FEEDBACK MODAL */
@@ -77,7 +83,9 @@ class HistoriqueController
         /* FEEDBACK MODAL */
         $render->addParams([
             'modalFeedback' => $modalFeedback,
-            'orders' => $orders
+            'userModel' => $userModel,
+            'productModel' => $productModel,
+            'orderModel' => $orderModel
         ]);
 
 
