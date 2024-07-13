@@ -187,12 +187,15 @@ class CrudManager extends BddManager implements PaginatePerPage
                 // Initialiser le produit la première fois
                 $productModel = ProductsModels::createFromProduct($product);
             }
+            if ($product->comment !== null) {
+                // Ajouter les commentaires au produit existant
+                $productModel->addComment($product->comment, $product->comments_id, $product->usersComment);
+            }
 
-            // Ajouter les commentaires au produit existant
-            $productModel->addComment($product->comment, $product->comments_id, $product->usersComment);
-
-            // Ajouter les notations au produit existant
-            $productModel->addRating($product->rating, $product->ratings_id, $product->usersRating);
+            if ($product->rating !== null) {
+                // Ajouter les notations au produit existant
+                $productModel->addRating($product->rating, $product->ratings_id, $product->usersRating);
+            }
         }
 
         //var_dump($productModel);

@@ -245,20 +245,21 @@ class ProductsModels implements JsonSerializable
     }
 
     /************************************** Add/Create Méthode ***********************************/
-    /** ATTENTION : Vérifier l'absence de doublons dans les commentaires.
-     * Si des doublons sont détectés, implémenter une fonction récursive 
-     * utilisant in_array pour vérifier la présence des données.
-     */
 
     public function addComment($comment, $commentId, $usersComment)
     {
-
-        $this->comments[] = [$commentId, $usersComment, $comment];
+        // Vérifier la présence dans le tableau multidimentionnel
+        if (!self::inArrayRecursive($commentId, $this->comments)) {
+            $this->comments[] = (object) ['comments_id' => $commentId, 'full_name' => $usersComment, 'comment' => $comment];
+        }
     }
 
     public function addRating($rating, $ratingId, $usersRating)
     {
-        $this->ratings[] = [$ratingId, $usersRating, $rating];
+        // Vérifier la présence dans le tableau multidimentionnel
+        if (!self::inArrayRecursive($ratingId, $this->ratings)) {
+            $this->ratings[] = (object) ['ratings_id' => $ratingId, 'full_name' => $usersRating, 'rating' => $rating];
+        }
     }
 
     public static function createFromProduct(ProductsModels $product): self
@@ -809,4 +810,16 @@ class ProductsModels implements JsonSerializable
     }
 
     /************************************** END ASSESSEUR COMMENTAIRE *******************************/
+
+    /************************************** Function Static *****************************************/
+    public static function inArrayRecursive($needle, $haystack, $strict = false)
+    {
+        foreach ($haystack as $item) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::inArrayRecursive($needle, $item, $strict))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
