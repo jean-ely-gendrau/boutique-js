@@ -249,7 +249,7 @@ class ProductsModels implements JsonSerializable
     public function addComment($comment, $commentId, $usersComment)
     {
         // Vérifier la présence dans le tableau multidimentionnel
-        if (!self::inArrayRecursive($commentId, $this->comments)) {
+        if (!self::isInMultidimensionalArray($commentId, $this->comments)) {
             $this->comments[] = (object) ['comments_id' => $commentId, 'full_name' => $usersComment, 'comment' => $comment];
         }
     }
@@ -257,7 +257,7 @@ class ProductsModels implements JsonSerializable
     public function addRating($rating, $ratingId, $usersRating)
     {
         // Vérifier la présence dans le tableau multidimentionnel
-        if (!self::inArrayRecursive($ratingId, $this->ratings)) {
+        if (!self::isInMultidimensionalArray($ratingId, $this->ratings)) {
             $this->ratings[] = (object) ['ratings_id' => $ratingId, 'full_name' => $usersRating, 'rating' => $rating];
         }
     }
@@ -812,10 +812,10 @@ class ProductsModels implements JsonSerializable
     /************************************** END ASSESSEUR COMMENTAIRE *******************************/
 
     /************************************** Function Static *****************************************/
-    public static function inArrayRecursive($needle, $haystack, $strict = false)
+    public static function isInMultidimensionalArray($needle, $haystack, $strict = false)
     {
         foreach ($haystack as $item) {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && self::inArrayRecursive($needle, $item, $strict))) {
+            if (in_array($needle, (array)$item)) {
                 return true;
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Details;
+use App\Boutique\Components\RatingsHTML;
 use App\Boutique\Models\ProductsModels;
 use Motor\Mvc\Manager\BddManager;
 use Motor\Mvc\Manager\CrudManager;
@@ -55,8 +56,15 @@ class ElementProduit extends BddManager
         }
 
         // Passage dans render des paramètres 'detail' => $detail
-        $arguments['render']->addParams('detail', $detail);
-        $arguments['render']->addParams('src', $src);
+        $ratingComponent = new RatingsHTML();
+
+        $arguments['render']->addParams(
+            [
+                'ratingsComponent' => $ratingComponent->templateRating($detail->ratings),
+                'detail' => $detail,
+                'src' => $src
+            ]
+        );
 
         // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
         $content = $arguments['render']->render('details-produit', $arguments);
@@ -65,5 +73,3 @@ class ElementProduit extends BddManager
         return $content;
     }
 }
-
-?>
