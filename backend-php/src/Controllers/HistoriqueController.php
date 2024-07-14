@@ -2,7 +2,10 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Components\HydrateOrderUserProduct;
 use App\Boutique\Enum\BasketSvgEnum;
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
 use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Models\Orders;
 use App\Boutique\Models\ProductsModels;
@@ -59,44 +62,27 @@ class HistoriqueController
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
 
+        // Si Nous n'avons aucun résultat dans la reqêtte précédante Throw
+        if (empty($Idclient)) {
+            throw new ClientExceptions(ClientExceptionEnum::NotConnected); // EXCEPTION NotConnected
+        }
 
         $order = new CrudManager('orders', 'Historique');
-        $clientId = $Idclient->id; // Get the client's id from the arguments
+        $clientId = $Idclient?->id; // Get the client's id from the arguments
+
+
         $orders = $order->getOrderById($clientId, 0); // Get the orders by the client's id
         // var_dump($orders);
 
-        /** Hydratation des classes avec les données récupérées par la requête. */
-
-
-        $productsModels = [];
-        $ordersModels = [];
-        $countInstance = 0;
-        // Hydrate Users
-        $userModel = new Users();
-
-        foreach ($orders as $order) {
-            // var_dump($order);
-            $orderId = $order['ordersId'];
-            $productId = $order['pId'];
-
-            // Si
-            if (!isset($orders[$orderId]) && !array_key_exists($productId, $productsModels)) {
-                // Hydrate Orders
-                $ordersModels[$orderId] = new Orders();
-                $ordersModels[$orderId]->selfHydrate($order);
-
-
-                // Hydrate ProductsModels
-                $productsModels[$productId] = new ProductsModels();
-                $productsModels[$productId]->selfHydrate($order);
-
-
-                // Hydrate UsersModels
-                $userModel->selfHydrate($order);
-            }
-        }
-        $productsModels[$productId]->setQuantity(count($orders));
-
+        // Tableau de params pour la méthode hydrate
+        $argumentsToHydrate = [
+            'dataToHydrates' => $orders,
+            'productsModels' => new ProductsModels(),
+            'usersModels' => new Users(),
+            'ordersModels' => new Orders()
+        ];
+        //Hydratée les models utlisée dans la vue avec les données client.
+        $hydrateOrderUserProduct = HydrateOrderUserProduct::hydrate($argumentsToHydrate);
 
 
         // Now $orders should contain all orders made by the client
@@ -116,16 +102,16 @@ class HistoriqueController
             'orderModel',
             $ordersModels
         ), '</pre>';
-*/
+        */
 
         /* FEEDBACK MODAL */
         $render->addParams([
             'basketStatus' => BasketSvgEnum::class,
             'buttonControlForms' => ButtonControlForms::class,
             'modalFeedback' => $modalFeedback,
-            'userModel' => $userModel,
-            'productModel' => $productsModels,
-            'orderModel' => $ordersModels
+            'userModel' => $hydrateOrderUserProduct->userModel,
+            'productModel' => $hydrateOrderUserProduct->productsModels,
+            'orderModel' => $hydrateOrderUserProduct->ordersModels
         ]);
 
 

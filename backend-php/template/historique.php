@@ -13,7 +13,7 @@ $orders = $historiqueController->Historique($clientId); // replace $clientId wit
 
 /** @var \Motor\Mvc\Builder\ModalBuilder $modalFeedback */
 echo $modalFeedback?->render() ?? "";
-
+echo '<pre>',  var_dump($productModel), '</pre>'
 ?>
 
 <section class="bg-gray-50 dark:bg-gray-900">
@@ -71,7 +71,7 @@ echo $modalFeedback?->render() ?? "";
                                     </th>
                                     <td class="px-6 py-4"><?= $productModel[$order->products_id]->quantity ?></td>
                                     <td class="px-6 py-4 hidden md:md:table-cell"><?= $userModel->adress ?></td>
-                                    <td class="px-6 py-4"><?= $productModel[$order->products_id]->price ?></td>
+                                    <td class="px-6 py-4"><?= $productModel[$order->products_id]->price ?> €</td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center ml-3 mb-2">
                                             <?php

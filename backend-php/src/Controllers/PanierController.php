@@ -2,6 +2,8 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
 use Motor\Mvc\Manager\CrudManager;
 
 use App\Boutique\Models\Users;
@@ -54,6 +56,12 @@ class PanierController
         $IdclientCrudManager = new CrudManager('users', Users::class);
 
         $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+
+        // Si Nous n'avons aucun résultat dans la reqêtte précédante Throw
+        if (empty($Idclient)) {
+            throw new ClientExceptions(ClientExceptionEnum::NotConnected); // EXCEPTION NotConnected
+        }
+
         $id = $Idclient->id;
 
         $panier = new CrudManager('orders', Orders::class);
