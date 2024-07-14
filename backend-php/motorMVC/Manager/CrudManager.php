@@ -585,51 +585,52 @@ class CrudManager extends BddManager implements PaginatePerPage
     }
 
 
-    public function getByIdBasket($clientId, int $boolBasket = 1): array|object
+    public function getByIdBasket($clientId, int $boolBasket = 1, $isPanelOrder = false): array|object
     {
-        /*
-        $sql = 'SELECT p.id AS products_id , i.url_image , p.name , p.price , o.id AS orders_id, i.id AS images_id FROM orders o
+
+        $sql = !$isPanelOrder
+            ?
+            'SELECT p.id AS products_id , i.url_image , p.name , p.price , o.id AS orders_id, i.id AS images_id FROM orders o
                 JOIN productsorders po ON o.id = po.orders_id 
                 JOIN products p ON p.id = po.products_id 
                 LEFT JOIN productsimages pi ON p.id = pi.products_id
                 LEFT JOIN images i ON i.id = pi.images_id
-                WHERE o.users_id = :client_id AND o.basket = 1';
-
-            */
-        $sql = 'SELECT 
-        p.id AS pId, 
-        p.name AS pName, 
-        p.description AS pDescription, 
-        p.price AS pPrice, 
-        p.quantity AS pQuantity, 
-        p.category_id AS pCategory_id, 
-        p.sub_category_id AS pSubCategoryId, 
-        p.created_at AS pCreatedAt, 
-        p.updated_at AS pUpdatedAt, 
-        pi.images_id AS pImageId,
-        i.url_image AS pImageUrl, 
-        COALESCE(r.average_rating, 0) AS pAverageRating,
-        u.id AS userId,
-        u.full_name AS userFullName,
-        u.email AS userEmail,
-        u.birthday AS userBirthday,
-        u.adress AS userAddress,
-        c.name AS categoryName,
-        sc.name AS subCategoryName,
-        o.id AS ordersId,
-        o.status AS orderStatus,
-        o.created_at AS orderCreatedAat,
-        o.updated_at AS orderUpdatedAt
-    FROM orders o
-    JOIN productsorders po ON o.id = po.orders_id 
-    JOIN products p ON p.id = po.products_id 
-    LEFT JOIN productsimages pi ON p.id = pi.products_id
-    LEFT JOIN images i ON i.id = pi.images_id
-    JOIN users u ON o.users_id = u.id
-    JOIN category c ON p.category_id = c.id
-    JOIN sub_category sc ON p.sub_category_id = sc.id
-    LEFT JOIN (SELECT products_id, AVG(rating) AS average_rating  FROM ratings) AS r ON p.id = r.products_id AND o.users_id = :client_id 
-    WHERE o.users_id = :client_id AND o.basket = :basket;';
+                WHERE o.users_id = :client_id AND o.basket = :basket'
+            :
+            'SELECT 
+                p.id AS pId, 
+                p.name AS pName, 
+                p.description AS pDescription, 
+                p.price AS pPrice, 
+                p.quantity AS pQuantity, 
+                p.category_id AS pCategory_id, 
+                p.sub_category_id AS pSubCategoryId, 
+                p.created_at AS pCreatedAt, 
+                p.updated_at AS pUpdatedAt, 
+                pi.images_id AS pImageId,
+                i.url_image AS pImageUrl, 
+                COALESCE(r.average_rating, 0) AS pAverageRating,
+                u.id AS userId,
+                u.full_name AS userFullName,
+                u.email AS userEmail,
+                u.birthday AS userBirthday,
+                u.adress AS userAddress,
+                c.name AS categoryName,
+                sc.name AS subCategoryName,
+                o.id AS ordersId,
+                o.status AS orderStatus,
+                o.created_at AS orderCreatedAat,
+                o.updated_at AS orderUpdatedAt
+            FROM orders o
+            JOIN productsorders po ON o.id = po.orders_id 
+            JOIN products p ON p.id = po.products_id 
+            LEFT JOIN productsimages pi ON p.id = pi.products_id
+            LEFT JOIN images i ON i.id = pi.images_id
+            JOIN users u ON o.users_id = u.id
+            JOIN category c ON p.category_id = c.id
+            JOIN sub_category sc ON p.sub_category_id = sc.id
+            LEFT JOIN (SELECT products_id, AVG(rating) AS average_rating  FROM ratings) AS r ON p.id = r.products_id AND o.users_id = :client_id 
+            WHERE o.users_id = :client_id AND o.basket = :basket;';
 
         $stmt = $this->_dbConnect->prepare($sql);
         $stmt->execute(['client_id' => $clientId, 'basket' => $boolBasket]);

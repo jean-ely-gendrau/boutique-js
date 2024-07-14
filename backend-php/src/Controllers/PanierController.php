@@ -133,7 +133,7 @@ class PanierController
             $id = $Idclient->id;
 
             $panier = new CrudManager('orders', Orders::class);
-            $paniers = $panier->getbyidbasket($id);
+            $paniers = $panier->getByIdBasket($id);
             $render->addParams('panier-modal', $paniers);
 
 
