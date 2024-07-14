@@ -57,7 +57,7 @@ class HydrateOrderUserProduct
             $dataUserModel->selfHydrate($dataToHydrate);
         }
 
-        echo '<pre>', var_dump('ordersModels', $ordersModels), '</pre>';
+        //DEBUG echo '<pre>', var_dump('ordersModels', $ordersModels), '</pre>';
 
         // En renvoie sous forme de class STD les CLASS suivante avec les données hydratées au propriétés.
         return (object)[

@@ -13,7 +13,8 @@ $orders = $historiqueController->Historique($clientId); // replace $clientId wit
 
 /** @var \Motor\Mvc\Builder\ModalBuilder $modalFeedback */
 echo $modalFeedback?->render() ?? "";
-echo '<pre>',  var_dump($productModel), '</pre>'
+
+//DEBUG echo '<pre>',  var_dump($productModel), '</pre>'
 ?>
 
 <section class="bg-gray-50 dark:bg-gray-900">
