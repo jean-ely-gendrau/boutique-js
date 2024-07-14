@@ -27,7 +27,7 @@ class FormBuilder extends AbstractFormBuilder
      *
      * La métod rend affiche le formulaire sur la page
      *
-     * @return void
+     * @return string
      */
     public function render()
     {
@@ -239,7 +239,7 @@ class FormBuilder extends AbstractFormBuilder
         }
 
         // BUTTON
-        if ($type === 'button') {
+        else if ($type === 'button') {
             $output .= '>';
 
             /* Assignation d'un valeur avec l'opérateur coalescing ref: https://www.php.net/manual/en/migration70.new-features.php */

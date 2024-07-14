@@ -8,6 +8,9 @@ module.exports = {
     "./element/**/*.{php,html,js}",
     "./node_modules/flowbite/**/*.js",
   ],
+  safelist: [
+    ...[...Array(100).keys()].flatMap(i => [`w-[${i * 1}%]`])
+  ],
   theme: {
     extend: {
       keyframes: {
