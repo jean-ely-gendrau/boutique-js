@@ -63,15 +63,41 @@ class Orders implements JsonSerializable
      * @var string
      */
     private $email;
+
+    /**
+     * products_id
+     *
+     * @var int
+     */
+    private $products_id;
     /* ----------------------------------- CONSTRUCTOR ------------------------------ */
 
     function __construct(array $data = [])
     {
-        foreach($data as $key => $property){
-            if (property_exists($this, $key)){
+        foreach ($data as $key => $property) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $property;
             }
         }
+    }
+
+    /**
+     * Method selfHydrate
+     *
+     * @param array $dataToHydrate [Données pour l'hydratation du modèle]
+     *
+     * @return void
+     */
+    public function selfHydrate(array $dataToHydrate): void
+    {
+
+        $this->id = $dataToHydrate['ordersId'] ?? 0;
+        $this->basket = $dataToHydrate['orderBasket'] ?? false;
+        $this->status = $dataToHydrate['orderStatus'] ?? '';
+        $this->users_id = $dataToHydrate['orderUsersId'] ?? 0;
+        $this->products_id = $dataToHydrate['orderProductsId'] ?? 0;
+        $this->created_at = $dataToHydrate['orderCreatedAt'] ?? '';
+        $this->updated_at = $dataToHydrate['orderUpdatedAt'] ?? '';
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
@@ -210,6 +236,20 @@ class Orders implements JsonSerializable
         $this->created_at = $created_at;
 
         return $this;
+    }
+
+    /**
+     * format created_at
+     *
+     * @param  string  $created_at  created_at
+     *
+     * @return  string
+     */
+    public static function formatCreated_at(string $created_at): string
+    {
+        $dateFormat = new \DateTimeImmutable($created_at);
+
+        return  $dateFormat->format("d-m-Y");
     }
 
     /**

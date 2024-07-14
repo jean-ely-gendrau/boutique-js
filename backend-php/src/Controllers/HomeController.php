@@ -6,6 +6,8 @@ use App\Boutique\Components\Slider;
 use Motor\Mvc\Manager\CrudManager;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Components\Carousel;
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
 
 /**
  * La classe TestRender étend Render et contient les méthodes pour afficher des variables et
@@ -59,6 +61,12 @@ class HomeController
         // Création d'un slider importent l'ensemble des produits
         if (isset($_SESSION['isConnected'])) {
             $user = $crudManagerUser->getByEmail($_SESSION['email']);
+
+            // Si Nous n'avons aucun résultat dans la reqêtte précédante Throw
+            if (empty($user)) {
+                throw new ClientExceptions(ClientExceptionEnum::NotConnected); // EXCEPTION NotConnected
+            }
+
             $products = $crudManager->getAllProductFav($user->id);
         } else {
             $products = $crudManager->getAllProduct();

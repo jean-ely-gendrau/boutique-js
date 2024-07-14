@@ -2,6 +2,8 @@
 
 namespace App\Boutique\EntityManager;
 
+use App\Boutique\Enum\ClientExceptionEnum;
+use App\Boutique\Exceptions\ClientExceptions;
 use Motor\Mvc\Manager\CrudApi;
 use App\Boutique\Models\Category;
 use Motor\Mvc\Manager\CrudManager;
@@ -106,6 +108,12 @@ class ProductsEntity extends CrudApi
         if (isset($_SESSION['isConnected'])) {
             $crudManagerUser = new CrudManager('users', ProductsModels::class);
             $user = $crudManagerUser->getByEmail($_SESSION['email']);
+
+            // Si Nous n'avons aucun résultat dans la reqêtte précédante Throw
+            if (empty($user)) {
+                throw new ClientExceptions(ClientExceptionEnum::NotConnected); // EXCEPTION NotConnected
+            }
+
             $sql = "SELECT prod.*, i.url_image, i.image_main, c.name as catName, sub.name as subCatName, IF(uhp.products_id IS NOT NULL, 1, 0) AS user_has_product
             FROM {$this->getTableName()} as prod 
             LEFT JOIN category as c ON prod.category_id = c.id 
