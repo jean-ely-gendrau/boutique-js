@@ -2,14 +2,17 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Components\BasketModal;
 use App\Boutique\Forms\FeedBackForm;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
 use App\Boutique\Models\Comments;
+use App\Boutique\Models\Orders;
 use App\Boutique\Models\ProductsModels;
 use App\Boutique\Models\Special\CommentRatings;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
+use Motor\Mvc\Manager\SessionManager;
 
 /**
  */
@@ -50,6 +53,32 @@ class HtmlToJsonController
        */
       case 'feedback':
         $bufferOut = ['htmlElement' => FeedBackForm::CommentRatings(...$arguments ?? [])];
+        break;
+
+      default:
+        $bufferOut = 'La list est vide';
+    }
+
+    return isset($arguments['jsonFalse']) ? $bufferOut : $this->returnJson(200, $bufferOut);
+  }
+
+  /**
+   * Méthode ModalControl retourne un modale celon le composant choisit
+   * 
+   * [!>Warning] IMPLEMENTER JWT
+   *
+   * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
+   * @return string
+   */
+  public function ModalControl(...$arguments)
+  {
+    switch ($arguments['tableName'] ?? '') {
+
+        /*******
+       * ModalControl
+       */
+      case 'modalBasket':
+        $bufferOut = ['htmlElement' => BasketModal::render(...$arguments ?? [])];
         break;
 
       default:
@@ -144,6 +173,29 @@ class HtmlToJsonController
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'feedback';
         $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);
+        break;
+
+      case 'modalBasket':
+        $sessionManager = new SessionManager();
+        $userEmail = $sessionManager->give('email') ? $sessionManager->give('email') : false;
+        $array['params']['userEmail'] = false;
+
+        if ($userEmail && $sessionManager->give('isConnected') === true) {
+          $array['params']['email'] = $userEmail;
+          $crudUser = new CrudManager('users', Users::class);
+          $crudUserResult = $crudUser->getByEmail($userEmail);
+
+          if ($crudUserResult && property_exists($crudUserResult, 'id')) {
+
+            $crudOrder = new CrudManager('orders', Orders::class);
+            $crudOrderResult = $crudOrder->getByIdBasket($crudUserResult->id);
+            $array['params'] = json_decode(json_encode($crudOrderResult), true);
+          }
+        }
+
+        $array['params']['jsonFalse'] = true;
+        $array['params']['tableName'] = 'modalBasket';
+        $bufferOut = call_user_func_array([$this, 'ModalControl'], $array['params']);
         break;
     }
 

@@ -26,9 +26,9 @@ class SessionManager implements SessionInterface
      *
      * @param string $key [clé de la valeur à retourner]
      *
-     * @return void
+     * @return string|null
      */
-    public function give(string $key)
+    public function give(string $key): string|null
     {
         if ($this->has($key)) {
             return $_SESSION[$key];
@@ -48,7 +48,7 @@ class SessionManager implements SessionInterface
      */
     public function add(array $params): self
     {
-        foreach ($params as $key => $val):
+        foreach ($params as $key => $val) :
             $_SESSION[$key] = $val;
         endforeach;
 
@@ -66,8 +66,8 @@ class SessionManager implements SessionInterface
      */
     public function remove(array $params): void
     {
-        foreach ($params as $val):
-            if ($this->has($val)):
+        foreach ($params as $val) :
+            if ($this->has($val)) :
                 unset($_SESSION[$val]);
             endif;
         endforeach;
