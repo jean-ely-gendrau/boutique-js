@@ -6,6 +6,7 @@ module.exports = {
     "./template/**/*.{php,html,js}",
     "./motorMVC/**/*.php",
     "./element/**/*.{php,html,js}",
+    "./public_html/**/*.{php,html,js,svg}",
     "./node_modules/flowbite/**/*.js",
   ],
   safelist: [
@@ -13,6 +14,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'basket-light': "url('/assets/images/basket-light.svg')",
+        'basket-dark': "url('/assets/images/basket-dark.svg')",
+      },
       keyframes: {
         "opacity-show": {
           from: { opacity: 1 },

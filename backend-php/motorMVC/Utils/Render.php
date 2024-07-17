@@ -2,6 +2,7 @@
 
 namespace Motor\Mvc\Utils;
 
+use App\Boutique\Components\BasketModal;
 use Motor\Mvc\Enum\ExceptionEnum;
 use Motor\Mvc\Manager\SessionManager;
 use Motor\Mvc\Components\FileImportJson;
@@ -32,12 +33,27 @@ class Render extends SessionManager
     protected $seoConfig;
 
     /**
+     * seoConfig
+     *
+     * Fichier json de configuration SEO décodé.
+     *
+     * @var object
+     */
+    protected $basketModal;
+
+    /**
      * Le constructeur définit le chemin d'accès au serveur sur la base de la variable globale.
      */
     public function __construct()
     {
         $this->seoConfig = FileImportJson::getFile('config/seo.fr.json');
-        $this->addParams('rendering', $this);
+        // Instancié la class basketModal afin d'intégrer la modal
+        // et la rendre disponible sur toutes les pages.
+        $this->basketModal = new BasketModal();
+        $this->addParams([
+            'rendering' => $this,
+            'basketModal' => $this->basketModal
+        ]);
         parent::__construct();
     }
 

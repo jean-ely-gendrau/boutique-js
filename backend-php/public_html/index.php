@@ -92,16 +92,19 @@ $router->map('GET', '/panier', 'PanierController#Panier', 'panier');
 $router->map('GET|POST', '/inscription', 'RegisterController#Register', 'inscriptionRegister');
 $router->map('GET|POST', '/connexion', 'RegisterController#ConnectJS', 'connexionForm');
 
+/****************************
+ * Route API-HTML To JSON
+ */
+$router->map('GET|POST', '/api-html/template/[a:pageTemplate]', 'HtmlToJsonController#Template', 'api-html-tojson-template-single');
+$router->map('GET|POST', '/api-html/template/[a:pageTemplate]/[i:idGet]', 'HtmlToJsonController#Template', 'api-html-tojson-template');
+$router->map('GET|POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
 /****
  * BLOC CONDITION PROVISOIR POUR VOIR POUR LE PANEL ADMIN
  */
 if ($rendering->give('role') === 'admin') {
-  /****************************
-   * Route API-HTML To JSON
-   */
-  $router->map('GET|POST', '/api-html/form/[a:tableName]', 'HtmlToJsonController#FormAdmin', 'api-html-tojson-form');
-  $router->map('GET|POST', '/api-html/template/[a:pageTemplate]', 'HtmlToJsonController#Template', 'api-html-tojson-template');
-  $router->map('GET|POST', '/api-html/template/[a:pageTemplate]/[i:idGet]', 'HtmlToJsonController#Template', 'api-html-tojson-template-id');
+
+
+
   /****************************
    * Route Administration
    */

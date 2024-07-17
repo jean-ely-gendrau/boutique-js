@@ -161,6 +161,7 @@ teaCoffee.sys = {
       document.documentElement.classList.remove("dark"); // Remove Dark mode
       localStorage.theme = "light"; // Ajout de la clé au localstorage
     }
+    console.log(localStorage.theme);
     return this;
   },
 };

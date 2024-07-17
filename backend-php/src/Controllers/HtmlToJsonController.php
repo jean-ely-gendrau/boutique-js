@@ -77,8 +77,8 @@ class HtmlToJsonController
         /*******
        * ModalControl
        */
-      case 'modalBasket':
-        $bufferOut = ['htmlElement' => BasketModal::render(...$arguments ?? [])];
+      case 'basket':
+        $bufferOut = ['htmlElement' => BasketModal::itemsToCartHtml(...$arguments ?? [])];
         break;
 
       default:
@@ -130,7 +130,7 @@ class HtmlToJsonController
    */
   public function Template(...$arguments)
   {
-
+    var_dump($arguments);
     switch ($arguments['pageTemplate']) {
         /*******
        * User
@@ -175,7 +175,8 @@ class HtmlToJsonController
         $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);
         break;
 
-      case 'modalBasket':
+      case 'basket':
+        var_dump($arguments);
         $sessionManager = new SessionManager();
         $userEmail = $sessionManager->give('email') ? $sessionManager->give('email') : false;
         $array['params']['userEmail'] = false;
@@ -194,7 +195,7 @@ class HtmlToJsonController
         }
 
         $array['params']['jsonFalse'] = true;
-        $array['params']['tableName'] = 'modalBasket';
+        $array['params']['tableName'] = 'basket';
         $bufferOut = call_user_func_array([$this, 'ModalControl'], $array['params']);
         break;
     }
