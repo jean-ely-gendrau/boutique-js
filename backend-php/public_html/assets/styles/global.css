@@ -1444,6 +1444,10 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
+.mr-auto {
+  margin-right: auto;
+}
+
 .block {
   display: block;
 }

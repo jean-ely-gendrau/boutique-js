@@ -130,7 +130,7 @@ class HtmlToJsonController
    */
   public function Template(...$arguments)
   {
-    var_dump($arguments);
+
     switch ($arguments['pageTemplate']) {
         /*******
        * User
@@ -164,11 +164,14 @@ class HtmlToJsonController
          * feedback
          */
       case 'feedback':
+
         $crudManagerProduct = new CrudManager('products', ProductsModels::class);
         $product = $crudManagerProduct->getById($arguments['idGet']);
+
         $crudManagerComments = new CrudManager('comments', Comments::class);
         $crudManagerRatings = new CrudManager('ratings', Ratings::class);
         $select = new CommentRatings();
+
         $array['params'] = json_decode(json_encode($product), true);
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'feedback';
@@ -176,24 +179,27 @@ class HtmlToJsonController
         break;
 
       case 'basket':
-        var_dump($arguments);
+
         $sessionManager = new SessionManager();
         $userEmail = $sessionManager->give('email') ? $sessionManager->give('email') : false;
         $array['params']['userEmail'] = false;
 
         if ($userEmail && $sessionManager->give('isConnected') === true) {
+
           $array['params']['email'] = $userEmail;
+
           $crudUser = new CrudManager('users', Users::class);
           $crudUserResult = $crudUser->getByEmail($userEmail);
 
           if ($crudUserResult && property_exists($crudUserResult, 'id')) {
 
             $crudOrder = new CrudManager('orders', Orders::class);
+
             $crudOrderResult = $crudOrder->getByIdBasket($crudUserResult->id);
             $array['params'] = json_decode(json_encode($crudOrderResult), true);
           }
         }
-
+        $array['params']['arguments'] = $arguments;
         $array['params']['jsonFalse'] = true;
         $array['params']['tableName'] = 'basket';
         $bufferOut = call_user_func_array([$this, 'ModalControl'], $array['params']);

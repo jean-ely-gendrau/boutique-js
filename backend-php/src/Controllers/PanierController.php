@@ -73,26 +73,30 @@ class PanierController
 
     public function AddToBasket(...$arguments)
     {
+
+        /* Fix/Bug l'utilisateur est renvoyé à la par inscription losqu'il clique sur ajouter au panier
         if (!isset($_SESSION['email'])) {
             // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
             header('Location: /inscription');
             exit();
         }
-
+*/
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
 
-        $IdclientCrudManager = new CrudManager('users', Users::class);
+        // On vérifie si l'utilisateur est connecter
+        if ($render->give('isConnected') && $emailUser = $render->give('email')) {
+            $IdclientCrudManager = new CrudManager('users', Users::class);
 
-        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id;
+            $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+            $id = $Idclient->id;
+            $idproduct = $arguments["product_id"] ?? null; // Get the product's id
 
-        $idproduct = $arguments["product_id"] ?? null; // Get the product's id
 
+            $panier = new CrudManager('orders', Orders::class);
 
-        $panier = new CrudManager('orders', Orders::class);
-
-        $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
+            $panier->CreateOrder($id, $idproduct); // Create an order (add a product to the basket
+        }
 
 
         $render->addParams('addtobasket', $panier);
