@@ -154,7 +154,7 @@ use Motor\Mvc\Manager\CrudManager;
 <script defer src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="https://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
 <script defer type="module" src="https://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
-<script defer src="https://<?= $serverName ?>/assets/js/search.js"></script>
+<!-- <script defer src="https://<//?= $serverName ?>/assets/js/search.js"></script> -->
 <script defer src="https://<?= $serverName ?>/assets/js/produit.js"></script>
 <script defer src="https://<?= $serverName ?>/assets/js/filters.js"></script>
 <script defer src="https://<?= $serverName ?>/assets/js/wishlist.js"></script>
@@ -165,6 +165,7 @@ use Motor\Mvc\Manager\CrudManager;
     <script defer src="https://<?= $serverName ?>/assets/js/basketForUser.js"></script>
 <?php endif; ?>
 <script defer src="https://<?= $serverName ?>/assets/js/modalPanier.js"></script>
+<script defer src="https://<?= $serverName ?>/assets/js/researchProducts.js"></script>
 <script defer src="https://js.stripe.com/v3/"></script>
 
 </body>

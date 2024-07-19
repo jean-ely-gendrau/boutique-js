@@ -29,7 +29,8 @@ $router->map('GET', '/', 'HomeController#RenderHome', 'accueil');
 // $router->map('GET', '/detail/[a:id_product]', 'detail', 'detail');
 
 // ---------------------------------
-
+$router->map('GET|POST', '/searchProduct/[a:name]', 'SearchController#SearchProduct', 'searchProduct');
+// $router->map('', '/searchProduct', 'SearchController#SearchProduct', 'searchProduct');
 // page de tout les produits café et thé
 $router->map('GET|POST', '/produit/[a:categoryName]', 'ProductsV2Controller#Product', 'product-controller');
 $router->map('GET|POST', '/produit/[a:categoryName]/[i:page]', 'ProductsV2Controller#Product', 'product-controller-pagination');

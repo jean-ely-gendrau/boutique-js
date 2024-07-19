@@ -178,3 +178,17 @@ background: white;*/
   background: linear-gradient(white, #dedede);
   
 }
+
+#suggestions {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#suggestions div {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#suggestions div:hover {
+  background-color: #f0f0f0;
+}
