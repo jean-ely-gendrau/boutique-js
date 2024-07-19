@@ -12,6 +12,13 @@ abstract class AbstractModalBuilder
     protected $idModal;
 
     /**
+     * sizeModal
+     *
+     * @var string
+     */
+    protected $sizeModal;
+
+    /**
      * buttons
      *
      * @var array
@@ -184,6 +191,30 @@ abstract class AbstractModalBuilder
     public function setIdModal(string $idModal)
     {
         $this->idModal = $idModal;
+
+        return $this;
+    }
+
+    /**
+     * Get sizeModal
+     *
+     * @return  string
+     */
+    public function getSizeModal()
+    {
+        return $this->sizeModal;
+    }
+
+    /**
+     * Set sizeModal
+     *
+     * @param  string  $sizeModal  sizeModal
+     *
+     * @return  self
+     */
+    public function setSizeModal(string $sizeModal)
+    {
+        $this->sizeModal = $sizeModal;
 
         return $this;
     }

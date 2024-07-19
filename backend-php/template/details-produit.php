@@ -1,7 +1,7 @@
 <section id="<?= $detail->id ?>" class="produit bg-gray-50 dark:bg-gray-900">
   <div class="font-[sans-serif] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
     <div class="flex justify-center w-full bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700 mx-2">
-      <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
+      <div data-price='<?= $detail->price ?>' data-id='<?= $detail->id ?>' data-name='<?= $detail->name ?>' class=" p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <!-- // Images du produit -->
           <div class="lg:col-span-3 bg-gray-100 w-full text-center h-full rounded-xl">
@@ -58,6 +58,14 @@
             </div>
             <!-- // Nombre de retour utilisateur -->
             <?= $ratingsComponent; ?>
+
+            <button data-js='handlePost,click' data-route='/addtobasket' data-body-param="{product_id: '<?= $detail->id ?>'}" type="button" class="my-2 add-to-cart w-full flex items-center justify-center gap-3 mt-6 px-4 py-2.5 bg-transparent hover:bg-gray-200 text-base text-[#333] border-2 font-semibold border-[#333] rounded-xl">
+              <svg xmlns="https://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 512 512">
+                <path d="M164.96 300.004h.024c.02 0 .04-.004.059-.004H437a15.003 15.003 0 0 0 14.422-10.879l60-210a15.003 15.003 0 0 0-2.445-13.152A15.006 15.006 0 0 0 497 60H130.367l-10.722-48.254A15.003 15.003 0 0 0 105 0H15C6.715 0 0 6.715 0 15s6.715 15 15 15h77.969c1.898 8.55 51.312 230.918 54.156 243.71C131.184 280.64 120 296.536 120 315c0 24.812 20.188 45 45 45h272c8.285 0 15-6.715 15-15s-6.715-15-15-15H165c-8.27 0-15-6.73-15-15 0-8.258 6.707-14.977 14.96-14.996zM477.114 90l-51.43 180H177.032l-40-180zM150 405c0 24.813 20.188 45 45 45s45-20.188 45-45-20.188-45-45-45-45 20.188-45 45zm45-15c8.27 0 15 6.73 15 15s-6.73 15-15 15-15-6.73-15-15 6.73-15 15-15zm167 15c0 24.813 20.188 45 45 45s45-20.188 45-45-20.188-45-45-45-45 20.188-45 45zm45-15c8.27 0 15 6.73 15 15s-6.73 15-15 15-15-6.73-15-15 6.73-15 15-15zm0 0" data-original="#000000"></path>
+              </svg>
+              Ajouter au panier
+            </button>
+
             <!-- // Dernier retour utilisateur -->
             <div id="accordion-collapse" data-accordion="collapse" class="flex items-start flex-col mt-8 gap-5">
               <h2 id="accordion-collapse-head-comments" class="w-full">

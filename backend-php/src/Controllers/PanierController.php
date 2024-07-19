@@ -113,16 +113,21 @@ class PanierController
         /** @var \Motor\Mvc\Utils\Render */
         $render = $arguments['render'];
 
-        $IdclientCrudManager = new CrudManager('users', Users::class);
+        if ($render->give('isConnected') === true && $userEmail = $render->give('email')) {
+            $IdclientCrudManager = new CrudManager('users', Users::class);
 
-        $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
-        $id = $Idclient->id;
+            $Idclient = $IdclientCrudManager->getByEmail($_SESSION['email']);
+            $id = $Idclient->id;
 
-        $idproduct = $arguments["product_id"] ?? null; // Get the product's id
+            $idproduct = $arguments["product_id"] ?? null; // Get the product's id
 
-        $panier = new CrudManager('orders', Orders::class);
+            $panier = new CrudManager('orders', Orders::class);
 
-        $panier->RemoveFromCart($id, $idproduct); // Remove an order (remove a product from the basket)
+            $panier->RemoveFromCart($id, $idproduct); // Remove an order (remove a product from the basket)
+        }
+        /*
+            Créer la clause si l'utilisateur est déconnecter pour la gestion des acticle du panier et le cookies
+        */
         $render->addParams('removefromcart', $panier);
         header("Content-type: application/json;charset=utf-8");
         http_response_code(200);

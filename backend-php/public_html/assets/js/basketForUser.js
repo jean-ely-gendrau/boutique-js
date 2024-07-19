@@ -1,7 +1,7 @@
 const select = document.getElementById("myBtn");
 
 select.addEventListener("click", () => {
-    fetch(`http://${window.location.hostname}:8880/panier-modal`)
+    fetch(`http://${window.location.hostname}/panier-modal`)
         .then(response => response.json())
         .then(data =>
             updateCart(data)
