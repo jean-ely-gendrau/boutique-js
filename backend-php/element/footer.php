@@ -165,6 +165,7 @@ use Motor\Mvc\Manager\CrudManager;
     <script defer src="https://<?= $serverName ?>/assets/js/basketForUser.js"></script>
 <?php endif; ?>
 <script defer src="https://<?= $serverName ?>/assets/js/modalPanier.js"></script>
+<script defer src="https://<?= $serverName ?>/assets/js/carousel.js"></script>
 <script defer src="https://js.stripe.com/v3/"></script>
 
 </body>
