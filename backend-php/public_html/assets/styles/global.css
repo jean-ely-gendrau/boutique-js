@@ -1610,6 +1610,10 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
+.h-\[15rem\] {
+  height: 15rem;
+}
+
 .max-h-\[32rem\] {
   max-height: 32rem;
 }
@@ -5028,6 +5032,10 @@ background: white;*/
     height: 100%;
   }
 
+  .lg\:h-\[12rem\] {
+    height: 12rem;
+  }
+
   .lg\:max-h-screen {
     max-height: 100vh;
   }
@@ -5055,6 +5063,10 @@ background: white;*/
 
   .lg\:w-\[30rem\] {
     width: 30rem;
+  }
+
+  .lg\:w-\[25rem\] {
+    width: 25rem;
   }
 
   .lg\:max-w-6xl {
