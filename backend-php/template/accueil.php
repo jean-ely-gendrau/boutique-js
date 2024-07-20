@@ -126,15 +126,25 @@
     >
   </button>
 </div>
+    <!-- //NOTE - Ajouter une description de la boutique -->
+
+    
+
+
 
     <!-- //NOTE - Début des Slider -->
-  <div class="sm:w-full lg:max-w-6xl mx-auto">
-    <!-- Appelle du render Slider -->
-    <img src="https://<?= $serverName ?>/assets/images/banière/testBannerAllProduct.png" class="lg:w-[35rem]" alt="">
-    <!-- <div class="mt-12  text-gray-700 dark:text-gray-200 bg-gray-100 p-2 rounded-xl shadow-[3px_3px_8px_0px_rgba(0,0,0,0.6)]"> -->
-      <h2 class="md:text-3xl lg:text-4xl text-gray-700 dark:text-gray-200 bg-gray-100 p-2 rounded-xl shadow-[3px_3px_8px_0px_rgba(0,0,0,0.6)]">
-        Nos derniers produits en provenance des meilleurs producteurs de café et de thé
-      </h2>
+    <div class="sm:w-full lg:max-w-6xl mx-auto mt-8 md:mt-20">
+       <div class="lg:flex lg:align-items bg-gray-100 p-2 rounded-xl shadow-[3px_3px_8px_0px_rgba(0,0,0,0.6)]">
+
+         <div class="text-gray-700 dark:text-gray-200 ">
+           
+           <h2 class="font-bold text-xl md:text-3xl lg:text-4xl text-center text-gray-700 dark:text-gray-200 bg-gray-100 p-2">
+             Découvrez l'univers du <span class="text-red-800">Café</span> et du <span class="text-green-600">Thé</span>
+            </h2>
+            <p class="text-sm md:text-xl font-semibold lg:text-2xl text-center text-gray-700 dark:text-gray-200 bg-gray-100 p-2">Chez <span class="text-green-600">Tea'</span><span class="text-red-800">Coffee</span>, nous sommes passionnés par l'art du <span class="text-red-800">Café</span> et du <span class="text-green-600">Thé</span>. En tant que spécialistes dans la vente de cafés d'exception et de thés très recherchés, nous vous invitons à un voyage sensoriel à travers les saveurs et les arômes provenant des quatre coins du monde.</p>
+          </div>  
+          <img src="https://<?= $serverName ?>/assets/images/banière/testBannerAllProduct.png" class="w-[15rem] mx-auto md:w-[25rem] lg:w-[30rem]" alt="">
+        </div>
     <!-- </div> -->
     <div class="mx-auto lg:w-fit">
       <?= $product ?>
