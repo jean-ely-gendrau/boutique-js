@@ -2,9 +2,12 @@
 
 namespace App\Boutique\Controllers;
 
+use App\Boutique\Forms\FeedBackForm;
 use App\Boutique\Forms\ProductsAdminForms;
 use App\Boutique\Forms\UsersRegistrationForms;
+use App\Boutique\Models\Comments;
 use App\Boutique\Models\ProductsModels;
+use App\Boutique\Models\Special\CommentRatings;
 use App\Boutique\Models\Users;
 use Motor\Mvc\Manager\CrudManager;
 
@@ -29,6 +32,31 @@ class HtmlToJsonController
     header('Content-type: application/json; charset=utf-8');
     http_response_code($codeHTTP);
     return json_encode($data);
+  }
+
+  /**
+   * Méthode FormUsersControl retourne un formulaire de la section transmise en arguments
+   * 
+   * [!>Warning] IMPLEMENTER JWT
+   *
+   * @param array ...$arguments Les arguments transmis à la méthode $_POST,$_GET,$render,$uri,$serverName.
+   * @return string
+   */
+  public function FormUsersControl(...$arguments)
+  {
+    switch ($arguments['tableName'] ?? '') {
+        /*******
+       * User
+       */
+      case 'feedback':
+        $bufferOut = ['htmlElement' => FeedBackForm::CommentRatings(...$arguments ?? [])];
+        break;
+
+      default:
+        $bufferOut = 'La list est vide';
+    }
+
+    return isset($arguments['jsonFalse']) ? $bufferOut : $this->returnJson(200, $bufferOut);
   }
 
   /**
@@ -101,6 +129,21 @@ class HtmlToJsonController
         $array['params']['tableName'] = 'products';
         $array['params']['update-product'] = true; // Paramètre pour la mise à jours (utilisé par la __CLASS__ UsersRegistrationForms::AdminAddUser )
         $bufferOut = call_user_func_array([$this, 'FormAdmin'], $array['params']);
+        break;
+
+        /*******
+         * feedback
+         */
+      case 'feedback':
+        $crudManagerProduct = new CrudManager('products', ProductsModels::class);
+        $product = $crudManagerProduct->getById($arguments['idGet']);
+        $crudManagerComments = new CrudManager('comments', Comments::class);
+        $crudManagerRatings = new CrudManager('ratings', Ratings::class);
+        $select = new CommentRatings();
+        $array['params'] = json_decode(json_encode($product), true);
+        $array['params']['jsonFalse'] = true;
+        $array['params']['tableName'] = 'feedback';
+        $bufferOut = call_user_func_array([$this, 'FormUsersControl'], $array['params']);
         break;
     }
 

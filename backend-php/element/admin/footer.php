@@ -1,6 +1,6 @@
 </main>
-<script src="http://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
-<script type="module" src="http://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
+<script src="https://<?= $serverName ?>/assets/js/flowbite.min.js"></script>
+<script type="module" src="https://<?= $serverName ?>/assets/js/teaCoffee.module.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
 
 <script>

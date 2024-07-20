@@ -326,7 +326,7 @@ teaCoffee.request = {
     console.log(teaCoffee.format.bufferBodyParams);
     let defaultRequest = defineRequest
       ? defineRequest
-      : `http://${window.location.hostname}:8880${route}`;
+      : `https://${window.location.hostname}${route}`;
 
     const res = await fetch(defaultRequest, {
       method: method,
@@ -381,7 +381,7 @@ teaCoffee.request = {
   }) => {
     let defaultRequest = defineRequest
       ? defineRequest
-      : `http://${window.location.hostname}:8880${route}`;
+      : `https://${window.location.hostname}${route}`;
 
     const res = await fetch(defaultRequest, {
       method: "GET",

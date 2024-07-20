@@ -3,6 +3,7 @@
 namespace App\Boutique\Controllers;
 
 use App\Boutique\Components\Details;
+use App\Boutique\Components\RatingsHTML;
 use App\Boutique\Models\ProductsModels;
 use Motor\Mvc\Manager\BddManager;
 use Motor\Mvc\Manager\CrudManager;
@@ -49,14 +50,21 @@ class ElementProduit extends BddManager
         $filename = __DIR__ . "/../../public_html/assets/images/{$detail->url_image}";
 
         if (file_exists($filename) == true) {
-            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
+            $src = "https://{$_SERVER['HTTP_HOST']}/assets/images/{$detail->url_image}";
         } else {
-            $src = "http://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
+            $src = "https://{$_SERVER['HTTP_HOST']}/assets/images/tea-coffee.png";
         }
 
         // Passage dans render des paramètres 'detail' => $detail
-        $arguments['render']->addParams('detail', $detail);
-        $arguments['render']->addParams('src', $src);
+        $ratingComponent = new RatingsHTML($detail->ratings);
+
+        $arguments['render']->addParams(
+            [
+                'ratingsComponent' => $ratingComponent->render(),
+                'detail' => $detail,
+                'src' => $src
+            ]
+        );
 
         // Passage de la méthode render du template 'details-produit' avec ses arguments dans $content
         $content = $arguments['render']->render('details-produit', $arguments);
@@ -65,5 +73,3 @@ class ElementProduit extends BddManager
         return $content;
     }
 }
-
-?>

@@ -26,6 +26,7 @@ services:
       - nginx_conf:/etc/nginx/
       - ./backend-php:/www
       - ./docker-data/nginx_conf:/etc/nginx/conf.d
+      - ./docker-data/ssl:/etc/nginx/ssl
       - ./docker-data/php_conf/ini:/usr/local/etc/php/conf.d
     # Port ajouté
     ports:
@@ -35,6 +36,8 @@ services:
       - "8881:81"
       # Port 82 mappé node-jwt
       - "8882:82"
+      # Port 443
+      - "443:443"
 
   php:
     depends_on:
@@ -76,7 +79,7 @@ services:
       - db:db
 
   node:
-    hostname: teacoffee.dock
+    hostname: node.teacoffee.dock
     restart: always
     secrets:
       - api_key_stripe
@@ -87,7 +90,7 @@ services:
       - ./node-service:/www
 
   node-jwt:
-    hostname: teacoffee.dock
+    hostname: jwt.teacoffee.dock
     restart: always
     secrets:
       - jwt_key

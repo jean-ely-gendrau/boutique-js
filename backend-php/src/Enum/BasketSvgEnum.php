@@ -4,7 +4,7 @@ namespace App\Boutique\Enum;
 
 enum BasketSvgEnum: string
 {
-  case En_Attente = '<svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  case En_Attente = '<svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
     <g id="SVGRepo_iconCarrier">
@@ -25,7 +25,7 @@ enum BasketSvgEnum: string
       </g>
     </g>
   </svg>';
-  case Expedier = '<svg viewBox="0 0 24 24" class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" fill="none" xmlns="http://www.w3.org/2000/svg">
+  case Expedier = '<svg viewBox="0 0 24 24" class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" fill="none" xmlns="https://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
     <g id="SVGRepo_iconCarrier">
@@ -35,7 +35,7 @@ enum BasketSvgEnum: string
       <path d="M6 12.3281L9 14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
     </g>
   </svg>';
-  case Livrer = '<svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+  case Livrer = '<svg class="w-6 h-6 md:h-10 md:w-10 stroke-black dark:stroke-white" version="1.1" id="_x32_" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
     <g id="SVGRepo_iconCarrier">
@@ -51,7 +51,7 @@ enum BasketSvgEnum: string
       </g>
     </g>
   </svg>';
-  case Echec = '<svg viewBox="0 0 1024 1024" class="icon w-6 h-6 md:h-10 md:w-10 fill-red-600 dark:fill-red-300" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+  case Echec = '<svg viewBox="0 0 1024 1024" class="icon w-6 h-6 md:h-10 md:w-10 fill-red-600 dark:fill-red-300" version="1.1" xmlns="https://www.w3.org/2000/svg" fill="#000000">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
     <g id="SVGRepo_iconCarrier">

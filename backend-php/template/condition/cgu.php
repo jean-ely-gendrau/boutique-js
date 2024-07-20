@@ -65,7 +65,7 @@
 
                 <h2 class="text-2xl mt-20 text-gray-700 dark:text-gray-200 mb-4">ARTICLE 9 : DROIT APPLICABLE ET JURIDICTION COMPÉTENTE</h2>
                 <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">La législation française s'applique au présent contrat. En cas d'absence de résolution amiable d'un litige né entre les parties, les tribunaux français seront seuls compétents pour en connaître. Pour toute question relative à l’application des présentes CGU, vous pouvez joindre l’éditeur aux coordonnées inscrites à l’ARTICLE 1.</p>
-                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">CGU réalisées sur <a href="http://legalplace.fr/">http://legalplace.fr/</a></p>
+                <p class="text-start mx-20 text-gray-700 dark:text-gray-200 text-sm">CGU réalisées sur <a href="https://legalplace.fr/">https://legalplace.fr/</a></p>
 
 
             </div>

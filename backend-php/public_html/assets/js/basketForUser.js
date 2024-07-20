@@ -1,7 +1,7 @@
 const select = document.getElementById("myBtn");
 
 select.addEventListener("click", () => {
-    fetch(`http://${window.location.hostname}:8880/panier-modal`)
+    fetch(`https://${window.location.hostname}/panier-modal`)
         .then(response => response.json())
         .then(data =>
             updateCart(data)
@@ -16,7 +16,7 @@ function updateCart(data) {
     data.forEach(item => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item', 'cart-column', 'flex', 'flex-row');
-        let srcImg = (`http://${window.location.hostname}:8880/assets/images/tea-coffee.png`);
+        let srcImg = (`https://${window.location.hostname}/assets/images/tea-coffee.png`);
 
         cartItem.innerHTML = `
             <img class="cart-item-image w-18" src="${srcImg}" width="100" height="100">

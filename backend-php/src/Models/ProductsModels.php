@@ -108,6 +108,8 @@ class ProductsModels implements JsonSerializable
      */
     private $ordered;
 
+    /*** RATINGS PROPERTIES */
+
     /**
      * average_rating
      *
@@ -115,16 +117,93 @@ class ProductsModels implements JsonSerializable
      */
     private $average_rating;
 
+    /**
+     * ratings_id
+     *
+     * @var int
+     */
+    private $ratings_id;
+
+    /**
+     * rating
+     *
+     * @var int
+     */
+    private $rating;
+
+    /**
+     * ratings
+     *
+     * @var array
+     */
+    private $ratings;
+
+    /**
+     * commentUsers_id
+     *
+     * @var int
+     */
+    private $ratingUsers_id;
+
+    /**
+     * usersRating
+     *
+     * @var string
+     */
+    private $usersRating;
+
+    /*** COMMENTS PROPERTIES */
+
+    /**
+     * comments_id
+     *
+     * @var int
+     */
+    private $comments_id;
+
+    /**
+     * comment
+     *
+     * @var string
+     */
+    private $comment;
+
+    /**
+     * comments
+     *
+     * @var array
+     */
+    private $comments;
+
+    /**
+     * commentUsers_id
+     *
+     * @var int
+     */
+    private $commentUsers_id;
+
+    /**
+     * usersComment
+     *
+     * @var string
+     */
+    private $usersComment;
+
     public function __construct(mixed $data = [])
     {
         //Ajouté les propriétés et méthodes au besoins
-
         // Hydrate les propriété existante de la class avec les données passée en arguments
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
             }
         }
+
+        /**
+         * Initialiser les propriétés après l'hydratation de données avec un tableau vide lors de l'instanciation de la class
+         */
+        $this->comments = [];
+        $this->ratings = [];
     }
 
     /* ----------------------------------- METHOD MAGIC ------------------------------ */
@@ -165,6 +244,72 @@ class ProductsModels implements JsonSerializable
     {
     }
 
+    /************************************** Add/Create Méthode ***********************************/
+
+    public function addComment($comment, $commentId, $usersComment)
+    {
+        // Vérifier la présence dans le tableau multidimentionnel
+        if (!self::isInMultidimensionalArray($commentId, $this->comments)) {
+            $this->comments[] = (object) ['comments_id' => $commentId, 'full_name' => $usersComment, 'comment' => $comment];
+        }
+    }
+
+    public function addRating($rating, $ratingId, $usersRating)
+    {
+        // Vérifier la présence dans le tableau multidimentionnel
+        if (!self::isInMultidimensionalArray($ratingId, $this->ratings)) {
+            $this->ratings[] = (object) ['ratings_id' => $ratingId, 'full_name' => $usersRating, 'rating' => $rating];
+        }
+    }
+
+    public static function createFromProduct(ProductsModels $product): self
+    {
+        // On hydrate les données en utilisant une instance de cette classe.
+        return new self([
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price,
+            'quantity' => $product->quantity,
+            'category_id' => $product->category_id,
+            'sub_category_id' => $product->sub_category_id,
+            'created_at' => $product->created_at,
+            'updated_at' => $product->updated_at,
+            'image_id' => $product->image_id,
+            'image_url' => $product->image_url,
+            'average_rating' => $product->average_rating
+        ]);
+    }
+
+    public function selfHydrate(array $dataToHydrate)
+    {
+
+        $this->id = $dataToHydrate['pId'] ?? 0;
+        $this->name = $dataToHydrate['pName'] ?? '';
+        $this->description = $dataToHydrate['pDescription'] ?? '';
+        $this->price = $dataToHydrate['pPrice'] ?? 0.0;
+        $this->quantity = $dataToHydrate['pQuantity'] ?? 0;
+        $this->category_id = $dataToHydrate['pCategoryId'] ?? 0;
+        $this->sub_category_id = $dataToHydrate['pSubCategoryId'] ?? 0;
+        $this->created_at = $dataToHydrate['pCreatedAt'] ?? '';
+        $this->updated_at = $dataToHydrate['pUpdatedAt'] ?? '';
+        $this->url_image = $dataToHydrate['pImageUrl'] ?? '';
+        $this->user_has_product = $dataToHydrate['pUserHasProduct'] ?? '';
+        $this->ordered = $dataToHydrate['pOrdered'] ?? '';
+        $this->average_rating = $dataToHydrate['pAverageRating'] ?? 0.0;
+        $this->ratings_id = $dataToHydrate['pRatingsId'] ?? 0;
+        $this->rating = $dataToHydrate['pRating'] ?? 0;
+        $this->ratings = $dataToHydrate['pRatings'] ?? [];
+        $this->rating_users_id = $dataToHydrate['pRatingUsersId'] ?? 0;
+        $this->users_rating = $dataToHydrate['pUsersRating'] ?? '';
+        $this->comments_id = $dataToHydrate['pCommentsId'] ?? 0;
+        $this->comment = $dataToHydrate['pComment'] ?? '';
+        $this->comments = $dataToHydrate['pComments'] ?? [];
+        $this->comment_users_id = $dataToHydrate['pCommentUsersId'] ?? 0;
+        $this->users_comment = $dataToHydrate['pUsersComment'] ?? '';
+        $this->cat_name = $dataToHydrate['pCategoryName'] ?? '';
+        $this->sub_cat_name = $dataToHydrate['pSubCategoryName'] ?? '';
+    }
     /************************************** Getter/Setter ***********************************/
 
     /**
@@ -490,5 +635,221 @@ class ProductsModels implements JsonSerializable
         $this->average_rating = $average_rating;
 
         return $this;
+    }
+
+
+
+
+
+    /************************************** START ASSESSEUR NOTATIONS *******************************/
+
+    /**
+     * Get rating
+     *
+     * @return  int
+     */
+    public function getRating(): int
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set ratings
+     *
+     * @param  int  $rating  rating
+     *
+     * @return  self
+     */
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
+    /**
+     * Get ratings_id
+     *
+     * @return  int
+     */
+    public function getRatings_id(): int
+    {
+        return $this->ratings_id;
+    }
+
+    /**
+     * Set ratings_id
+     *
+     * @param  int  $ratings_id  ratings_id
+     *
+     * @return  self
+     */
+    public function setRatings_id(int $ratings_id): self
+    {
+        $this->ratings_id = $ratings_id;
+
+        return $this;
+    }
+
+    /**
+     * Get ratingUsers_id
+     *
+     * @return  int
+     */
+    public function getRatingUsers_id(): int
+    {
+        return $this->ratingUsers_id;
+    }
+
+    /**
+     * Set ratingUsers_id
+     *
+     * @param  int  $ratingUsers_id  ratingUsers_id
+     *
+     * @return  self
+     */
+    public function setRatingUsers_id(int $ratingUsers_id): self
+    {
+        $this->ratingUsers_id = $ratingUsers_id;
+
+        return $this;
+    }
+
+    /**
+     * Get usersRating
+     *
+     * @return  string
+     */
+    public function getUsersRating()
+    {
+        return $this->usersRating;
+    }
+
+    /**
+     * Set usersRating
+     *
+     * @param  string  $usersRating  usersRating
+     *
+     * @return  self
+     */
+    public function setUsersRating(string $usersRating)
+    {
+        $this->usersRating = $usersRating;
+
+        return $this;
+    }
+
+    /**************************************   END ASSESSEUR NOTATIONS   ******************************/
+
+    /************************************** START ASSESSEUR COMMENTAIRE *******************************/
+
+    /**
+     * Get comments_id
+     *
+     * @return  int
+     */
+    public function getComments_id(): int
+    {
+        return $this->comments_id;
+    }
+
+    /**
+     * Set comments_id
+     *
+     * @param  int  $comments_id  comments_id
+     *
+     * @return  self
+     */
+    public function setComments_id(int $comments_id): self
+    {
+        $this->comments_id = $comments_id;
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return  array
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param  string  $comment  comment
+     *
+     * @return  self
+     */
+    public function setComment(string $comment): self
+    {
+
+        $this->comment = $comment;
+
+
+        return $this;
+    }
+
+    /**
+     * Get commentUsers_id
+     *
+     * @return  int
+     */
+    public function getCommentUsers_id()
+    {
+        return $this->commentUsers_id;
+    }
+
+    /**
+     * Set commentUsers_id
+     *
+     * @param  int  $commentUsers_id  commentUsers_id
+     *
+     * @return  self
+     */
+    public function setCommentUsers_id(int $commentUsers_id)
+    {
+        $this->commentUsers_id = $commentUsers_id;
+
+        return $this;
+    }
+
+    /**
+     * Get usersComment
+     *
+     * @return  string
+     */
+    public function getUsersComment()
+    {
+        return $this->usersComment;
+    }
+
+    /**
+     * Set usersComment
+     *
+     * @param  string  $usersComment  usersComment
+     *
+     * @return  self
+     */
+    public function setUsersComment(string $usersComment)
+    {
+        $this->usersComment = $usersComment;
+
+        return $this;
+    }
+
+    /************************************** END ASSESSEUR COMMENTAIRE *******************************/
+
+    /************************************** Function Static *****************************************/
+    public static function isInMultidimensionalArray($needle, $haystack, $strict = false)
+    {
+        foreach ($haystack as $item) {
+            if (in_array($needle, (array)$item)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

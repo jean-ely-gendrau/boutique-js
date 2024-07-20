@@ -43,7 +43,7 @@ class ModalController
       ->addHeader('modal-content-head', '<h2>Stripe Checkout</p>')
       ->addBody(
         'modal-content-body',
-        '<img class="" src="http://' . $this->render->getParams('serverName') . '/assets/images/sample/modal/checkout_stripe.png" />',
+        '<img class="" src="https://' . $this->render->getParams('serverName') . '/assets/images/sample/modal/checkout_stripe.png" />',
       )
       ->addFooter('modal-content-footer', 'Achat immédiat', [], 'footer');
 

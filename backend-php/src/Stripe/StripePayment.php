@@ -26,7 +26,7 @@ class StripePayment
 
             setcookie('stripe', true, time()+3600, '/');
 
-        $YOUR_DOMAIN = 'http://boutique-js.test:8880/';
+        $YOUR_DOMAIN = 'https://teacoffee.dock/';
 
         // Initialiser un tableau pour suivre le nombre d'occurrences de chaque produit
         $line_items = [];

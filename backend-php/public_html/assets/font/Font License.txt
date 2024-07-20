@@ -16,7 +16,7 @@ Payment is not required for the use of Pixel Saga's Shareware Fonts. Commercial 
 
 Support
 
-Font installation help is available at http://www.pixelsagas.com. If you experience problems with any Pixel Saga's Freeware font (such as spacing issues or missing characters), please verify that you have the correct and current version of the fonts. In the case of Freeware fonts, downloading the font directly from the Pixel Sagas site will ensure that the font files have not been altered.
+Font installation help is available at https://www.pixelsagas.com. If you experience problems with any Pixel Saga's Freeware font (such as spacing issues or missing characters), please verify that you have the correct and current version of the fonts. In the case of Freeware fonts, downloading the font directly from the Pixel Sagas site will ensure that the font files have not been altered.
 
 Software Inclusion Agreement
 
@@ -26,7 +26,7 @@ Pixel Saga's software products are protected by copyright laws and International
 
 This document grants the user the following rights:
 
-Installation and Use. The user may install and use an unlimited number of copies of the software product. The user may not offer Pixel Sagas freeware fonts for direct download unless the user has received explicit, written permission from Neale Davidson. Otherwise please direct users to the http://www.pixelsagas.com website. Pixel Sagas freeware fonts may, however, be embedded for web, publication, or general software use.
+Installation and Use. The user may install and use an unlimited number of copies of the software product. The user may not offer Pixel Sagas freeware fonts for direct download unless the user has received explicit, written permission from Neale Davidson. Otherwise please direct users to the https://www.pixelsagas.com website. Pixel Sagas freeware fonts may, however, be embedded for web, publication, or general software use.
 
 2) WARRANTIES
 

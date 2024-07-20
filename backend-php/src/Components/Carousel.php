@@ -60,7 +60,7 @@ class Carousel
                           <svg
                             class="w-8 h-8 text-black dark:text-gray-200 rtl:rotate-180"
                             aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns="https://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 6 10"
                           >
@@ -82,7 +82,7 @@ class Carousel
                           <svg
                             class="w-8 h-8 text-black dark:text-gray-200 rtl:rotate-180"
                             aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns="https://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 6 10"
                           >

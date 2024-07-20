@@ -63,6 +63,7 @@ $router->map('POST', '/api/Products/[i:id]', 'ApiController#updateProducts', 'up
 $router->map('POST', '/api/Category/[i:id]', 'ApiController#updateCategory', 'updateCategory');
 $router->map('POST', '/api/Orders/[i:id]', 'ApiController#updateOrders', 'updateOrders');
 $router->map('POST', '/api/Users/[i:id]', 'ApiController#updateUsers', 'updateUsers');
+$router->map('POST', '/api/feedback-validation/[i:id]', 'ApiController#addFeedback', 'addFeedback');
 $router->map('DELETE', '/api/Products/[i:id]', 'ApiController#deleteProducts', 'deleteProducts');
 $router->map('DELETE', '/api/Category/[i:id]', 'ApiController#deleteCategory', 'deleteCategory');
 $router->map('DELETE', '/api/Orders/[i:id]', 'ApiController#deleteOrders', 'deleteOrders');
@@ -168,7 +169,7 @@ $router->map('GET', '/information/boutique', 'information/boutique', 'boutique')
 
   Ici on appel la class TestRender avec la méthode View
 */
-$router->map('GET', '/test-render', 'TestRender#TestRender', 'test-render'); 
+$router->map('GET', '/test-render', 'TestRender#TestRender', 'test-render');
 
 // Acces au donnée du panier d'un utilisateur connecté
 $router->map('GET', '/panier-modal', 'PanierController#PanierDynamique', 'panier-modal');

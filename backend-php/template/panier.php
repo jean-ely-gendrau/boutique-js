@@ -19,23 +19,23 @@
                 </th>
             </tr>
         </thead>
-      
+
         <tbody id="myTable">
             <?php
-            foreach ($paniers as $productItem):
+            foreach ($paniers as $productItem) :
 
-            $images = $productItem['url_image'];
+                $images = $productItem['url_image'];
 
-            $filename = __DIR__ . "/../../public_html/assets/images/{$productItem['url_image']}";
+                $filename = __DIR__ . "/../../public_html/assets/images/{$productItem['url_image']}";
             ?>
 
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="p-4">
-            <?php if (file_exists($filename) == true){?>
-               <img src='http://<?= $serverName ?>/assets/images/<?= $images ?>' class='w-16 md:w-32 max-w-full max-h-full' />
-            <?php }else{ ?>
-                <img src='http://<?= $serverName ?>/assets/images/tea-coffee.png' class='w-16 md:w-32 max-w-full max-h-full' />
-            <?php } ?>
+                        <?php if (file_exists($filename) == true) { ?>
+                            <img src='https://<?= $serverName ?>/assets/images/<?= $images ?>' class='w-16 md:w-32 max-w-full max-h-full' />
+                        <?php } else { ?>
+                            <img src='https://<?= $serverName ?>/assets/images/tea-coffee.png' class='w-16 md:w-32 max-w-full max-h-full' />
+                        <?php } ?>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                         <?= $productItem['name'] ?>
@@ -51,9 +51,10 @@
                         <?= $productItem['price'] ?>
                     </td>
                     <td class="px-6 py-4">
-                        <!-- <a href="removefromcart/<?//= $productItem['id'} ?>" -->
+                        <!-- <a href="removefromcart/<? //= $productItem['id'} 
+                                                        ?>" -->
                         <button id="removeElement">
-                            <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['products_id']?>'}" href="#" onclick="removeRowElement()" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                            <a data-js='handlePost,click' data-route='/removefromcart' data-body-param="{product_id:'<?= $productItem['products_id'] ?>'}" href="#" onclick="removeRowElement()" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                         </button>
                     </td>
                 </tr>
