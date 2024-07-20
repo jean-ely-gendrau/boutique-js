@@ -1,9 +1,14 @@
 <div class="font-[sans-serif]">
   <div class="p-4 mx-auto lg:max-w-6xl max-w-xl md:max-w-full">
-    <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Tous nos <?php echo ($categoryName == 1) ? 'Café' : 'Thé'; ?></h2>
+    <h2 class="text-center text-4xl font-extrabold text-gray-800 mb-12">Tous nos <?php echo ($categoryName == 1) ? 'Café' : 'Thé'; ?></h2>
+    
+    <div class="mx-auto flex max-w-6xl">
+      <?= $buttonFilter->render() ?>
+    </div>
+
 
     <div id="resultat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> 
-
+      
       <?php foreach ($productAllSelect ?? [] as $product): ?>
         <?php $product->user_has_product === 1 ? $inFav = 'inFav ' : $inFav = null; ?>
         <div class="product-container bg-gray-100 rounded-2xl p-6 cursor-pointer hover:-translate-y-2 transition-all relative">
