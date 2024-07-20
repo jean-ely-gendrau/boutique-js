@@ -1,3 +1,8 @@
+<div class='lg:flex lg:align-items bg-gray-100 p-2 rounded-xl shadow-[3px_3px_8px_0px_rgba(0,0,0,0.6)] mt-8 md:mt-20'>
+<?= $descriptif ?>
+</div>
+
+
 <div class="font-[sans-serif]">
   <div class="p-4 mx-auto lg:max-w-6xl max-w-xl md:max-w-full">
     <h2 class="text-center text-4xl font-extrabold text-gray-800 mb-12">Tous nos <?php echo ($categoryName == 1) ? 'Café' : 'Thé'; ?></h2>

@@ -2,6 +2,8 @@
 
 namespace App\Boutique\Controllers;
 
+
+use App\Boutique\Components\DescriptionComposant;
 use Motor\Mvc\Builder\FormBuilder;
 use App\Boutique\Forms\ButtonControlForms;
 use App\Boutique\Forms\ButtonControllForms;
@@ -18,6 +20,11 @@ class ProductsV2Controller
   {
     /** @var \Motor\Mvc\Utils\Render $render */
     $render = $arguments['render'];
+
+    // Description en fonction de la catégorie
+    $descriptif = new DescriptionComposant();
+    $descriptionCategory = $descriptif->RenderDescribe($arguments['categoryName']);
+    
 
     // PRODUCTS ENTITY
     $productEntity = new ProductsEntity();
@@ -46,8 +53,10 @@ class ProductsV2Controller
       'productAllSelect' => $productAllSelect,
       'pagination' => $pagination,
       'buttonNavigation' => $buttonNavigation,
-      'buttonFilter' => $buttonFilter
+      'buttonFilter' => $buttonFilter,
+      'descriptif' => $descriptionCategory
     ]);
+
 
     // Affichage
     return $render->render('products', $arguments);
