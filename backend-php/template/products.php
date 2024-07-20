@@ -1,6 +1,6 @@
 <div class="font-[sans-serif]">
   <div class="p-4 mx-auto lg:max-w-6xl max-w-xl md:max-w-full">
-    <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Tous nos produits <?= $categoryName ?></h2>
+    <h2 class="text-4xl font-extrabold text-gray-800 mb-12">Tous nos <?php echo ($categoryName == 1) ? 'Café' : 'Thé'; ?></h2>
 
     <div id="resultat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> 
 
